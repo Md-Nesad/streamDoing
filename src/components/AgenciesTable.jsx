@@ -3,7 +3,7 @@ import { tableData } from "../data/data";
 
 export default function AgenciesTable() {
   return (
-    <div className="py-3 bg-[#FFFFFF] rounded-md shadow-[0_0_5px_1px_rgba(0,0,0,0.15)] w-full overflow-hidden mt-7 mb-10">
+    <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_0_5px_1px_rgba(0,0,0,0.15)] w-full overflow-x-auto mt-7 mb-10">
       <div className="flex items-center justify-between mb-4 sm:px-5 px-3">
         <h2 className="sm:text-xl text-sm font-semibold">Agencies Overview</h2>
         <div className="flex items-center sm:gap-3 gap-2">
