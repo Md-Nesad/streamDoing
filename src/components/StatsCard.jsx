@@ -6,7 +6,7 @@ export default function StatsSection() {
       {stats.map((item, index) => (
         <div
           key={index}
-          className="bg-white shadow-[0_0_5px_1px_rgba(0,0,0,0.15)] rounded-md px-5 py-4 flex items-start justify-between border border-gray-100"
+          className="bg-white shadow-[0_2px_6px_rgba(0,0,0,0.06)] rounded-md px-5 py-4 flex items-start justify-between border border-gray-100"
         >
           <div className="space-y-1">
             <p className="text-[#181717] font-medium text-md">{item.title}</p>

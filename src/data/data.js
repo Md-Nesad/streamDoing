@@ -19,11 +19,12 @@ import {
   RadioTower,
   TrendingUp,
   Wallet,
+  Mic,
 } from "lucide-react";
 
 export const menuItems = [
   { title: "Dashboard", icon: Home, link: "/dashboard" },
-  { title: "Host", icon: UserCircle, link: "/host" },
+  { title: "Host", icon: Mic, link: "/dashboard/host" },
   { title: "Users", icon: Users, link: "/users" },
   { title: "Agencies", icon: Building2, link: "/agencies" },
   { title: "Coin Management", icon: Coins, link: "/coins" },
@@ -114,7 +115,6 @@ export const tableData = [
     status: "active",
   },
 ];
-
 export const stats = [
   {
     title: "Total Users",

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function AdminHeader() {
   return (
-    <header className="w-full bg-white shadow-md border-b border-gray-100 sm:px-10 px-5 pt-10 pb-4 flex items-center justify-between mb-5">
+    <header className="w-full bg-white shadow-md border-b border-gray-100 sm:px-12 px-5 pt-10 pb-4 flex items-center justify-between mb-5">
       <div className="flex items-center gap-3">
         <Link to="/">
           <img
@@ -20,7 +20,7 @@ export default function AdminHeader() {
         </div>
       </div>
 
-      <button className="flex items-center gap-2 text-[#BE8283]">
+      <button className="flex items-center gap-2 text-[18px] font-medium text-[#BE8283] hover:text-[#da9b9c] transition-colors duration-300">
         <LogOut size={18} />
         <span>Logout</span>
       </button>
