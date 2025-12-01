@@ -1,7 +1,6 @@
-import AgenciesTable from "../components/AgenciesTable";
-import LiveStat from "../components/LiveState";
-import Sidebar from "../components/Sidebar";
-import StatsSection from "../components/StatsCard";
+import AgenciesTable from "../components/dashboard/AgenciesTable";
+import LiveStat from "../components/dashboard/LiveState";
+import StatsSection from "../components/dashboard/StatsCard";
 
 export default function Dashboard() {
   return (

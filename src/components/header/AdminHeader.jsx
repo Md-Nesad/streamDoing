@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 
 export default function AdminHeader() {
   return (
-    <header className="w-full bg-white shadow-md border-b border-gray-100 sm:px-12 px-5 pt-10 pb-4 flex items-center justify-between mb-5">
+    <div className="w-full bg-white shadow-md border-b border-gray-100 sm:px-12 px-5 pt-10 pb-4 flex items-center justify-between mb-5">
       <div className="flex items-center gap-3">
         <Link to="/">
           <img
-            src="./logo.png"
+            src="/logo.png"
             alt="Logo"
             className="w-12 h-12 rounded-full border"
+            loading="lazy"
           />
         </Link>
         <div>
@@ -24,6 +25,6 @@ export default function AdminHeader() {
         <LogOut size={18} />
         <span>Logout</span>
       </button>
-    </header>
+    </div>
   );
 }

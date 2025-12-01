@@ -1,5 +1,5 @@
 import { Ellipsis, Funnel } from "lucide-react";
-import { tableData } from "../data/data";
+import { tableData } from "../../data/data";
 
 export default function AgenciesTable() {
   return (
