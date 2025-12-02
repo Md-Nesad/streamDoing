@@ -24,9 +24,9 @@ import {
 export const menuItems = [
   { title: "Dashboard", icon: Home, link: "/dashboard" },
   { title: "Host", icon: Mic, link: "/dashboard/host" },
-  { title: "Users", icon: Users, link: "/users" },
-  { title: "Agencies", icon: Building2, link: "/agencies" },
-  { title: "Coin Management", icon: Coins, link: "/coins" },
+  { title: "Users", icon: Users, link: "/dashboard/users" },
+  { title: "Agencies", icon: Building2, link: "/dashboard/agencies" },
+  { title: "Coin Management", icon: Coins, link: "/dashboard/coins" },
   { title: "Transaction History", icon: History, link: "/transaction-history" },
   { title: "Live Streams", icon: MonitorPlay, link: "/live-streams" },
   { title: "Moderation", icon: ShieldCheck, link: "/moderation" },
@@ -39,6 +39,98 @@ export const menuItems = [
   { title: "Notification Center", icon: Bell, link: "/notifications" },
   { title: "Inbox Assets", icon: FileBox, link: "/inbox-assets" },
   { title: "Settings", icon: Settings, link: "/settings" },
+];
+export const stats = [
+  {
+    title: "Total Users",
+    value: "120,458",
+    change: "+245 today",
+    icon: Users,
+    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
+  },
+  {
+    title: "Host Agencies",
+    value: "34",
+    change: "",
+    icon: RadioTower,
+    iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
+  },
+  {
+    title: "Coin Agencies",
+    value: "12",
+    change: "",
+    icon: Wallet,
+    iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
+  },
+  {
+    title: "Platform Revenue",
+    value: "৳2.4M",
+    change: "+18%",
+    icon: TrendingUp,
+    iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
+  },
+];
+
+export const hosts = [
+  {
+    title: "Total Host",
+    value: "120,458",
+    change: "+245 today",
+    icon: Users,
+    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
+  },
+  {
+    title: "Total Diamonds",
+    value: "3.4M",
+    change: "",
+    icon: RadioTower,
+    iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
+  },
+  {
+    title: "Total Beans",
+    value: "12K",
+    change: "",
+    icon: Wallet,
+    iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
+  },
+  {
+    title: "Platform Revenue",
+    value: "৳2.4M",
+    change: "+18%",
+    icon: TrendingUp,
+    iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
+  },
+];
+
+export const coinsAgencies = [
+  {
+    title: "Total Agencies",
+    value: "12",
+    change: "+3 this month",
+    icon: Users,
+    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
+  },
+  {
+    title: "Total Coins Sold",
+    value: "2.5M",
+    change: "+125k today",
+    icon: RadioTower,
+    iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
+  },
+  {
+    title: "Active Balance",
+    value: "8.4M",
+    change: "",
+    icon: Wallet,
+    iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
+  },
+  {
+    title: "Total Revenue",
+    value: "৳12.8M",
+    change: "",
+    icon: TrendingUp,
+    iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
+  },
 ];
 export const tableData = [
   {
@@ -114,68 +206,6 @@ export const tableData = [
     status: "active",
   },
 ];
-export const stats = [
-  {
-    title: "Total Users",
-    value: "120,458",
-    change: "+245 today",
-    icon: Users,
-    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
-  },
-  {
-    title: "Host Agencies",
-    value: "34",
-    change: "",
-    icon: RadioTower,
-    iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
-  },
-  {
-    title: "Coin Agencies",
-    value: "12",
-    change: "",
-    icon: Wallet,
-    iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
-  },
-  {
-    title: "Platform Revenue",
-    value: "৳2.4M",
-    change: "+18%",
-    icon: TrendingUp,
-    iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
-  },
-];
-
-export const hosts = [
-  {
-    title: "Total Host",
-    value: "120,458",
-    change: "+245 today",
-    icon: Users,
-    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
-  },
-  {
-    title: "Total Diamonds",
-    value: "3.4M",
-    change: "",
-    icon: RadioTower,
-    iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
-  },
-  {
-    title: "Total Beans",
-    value: "12K",
-    change: "",
-    icon: Wallet,
-    iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
-  },
-  {
-    title: "Platform Revenue",
-    value: "৳2.4M",
-    change: "+18%",
-    icon: TrendingUp,
-    iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
-  },
-];
-
 export const users = [
   {
     userId: "USR–3092",
@@ -236,5 +266,98 @@ export const users = [
     status: "active",
     bgColor: "bg-linear-to-t from-[#FF8085] to-[#830019]",
     crownBg: "bg-linear-to-t from-[#80120C] to-[#F0242D]",
+  },
+];
+export const coinAgenciesTable = [
+  {
+    portalId: "COIN-042",
+    name: "StartHost Agency",
+    category: "Master agenccy",
+    coin: "1,000M",
+    value: "$95",
+    date: "2024-10-28",
+    status: "Completed",
+  },
+  {
+    portalId: "COIN-201",
+    name: "Elite Broadcast",
+    category: "Coin agenccy",
+    coin: "90K",
+    value: "$47.50",
+    date: "2024-10-28",
+    status: "Completed",
+  },
+  {
+    portalId: "COIN-015",
+    name: "Prime Streamers",
+    category: "Master agenccy",
+    coin: "1,000K",
+    value: "$95",
+    date: "2024-10-28",
+    status: "Pending",
+  },
+  {
+    portalId: "COIN-124	",
+    name: "Nova Agency",
+    category: "Host",
+    coin: "2,000K",
+    value: "$198.75",
+    date: "2024-10-28",
+    status: "Completed",
+  },
+  {
+    portalId: "COIN-089	",
+    name: "Apex Live",
+    category: "Coin agenccy",
+    coin: "100M",
+    value: "$9.50",
+    date: "2024-10-28",
+    status: "Pending",
+  },
+];
+
+export const tiers = [
+  {
+    title: "Master Tier",
+    min: "100,000",
+    price: "$1",
+  },
+  {
+    title: "Agency Tier",
+    min: "10,000",
+    price: "$0.95",
+  },
+  {
+    title: "User Tier",
+    min: "100",
+    price: "$0.9",
+  },
+];
+
+export const ledger = [
+  {
+    title: "Ledger Entry #1000",
+    min: "2024-10-28 14:30:00",
+    price: "+5000 coins",
+  },
+  {
+    title: "Ledger Entry #1001",
+    min: "Min Purchase: 10,000 coins",
+    price: "-10000 coins",
+  },
+  {
+    title: "Ledger Entry #1002",
+    min: "2024-10-27 14:32:00",
+    price: "+15000 coins",
+  },
+  {
+    title: "Ledger Entry #1002",
+    min: "2024-10-27 14:32:00",
+    price: "+15000 coins",
+  },
+  {
+    title: "Ledger Entry #1002",
+    min: "2024-10-27 14:32:00",
+    price: "+15000 coins",
   },
 ];

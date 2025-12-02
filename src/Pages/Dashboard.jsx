@@ -1,12 +1,13 @@
 import AgenciesTable from "../components/dashboard/AgenciesTable";
 import LiveStat from "../components/dashboard/LiveState";
 import StatsSection from "../components/dashboard/StatsCard";
+import { stats } from "../data/data";
 
 export default function Dashboard() {
   return (
     <>
       <section>
-        <StatsSection />
+        <StatsSection data={stats} />
       </section>
 
       {/* live state section here */}
