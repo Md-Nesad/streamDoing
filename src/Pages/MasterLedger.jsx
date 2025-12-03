@@ -10,7 +10,7 @@ export default function MasterLedger() {
       <StatsSection data={coinsAgencies} />
 
       {/* button area */}
-      <div className="flex items-center gap-4 bg-[#F4F4F4] w-[45%] px-2 py-1 rounded mt-5">
+      <div className="flex items-center gap-4 bg-[#F4F4F4] w-fit px-2 py-1 rounded mt-5">
         <button
           onClick={() => navigate("/dashboard/rate-transaction")}
           className="px-6 py-1 rounded-md text-[#3e3e3e] text-md font-medium"

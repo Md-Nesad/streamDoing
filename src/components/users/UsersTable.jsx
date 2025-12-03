@@ -1,7 +1,12 @@
-import { Ellipsis, Eye, Funnel } from "lucide-react";
-import { users } from "../../data/data";
+import { Ban, Eye, Funnel, Trash2 } from "lucide-react";
+import { usersTable } from "../../data/data";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import UserDetailsModal from "../../modals/UserDetailsModal";
 
-export default function HostTable() {
+export default function HostAgencyTable() {
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
   return (
     <>
       {/* search area */}
@@ -12,11 +17,14 @@ export default function HostTable() {
           placeholder="Search by ID or name"
         />
         <div className="flex items-center sm:gap-3 gap-2">
-          <button className="sm:px-3 px-1 py-1.5 text-sm sm:text-[17px] bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium">
-            Export Data
-          </button>
           <button className="sm:px-5 px-2 py-2  rounded-md bg-[#FFFFFF] border border-[#CCCCCC] font-medium flex items-center gap-2 text-sm sm:text-md">
             <Funnel size={18} /> Filter
+          </button>
+          <button
+            onClick={() => navigate("/dashboard/agencies/add-host-agency")}
+            className="sm:px-3 px-1 py-1.5 text-sm sm:text-[17px] bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium"
+          >
+            Add User
           </button>
         </div>
       </div>
@@ -28,8 +36,8 @@ export default function HostTable() {
             <tr className="text-[#535353] text-md font-medium">
               <th className="p-3 pl-5">User ID</th>
               <th className="p-3 hidden sm:table-cell">Name</th>
+              <th className="p-3 hidden lg:table-cell">Type</th>
               <th className="p-3 hidden lg:table-cell">Level</th>
-              <th className="p-3 hidden lg:table-cell">Crown</th>
               <th className="p-3 hidden xl:table-cell">Diamonds</th>
               <th className="p-3 hidden xl:table-cell">Beans</th>
               <th className="p-3 hidden 2xl:table-cell">Location</th>
@@ -39,7 +47,7 @@ export default function HostTable() {
           </thead>
 
           <tbody>
-            {users.map((user, index) => (
+            {usersTable.map((user, index) => (
               <tr
                 key={index}
                 className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
@@ -47,41 +55,53 @@ export default function HostTable() {
                 <td className="p-3 font-medium pl-5">{user.userId}</td>
                 <td className="p-3 hidden sm:table-cell">{user.name}</td>
                 <td className="p-3 hidden lg:table-cell">
-                  {user.level && (
-                    <span
-                      className={`px-3 pb-1 pt-0.5 text-xs ${user.bgColor} text-[#FFFFFF] rounded-lg font-semibold`}
-                    >
-                      {user.level}
-                    </span>
-                  )}
+                  <span
+                    className={`px-4 py-1 text-sm opacity-80 ${
+                      user.type === "Normal"
+                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                        : "bg-linear-to-r from-[#EB57FF] to-[#3325C9] text-[#FFFFFF] font-thin"
+                    } text-[#005D23] rounded-full font-semibold`}
+                  >
+                    {user.type}
+                  </span>
                 </td>
-                <td className="p-3 hidden 2xl:table-cell">
-                  {user.crown && (
-                    <span
-                      className={`px-3 pb-1 pt-0.5 text-xs ${user.crownBg} text-[#FFFFFF] rounded-lg font-semibold`}
-                    >
-                      {user.crown}
-                    </span>
-                  )}
+                <td className="p-3 hidden lg:table-cell">
+                  <span
+                    className={`px-4 py-1 text-sm ${user.levelBg} text-white rounded-full font-semibold`}
+                  >
+                    {user.level}
+                  </span>
                 </td>
                 <td className="p-3 hidden xl:table-cell">{user.diamonds}</td>
                 <td className="p-3 hidden xl:table-cell">{user.beans}</td>
                 <td className="p-3 hidden 2xl:table-cell">{user.location}</td>
                 <td className="p-3 hidden 2xl:table-cell">
-                  <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
+                  <span
+                    className={`px-4 py-1 text-xs ${
+                      user.status === "active"
+                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                        : "bg-[#FF929296] text-[#D21B20]"
+                    } text-[#005D23] rounded-full font-semibold`}
+                  >
                     {user.status}
                   </span>
                 </td>
                 <td className="p-3 mt-1.5 max-sm:pl-20 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                  <Eye size={17} />
-                  <span>
-                    <Ellipsis size={17} />
+                  <span className="flex items-center gap-3">
+                    <button title="View">
+                      <Eye size={19} onClick={() => setIsOpen(true)} />
+                    </button>
+                    <Ban size={17} className="text-[#FF0037]" />
+                    <Trash2 size={18} className="text-[#FF0037]" />
                   </span>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        {isOpen && (
+          <UserDetailsModal open={isOpen} onClose={() => setIsOpen(false)} />
+        )}
       </div>
     </>
   );

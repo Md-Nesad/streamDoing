@@ -19,6 +19,7 @@ import {
   TrendingUp,
   Wallet,
   Mic,
+  Crown,
 } from "lucide-react";
 
 export const menuItems = [
@@ -97,6 +98,92 @@ export const hosts = [
     title: "Platform Revenue",
     value: "৳2.4M",
     change: "+18%",
+    icon: TrendingUp,
+    iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
+  },
+];
+
+export const agencies = [
+  {
+    title: "Total Agencies",
+    value: "3",
+    change: "+3 this month",
+    icon: Users,
+    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
+  },
+  {
+    title: "Total Host",
+    value: "458",
+    change: "",
+    icon: RadioTower,
+    iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
+  },
+  {
+    title: "Active Balance",
+    value: "8.4M",
+    change: "",
+    icon: Wallet,
+    iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
+  },
+  {
+    title: "Platform Revenue",
+    value: "৳756k",
+    change: "",
+    icon: TrendingUp,
+    iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
+  },
+];
+
+export const usersCard = [
+  {
+    title: "Total Users",
+    value: "12,458",
+    change: "+3 this month",
+    icon: Users,
+    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
+  },
+  {
+    title: "Active Host",
+    value: "2.5M",
+    change: "+125k today",
+    icon: Users,
+    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
+  },
+  {
+    title: "Normal Users",
+    value: "8.4M",
+    change: "",
+    icon: Wallet,
+    iconBg: "bg-gradient-to-tl from-[#30ACFF] to-[#C213E1]",
+  },
+  {
+    title: "Premium Users",
+    value: "৳12.8M",
+    change: "+18%",
+    icon: Crown,
+    iconBg: "bg-gradient-to-b from-[#1931B8] to-[#61B3BF]",
+  },
+];
+
+export const coinAgenciesdata = [
+  {
+    title: "Total Agencies",
+    value: "3",
+    change: "+3 this month",
+    icon: Users,
+    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
+  },
+  {
+    title: "Total Coin Sales",
+    value: "5.3M",
+    change: "",
+    icon: Wallet,
+    iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
+  },
+  {
+    title: "Avg Commission",
+    value: "10.0%",
+    change: "",
     icon: TrendingUp,
     iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
   },
@@ -316,6 +403,64 @@ export const coinAgenciesTable = [
   },
 ];
 
+export const usersTable = [
+  {
+    userId: "USR-3092",
+    name: "Razia Sultana",
+    type: "Normal",
+    level: "Lv1",
+    diamonds: "2.25M",
+    beans: "108K",
+    location: "New York",
+    status: "active",
+    levelBg: "bg-[#46934F]",
+  },
+  {
+    userId: "HST-2048",
+    name: "Riad Hossain",
+    type: "Host",
+    level: "Lv6",
+    diamonds: "4.32M",
+    beans: "108K",
+    location: "Pakistan",
+    status: "active",
+    levelBg: "bg-[#0C9D85]",
+  },
+  {
+    userId: "COIN-015",
+    name: "Mohammad Asif",
+    type: "Normal",
+    level: "Lv18",
+    diamonds: "1.08M",
+    beans: "60.3K",
+    location: "Bangladesh",
+    status: "Suspended",
+    levelBg: "bg-linear-to-t from-[#FA77BD] to-[#940C44]",
+  },
+  {
+    userId: "HST-2048",
+    name: "Nova Hoq",
+    type: "Host",
+    level: "Lv12",
+    diamonds: "2.79M",
+    beans: "108K",
+    location: "Kuwait",
+    status: "active",
+    levelBg: "bg-linear-to-t from-[#5DB90A] to-[#175111]",
+  },
+  {
+    userId: "USR-5201",
+    name: "Juwel Hossain",
+    type: "Normal",
+    level: "Lv7",
+    diamonds: "1.62M",
+    beans: "99K",
+    location: "India",
+    status: "active",
+    levelBg: "bg-linear-to-t from-[#B249F3] to-[#510C9B]",
+  },
+];
+
 export const tiers = [
   {
     title: "Master Tier",
@@ -359,5 +504,58 @@ export const ledger = [
     title: "Ledger Entry #1002",
     min: "2024-10-27 14:32:00",
     price: "+15000 coins",
+  },
+];
+
+export const hostAgencies = [
+  {
+    reference: "ADM-042",
+    hostId: "HST-042",
+    name: "StartHost Agency",
+    balance: "1.2M",
+    diamonds: "1.2M",
+    revenue: "৳2.25M",
+    country: "Bangladesh",
+    status: "active",
+  },
+  {
+    reference: "ADM-201",
+    hostId: "HST-201",
+    name: "Elite Broadcast",
+    balance: "100000",
+    diamonds: "1.2M",
+    revenue: "৳4.32M",
+    country: "Indiya",
+    status: "active",
+  },
+  {
+    reference: "ADM-015",
+    hostId: "HST-015",
+    name: "Prime Streamers",
+    balance: "890K",
+    diamonds: "890K",
+    revenue: "৳1.08M",
+    country: "Pakistan",
+    status: "Suspended",
+  },
+  {
+    reference: "ADM-124",
+    hostId: "HST-124",
+    name: "Nova Agency",
+    balance: "2.4M",
+    diamonds: "2.4M",
+    revenue: "৳2.79M",
+    country: "Nepal",
+    status: "active",
+  },
+  {
+    reference: "ADM-089",
+    hostId: "HST-089",
+    name: "Apex Live",
+    balance: "1.2M",
+    diamonds: "1.2M",
+    revenue: "৳1.62M",
+    country: "Kuwait",
+    status: "active",
   },
 ];

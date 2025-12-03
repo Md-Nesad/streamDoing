@@ -6,6 +6,12 @@ import CoinManageMent from "./Pages/CoinManageMent";
 import RateTransaction from "./Pages/RateTransaction";
 import ExchangeRate from "./Pages/ExchangeRate";
 import MasterLedger from "./Pages/MasterLedger";
+import Agencies from "./Pages/agencies";
+import AddHostAgency from "./Pages/agencies/AddHostAgency";
+import AddCoinAgency from "./Pages/agencies/AddCoinAgency";
+import AddMasterAgency from "./Pages/agencies/AddMasterAgency";
+import AddAdminAgency from "./Pages/agencies/AddAdminAgency";
+import Users from "./Pages/Users";
 
 export default function App() {
   return (
@@ -22,6 +28,25 @@ export default function App() {
             <Route path="rate-transaction" element={<RateTransaction />} />
             <Route path="exchange-rate" element={<ExchangeRate />} />
             <Route path="master-ledger" element={<MasterLedger />} />
+            <Route path="agencies" element={<Agencies />} />
+            <Route
+              path="agencies/add-host-agency"
+              element={<AddHostAgency />}
+            />
+            <Route
+              path="agencies/add-coin-agency"
+              element={<AddCoinAgency />}
+            />
+            <Route
+              path="agencies/add-master-agency"
+              element={<AddMasterAgency />}
+            />
+
+            <Route
+              path="agencies/add-admin-agency"
+              element={<AddAdminAgency />}
+            />
+            <Route path="users" element={<Users />} />
           </Route>
         </Routes>
       </BrowserRouter>

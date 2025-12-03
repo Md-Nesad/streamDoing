@@ -1,7 +1,12 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Inter", sans-serif;
+}
+
 body {
   background-color: #fefefe;
+  font-family: var(--font-sans);
 }
 
 button {
@@ -19,4 +24,17 @@ button {
 
 .animatefadeIn {
   animation: fadeIn 0.3s ease-in-out;
+}
+
+.active-tab {
+  @apply px-6 py-1 rounded-md text-[#3e3e3e] font-semibold border-none outline-none bg-white drop-shadow-sm;
+}
+
+@layer base {
+  label {
+    @apply text-sm font-semibold text-[#181717] font-sans;
+  }
+  select {
+    @apply w-full border border-gray-300 text-[#686868A6] rounded-md px-3 py-2 text-sm focus:outline-none appearance-none;
+  }
 }

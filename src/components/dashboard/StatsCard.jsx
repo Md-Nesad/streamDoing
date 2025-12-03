@@ -2,7 +2,11 @@ import { stats } from "../../data/data";
 
 export default function StatsSection({ data }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full">
+    <div
+      className={`grid grid-cols-1 sm:grid-cols-2 ${
+        data.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"
+      } gap-5 w-full`}
+    >
       {data.map((item, index) => (
         <div
           key={index}

@@ -1,4 +1,4 @@
-import downArrow from "/Vector 151.png";
+import downArrow from "/icons/Vector 151.png";
 
 export default function SellCoins() {
   return (

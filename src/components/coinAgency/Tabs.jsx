@@ -29,7 +29,7 @@ export default function TabsSection() {
         </button>
 
         <button
-          onClick={() => navigate("/master-ledger")}
+          onClick={() => navigate("/dashboard/master-ledger")}
           className="px-6 py-1 rounded-md text-[#3e3e3e] text-md font-medium"
         >
           Master Ledger
