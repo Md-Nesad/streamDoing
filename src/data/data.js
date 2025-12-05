@@ -20,6 +20,9 @@ import {
   Wallet,
   Mic,
   Crown,
+  Eye,
+  Video,
+  Timer,
 } from "lucide-react";
 
 export const menuItems = [
@@ -28,12 +31,16 @@ export const menuItems = [
   { title: "Users", icon: Users, link: "/dashboard/users" },
   { title: "Agencies", icon: Building2, link: "/dashboard/agencies" },
   { title: "Coin Management", icon: Coins, link: "/dashboard/coins" },
-  { title: "Transaction History", icon: History, link: "/transaction-history" },
-  { title: "Live Streams", icon: MonitorPlay, link: "/live-streams" },
-  { title: "Moderation", icon: ShieldCheck, link: "/moderation" },
-  { title: "Analytics", icon: BarChart3, link: "/analytics" },
-  { title: "Finance", icon: Landmark, link: "/finance" },
-  { title: "PK Masters", icon: Trophy, link: "/pk-masters" },
+  {
+    title: "Transaction History",
+    icon: History,
+    link: "/dashboard/transaction-history",
+  },
+  { title: "Live Streams", icon: MonitorPlay, link: "/dashboard/live-streams" },
+  { title: "Moderation", icon: ShieldCheck, link: "/dashboard/moderation" },
+  { title: "Analytics", icon: BarChart3, link: "/dashboard/analytics" },
+  { title: "Finance", icon: Landmark, link: "/dashboard/finance" },
+  { title: "PK Masters", icon: Trophy, link: "/dashboard/pk-masters" },
   { title: "KYC Centre", icon: IdCard, link: "/kyc-centre" },
   { title: "Salary Target", icon: Target, link: "/salary-target" },
   { title: "Gifts & Assets", icon: Gift, link: "/gifts-assets" },
@@ -69,6 +76,37 @@ export const stats = [
     change: "+18%",
     icon: TrendingUp,
     iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
+  },
+];
+
+export const streams = [
+  {
+    title: "Active Streams",
+    value: "3",
+    change: "Currently live",
+    icon: Video,
+    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
+  },
+  {
+    title: "Total Viewers",
+    value: "5.3M",
+    change: "",
+    icon: Eye,
+    iconBg: "bg-gradient-to-b from-[#C213E1] to-[#30ACFF]",
+  },
+  {
+    title: "Violations Today",
+    value: "1",
+    change: "",
+    icon: TrendingUp,
+    iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
+  },
+  {
+    title: "Avg Duration",
+    value: "458",
+    change: "",
+    icon: Timer,
+    iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
   },
 ];
 

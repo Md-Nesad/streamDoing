@@ -12,6 +12,8 @@ import AddCoinAgency from "./Pages/agencies/AddCoinAgency";
 import AddMasterAgency from "./Pages/agencies/AddMasterAgency";
 import AddAdminAgency from "./Pages/agencies/AddAdminAgency";
 import Users from "./Pages/Users";
+import Transaction from "./Pages/Transaction";
+import LiveStreams from "./Pages/LiveStreams";
 
 export default function App() {
   return (
@@ -47,6 +49,8 @@ export default function App() {
               element={<AddAdminAgency />}
             />
             <Route path="users" element={<Users />} />
+            <Route path="transaction-history" element={<Transaction />} />
+            <Route path="live-streams" element={<LiveStreams />} />
           </Route>
         </Routes>
       </BrowserRouter>
