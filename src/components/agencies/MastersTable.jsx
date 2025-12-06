@@ -31,14 +31,14 @@ export default function MastersTable() {
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="text-[#535353] text-md font-medium">
-              <th className="p-3 hidden sm:table-cell">Agnacy ID</th>
-              <th className="p-3 hidden lg:table-cell">Name</th>
-              <th className="p-3 hidden lg:table-cell">Coin Sales</th>
-              <th className="p-3 hidden xl:table-cell">Coin Buy</th>
-              <th className="p-3 hidden xl:table-cell">Revenue</th>
-              <th className="p-3 hidden 2xl:table-cell">Country</th>
-              <th className="p-3 hidden 2xl:table-cell">Status</th>
-              <th className="p-3 sm:pl-4 pl-15">Action</th>
+              <th className="p-3">Agnacy ID</th>
+              <th className="p-3">Name</th>
+              <th className="p-3">Coin Sales</th>
+              <th className="p-3">Coin Buy</th>
+              <th className="p-3">Revenue</th>
+              <th className="p-3">Country</th>
+              <th className="p-3">Status</th>
+              <th className="p-3 sm:pl-4">Action</th>
             </tr>
           </thead>
 
@@ -48,13 +48,13 @@ export default function MastersTable() {
                 key={index}
                 className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
               >
-                <td className="p-3 hidden sm:table-cell">Coin-042</td>
-                <td className="p-3 hidden lg:table-cell">{host.name}</td>
-                <td className="p-3 hidden lg:table-cell">{host.balance}</td>
-                <td className="p-3 hidden xl:table-cell">{host.diamonds}</td>
-                <td className="p-3 hidden xl:table-cell">{host.revenue}</td>
-                <td className="p-3 hidden 2xl:table-cell">{host.country}</td>
-                <td className="p-3 hidden 2xl:table-cell">
+                <td className="p-3">Coin-042</td>
+                <td className="p-3">{host.name}</td>
+                <td className="p-3">{host.balance}</td>
+                <td className="p-3">{host.diamonds}</td>
+                <td className="p-3">{host.revenue}</td>
+                <td className="p-3">{host.country}</td>
+                <td className="p-3">
                   <span
                     className={`px-4 py-1 text-xs ${
                       host.status === "active"
@@ -65,7 +65,7 @@ export default function MastersTable() {
                     {host.status}
                   </span>
                 </td>
-                <td className="p-3 max-sm:pl-20 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                   View
                   <span>
                     <Ellipsis size={17} />

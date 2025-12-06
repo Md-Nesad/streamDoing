@@ -23,18 +23,18 @@ export default function HostTable() {
 
       {/* table area */}
       <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mt-7 mb-10">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-left border-collapse shrink">
           <thead>
-            <tr className="text-[#535353] text-md font-medium">
-              <th className="p-3 pl-5">User ID</th>
-              <th className="p-3 hidden sm:table-cell">Name</th>
-              <th className="p-3 hidden lg:table-cell">Level</th>
-              <th className="p-3 hidden lg:table-cell">Crown</th>
-              <th className="p-3 hidden xl:table-cell">Diamonds</th>
-              <th className="p-3 hidden xl:table-cell">Beans</th>
-              <th className="p-3 hidden 2xl:table-cell">Location</th>
-              <th className="p-3 hidden 2xl:table-cell">Status</th>
-              <th className="p-3 sm:pl-4 pl-15">Action</th>
+            <tr className="text-[#535353] text-md max-md:text-xs font-medium">
+              <th className="p-3 pl-5 max-xl:w-10">User ID</th>
+              <th className="p-3 max-xl:w-10">Name</th>
+              <th className="p-3">Level</th>
+              <th className="p-3">Crown</th>
+              <th className="p-3">Diamonds</th>
+              <th className="p-3">Beans</th>
+              <th className="p-3">Location</th>
+              <th className="p-3">Status</th>
+              <th className="p-3 sm:pl-4">Action</th>
             </tr>
           </thead>
 
@@ -42,11 +42,13 @@ export default function HostTable() {
             {users.map((user, index) => (
               <tr
                 key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md max-md:text-xs"
               >
-                <td className="p-3 font-medium pl-5">{user.userId}</td>
-                <td className="p-3 hidden sm:table-cell">{user.name}</td>
-                <td className="p-3 hidden lg:table-cell">
+                <td className="p-3 font-medium pl-5 max-xl:w-40">
+                  {user.userId}
+                </td>
+                <td className="p-3 max-xl:w-40">{user.name}</td>
+                <td className="p-3">
                   {user.level && (
                     <span
                       className={`px-3 pb-1 pt-0.5 text-xs ${user.bgColor} text-[#FFFFFF] rounded-lg font-semibold`}
@@ -55,7 +57,7 @@ export default function HostTable() {
                     </span>
                   )}
                 </td>
-                <td className="p-3 hidden 2xl:table-cell">
+                <td className="p-3">
                   {user.crown && (
                     <span
                       className={`px-3 pb-1 pt-0.5 text-xs ${user.crownBg} text-[#FFFFFF] rounded-lg font-semibold`}
@@ -64,15 +66,15 @@ export default function HostTable() {
                     </span>
                   )}
                 </td>
-                <td className="p-3 hidden xl:table-cell">{user.diamonds}</td>
-                <td className="p-3 hidden xl:table-cell">{user.beans}</td>
-                <td className="p-3 hidden 2xl:table-cell">{user.location}</td>
-                <td className="p-3 hidden 2xl:table-cell">
+                <td className="p-3">{user.diamonds}</td>
+                <td className="p-3">{user.beans}</td>
+                <td className="p-3">{user.location}</td>
+                <td className="p-3">
                   <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
                     {user.status}
                   </span>
                 </td>
-                <td className="p-3 mt-1.5 max-sm:pl-20 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                   <Eye size={17} />
                   <span>
                     <Ellipsis size={17} />

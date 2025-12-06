@@ -28,17 +28,17 @@ export default function GiftingTable() {
 
       {/* table area */}
       <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mt-7 mb-10">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-left border-collapse text-nowrap">
           <thead>
             <tr className="text-[#535353] text-md font-medium">
-              <th className="p-3 hidden sm:table-cell">Gift ID</th>
-              <th className="p-3 hidden lg:table-cell">Gift Image</th>
-              <th className="p-3 hidden lg:table-cell">Gift Name</th>
-              <th className="p-3 hidden xl:table-cell">Sender User ID</th>
-              <th className="p-3 hidden xl:table-cell">Receive User ID</th>
-              <th className="p-3 hidden 2xl:table-cell">Stream ID</th>
-              <th className="p-3 hidden 2xl:table-cell">Price</th>
-              <th className="p-3 sm:pl-4 pl-15">Sent Date/Time</th>
+              <th className="p-3">Gift ID</th>
+              <th className="p-3">Gift Image</th>
+              <th className="p-3">Gift Name</th>
+              <th className="p-3">Sender User ID</th>
+              <th className="p-3">Receive User ID</th>
+              <th className="p-3">Stream ID</th>
+              <th className="p-3">Price</th>
+              <th className="p-3 sm:pl-4">Sent Date/Time</th>
             </tr>
           </thead>
 
@@ -48,14 +48,14 @@ export default function GiftingTable() {
                 key={index}
                 className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
               >
-                <td className="p-3 hidden sm:table-cell">GFT-042 </td>
-                <td className="p-3 hidden lg:table-cell">{host.name}</td>
-                <td className="p-3 hidden lg:table-cell">Paper Crane</td>
-                <td className="p-3 hidden xl:table-cell">001000</td>
-                <td className="p-3 hidden xl:table-cell">002000</td>
-                <td className="p-3 hidden 2xl:table-cell">007000</td>
-                <td className="p-3 hidden 2xl:table-cell">50k</td>
-                <td className="p-3 max-sm:pl-20 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                <td className="p-3">GFT-042 </td>
+                <td className="p-3">{host.name}</td>
+                <td className="p-3">Paper Crane</td>
+                <td className="p-3">001000</td>
+                <td className="p-3">002000</td>
+                <td className="p-3">007000</td>
+                <td className="p-3">50k</td>
+                <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                   01-11-2025 21:55
                 </td>
               </tr>

@@ -32,13 +32,13 @@ export default function AdminAgencyTable() {
           <thead>
             <tr className="text-[#535353] text-md font-medium">
               <th className="p-3 pl-5">Agnacy ID</th>
-              <th className="p-3 hidden sm:table-cell">Agnacy ID</th>
-              <th className="p-3 hidden lg:table-cell">Name</th>
-              <th className="p-3 hidden lg:table-cell">Diamond</th>
-              <th className="p-3 hidden xl:table-cell">Com 10.0%</th>
-              <th className="p-3 hidden 2xl:table-cell">Country</th>
-              <th className="p-3 hidden 2xl:table-cell">Status</th>
-              <th className="p-3 sm:pl-4 pl-15">Action</th>
+              <th className="p-3">Agnacy ID</th>
+              <th className="p-3">Name</th>
+              <th className="p-3">Diamond</th>
+              <th className="p-3">Com 10.0%</th>
+              <th className="p-3">Country</th>
+              <th className="p-3">Status</th>
+              <th className="p-3 sm:pl-4">Action</th>
             </tr>
           </thead>
 
@@ -49,12 +49,12 @@ export default function AdminAgencyTable() {
                 className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
               >
                 <td className="p-3 font-medium pl-5">MST-042</td>
-                <td className="p-3 hidden sm:table-cell">MST-042</td>
-                <td className="p-3 hidden lg:table-cell">{host.name}</td>
-                <td className="p-3 hidden lg:table-cell">1.2M</td>
-                <td className="p-3 hidden xl:table-cell">$108</td>
-                <td className="p-3 hidden 2xl:table-cell">{host.country}</td>
-                <td className="p-3 hidden 2xl:table-cell">
+                <td className="p-3">MST-042</td>
+                <td className="p-3">{host.name}</td>
+                <td className="p-3">1.2M</td>
+                <td className="p-3">$108</td>
+                <td className="p-3">{host.country}</td>
+                <td className="p-3">
                   <span
                     className={`px-4 py-1 text-xs ${
                       host.status === "active"
@@ -65,7 +65,7 @@ export default function AdminAgencyTable() {
                     {host.status}
                   </span>
                 </td>
-                <td className="p-3 max-sm:pl-20 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                   View
                   <span>
                     <Ellipsis size={17} />

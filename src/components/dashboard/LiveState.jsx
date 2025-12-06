@@ -1,6 +1,6 @@
 export default function LiveStat() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:pr-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 sm:pr-2">
       <div className="bg-[#DEE8FF] py-5 px-8 rounded-md shadow-sm">
         <p className="text-sm text-[#6F6E6E] font-medium mb-3">
           Active Streams

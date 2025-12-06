@@ -3,7 +3,7 @@ import { menuItems } from "../data/data";
 
 export default function Sidebar() {
   return (
-    <aside className="w-55 bg-[#FFFFFF] mb-20 px-1 py-2 ml-13 shadow-[0_2px_10px_rgba(0,0,0,0.06)] rounded-md max-sm:hidden">
+    <>
       <nav className="space-y-2">
         {menuItems.map((item) => (
           <NavLink
@@ -26,6 +26,6 @@ export default function Sidebar() {
         <span>Data Store</span>
         <span className="text-[#404040] text-xl">{">"}</span>
       </div>
-    </aside>
+    </>
   );
 }

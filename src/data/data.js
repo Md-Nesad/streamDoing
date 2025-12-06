@@ -23,6 +23,7 @@ import {
   Eye,
   Video,
   Timer,
+  Clock,
 } from "lucide-react";
 
 export const menuItems = [
@@ -105,7 +106,7 @@ export const streams = [
     title: "Avg Duration",
     value: "458",
     change: "",
-    icon: Timer,
+    icon: Clock,
     iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
   },
 ];
