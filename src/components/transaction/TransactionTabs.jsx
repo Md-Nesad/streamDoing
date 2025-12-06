@@ -1,6 +1,4 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import MastersTable from "../agencies/MastersTable";
-import AdminAgencyTable from "../agencies/AdminAgencyTable";
 import StatsSection from "../dashboard/StatsCard";
 import { coinAgenciesdata } from "../../data/data";
 import CoinSenderTable from "./CoinSenderTable";

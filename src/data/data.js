@@ -24,7 +24,10 @@ import {
   Video,
   Timer,
   Clock,
+  TriangleAlert,
+  Check,
 } from "lucide-react";
+import mayaPatel from "/mayaPatel.png";
 
 export const menuItems = [
   { title: "Dashboard", icon: Home, link: "/dashboard" },
@@ -77,6 +80,37 @@ export const stats = [
     change: "+18%",
     icon: TrendingUp,
     iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
+  },
+];
+
+export const monitaization = [
+  {
+    title: "Pending Reports",
+    value: "3",
+    change: "Currently live",
+    icon: TriangleAlert,
+    iconBg: "bg-[#FF4B4E6B] opacity-100",
+  },
+  {
+    title: "Under Review",
+    value: "2",
+    change: "Currently live",
+    icon: Eye,
+    iconBg: "bg-gradient-to-tl from-[#30ACFF] to-[#C213E1]",
+  },
+  {
+    title: "Resolved Today",
+    value: "12",
+    change: "Cases closed",
+    icon: Check,
+    iconBg: "bg-gradient-to-tl from-[#13E17D] to-[#30ACFF]",
+  },
+  {
+    title: "All Flag",
+    value: "1",
+    change: "",
+    icon: Clock,
+    iconBg: "bg-gradient-to-tl from-[#13E17D] to-[#30ACFF]",
   },
 ];
 
@@ -518,6 +552,29 @@ export const tiers = [
   },
 ];
 
+export const logData = [
+  {
+    title: "Warning Issued",
+    min: "By Moderator1 • 4 hours ago",
+    price: "Banned",
+  },
+  {
+    title: "Warning Issued",
+    min: "By Moderator1 • 4 hours ago",
+    price: "Resolved",
+  },
+  {
+    title: "Warning Issued",
+    min: "By Moderator1 • 4 hours ago",
+    price: "Banned",
+  },
+  {
+    title: "Warning Issued",
+    min: "By Moderator1 • 4 hours ago",
+    price: "Resolved",
+  },
+];
+
 export const ledger = [
   {
     title: "Ledger Entry #1000",
@@ -596,5 +653,48 @@ export const hostAgencies = [
     revenue: "৳1.62M",
     country: "Kuwait",
     status: "active",
+  },
+];
+
+export const analyticsHost = [
+  {
+    name: "Adi Rahman",
+    id: "989765",
+    agency: "StarHost Agency",
+    country: "Bangladesh",
+    hours: "182h",
+    diamonds: "234K",
+    badge: { level: "Lv6", color: "bg-emerald-500" },
+    img: mayaPatel,
+  },
+  {
+    name: "Maya Patel",
+    id: "989765",
+    agency: "Elite Broadcast",
+    country: "Pakistan",
+    hours: "172h",
+    diamonds: "224K",
+    badge: { level: "Lv18", color: "bg-pink-500" },
+    img: mayaPatel,
+  },
+  {
+    name: "Maya Patel",
+    id: "989765",
+    agency: "Elite Broadcast",
+    country: "Bangladesh",
+    hours: "132h",
+    diamonds: "211K",
+    badge: { level: "Lv12", color: "bg-green-500" },
+    img: mayaPatel,
+  },
+  {
+    name: "Maya Patel",
+    id: "989765",
+    agency: "Elite Broadcast",
+    country: "Bangladesh",
+    hours: "122h",
+    diamonds: "134K",
+    badge: { level: "Lv17", color: "bg-purple-600" },
+    img: mayaPatel,
   },
 ];

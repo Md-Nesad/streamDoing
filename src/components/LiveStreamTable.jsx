@@ -5,7 +5,7 @@ export default function LiveStreamTable() {
   return (
     <>
       {/* search area */}
-      <div className="mb-4 pt-7">
+      <div className="mb-4 pt-6">
         <input
           type="text"
           className="border border-[#BBBBBB] outline-[#BBBBBB] w-full px-4 py-1.5 rounded-md"

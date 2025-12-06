@@ -14,6 +14,8 @@ import AddAdminAgency from "./Pages/agencies/AddAdminAgency";
 import Users from "./Pages/Users";
 import Transaction from "./Pages/Transaction";
 import LiveStreams from "./Pages/LiveStreams";
+import Moderation from "./Pages/Moderation";
+import Analytics from "./Pages/Analytics";
 
 export default function App() {
   return (
@@ -51,6 +53,8 @@ export default function App() {
             <Route path="users" element={<Users />} />
             <Route path="transaction-history" element={<Transaction />} />
             <Route path="live-streams" element={<LiveStreams />} />
+            <Route path="moderation" element={<Moderation />} />
+            <Route path="analytics" element={<Analytics />} />
           </Route>
         </Routes>
       </BrowserRouter>
