@@ -28,6 +28,8 @@ import {
   Check,
 } from "lucide-react";
 import mayaPatel from "/mayaPatel.png";
+import { CiBitcoin } from "react-icons/ci";
+import { Coin } from "../../public/icons/Coin";
 
 export const menuItems = [
   { title: "Dashboard", icon: Home, link: "/dashboard" },
@@ -45,11 +47,15 @@ export const menuItems = [
   { title: "Analytics", icon: BarChart3, link: "/dashboard/analytics" },
   { title: "Finance", icon: Landmark, link: "/dashboard/finance" },
   { title: "PK Masters", icon: Trophy, link: "/dashboard/pk-masters" },
-  { title: "KYC Centre", icon: IdCard, link: "/kyc-centre" },
-  { title: "Salary Target", icon: Target, link: "/salary-target" },
-  { title: "Gifts & Assets", icon: Gift, link: "/gifts-assets" },
-  { title: "Notification Center", icon: Bell, link: "/notifications" },
-  { title: "Inbox Assets", icon: FileBox, link: "/inbox-assets" },
+  { title: "KYC Centre", icon: IdCard, link: "/dashboard/kyc-centre" },
+  { title: "Salary Target", icon: Target, link: "/dashboard/salary-target" },
+  { title: "Gifts & Assets", icon: Gift, link: "/dashboard/gifts-assets" },
+  {
+    title: "Notification Center",
+    icon: Bell,
+    link: "/dashboard/notifications",
+  },
+  { title: "Inbox Assets", icon: FileBox, link: "/dashboard/inbox-assets" },
   { title: "Settings", icon: Settings, link: "/settings" },
 ];
 export const stats = [
@@ -234,6 +240,68 @@ export const usersCard = [
     value: "৳12.8M",
     change: "+18%",
     icon: Crown,
+    iconBg: "bg-gradient-to-b from-[#1931B8] to-[#61B3BF]",
+  },
+];
+
+export const financeCard = [
+  {
+    title: "Total Users",
+    value: "12,458",
+    change: "+3 this month",
+    icon: Users,
+    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
+  },
+  {
+    title: "Active Host",
+    value: "2.5M",
+    change: "+125k today",
+    icon: Users,
+    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
+  },
+  {
+    title: "Coin Purchases",
+    value: "$25,400",
+    change: "This month",
+    icon: Wallet,
+    iconBg: "bg-gradient-to-tl from-[#30ACFF] to-[#C213E1]",
+  },
+  {
+    title: "$ Net Profit",
+    value: "$25,200",
+    change: "After expenses",
+    icon: Coin,
+    iconBg: "bg-gradient-to-b from-[#1931B8] to-[#61B3BF]",
+  },
+];
+
+export const kyc = [
+  {
+    title: "User Growth",
+    value: "Stream Hours",
+    change: "+3 this month",
+    icon: Users,
+    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
+  },
+  {
+    title: "Stream Hours",
+    value: "12,450",
+    change: "+125k today",
+    icon: Video,
+    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
+  },
+  {
+    title: "Coin Circulation",
+    value: "4.2M",
+    change: "This month",
+    icon: Coin,
+    iconBg: "bg-gradient-to-tl from-[#30ACFF] to-[#C213E1]",
+  },
+  {
+    title: "$ Revenue",
+    value: "$67.2K",
+    change: "After expenses",
+    icon: TrendingUp,
     iconBg: "bg-gradient-to-b from-[#1931B8] to-[#61B3BF]",
   },
 ];
@@ -696,5 +764,62 @@ export const analyticsHost = [
     diamonds: "134K",
     badge: { level: "Lv17", color: "bg-purple-600" },
     img: mayaPatel,
+  },
+];
+
+export const kycTable = [
+  {
+    userId: "AGT001",
+    userName: "Mike Chen",
+    agencyId: "025240",
+    agencyName: "Monona Ag",
+    categories: "Host",
+    approveIn: "09:30",
+    status: "Pending",
+  },
+  {
+    userId: "AGT001",
+    userName: "Mike Chen",
+    agencyId: "025236",
+    agencyName: "Love",
+    categories: "Admin Agency",
+    approveIn: "09:30",
+    status: "Approved",
+  },
+  {
+    userId: "AGT001",
+    userName: "Mike Chen",
+    agencyId: "025236",
+    agencyName: "Ampata",
+    categories: "Coin agency",
+    approveIn: "09:30",
+    status: "Suspended",
+  },
+  {
+    userId: "AGT001",
+    userName: "Mike Chen",
+    agencyId: "025236",
+    agencyName: "Best Agency",
+    categories: "Master Agency",
+    approveIn: "09:30",
+    status: "Pending",
+  },
+  {
+    userId: "AGT001",
+    userName: "Mike Chen",
+    agencyId: "025236",
+    agencyName: "StS Agency",
+    categories: "Host Agency",
+    approveIn: "09:30",
+    status: "Pending",
+  },
+  {
+    userId: "AGT001",
+    userName: "Mike Chen",
+    agencyId: "025236",
+    agencyName: "Top Ageing",
+    categories: "Support",
+    approveIn: "09:30",
+    status: "Pending",
   },
 ];

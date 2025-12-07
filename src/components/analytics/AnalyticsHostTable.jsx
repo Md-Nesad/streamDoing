@@ -25,7 +25,7 @@ export default function AnalyticsHostTable() {
       </div>
 
       {/* table area */}
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+      <div className="bg-white p-6 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)] border border-gray-200">
         <h2 className="text-xl font-semibold mb-5">Top Performing Hosts</h2>
 
         <div className="space-y-4">

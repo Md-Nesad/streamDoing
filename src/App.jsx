@@ -16,6 +16,8 @@ import Transaction from "./Pages/Transaction";
 import LiveStreams from "./Pages/LiveStreams";
 import Moderation from "./Pages/Moderation";
 import Analytics from "./Pages/Analytics";
+import Finance from "./Pages/Finance";
+import KycCenter from "./Pages/KycCenter";
 
 export default function App() {
   return (
@@ -55,6 +57,8 @@ export default function App() {
             <Route path="live-streams" element={<LiveStreams />} />
             <Route path="moderation" element={<Moderation />} />
             <Route path="analytics" element={<Analytics />} />
+            <Route path="finance" element={<Finance />} />
+            <Route path="kyc-centre" element={<KycCenter />} />
           </Route>
         </Routes>
       </BrowserRouter>
