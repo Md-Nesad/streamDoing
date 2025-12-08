@@ -18,6 +18,8 @@ import Moderation from "./Pages/Moderation";
 import Analytics from "./Pages/Analytics";
 import Finance from "./Pages/Finance";
 import KycCenter from "./Pages/KycCenter";
+import PkMaster from "./Pages/PkMaster";
+import SalaryTarget from "./Pages/SalaryTarget";
 
 export default function App() {
   return (
@@ -58,7 +60,9 @@ export default function App() {
             <Route path="moderation" element={<Moderation />} />
             <Route path="analytics" element={<Analytics />} />
             <Route path="finance" element={<Finance />} />
+            <Route path="pk-masters" element={<PkMaster />} />
             <Route path="kyc-centre" element={<KycCenter />} />
+            <Route path="salary-target" element={<SalaryTarget />} />
           </Route>
         </Routes>
       </BrowserRouter>

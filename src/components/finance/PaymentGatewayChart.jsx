@@ -57,7 +57,7 @@ export default function PaymentChart() {
       }}
     >
       <h2 className="text-xl mb-3 font-semibold text-[#1a1a1a]">
-        Revenue vs Expenses
+        Payment Gateway Distribution
       </h2>
 
       <BarChart

@@ -30,6 +30,8 @@ import {
 import mayaPatel from "/mayaPatel.png";
 import { CiBitcoin } from "react-icons/ci";
 import { Coin } from "../../public/icons/Coin";
+import Salary from "../../public/icons/Salary";
+import Agency from "../../public/icons/Agency";
 
 export const menuItems = [
   { title: "Dashboard", icon: Home, link: "/dashboard" },
@@ -50,12 +52,6 @@ export const menuItems = [
   { title: "KYC Centre", icon: IdCard, link: "/dashboard/kyc-centre" },
   { title: "Salary Target", icon: Target, link: "/dashboard/salary-target" },
   { title: "Gifts & Assets", icon: Gift, link: "/dashboard/gifts-assets" },
-  {
-    title: "Notification Center",
-    icon: Bell,
-    link: "/dashboard/notifications",
-  },
-  { title: "Inbox Assets", icon: FileBox, link: "/dashboard/inbox-assets" },
   { title: "Settings", icon: Settings, link: "/settings" },
 ];
 export const stats = [
@@ -272,6 +268,37 @@ export const financeCard = [
     change: "After expenses",
     icon: Coin,
     iconBg: "bg-gradient-to-b from-[#1931B8] to-[#61B3BF]",
+  },
+];
+
+export const salaryTarget = [
+  {
+    title: "Total Hosts",
+    value: "120,458",
+    change: "+245 today",
+    icon: Users,
+    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
+  },
+  {
+    title: "Total Salary",
+    value: "$12k",
+    change: "",
+    icon: Salary,
+    iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
+  },
+  {
+    title: "Agency",
+    value: "1.2M",
+    change: "+15%",
+    icon: Agency,
+    iconBg: "bg-gradient-to-tl from-[#30ACFF] to-[#C213E1]",
+  },
+  {
+    title: "Share",
+    value: "$98,400",
+    change: "",
+    icon: TrendingUp,
+    iconBg: "bg-gradient-to-b from-[#73E113] to-[#83FF30]",
   },
 ];
 
@@ -821,5 +848,85 @@ export const kycTable = [
     categories: "Support",
     approveIn: "09:30",
     status: "Pending",
+  },
+];
+
+export const pkBattles = [
+  {
+    id: 1,
+    title: "PK Battle #1",
+    timer: "10:22:20:04",
+    left: {
+      name: "StreamerA",
+      agent: "Agent Alpha",
+      agentId: "AGT001",
+      userId: "USR1001",
+      location: "New York, USA",
+      dateTime: "2025-01-10 14:30",
+      diamonds: "125,002",
+      color: "pink",
+    },
+    right: {
+      name: "StreamerA",
+      agent: "Agent Alpha",
+      agentId: "AGT001",
+      userId: "USR1001",
+      location: "New York, USA",
+      dateTime: "2025-01-10 14:30",
+      diamonds: "125,002",
+      color: "violet",
+    },
+  },
+
+  {
+    id: 2,
+    title: "PK Battle #2",
+    timer: "05:11:09:12",
+    left: {
+      name: "Bella",
+      agent: "Agent Beta",
+      agentId: "AGT020",
+      userId: "USR2020",
+      location: "London, UK",
+      dateTime: "2025-03-15 20:10",
+      diamonds: "98,210",
+      color: "pink",
+    },
+    right: {
+      name: "Chris",
+      agent: "Agent Gamma",
+      agentId: "AGT055",
+      userId: "USR3010",
+      location: "Berlin, Germany",
+      dateTime: "2025-03-15 20:10",
+      diamonds: "102,500",
+      color: "violet",
+    },
+  },
+
+  {
+    id: 3,
+    title: "PK Battle #3",
+    timer: "03:09:55:33",
+    left: {
+      name: "Nora",
+      agent: "Agent X",
+      agentId: "AGT400",
+      userId: "USR4100",
+      location: "Sydney, AUS",
+      dateTime: "2025-04-21 11:00",
+      diamonds: "150,600",
+      color: "pink",
+    },
+    right: {
+      name: "Leo",
+      agent: "Agent Y",
+      agentId: "AGT410",
+      userId: "USR4200",
+      location: "Tokyo, JP",
+      dateTime: "2025-04-21 11:00",
+      diamonds: "149,999",
+      color: "violet",
+    },
   },
 ];
