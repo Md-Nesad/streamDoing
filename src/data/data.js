@@ -52,7 +52,15 @@ export const menuItems = [
   { title: "KYC Centre", icon: IdCard, link: "/dashboard/kyc-centre" },
   { title: "Salary Target", icon: Target, link: "/dashboard/salary-target" },
   { title: "Gifts & Assets", icon: Gift, link: "/dashboard/gifts-assets" },
-  { title: "Settings", icon: Settings, link: "/settings" },
+  { title: "Host", icon: ShieldCheck, link: "/dashboard/host" },
+  { title: "Host Agency", icon: BarChart3, link: "/dashboard/host-agency" },
+  { title: "Master Agency", icon: Landmark, link: "/dashboard/master-agency" },
+  { title: "User", icon: Trophy, link: "/dashboard/users" },
+  { title: "Admin Agency", icon: IdCard, link: "/dashboard/admin-agency" },
+  { title: "Coin Agency", icon: Target, link: "/dashboard/coin-agency" },
+  { title: "Support", icon: Gift, link: "/dashboard/support" },
+  { title: "Delete/Ban", icon: Gift, link: "/dashboard/delete-ban" },
+  { title: "Settings", icon: Settings, link: "/dashboard/settings" },
 ];
 export const stats = [
   {

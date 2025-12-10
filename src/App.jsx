@@ -20,6 +20,8 @@ import Finance from "./Pages/Finance";
 import KycCenter from "./Pages/KycCenter";
 import PkMaster from "./Pages/PkMaster";
 import SalaryTarget from "./Pages/SalaryTarget";
+import GiftAndAssests from "./Pages/GiftAndAssests";
+import Setting from "./Pages/Setting";
 
 export default function App() {
   return (
@@ -63,6 +65,8 @@ export default function App() {
             <Route path="pk-masters" element={<PkMaster />} />
             <Route path="kyc-centre" element={<KycCenter />} />
             <Route path="salary-target" element={<SalaryTarget />} />
+            <Route path="gifts-assets" element={<GiftAndAssests />} />
+            <Route path="settings" element={<Setting />} />
           </Route>
         </Routes>
       </BrowserRouter>
