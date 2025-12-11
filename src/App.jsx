@@ -22,6 +22,14 @@ import PkMaster from "./Pages/PkMaster";
 import SalaryTarget from "./Pages/SalaryTarget";
 import GiftAndAssests from "./Pages/GiftAndAssests";
 import Setting from "./Pages/Setting";
+import HostManagement from "./Pages/dataStore/Host";
+import HostAgency from "./Pages/dataStore/HostAgency";
+import MasterAgency from "./Pages/dataStore/MasterAgency";
+import UserManagement from "./Pages/dataStore/UserManagement";
+import AdminAgency from "./Pages/dataStore/AdminAgency";
+import CoinAgency from "./Pages/dataStore/CoinManagement";
+import SupportAgency from "./Pages/dataStore/SupportAgency";
+import DeleteBan from "./Pages/dataStore/DeleteBan";
 
 export default function App() {
   return (
@@ -67,6 +75,15 @@ export default function App() {
             <Route path="salary-target" element={<SalaryTarget />} />
             <Route path="gifts-assets" element={<GiftAndAssests />} />
             <Route path="settings" element={<Setting />} />
+            {/* data store routes */}
+            <Route path="host-management" element={<HostManagement />} />
+            <Route path="host-agency" element={<HostAgency />} />
+            <Route path="master-agency" element={<MasterAgency />} />
+            <Route path="user-management" element={<UserManagement />} />
+            <Route path="admin-agency" element={<AdminAgency />} />
+            <Route path="coin-agency" element={<CoinAgency />} />
+            <Route path="support" element={<SupportAgency />} />
+            <Route path="delete-ban" element={<DeleteBan />} />
           </Route>
         </Routes>
       </BrowserRouter>
