@@ -1,10 +1,12 @@
-import { ChevronDown, Ellipsis, Funnel } from "lucide-react";
+import { ChevronDown, ChevronUp, Ellipsis, Funnel } from "lucide-react";
 import { hostAgencies } from "../../data/data";
 import { useState } from "react";
 import AddGiftModal from "../../modals/AddGiftModal";
+import AssestsDropdown from "./AssestsDropdown";
 
 export default function AllGiftTable() {
   const [open, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   return (
     <>
       {/* search area */}
@@ -15,9 +17,19 @@ export default function AllGiftTable() {
           placeholder="Search by Agency ID or name"
         />
         <div className="flex items-center sm:gap-3 gap-2">
-          <button className="sm:px-3 px-2 py-2  rounded-md bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white font-medium flex items-center gap-2 text-sm sm:text-md">
-            <ChevronDown /> Assests
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="sm:px-3 px-2 py-2  rounded-md bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white font-medium flex items-center gap-2 text-sm sm:text-md transition-all duration-300 ease-in-out"
+            >
+              {isDropdownOpen ? <ChevronUp /> : <ChevronDown />} Assests
+            </button>
+            {isDropdownOpen && (
+              <div className="absolute top-12 right-0 rounded-md z-10">
+                <AssestsDropdown />
+              </div>
+            )}
+          </div>
           <button
             onClick={() => setIsOpen(true)}
             className="sm:px-4 px-1 py-1.5 text-sm sm:text-[17px] bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium"

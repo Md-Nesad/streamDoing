@@ -1,6 +1,6 @@
 import { Upload } from "lucide-react";
 
-export default function AddGiftModal({ open, onClose }) {
+export default function AddNewFrameModal({ open, onClose }) {
   if (!open) return null;
 
   return (
@@ -8,7 +8,7 @@ export default function AddGiftModal({ open, onClose }) {
       <div className="w-full max-w-[650px] bg-white rounded-2xl shadow-lg p-4 sm:p-6 max-sm:h-[95vh] overflow-y-auto animatefadeIn hide_scrollbar max-sm:mx-3">
         {/* Title */}
         <h2 className="text-[20px] font-semibold text-gray-800 mb-1">
-          Add New Gift
+          Add New Frame
         </h2>
         <p className="text-gray-500 text-[14px] mb-6">
           Create a new virtual gift for users to send during livestreams
@@ -16,57 +16,49 @@ export default function AddGiftModal({ open, onClose }) {
 
         {/* Gift Name */}
         <label className="text-gray-700 text-[14px] font-medium">
-          Gift Name
+          Frame Link
         </label>
         <input
           type="text"
           placeholder="Enter Gift name"
-          className="w-full border rounded-lg px-3 py-2 text-[14px] mt-1 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-400"
+          className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 mb-4 focus:outline-none"
         />
 
         {/* Category */}
         <label className="text-gray-700 text-[14px] font-medium">
-          Category
+          Web Link
         </label>
-        <div className="flex items-center gap-3 mt-1 mb-4">
-          <input
-            type="text"
-            placeholder="Search Category"
-            className="flex-1 border rounded-lg px-3 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-purple-400"
-          />
-          <button className="px-4 py-2 text-[14px] bg-[#AC90EC] text-white rounded-lg">
-            Add Custom Category
-          </button>
-        </div>
+        <input
+          type="text"
+          placeholder="Enter Gift name"
+          className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 mb-4 focus:outline-none"
+        />
 
         {/* Price */}
-        <label className="text-gray-700 text-[14px] font-medium">
-          Price (Coins)
-        </label>
+        <label className="text-gray-700 text-[14px] font-medium">Price</label>
         <input
           type="number"
           defaultValue={5000}
-          className="w-full border rounded-lg px-3 py-2 text-[14px] mt-1 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-400"
+          className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 mb-4 focus:outline-none"
         />
+
+        {/* Position */}
+        <div className="mb-3">
+          <label className="text-sm text-gray-700">Position</label>
+          <div className="grid grid-cols-5 gap-2 mt-1">
+            {[...Array(5)].map((_, i) => (
+              <input
+                key={i}
+                type="text"
+                className="border border-[#626060] rounded-md px-3 py-1.5 text-sm focus:outline-none"
+              />
+            ))}
+          </div>
+        </div>
 
         {/* Upload Logo */}
         <label className="text-gray-700 text-[14px] font-medium">
-          Upload Gift Logo (SVG, PNG, Mp4)
-        </label>
-        <div className="relative border rounded-lg px-3 py-2 text-[14px] cursor-pointer flex items-center justify-start gap-2 mt-1 mb-4">
-          <span className="text-gray-400 text-sm">upload</span>
-          <span className="text-gray-500">
-            <Upload size={15} />
-          </span>
-          <input
-            type="file"
-            className="absolute inset-0 opacity-0 cursor-pointer"
-          />
-        </div>
-
-        {/* Upload Sound */}
-        <label className="text-gray-700 text-[14px] font-medium">
-          Upload Sound
+          Upload Template (SVG, PNG, Mp4)
         </label>
         <div className="relative border rounded-lg px-3 py-2 text-[14px] cursor-pointer flex items-center justify-start gap-2 mt-1 mb-4">
           <span className="text-gray-400 text-sm">upload</span>
