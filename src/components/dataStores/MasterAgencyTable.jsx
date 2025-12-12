@@ -1,7 +1,10 @@
 import { Funnel, Pen, Trash2 } from "lucide-react";
 import { usersTable } from "../../data/data";
+import { useState } from "react";
+import EditMasterAgencyModal from "../../modals/dataSroreModals/EditMasterAgencyModal";
 
 export default function MasterAgencyTable() {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       {/* search area */}
@@ -23,7 +26,7 @@ export default function MasterAgencyTable() {
 
       {/* table area */}
       <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mt-7 mb-10">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-left border-collapse text-wrap">
           <thead>
             <tr className="text-[#535353] text-md font-medium">
               <th className="p-3 pl-5">Agency ID</th>
@@ -62,7 +65,7 @@ export default function MasterAgencyTable() {
                 </td>
                 <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                   <span className="flex items-center gap-3">
-                    <button title="Edit">
+                    <button onClick={() => setIsOpen(true)} title="Edit">
                       <Pen size={19} />
                     </button>
                     <Trash2 size={18} className="text-[#FF0037]" />
@@ -72,9 +75,12 @@ export default function MasterAgencyTable() {
             ))}
           </tbody>
         </table>
-        {/* {isOpen && (
-          <UserDetailsModal open={isOpen} onClose={() => setIsOpen(false)} />
-        )} */}
+        {isOpen && (
+          <EditMasterAgencyModal
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+          />
+        )}
       </div>
     </>
   );

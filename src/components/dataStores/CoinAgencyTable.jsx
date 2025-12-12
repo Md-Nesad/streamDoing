@@ -1,9 +1,9 @@
-import { Funnel, Pen, Trash2 } from "lucide-react";
+import { Ban, Eye, Funnel, Pen, Trash2 } from "lucide-react";
 import { usersTable } from "../../data/data";
 import { useState } from "react";
-import EditHostAgencyModal from "../../modals/dataSroreModals/EditHostAgencyModal";
+import EditCoinAgencyDetailsModal from "../../modals/dataSroreModals/EditCoinAgencyDetailsModal";
 
-export default function HostAgnecyTable() {
+export default function CoinAgencyTable() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -26,13 +26,13 @@ export default function HostAgnecyTable() {
 
       {/* table area */}
       <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mt-7 mb-10">
-        <table className="w-full text-left border-collapse text-nowrap">
+        <table className="w-full text-left border-collapse text-wrap">
           <thead>
             <tr className="text-[#535353] text-md font-medium">
-              <th className="p-3 pl-5">Agency ID</th>
-              <th className="p-3">Agency Name </th>
-              <th className="p-3">Reference ID</th>
-              <th className="p-3">Email</th>
+              <th className="p-3 pl-5">User ID</th>
+              <th className="p-3">Name</th>
+              <th className="p-3">Gender</th>
+              <th className="p-3">Level</th>
               <th className="p-3">Phone</th>
               <th className="p-3">Location</th>
               <th className="p-3">Status</th>
@@ -48,10 +48,10 @@ export default function HostAgnecyTable() {
               >
                 <td className="p-3 font-medium pl-5">{user.userId}</td>
                 <td className="p-3">{user.name}</td>
-                <td className="p-3">REF001</td>
+                <td className="p-3">Male</td>
                 <td className="p-3">alice@example.com</td>
-                <td className="p-3">{user.beans}</td>
-                <td className="p-3">{user.location}</td>
+                <td className="p-3">+1234567890</td>
+                <td className="p-3">New York, USA</td>
                 <td className="p-3">
                   <span
                     className={`px-4 py-1 text-xs ${
@@ -76,7 +76,10 @@ export default function HostAgnecyTable() {
           </tbody>
         </table>
         {isOpen && (
-          <EditHostAgencyModal open={isOpen} onClose={() => setIsOpen(false)} />
+          <EditCoinAgencyDetailsModal
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+          />
         )}
       </div>
     </>

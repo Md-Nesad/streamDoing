@@ -1,6 +1,6 @@
 import UserManagementTitle from "../../components/TitleAndSubTitle";
 import { Download } from "lucide-react";
-import AdminAgencyTable from "../../components/dataStores/AdminAgencyTable";
+import CoinAgencyTable from "../../components/dataStores/CoinAgencyTable";
 
 export default function CoinAgency() {
   return (
@@ -18,7 +18,7 @@ export default function CoinAgency() {
           <Download size={18} /> Export Data
         </button>
       </header>
-      <AdminAgencyTable />
+      <CoinAgencyTable />
     </div>
   );
 }

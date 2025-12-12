@@ -1,7 +1,10 @@
-import { Ban, Eye, Funnel, Pen, Trash2 } from "lucide-react";
+import { Funnel, Pen, Trash2 } from "lucide-react";
 import { usersTable } from "../../data/data";
+import { useState } from "react";
+import EditHostModal from "../../modals/dataSroreModals/EditHostModal";
 
 export default function HostManageMentTable() {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       {/* search area */}
@@ -82,7 +85,7 @@ export default function HostManageMentTable() {
                 </td>
                 <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                   <span className="flex items-center gap-3">
-                    <button title="Edit">
+                    <button onClick={() => setIsOpen(true)} title="Edit">
                       <Pen size={19} />
                     </button>
                     <Trash2 size={18} className="text-[#FF0037]" />
@@ -92,9 +95,9 @@ export default function HostManageMentTable() {
             ))}
           </tbody>
         </table>
-        {/* {isOpen && (
-          <UserDetailsModal open={isOpen} onClose={() => setIsOpen(false)} />
-        )} */}
+        {isOpen && (
+          <EditHostModal open={isOpen} onClose={() => setIsOpen(false)} />
+        )}
       </div>
     </>
   );

@@ -13,10 +13,6 @@ main {
   height: calc(100vh - 132px);
 }
 
-/* main::-webkit-scrollbar {
-  display: none !important;
-} */
-
 button {
   cursor: pointer;
 }
@@ -45,6 +41,14 @@ button {
   select {
     @apply w-full border border-gray-300 text-[#686868A6] rounded-md px-3 py-2 text-sm focus:outline-none appearance-none cursor-pointer;
   }
+}
+
+.btn_gradient {
+  @apply bg-linear-to-r from-[#6DA5FF] to-[#F576D6] rounded text-white;
+}
+
+.btn_white {
+  @apply bg-[#FFFFFF] border rounded border-[#CCCCCC];
 }
 
 .hide_scrollbar::-webkit-scrollbar {

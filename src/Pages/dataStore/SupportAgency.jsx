@@ -1,6 +1,6 @@
 import UserManagementTitle from "../../components/TitleAndSubTitle";
 import { Download } from "lucide-react";
-import AdminAgencyTable from "../../components/dataStores/AdminAgencyTable";
+import SupportAgencyTable from "../../components/dataStores/SupportAgencyTable";
 
 export default function SupportAgency() {
   return (
@@ -18,7 +18,7 @@ export default function SupportAgency() {
           <Download size={18} /> Export Data
         </button>
       </header>
-      <AdminAgencyTable />
+      <SupportAgencyTable />
     </div>
   );
 }
