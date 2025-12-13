@@ -1,4 +1,3 @@
-import React from "react";
 import Sidebar from "../components/Sidebar";
 import { Outlet } from "react-router-dom";
 import AdminHeader from "../components/header/AdminHeader";
@@ -11,7 +10,7 @@ export default function DashboardLayout() {
       </header>
 
       <div className="flex flex-1 overflow-hidden pt-3 mt-30 hide_scrollbar">
-        <aside className="lg:w-55 md:w-50 shrink-0 overflow-y-auto bg-[#FFFFFF] px-1 py-2 ml-13 shadow-[0_2px_10px_rgba(0,0,0,0.06)] rounded-md lg:block hidden h-[80vh] hide_scrollbar">
+        <aside className="lg:w-55 lg:mr-13">
           <Sidebar />
         </aside>
 

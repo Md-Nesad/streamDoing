@@ -5,6 +5,8 @@ import AddNewTemplateModal from "../../modals/assests/AddNewTemplate";
 import AddNewFrameModal from "../../modals/assests/AddNewFrame";
 import AddVip from "../../modals/assests/AddVip";
 import AddNewCrown from "../../modals/assests/AddNewCrown";
+import AddNewEntryModal from "../../modals/assests/AddNewEntry";
+import AddNewEventModal from "../../modals/assests/AddNewEvent";
 
 export default function AssestsDropdown() {
   const [openBanner, setOpenBanner] = useState(false);
@@ -17,7 +19,7 @@ export default function AssestsDropdown() {
   const [openEvent, setOpenEvent] = useState(false);
   return (
     <>
-      <div className="bg-linear-to-t from-[#6DA5FF] to-[#F576D6] text-white w-45 rounded flex flex-col animatefadeIn">
+      <div className="bg-linear-to-t from-[#6DA5FF] to-[#F576D6] text-white w-45 rounded-md flex flex-col animatefadeIn">
         <button
           onClick={() => setOpenBanner(true)}
           className="hover:bg-linear-to-t from-[#76a8f77c] to-[#fe9ae592] p-2 pt-3 hover:transition-all hover:duration-300 block"
@@ -99,6 +101,20 @@ export default function AssestsDropdown() {
       {/* crown   */}
       {openCrown && (
         <AddNewCrown open={openCrown} onClose={() => setOpenCrown(false)} />
+      )}
+      {/* entry */}
+      {openEntry && (
+        <AddNewEntryModal
+          open={openEntry}
+          onClose={() => setOpenEntry(false)}
+        />
+      )}
+      {/* event */}
+      {openEvent && (
+        <AddNewEventModal
+          open={openEvent}
+          onClose={() => setOpenEvent(false)}
+        />
       )}
     </>
   );
