@@ -21,7 +21,7 @@ export default function Sidebar({ isToogleNav, onClose }) {
             <nav aria-label="dashboard_navbar" className="">
               {menuItems.slice(0, 14).map((item) => (
                 <NavLink
-                  onClick={onClose}
+                  onClick={() => setTimeout(onClose, 500)}
                   key={item.title}
                   to={item.link}
                   end
