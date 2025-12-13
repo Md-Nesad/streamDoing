@@ -44,7 +44,12 @@ export default function AdminHeader() {
           <span>Logout</span>
         </button>
       </div>
-      {isToogleNav && <Sidebar isToogleNav={isToogleNav} />}
+      {isToogleNav && (
+        <Sidebar
+          isToogleNav={isToogleNav}
+          onClose={() => setIsToogleNav(false)}
+        />
+      )}
     </>
   );
 }

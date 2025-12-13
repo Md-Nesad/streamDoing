@@ -3,8 +3,7 @@ import { menuItems } from "../data/data";
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
 
-export default function Sidebar({ isToogleNav }) {
-  console.log(isToogleNav);
+export default function Sidebar({ isToogleNav, onClose }) {
   const [isToogleDataStore, setIsToogleDataStore] = useState(false);
 
   const handleToogle = () => {
@@ -22,6 +21,7 @@ export default function Sidebar({ isToogleNav }) {
             <nav aria-label="dashboard_navbar" className="">
               {menuItems.slice(0, 14).map((item) => (
                 <NavLink
+                  onClick={onClose}
                   key={item.title}
                   to={item.link}
                   end
