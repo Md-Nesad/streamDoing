@@ -21,12 +21,12 @@ export default function AdminHeader() {
           <div>
             <button
               onClick={() => setIsToogleNav(!isToogleNav)}
-              className="mt-2 bg-linear-to-b from-[#FF44E3] to-[#294599] p-1 rounded-md opacity-70 hidden max-lg:block mr-2"
+              className="mt-2 bg-linear-to-b from-[#FF44E3] to-[#294599] p-1 rounded-md opacity-70 hidden max-lg:block mr-1"
             >
               {isToogleNav ? (
-                <X size={30} className="text-white" />
+                <X size={32} className="text-white" />
               ) : (
-                <Menu size={30} className="text-white" />
+                <Menu size={32} className="text-white" />
               )}
             </button>
           </div>
@@ -35,7 +35,9 @@ export default function AdminHeader() {
             <h1 className="text-lg font-semibold bg-linear-to-r from-[#FF44E3] to-[#294599] text-transparent bg-clip-text">
               StreamDoing
             </h1>
-            <p className="text-sm text-[#4473FF] font-semibold">Admin Panel</p>
+            <p className="text-sm text-[#4473FF] font-semibold max-sm:-mt-0.5">
+              Admin Panel
+            </p>
           </div>
         </div>
 
