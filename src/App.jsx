@@ -30,6 +30,7 @@ import AdminAgency from "./Pages/dataStore/AdminAgency";
 import CoinAgency from "./Pages/dataStore/CoinManagement";
 import SupportAgency from "./Pages/dataStore/SupportAgency";
 import DeleteBan from "./Pages/dataStore/DeleteBan";
+import AdminLogin from "./Pages/Login";
 
 export default function App() {
   return (
@@ -37,7 +38,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-
+          <Route path="/login" element={<AdminLogin />} />
           {/* dashboard nested routes here */}
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />

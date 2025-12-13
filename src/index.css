@@ -48,6 +48,10 @@ button {
   @apply bg-linear-to-r from-[#6DA5FF] to-[#F576D6] rounded text-white;
 }
 
+.btn_gradient:hover {
+  @apply bg-linear-to-r from-[#8bb7fd] to-[#f794de] hover:transition-all hover:duration-500;
+}
+
 .btn_white {
   @apply bg-[#FFFFFF] border rounded border-[#CCCCCC];
 }

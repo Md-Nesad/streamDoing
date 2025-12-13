@@ -40,11 +40,12 @@ export default function AdminHeader() {
             </p>
           </div>
         </div>
-
-        <button className="flex items-center gap-2 text-[18px] font-medium text-[#BE8283] hover:text-[#da9b9c] transition-colors duration-300">
-          <LogOut size={18} />
-          <span>Logout</span>
-        </button>
+        <Link to="/login">
+          <button className="flex items-center gap-2 text-[18px] font-medium text-[#BE8283] hover:text-[#da9b9c] transition-colors duration-300">
+            <LogOut size={18} />
+            <span>Logout</span>
+          </button>
+        </Link>
       </div>
       {isToogleNav && (
         <Sidebar
