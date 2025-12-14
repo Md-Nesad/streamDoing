@@ -1,12 +1,10 @@
 import { Ban, Eye, Funnel, Trash2 } from "lucide-react";
 import { usersTable } from "../../data/data";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import UserDetailsModal from "../../modals/UserDetailsModal";
 
 export default function HostAgencyTable() {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
   return (
     <>
       {/* search area */}
@@ -20,10 +18,7 @@ export default function HostAgencyTable() {
           <button className="sm:px-5 px-2 py-2  rounded-md bg-[#FFFFFF] border border-[#CCCCCC] font-medium flex items-center gap-2 text-sm sm:text-md">
             <Funnel size={18} /> Filter
           </button>
-          <button
-            onClick={() => navigate("/dashboard/agencies/add-host-agency")}
-            className="sm:px-3 px-1 py-1.5 text-sm sm:text-[17px] bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium"
-          >
+          <button className="sm:px-3 px-1 py-1.5 text-sm sm:text-[17px] bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium">
             Add User
           </button>
         </div>

@@ -1,4 +1,3 @@
-import React from "react";
 import StatsSection from "../components/dashboard/StatsCard";
 import { usersCard } from "../data/data";
 import UsersTable from "../components/users/UsersTable";

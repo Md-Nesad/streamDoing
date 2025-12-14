@@ -12,8 +12,6 @@ import {
   IdCard,
   Target,
   Gift,
-  Bell,
-  FileBox,
   Settings,
   RadioTower,
   TrendingUp,
