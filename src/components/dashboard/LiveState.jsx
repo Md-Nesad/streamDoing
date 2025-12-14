@@ -1,16 +1,4 @@
-import useFetch from "../../hooks/useFetch";
-import Error from "../Error";
-import Loading from "../Loading";
-
-export default function LiveStat() {
-  const { data, loading, error } = useFetch(
-    import.meta.env.VITE_API_BASE_URL + "/dashboard/live-stats"
-  );
-
-  if (loading) return <Loading />;
-
-  if (error) return <Error error={error} />;
-
+export default function LiveStat({ data }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 sm:pr-2">
       <div className="bg-[#DEE8FF] py-5 px-8 rounded-md shadow-sm">

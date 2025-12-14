@@ -5,16 +5,28 @@ import StatsSection from "../components/dashboard/StatsCard";
 import useFetch from "../hooks/useFetch";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
+
+const API = import.meta.env.VITE_API_BASE_URL;
+
 export default function Dashboard() {
-  const { data, loading, error } = useFetch(
-    import.meta.env.VITE_API_BASE_URL + "/dashboard/summary"
-  );
+  const summary = useFetch(`${API}/dashboard/summary`);
+  const liveStats = useFetch(`${API}/dashboard/live-stats`);
+  // const agencies = useFetch(`${API}/dashboard/agencies`);
+
+  const loading = summary.loading || liveStats.loading;
+
+  const error = summary.error || liveStats.error;
+
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
+
+  const data = summary.data;
 
   const dashboardStats = [
     {
       title: "Total Users",
       value: data?.users?.total,
-      change: "+" + data?.coinAgencies?.today + " today",
+      change: `+${data?.coinAgencies?.today} today`,
       icon: Users,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
     },
@@ -35,32 +47,27 @@ export default function Dashboard() {
     {
       title: "Platform Revenue",
       value: data?.platformRevenue,
-      change: data?.revenueGrowthPercent + "%",
+      change: `${data?.revenueGrowthPercent}%`,
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
     },
   ];
 
-  if (loading) return <Loading />;
-
-  if (error) {
-    return <Error error={error} />;
-  }
   return (
     <>
       <section>
         <StatsSection data={dashboardStats} />
       </section>
 
-      {/* live state section here */}
-      <section className="bg-[#FFFFFF] shadow-[0_2px_10px_rgba(0,0,0,0.06)] pb-10 pt-1 mt-7 pl-5 pr-7 rounded-md">
+      {/* Live stats */}
+      <section className="bg-white shadow-[0_2px_10px_rgba(0,0,0,0.06)] pb-10 pt-1 mt-7 pl-5 pr-7 rounded-md">
         <h3 className="mt-5 mb-6 font-semibold text-[#181717] text-xl">
           Live Platform Stats
         </h3>
-        <LiveStat />
+        <LiveStat data={liveStats.data} />
       </section>
 
-      {/* agescies table here */}
+      {/* Agencies table */}
       <AgenciesTable />
     </>
   );
