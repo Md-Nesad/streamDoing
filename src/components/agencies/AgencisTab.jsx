@@ -9,7 +9,7 @@ import AdminAgencyTable from "./AdminAgencyTable";
 export default function AgencisTabs() {
   return (
     <Tabs>
-      <TabList className="flex items-center gap-4 bg-[#F4F4F4] w-fit px-2 py-1 rounded mb-5">
+      <TabList className="flex items-center gap-4 bg-[#F4F4F4] w-full sm:w-fit overflow-x-auto px-2 py-1 rounded mb-5 text-nowrap hide_scrollbar">
         <Tab
           className="font-sans cursor-pointer"
           selectedClassName="active-tab"

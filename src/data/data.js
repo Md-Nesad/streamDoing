@@ -35,8 +35,18 @@ export const menuItems = [
   { title: "Dashboard", icon: Home, link: "/dashboard" },
   { title: "Host", icon: Mic, link: "/dashboard/host" },
   { title: "Users", icon: Users, link: "/dashboard/users" },
-  { title: "Agencies", icon: Building2, link: "/dashboard/agencies" },
-  { title: "Coin Management", icon: Coins, link: "/dashboard/coins" },
+  {
+    title: "Agencies",
+    icon: Building2,
+    link: "/dashboard/agencies",
+    hasChildren: true,
+  },
+  {
+    title: "Coin Management",
+    icon: Coins,
+    link: "/dashboard/coins",
+    hasChildren: true,
+  },
   {
     title: "Transaction History",
     icon: History,

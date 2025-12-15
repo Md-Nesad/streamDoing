@@ -1,5 +1,6 @@
 import { Ellipsis, Funnel } from "lucide-react";
 import { tableData } from "../../data/data";
+import star from "../../assests/star.png";
 
 export default function AgenciesTable() {
   return (
@@ -7,7 +8,7 @@ export default function AgenciesTable() {
       {/* Card Container */}
       <div className="bg-white rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
         {/* Header */}
-        <div className="flex items-center justify-between mb-4 sm:px-5 px-3 pt-5">
+        <div className="hidden sm:flex items-center justify-between  mb-4 sm:px-5 px-3 pt-5">
           <h2 className="sm:text-xl text-sm font-semibold">
             Agencies Overview
           </h2>
@@ -22,7 +23,7 @@ export default function AgenciesTable() {
         </div>
 
         {/* Table Wrapper for Horizontal Scroll */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto max-sm:pt-2">
           <table className="w-full text-left border-collapse shrink text-nowrap">
             <thead>
               <tr className="text-[#535353] font-medium text-md">
@@ -55,7 +56,8 @@ export default function AgenciesTable() {
                   </td>
                   <td className="p-3">
                     {row.level && (
-                      <span className="px-3 py-1 text-xs bg-linear-to-b from-[#5DB90A] to-[#175111] text-white rounded-lg font-semibold">
+                      <span className="p-1 text-xs bg-linear-to-b from-[#5DB90A] to-[#175111] rounded-lg font-semibold text-white flex items-center gap-1 w-14">
+                        <img src={star} alt="" className="w-4 h-4" />{" "}
                         {row.level}
                       </span>
                     )}
@@ -71,7 +73,8 @@ export default function AgenciesTable() {
                     </span>
                   </td>
                   <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                    View <Ellipsis size={17} />
+                    <span className="font-semibold">View</span>{" "}
+                    <Ellipsis size={17} />
                   </td>
                 </tr>
               ))}

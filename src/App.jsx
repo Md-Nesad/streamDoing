@@ -44,9 +44,12 @@ export default function App() {
             <Route index element={<Dashboard />} />
             <Route path="host" element={<Host />} />
             <Route path="coins" element={<CoinManageMent />} />
-            <Route path="rate-transaction" element={<RateTransaction />} />
-            <Route path="exchange-rate" element={<ExchangeRate />} />
-            <Route path="master-ledger" element={<MasterLedger />} />
+            <Route
+              path="coins/rate-transaction"
+              element={<RateTransaction />}
+            />
+            <Route path="coins/exchange-rate" element={<ExchangeRate />} />
+            <Route path="coins/master-ledger" element={<MasterLedger />} />
             <Route path="agencies" element={<Agencies />} />
             <Route
               path="agencies/add-host-agency"

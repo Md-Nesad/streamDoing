@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 export default function AddMasterAgencyForm() {
   const navigate = useNavigate();
   return (
-    <div className="w-full flex justify-center shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
-      <div className="w-full bg-white rounded-xl  py-8 px-12 border border-gray-100">
-        <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="w-full flex justify-center shadow-[0_2px_10px_rgba(0,0,0,0.06)] mb-10">
+      <div className="w-full bg-white rounded-xl py-5 sm:py-8 px-3 sm:px-12 border border-gray-100">
+        <form className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {/* Agency Type */}
           <div>
             <label>Agency Type</label>
@@ -157,7 +157,7 @@ export default function AddMasterAgencyForm() {
         </form>
 
         {/* Buttons */}
-        <div className="flex justify-end mt-8 gap-4">
+        <div className="flex justify-center sm:justify-end mt-8 gap-4">
           <button
             onClick={() => navigate("/dashboard/agencies")}
             className="px-8 py-1 border border-gray-300 rounded-md text-[#181717]"

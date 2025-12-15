@@ -4,22 +4,22 @@ export default function UserDetailsModal({ open, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
-      <div className="bg-[#FDFDFD] w-full max-w-md rounded-xl shadow-lg p-6 relative animatefadeIn">
+      <div className="bg-[#FDFDFD] w-full max-w-md rounded-xl shadow-lg sm:p-6 p-4 relative animatefadeIn">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl"
+          className="absolute top-3 right-3 text-gray-500 hover:text-black text-md sm:text-xl"
         >
           ✕
         </button>
 
         {/* Name */}
-        <h2 className="text-2xl font-semibold text-center mb-6">
+        <h2 className="text-xl sm:text-2xl font-semibold text-center mb-6">
           Razia Sultana
         </h2>
 
         {/* Rows */}
-        <div className="space-y-3">
+        <div className="space-y-3 text-sm sm:text-lg">
           {/* ID */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">ID :</p>
@@ -32,7 +32,7 @@ export default function UserDetailsModal({ open, onClose }) {
             <div className="flex items-center gap-3">
               <img
                 src={user}
-                className="w-10 h-10 rounded-full object-cover"
+                className="sm:w-10 w-7 h-7 sm:h-10 rounded-full object-cover"
                 loading="lazy"
               />
               <p className="text-gray-800">Razia Sultana</p>

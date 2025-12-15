@@ -1,5 +1,3 @@
-import { stats } from "../../data/data";
-
 export default function StatsSection({ data }) {
   return (
     <div

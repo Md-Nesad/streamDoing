@@ -2,7 +2,7 @@ import { AlertTriangle } from "lucide-react";
 
 export default function Error({ error }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh]">
+    <div className="flex flex-col items-center justify-center min-h-[62vh]">
       <div className="flex flex-col items-center text-center">
         {/* Icon */}
         <div className="w-16 h-16 flex items-center justify-center rounded-full bg-red-100">
