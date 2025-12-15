@@ -31,10 +31,6 @@ export default function useFetch(url) {
     };
 
     fetchData();
-
-    // return () => {
-    //   isMounted = false;
-    // };
   }, [url]);
 
   return { data, loading, error };

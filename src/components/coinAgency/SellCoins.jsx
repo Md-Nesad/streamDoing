@@ -10,7 +10,7 @@ export default function SellCoins() {
       <p className="text-gray-500 text-md mb-7">Transfer coins from platform</p>
 
       {/* Form */}
-      <form className="grid grid-cols-1 md:grid-cols-2 gap-3 ml-10">
+      <form className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:ml-10">
         {/* Research ID */}
         <div className="flex flex-col gap-2 mb-3">
           <label className="text-sm font-medium text-gray-700">
@@ -62,7 +62,7 @@ export default function SellCoins() {
       </form>
 
       {/* Buttons */}
-      <div className="flex justify-end items-center gap-2 mt-4">
+      <div className="flex justify-center sm:justify-end items-center gap-2 mt-4">
         <button className="px-10 py-1 rounded-md border border-[#CCCCCC] text-[#181717] bg-white hover:bg-gray-200 font-[490]">
           Cancel
         </button>

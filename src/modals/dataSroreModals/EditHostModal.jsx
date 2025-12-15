@@ -8,7 +8,7 @@ export default function EditHostModal({ open, onClose }) {
   const [isPerOn, setIsPerOn] = useState(false);
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white w-full max-w-xl mx-auto rounded-xl p-9 overflow-y-auto max-h-[95vh] hide_scrollbar animatefadeIn">
+      <div className="bg-white w-full max-w-xl mx-auto rounded-xl p-4 sm:p-9 overflow-y-auto max-h-[95vh] hide_scrollbar animatefadeIn">
         <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
           Edit Host Details{" "}
           <span className="text-purple-600 text-sm">

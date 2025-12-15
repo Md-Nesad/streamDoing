@@ -10,24 +10,24 @@ export default function ExchangeRate() {
       <StatsSection data={coinsAgencies} />
 
       {/* button area */}
-      <div className="flex items-center gap-4 bg-[#F4F4F4] w-fit px-2 py-1 rounded mt-5">
+      <div className="flex items-center gap-4 bg-[#F4F4F4] w-full overflow-x-auto hide_scrollbar sm:w-fit px-2 py-1 rounded mt-5 text-nowrap">
         <button
           onClick={() => navigate("/dashboard/coins/rate-transaction")}
-          className="px-6 py-1 rounded-md text-[#3e3e3e] text-md font-medium"
+          className="px-4 sm:px-6 py-1 rounded-md text-[#3e3e3e] text-md font-medium"
         >
           Rate Transaction
         </button>
 
         <button
-          onClick={() => navigate("/dashboard/cooins/exchange-rate")}
-          className="px-6 py-1 rounded-md text-[#3e3e3e] text-md font-medium bg-white drop-shadow-sm"
+          onClick={() => navigate("/dashboard/coins/exchange-rate")}
+          className="px-4 sm:px-6 py-1 rounded-md text-[#3e3e3e] text-md font-medium bg-white drop-shadow-sm"
         >
           Exchange Rate
         </button>
 
         <button
           onClick={() => navigate("/dashboard/coins/master-ledger")}
-          className="px-6 py-1 rounded-md text-[#3e3e3e] text-md font-medium"
+          className="px-4 sm:px-6 py-1 rounded-md text-[#3e3e3e] text-md font-medium"
         >
           Master Ledger
         </button>

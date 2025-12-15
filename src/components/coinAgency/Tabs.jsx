@@ -11,36 +11,36 @@ export default function TabsSection() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex items-center justify-between w-full bg-white mt-7 rounded-lg">
+    <div className="flex sm:flex-row flex-col max-sm:gap-3 items-center justify-between w-full bg-white mt-7 rounded-lg">
       {/* LEFT SIDE LINKS */}
-      <div className="flex items-center gap-4 bg-[#F4F4F4] px-2 py-1 rounded">
+      <div className="flex items-center gap-2 sm:gap-4 bg-[#F4F4F4] px-2 py-1 rounded text-nowrap max-sm:w-full overflow-x-auto hide_scrollbar">
         <button
           onClick={() => navigate("/dashboard/coins/rate-transaction")}
-          className="px-6 py-1 rounded-md text-[#3e3e3e] text-md font-medium bg-white drop-shadow-sm"
+          className="px-4 sm:px-6 py-1 rounded-md text-[#3e3e3e] text-md font-medium bg-white drop-shadow-sm"
         >
           Rate Transaction
         </button>
 
         <button
           onClick={() => navigate("/dashboard/coins/exchange-rate")}
-          className="px-6 py-1 rounded-md text-[#3e3e3e] text-md font-medium"
+          className="px-4 sm:px-6  py-1 rounded-md text-[#3e3e3e] text-md font-medium"
         >
           Exchange Rate
         </button>
 
         <button
           onClick={() => navigate("/dashboard/coins/master-ledger")}
-          className="px-6 py-1 rounded-md text-[#3e3e3e] text-md font-medium"
+          className="px-4 sm:px-6  py-1 rounded-md text-[#3e3e3e] text-md font-medium"
         >
           Master Ledger
         </button>
       </div>
 
       {/* RIGHT SIDE BUTTONS */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 sm:gap-4 text-nowrap max-sm:w-full overflow-x-auto hide_scrollbar">
         <button
           onClick={() => setOpenCoinModal(true)}
-          className="px-8 py-1 rounded-md text-white text-md font-medium bg-linear-to-r from-[#6DA5FF] to-[#F576D6]"
+          className="px-6 sm:px-8 py-1 rounded-md text-white text-md font-medium bg-linear-to-r from-[#6DA5FF] to-[#F576D6]"
         >
           Manual Adjustment
         </button>

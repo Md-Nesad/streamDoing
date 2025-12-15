@@ -5,20 +5,20 @@ export default function RefundModal({ open, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
-      <div className="bg-[#FDFDFD] w-full max-w-2xl rounded-xl shadow-xl p-8 relative animatefadeIn">
+      <div className="bg-[#FDFDFD] w-full max-w-2xl rounded-xl shadow-xl sm:p-8 p-4 relative animatefadeIn">
         {/* Title */}
         <h2 className="text-xl font-semibold text-gray-800">Refund Coin</h2>
         <p className="text-sm text-gray-500 mt-1">Refund coin to all</p>
 
         {/* Form */}
-        <div className="grid grid-cols-2 gap-6 mt-6">
+        <div className="grid sm:grid-cols-2 sm:gap-6 gap-3 mt-6">
           <div>
             <label className="text-sm font-medium text-gray-700">
               User Id/ Transaction Id
             </label>
             <input
               type="text"
-              className="w-full mt-1 border rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
+              className="w-full mt-1 rounded-md px-3 py-1.5 focus:outline-none border border-[#626060]"
             />
           </div>
 
@@ -26,7 +26,7 @@ export default function RefundModal({ open, onClose }) {
             <label className="text-sm font-medium text-gray-700">Balance</label>
             <input
               type="text"
-              className="w-full mt-1 border rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
+              className="w-full mt-1 rounded-md px-3 py-1.5 focus:outline-none border border-[#626060]"
             />
           </div>
 
@@ -36,7 +36,7 @@ export default function RefundModal({ open, onClose }) {
             </label>
             <input
               type="number"
-              className="w-full mt-1 border rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
+              className="w-full mt-1 rounded-md px-3 py-1.5 focus:outline-none border border-[#626060]"
             />
           </div>
 
@@ -44,24 +44,19 @@ export default function RefundModal({ open, onClose }) {
             <label className="text-sm font-medium text-gray-700">
               Category
             </label>
-            <select className="w-full mt-1 border rounded-md px-3 py-2 text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-400 appearance-none">
+            <select className="w-full mt-1 border border-[#626060] rounded-md px-3 py-2 text-gray-500 focus:outline-none  appearance-none">
               <option>Category</option>
             </select>
           </div>
         </div>
 
         {/* Footer Buttons */}
-        <div className="mt-10 flex justify-end gap-4">
-          <button
-            onClick={onClose}
-            className="border px-6 py-2 rounded-md text-gray-700"
-          >
+        <div className="sm:mt-10 mt-6 mb-2 sm:mb-0 flex justify-center sm:justify-end gap-4">
+          <button onClick={onClose} className="border px-6 py-1 btn_white">
             Cancel
           </button>
 
-          <button className="px-8 py-2 rounded-md text-white bg-linear-to-r from-purple-400 to-pink-500 shadow">
-            Confirm
-          </button>
+          <button className="px-8 py-1 btn_gradient">Confirm</button>
         </div>
       </div>
     </div>

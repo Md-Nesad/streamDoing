@@ -17,7 +17,7 @@ export default function AllReportsTable() {
       </div>
 
       {/* table area */}
-      <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mt-7 mb-10">
+      <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mt-4 sm:mt-7 mb-10">
         <table className="w-full text-left border-collapse text-nowrap">
           <thead>
             <tr className="text-[#535353] text-md font-medium">
