@@ -2,11 +2,11 @@ import React from "react";
 
 const SalaryModal = ({ onClose }) => {
   return (
-    <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-      <div className="bg-white rounded-xl p-6 w-[600px] shadow-lg">
+    <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50 max-sm:px-3">
+      <div className="bg-white rounded-xl p-4 sm:p-6 w-[600px] shadow-lg">
         <h2 className="text-lg font-semibold mb-6">Create New Salary Target</h2>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid sm:grid-cols-2 gap-3">
           {/* Target Coin */}
           <div className="flex items-center justify-between">
             <label className="text-sm font-medium text-gray-700">
@@ -89,17 +89,12 @@ const SalaryModal = ({ onClose }) => {
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-end gap-4 mt-8">
-          <button
-            onClick={onClose}
-            className="px-5 py-2 rounded-md border text-gray-600 hover:bg-gray-100"
-          >
+        <div className="mt-10 flex justify-center sm:justify-end gap-4">
+          <button onClick={onClose} className="px-8 py-1 btn_white">
             Cancel
           </button>
 
-          <button className="px-6 py-2 rounded-md text-white bg-linear-to-r from-blue-500 to-pink-500 hover:opacity-90">
-            Create
-          </button>
+          <button className="px-10 py-1 btn_gradient">Create</button>
         </div>
       </div>
     </div>

@@ -33,7 +33,7 @@ const data = [
 
 export default function RevenueDistribution() {
   return (
-    <div className="w-full mx-auto bg-white rounded-xl py-6 px-5 mt-5 shadow-sm font-inter">
+    <div className="w-full mx-auto bg-white rounded-xl py-6 px-5 mt-5 shadow-sm font-inter mb-5">
       <h2 className="text-xl font-semibold text-gray-800 mb-6">
         Revenue Distribution
       </h2>
@@ -45,7 +45,7 @@ export default function RevenueDistribution() {
             <p className="text-sm text-gray-600">{item.total}</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-sm:mb-8">
             {/* Host */}
             <div className="bg-[#E7F5EC] px-4 py-2 rounded-lg border border-[#BDE4CB]">
               <p className="text-sm text-gray-500">Host (60%)</p>

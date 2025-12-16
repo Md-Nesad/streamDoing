@@ -7,32 +7,34 @@ export default function AnalyticsHostTable() {
   const [open, setIsOpen] = useState(false);
   return (
     <>
-      {/* search area */}
-      <div className="flex items-center justify-between mb-4 pt-5 gap-10">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-4 mt-5">
+        {/* Search Input */}
         <input
           type="text"
-          className="border border-[#BBBBBB] outline-[#BBBBBB] w-[76%] px-4 py-1.5 rounded-md"
+          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
           placeholder="Search by ID or name"
         />
-        <div className="flex items-center sm:gap-3 gap-2">
-          <button className="sm:px-5 px-2 py-2  rounded-md bg-[#FFFFFF] border border-[#CCCCCC] font-medium flex items-center gap-2 text-sm sm:text-md">
+
+        {/* Buttons */}
+        <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
+          <button className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto">
             <Funnel size={18} /> Filter
           </button>
-          <button className="sm:px-3 px-1 py-1.5 text-sm sm:text-[17px] bg-[#FFFFFF] border border-[#CCCCCC] rounded-md font-medium">
+          <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-white border border-[#CCCCCC]  rounded-md font-medium w-full sm:w-auto text-nowrap">
             Export Data
           </button>
         </div>
       </div>
 
       {/* table area */}
-      <div className="bg-white p-6 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)] border border-gray-200">
+      <div className="bg-white p-3 sm:p-6 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)] border border-gray-200">
         <h2 className="text-xl font-semibold mb-5">Top Performing Hosts</h2>
 
         <div className="space-y-4">
           {analyticsHost.map((host, index) => (
             <div
               key={index}
-              className="flex items-center justify-between bg-[#F1F3F6] rounded-xl px-5 py-4 border border-gray-200"
+              className="flex flex-col max-sm:gap-5 sm:flex-row sm:items-center sm:justify-between bg-[#F1F3F6] rounded-xl px-3 sm:px-5 py-4 border border-gray-200"
             >
               {/* Left: Image + Info */}
               <div className="flex items-center gap-4">
@@ -53,7 +55,7 @@ export default function AnalyticsHostTable() {
               </div>
 
               {/* Right: Stats */}
-              <div className="flex items-start gap-10 font-medium text-[#181717]">
+              <div className="flex items-start gap-3 sm:gap-10 font-medium text-[#181717]">
                 <div
                   className={`text-white text-xs px-3 py-1 rounded-full ${host.badge.color}`}
                 >
@@ -61,19 +63,23 @@ export default function AnalyticsHostTable() {
                 </div>
 
                 <div className={`${host.country === "Pakistan" ? "pl-4" : ""}`}>
-                  <p className="text-sm text-gray-600 mt-1 text-start">
+                  <p className="text-xs sm:text-sm text-gray-600 mt-1 text-start">
                     {host.country}
                   </p>
                 </div>
 
-                <div className="text-right">
-                  <p className="text-sm text-gray-500">Streaming</p>
-                  <p className="text-blue-600 font-semibold">{host.hours}</p>
+                <div className="text-right mt-1">
+                  <p className="text-xs sm:text-sm text-gray-500">Streaming</p>
+                  <p className="text-blue-600 max-sm:text-xs max-sm:text-left font-semibold">
+                    {host.hours}
+                  </p>
                 </div>
 
-                <div className="text-right">
-                  <p className="text-sm text-gray-500">Diamonds</p>
-                  <p className="text-pink-600 font-semibold">{host.diamonds}</p>
+                <div className="text-right mt-1">
+                  <p className="text-xs sm:text-sm text-gray-500">Diamonds</p>
+                  <p className="text-pink-600 max-sm:text-xs max-sm:text-left font-semibold">
+                    {host.diamonds}
+                  </p>
                 </div>
               </div>
             </div>

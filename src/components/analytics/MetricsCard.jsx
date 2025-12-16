@@ -2,7 +2,7 @@ import { Users, Clock, Gift } from "lucide-react";
 
 export default function MetricsCard() {
   return (
-    <div className="w-full bg-white p-6 pb-10 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)] border border-gray-100 my-5">
+    <div className="w-full bg-white p-3 sm:p-6 pb-10 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)] border border-gray-100 my-5">
       <h3 className="mt-1 mb-5 font-semibold text-[#181717] text-xl">
         User Engagement Metrics
       </h3>

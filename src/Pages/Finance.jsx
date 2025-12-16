@@ -15,7 +15,7 @@ export default function Finance() {
       />
       <StatsSection data={financeCard} />
 
-      <section className="flex items-center mt-7 gap-6 mb-6">
+      <section className="flex flex-col sm:flex-row items-center mt-7 gap-6 mb-6">
         <RevenueChart />
         <PaymentGatewayChart />
       </section>

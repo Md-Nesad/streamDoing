@@ -4,7 +4,7 @@ import flower from "/flower.png";
 
 export default function MenualSetup() {
   return (
-    <div className="w-full min-h-screen flex flex-col md:flex-row gap-6 text-gray-800">
+    <div className="w-full min-h-screen flex flex-col md:flex-row gap-6 text-gray- mb-8">
       {/* Left Section */}
       <div className="w-full md:w-1/2 space-y-6">
         {/* Create PK Battle */}
@@ -36,7 +36,7 @@ export default function MenualSetup() {
           />
 
           {/* Auto Match Mode */}
-          <div>
+          <div className="max-sm:my-2">
             <h2 className="text-sm font-semibold text-[#181717] font-sans mb-0.5">
               Auto-Match Mode
             </h2>

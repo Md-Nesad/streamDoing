@@ -1,6 +1,6 @@
 export default function GiftCategories() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-10 sm:pr-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-5 sm:gap-10 sm:pr-2">
       <div className="bg-[#36A8FF52] py-5 px-8 rounded-md shadow-sm text-center">
         <p className="text-sm text-[#6F6E6E] font-medium mb-3">Romantic</p>
         <h3 className="text-xl font-bold text-[#0C00E6]">45</h3>

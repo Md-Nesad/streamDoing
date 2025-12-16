@@ -25,7 +25,7 @@ export default function PkMasterTab() {
       )}
 
       <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
-        <TabList className="flex items-center gap-5 bg-[#F4F4F4] w-fit px-2 py-1 rounded mb-5">
+        <TabList className="flex items-center gap-5 bg-[#F4F4F4] w-full sm:w-fit overflow-x-auto hide_scrollbar px-2 py-1 rounded mb-5 text-nowrap">
           <Tab
             className="font-sans cursor-pointer"
             selectedClassName="active-tab"

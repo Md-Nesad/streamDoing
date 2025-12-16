@@ -14,7 +14,9 @@ export default function PaymentCards() {
           className="bg-white shadow-md rounded-xl p-6 border border-gray-100"
         >
           {/* Title */}
-          <h2 className="text-2xl font-semibold mb-6">{item.name}</h2>
+          <h2 className="text-2xl max-sm:text-center font-semibold mb-6">
+            {item.name}
+          </h2>
 
           {/* Stats */}
           <div className="flex justify-between mb-2 text-gray-700">

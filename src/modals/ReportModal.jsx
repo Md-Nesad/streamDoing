@@ -8,9 +8,9 @@ import { logData } from "../data/data";
 export default function ReportModal({ open, onClose }) {
   if (!open) return null;
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
-      <div className="bg-[#FDFDFD] w-full max-w-2xl rounded-xl relative animatefadeIn">
-        <div className="flex items-center justify-between px-6 pt-5">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-2 sm:px-4">
+      <div className="bg-[#FDFDFD] w-full max-w-2xl rounded-xl relative animatefadeIn max-sm:h-[95vh] overflow-y-auto">
+        <div className="flex items-center justify-between px-4 sm:px-6 pt-5">
           <div>
             <h2 className="text-[18px] font-semibold">Report Details #1</h2>
             <p className="text-sm text-gray-500 -mt-0.5">
@@ -24,8 +24,8 @@ export default function ReportModal({ open, onClose }) {
         </div>
 
         {/* Tabs */}
-        <Tabs className="pl-5">
-          <TabList className="flex items-center gap-4 bg-[#F4F4F4] w-fit px-2 py-1 rounded mt-6">
+        <Tabs className="px-3 sm:px-5">
+          <TabList className="flex items-center gap-2 sm:gap-4 bg-[#F4F4F4] w-full text-nowrap sm:w-fit px-2 py-1 rounded mt-6 overflow-x-auto max-sm:text-sm">
             <Tab
               className="font-sans cursor-pointer"
               selectedClassName="active-tab"

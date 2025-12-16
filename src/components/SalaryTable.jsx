@@ -8,16 +8,16 @@ export default function SalaryTable() {
   return (
     <>
       <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mt-7 mb-10">
-        <div className="flex items-center justify-between mb-4 px-5">
+        <div className="flex items-center justify-between mb-4 px-3 sm:px-5">
           <h2 className="text-xl font-semibold">Salary Targets</h2>
           <button
             onClick={() => setIsOpen(true)}
-            className="sm:px-5 px-1 py-1.5 text-sm sm:text-[17px] bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium"
+            className="px-5 py-1.5 text-sm sm:text-[17px] bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium"
           >
             Add Target
           </button>
         </div>
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-left border-collapse text-nowrap">
           <thead>
             <tr className="text-[#535353] text-md font-medium">
               <th className="p-3 pl-5">Target</th>

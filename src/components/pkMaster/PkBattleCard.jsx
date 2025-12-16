@@ -6,10 +6,12 @@ export default function PKBattleCard({ battle }) {
   return (
     <div className="w-full mx-auto bg-white shadow-[0_2px_10px_rgba(0,0,0,0.06)] rounded-2xl p-5 mb-5">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{title}</h1>
+      <div className="flex flex-col max-sm:gap-2 sm:flex-row items-center justify-between">
+        <h1 className="text-xl sm:text-2xl font-bold">{title}</h1>
 
-        <div className="text-2xl font-semibold tracking-wider">{timer}</div>
+        <div className="text-xl sm:text-2xl font-semibold tracking-wider">
+          {timer}
+        </div>
 
         <button className="flex items-center gap-2 bg-[#D84CCA] text-white px-4 py-2 rounded-md text-sm font-medium">
           <span className="w-5 h-5 bg-white rounded-full flex items-center justify-center">
@@ -20,7 +22,7 @@ export default function PKBattleCard({ battle }) {
       </div>
 
       {/* Body */}
-      <div className="grid grid-cols-3 mt-7 items-start">
+      <div className="grid sm:grid-cols-3 mt-7 items-start">
         {/* Left */}
         <div className="flex flex-col items-start gap-3">
           <div className="flex items-center gap-4">
@@ -54,15 +56,15 @@ export default function PKBattleCard({ battle }) {
         </div>
 
         {/* VS */}
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center max-sm:mb-5 max-sm:-mt-3">
           <div className="w-20 h-20 rounded-full bg-[#FF95F8] text-white text-2xl font-semibold flex items-center justify-center mt-10">
             VS
           </div>
         </div>
 
         {/* Right */}
-        <div className="flex flex-col items-end gap-3">
-          <div className="flex items-center gap-4 flex-row-reverse">
+        <div className="flex flex-col sm:items-end gap-3">
+          <div className="flex items-center gap-4 sm:flex-row-reverse">
             <div
               className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl font-semibold text-white 
               ${right.color === "pink" ? "bg-pink-400" : "bg-violet-400"}`}
@@ -76,7 +78,7 @@ export default function PKBattleCard({ battle }) {
             </div>
           </div>
 
-          <div className="text-sm text-gray-700 leading-6 text-right">
+          <div className="text-sm text-gray-700 leading-6 sm:text-right">
             <p>Agent ID: {right.agentId}</p>
             <p>User ID: {right.userId}</p>
             <p>Location: {right.location}</p>
@@ -87,32 +89,36 @@ export default function PKBattleCard({ battle }) {
             className={`rounded-xl px-5 py-3 w-full 
             ${right.color === "pink" ? "bg-[#FAD0FF]" : "bg-[#E0D0FF]"}`}
           >
-            <p className="text-right text-gray-700 text-sm">Diamonds</p>
-            <p className="text-2xl font-bold text-right">{right.diamonds}</p>
+            <p className="sm:text-right text-gray-700 text-sm">Diamonds</p>
+            <p className="text-2xl font-bold sm:text-right">{right.diamonds}</p>
           </div>
         </div>
       </div>
 
       {/* Footer Buttons */}
-      <div className="flex justify-center gap-6 mt-5">
-        <button className="px-3 h-9 rounded-md bg-[#FFFFFF] border border-[#CCCCCC] font-medium flex items-center gap-2 sm:text-md">
-          <Eye size={18} /> View Details
-        </button>
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mt-5">
+        <div className="flex gap-2 sm:gap-6 items-center">
+          <button className="px-3 h-9 rounded-md bg-[#FFFFFF] border border-[#CCCCCC] font-medium flex items-center gap-2 sm:text-md">
+            <Eye size={18} /> View Details
+          </button>
 
-        <button className="flex items-center gap-2 bg-[#FF84F3] text-white px-4 h-9 rounded-md text-sm font-medium">
-          <span className="w-5 h-5 bg-[#FF84F3] border border-white rounded-full flex items-center justify-center">
-            <Play className="color-white ml-0.5" size={13} />
-          </span>
-          Live View
-        </button>
+          <button className="flex items-center gap-2 bg-[#FF84F3] text-white px-4 h-9 rounded-md text-sm font-medium">
+            <span className="w-5 h-5 bg-[#FF84F3] border border-white rounded-full flex items-center justify-center">
+              <Play className="color-white ml-0.5" size={13} />
+            </span>
+            Live View
+          </button>
+        </div>
 
-        <button className="px-3 h-9 rounded-md bg-[#FFFFFF] border border-[#CCCCCC] font-medium flex items-center gap-2 sm:text-md">
-          <SquarePen size={18} /> Edit
-        </button>
+        <div className="flex gap-2 sm:gap-6 items-center">
+          <button className="px-10 sm:px-3 h-9 rounded-md bg-[#FFFFFF] border border-[#CCCCCC] font-medium flex items-center gap-2 sm:text-md">
+            <SquarePen size={18} /> Edit
+          </button>
 
-        <button className="px-3 h-9 rounded-md bg-[#FFFFFF] border border-[#CCCCCC] font-medium flex items-center gap-2 sm:text-md">
-          <X size={18} /> End
-        </button>
+          <button className="px-10 sm:px-3 h-9 rounded-md bg-[#FFFFFF] border border-[#CCCCCC] font-medium flex items-center gap-2 sm:text-md">
+            <X size={18} /> End
+          </button>
+        </div>
       </div>
     </div>
   );

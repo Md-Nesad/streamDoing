@@ -27,16 +27,16 @@ export default function CompleteBattle() {
       {userCards.map((card, i) => (
         <div
           key={i}
-          className="w-full p-6 bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)]"
+          className="w-full p-3 sm:p-6 bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)]"
         >
           {/* Header */}
-          <div className="flex items-center justify-between bg-[#FFD6FA] p-4 rounded-t-xl">
-            <h2 className="text-2xl font-semibold text-gray-800">
+          <div className="flex flex-col sm:flex-row max-sm:gap-3 items-center justify-between bg-[#FFD6FA] p-4 rounded-xl sm:rounded-t-xl">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
               PK Battle #{i + 1}
             </h2>
 
-            <div className="flex items-center gap-3">
-              <span className="px-4 py-2 rounded-xl bg-[#D84CCA] text-white text-sm font-medium">
+            <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-3">
+              <span className="px-4 max-sm:text-sm py-2 rounded-xl bg-[#D84CCA] text-white text-sm font-medium">
                 Completed
               </span>
 
@@ -47,9 +47,9 @@ export default function CompleteBattle() {
           </div>
 
           {/* Main content */}
-          <div className="mt-6 flex items-start justify-between gap-6">
+          <div className="mt-6 flex flex-col sm:flex-row items-start justify-between gap-6">
             {/* LEFT CARD */}
-            <div className="w-1/2 border rounded-xl p-3 border-[#FF95F8] bg-[#FFFBFF]">
+            <div className="w-full sm:w-1/2 border rounded-xl p-3 border-[#FF95F8] bg-[#FFFBFF]">
               <h3 className="text-[#BC1ED3] font-semibold text-md mb-3 flex gap-2 items-center">
                 <Trophy size={22} /> Winner
               </h3>
@@ -85,16 +85,16 @@ export default function CompleteBattle() {
             </div>
 
             {/* VS Divider */}
-            <div className="flex flex-col justify-center my-auto">
-              <div className="w-16 h-16 rounded-full bg-[#FF95F8] text-white text-3xl font-semibold flex items-center justify-center">
+            <div className="flex flex-col justify-center my-auto max-sm:mx-auto">
+              <div className="w-16 h-16 rounded-full bg-[#FF95F8] text-white text-3xl font-semibold flex items-center justify-center ">
                 VS
               </div>
             </div>
 
             {/* RIGHT CARD */}
-            <div className="w-1/2 border rounded-xl p-3 border-purple-300 bg-purple-50/60">
+            <div className="w-full sm:w-1/2 border rounded-xl p-3 border-purple-300 bg-purple-50/60">
               {/* Avatar + name (mirrored) */}
-              <div className="flex items-center gap-4 flex-row-reverse w-full text-right mt-9">
+              <div className="flex items-center gap-4 sm:flex-row-reverse w-full text-right sm:mt-9">
                 <div className="w-14 h-14 bg-[#A595FF] text-white rounded-full flex items-center justify-center text-2xl font-bold">
                   S
                 </div>
@@ -108,7 +108,7 @@ export default function CompleteBattle() {
               </div>
 
               {/* Details (right aligned) */}
-              <div className="mt-4 text-sm text-gray-700 space-y-1 text-right">
+              <div className="mt-4 text-sm text-gray-700 space-y-1 sm:text-right">
                 <p>Agent ID: {card.agentId}</p>
                 <p>User ID: {card.userId}</p>
                 <p>Location: {card.location}</p>
@@ -116,7 +116,7 @@ export default function CompleteBattle() {
               </div>
 
               {/* Diamonds (right aligned) */}
-              <div className="mt-5 px-4 py-3 rounded-lg bg-purple-200/50 space-y-1 text-right">
+              <div className="mt-5 px-4 py-3 rounded-lg bg-purple-200/50 space-y-1 sm:text-right">
                 <p className="text-xs text-gray-600">Diamonds</p>
                 <p className="text-2xl font-semibold text-gray-800">
                   {card.diamonds}
@@ -126,7 +126,7 @@ export default function CompleteBattle() {
           </div>
 
           {/* Footer buttons (inside each card) */}
-          <div className="flex justify-center gap-6 mt-5">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mt-5">
             <button className="px-3 h-9 rounded-md bg-[#FFFFFF] border border-[#CCCCCC] font-medium flex items-center gap-2 sm:text-md">
               <Eye size={18} /> View Result Details
             </button>
