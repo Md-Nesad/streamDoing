@@ -42,6 +42,7 @@ export default function AnalyticsHostTable() {
                   src={host.img}
                   alt={host.name}
                   className="w-14 h-14 rounded-full object-cover border"
+                  loading="lazy"
                 />
                 <div
                   role="button"

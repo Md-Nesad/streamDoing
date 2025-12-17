@@ -3,7 +3,7 @@ import PkBattleCard from "./PkBattleCard";
 
 export default function PKBattleList() {
   return (
-    <div className="pb-20">
+    <div className="pb-5">
       {pkBattles.map((battle) => (
         <PkBattleCard key={battle.id} battle={battle} />
       ))}

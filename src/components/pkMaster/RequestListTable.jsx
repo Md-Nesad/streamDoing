@@ -12,7 +12,7 @@ export default function RequestListTable() {
   return (
     <>
       {/* table area */}
-      <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto">
+      <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mb-10">
         <div className="mb-4 px-2 flex gap-10">
           <input
             type="text"
