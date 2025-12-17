@@ -9,7 +9,7 @@ export default function DashboardLayout() {
         <AdminHeader />
       </header>
 
-      <div className="flex flex-1 overflow-hidden pt-3 mt-30 hide_scrollbar">
+      <div className="flex flex-1 overflow-hidden hide_scrollbar pt-3 mt-30">
         <aside className="lg:w-55 lg:mr-13">
           <Sidebar />
         </aside>

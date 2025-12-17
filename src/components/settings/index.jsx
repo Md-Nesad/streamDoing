@@ -5,7 +5,7 @@ export default function SettingsPage() {
   const [toggle, setToggle] = useState(true);
 
   return (
-    <div className="w-full min-h-screen">
+    <div className="w-full min-h-screen mb-10">
       {/* Platform Configuration */}
       <div className="bg-white shadow-[0_2px_6px_rgba(0,0,0,0.06)] rounded-xl px-5 py-4 space-y-6">
         <h2 className="font-semibold text-lg">Platform Configuration</h2>

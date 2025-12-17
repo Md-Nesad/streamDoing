@@ -31,6 +31,8 @@ import CoinAgency from "./Pages/dataStore/CoinManagement";
 import SupportAgency from "./Pages/dataStore/SupportAgency";
 import DeleteBan from "./Pages/dataStore/DeleteBan";
 import AdminLogin from "./Pages/Login";
+import NotificationCenter from "./Pages/NotificationCenter";
+import InboxAssests from "./Pages/InboxAssests";
 
 export default function App() {
   return (
@@ -78,6 +80,11 @@ export default function App() {
             <Route path="kyc-centre" element={<KycCenter />} />
             <Route path="salary-target" element={<SalaryTarget />} />
             <Route path="gifts-assets" element={<GiftAndAssests />} />
+            <Route
+              path="notification-center"
+              element={<NotificationCenter />}
+            />
+            <Route path="inbox" element={<InboxAssests />} />
             <Route path="settings" element={<Setting />} />
             {/* data store routes */}
             <Route path="host-management" element={<HostManagement />} />
