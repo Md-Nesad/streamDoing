@@ -33,7 +33,7 @@ export default function CoinAgencyTable() {
                 <td className="p-3">{item.date}</td>
                 <td className="p-3">
                   <span
-                    className={`px-4 py-1 text-xs ${
+                    className={`px-4 py-1 text-xs w-23 text-center block ${
                       item.status === "Completed"
                         ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                         : "bg-[#FF929296] text-[#D21B20]"

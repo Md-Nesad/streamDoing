@@ -1,6 +1,6 @@
 export default function ActionLog({ logData }) {
   return (
-    <div className="w-full bg-[#FFFFFF] shadow-[0_2px_10px_rgba(0,0,0,0.06)] rounded-xl p-3 sm:p-5 mt-6">
+    <div className="w-full bg-[#FFFFFF] shadow-[0_2px_10px_rgba(0,0,0,0.06)] rounded-xl p-3 sm:p-5 mt-6 mb-10">
       {/* Tiers */}
       <div className="flex flex-col gap-4">
         {logData.map((t, i) => (

@@ -58,7 +58,7 @@ export default function AnalyticsHostTable() {
               {/* Right: Stats */}
               <div className="flex items-start gap-3 sm:gap-10 font-medium text-[#181717]">
                 <div
-                  className={`text-white text-xs px-3 py-1 rounded-full ${host.badge.color}`}
+                  className={`text-white text-xs px-3 py-1 sm:mt-1 rounded-full ${host.badge.color}`}
                 >
                   {host.badge.level}
                 </div>

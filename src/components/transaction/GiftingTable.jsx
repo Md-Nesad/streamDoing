@@ -1,9 +1,8 @@
 import { Ellipsis, Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { hostAgencies } from "../../data/data";
-
+import giftImage from "../../assests/giftImage.png";
 export default function GiftingTable() {
-  const navigate = useNavigate();
   return (
     <>
       {/* search area */}
@@ -49,13 +48,22 @@ export default function GiftingTable() {
                 className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
               >
                 <td className="p-3">GFT-042 </td>
-                <td className="p-3">{host.name}</td>
+                <td className="p-3">
+                  <img
+                    src={giftImage}
+                    alt="Sender GIft image"
+                    width={35}
+                    height={35}
+                    loading="lazy"
+                    className="ml-5"
+                  />
+                </td>
                 <td className="p-3">Paper Crane</td>
                 <td className="p-3">001000</td>
                 <td className="p-3">002000</td>
                 <td className="p-3">007000</td>
                 <td className="p-3">50k</td>
-                <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                <td className="p-3 text-[#181717] text-sm font-semibold cursor-pointer flex gap-5 items-center">
                   01-11-2025 21:55
                 </td>
               </tr>

@@ -1,5 +1,6 @@
-import { Ban, Eye, Mic, Video } from "lucide-react";
+import { Activity, Ban, Eye, Mic, UserRound, Video } from "lucide-react";
 import { hostAgencies } from "../data/data";
+import star from "../assests/star.png";
 
 export default function LiveStreamTable() {
   return (
@@ -38,18 +39,27 @@ export default function LiveStreamTable() {
                 <td className="p-3">{host.hostId}</td>
                 <td className="p-3">{host.name}</td>
                 <td className="p-3">{host.balance}</td>
-                <td className="p-3">{host.diamonds}</td>
-                <td className="p-3">{host.revenue}</td>
+                <td className="p-3">
+                  <span className="p-1 text-xs bg-linear-to-b from-[#FA77BD] to-[#940C44] rounded-lg font-semibold text-white flex items-center gap-2 w-13">
+                    <img src={star} alt="" className="w-4 h-4" /> Lv1
+                  </span>
+                </td>
+                <td className="p-3">
+                  <span className="flex gap-1 items-center">
+                    <UserRound
+                      strokeWidth={1}
+                      size={16}
+                      className="text-[#1F80FF]"
+                    />{" "}
+                    1,456
+                  </span>
+                </td>
                 <td className="p-3">{host.country}</td>
                 <td className="p-3">
                   <span
-                    className={`px-4 py-1 text-xs ${
-                      host.status === "active"
-                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                        : "bg-[#FF929296] text-[#D21B20]"
-                    } text-[#005D23] rounded-full font-semibold`}
+                    className={`px-4 py-1 text-sm bg-linear-to-r from-[#2FB6FF] to-[#447FFF] rounded-full text-white opacity-70 flex gap-3 items-center w-21`}
                   >
-                    {host.status}
+                    <Activity size={15} /> Live
                   </span>
                 </td>
                 <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

@@ -31,7 +31,7 @@ export default function RateTransactionTable() {
                 <td className="p-3">{item.date}</td>
                 <td className="p-3">
                   <span
-                    className={`px-4 py-1 text-xs ${
+                    className={`px-4 py-1 text-xs text-center block w-23 ${
                       item.status === "Completed"
                         ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                         : "bg-[#FF929296] text-[#D21B20]"

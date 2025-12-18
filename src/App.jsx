@@ -11,7 +11,6 @@ import AddHostAgency from "./Pages/agencies/AddHostAgency";
 import AddCoinAgency from "./Pages/agencies/AddCoinAgency";
 import AddMasterAgency from "./Pages/agencies/AddMasterAgency";
 import AddAdminAgency from "./Pages/agencies/AddAdminAgency";
-import Users from "./Pages/Users";
 import Transaction from "./Pages/Transaction";
 import LiveStreams from "./Pages/LiveStreams";
 import Moderation from "./Pages/Moderation";
@@ -33,6 +32,7 @@ import DeleteBan from "./Pages/dataStore/DeleteBan";
 import AdminLogin from "./Pages/Login";
 import NotificationCenter from "./Pages/NotificationCenter";
 import InboxAssests from "./Pages/InboxAssests";
+import DashboardUsers from "./Pages/Users";
 
 export default function App() {
   return (
@@ -70,7 +70,7 @@ export default function App() {
               path="agencies/add-admin-agency"
               element={<AddAdminAgency />}
             />
-            <Route path="users" element={<Users />} />
+            <Route path="users" element={<DashboardUsers />} />
             <Route path="transaction-history" element={<Transaction />} />
             <Route path="live-streams" element={<LiveStreams />} />
             <Route path="moderation" element={<Moderation />} />

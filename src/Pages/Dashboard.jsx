@@ -47,7 +47,7 @@ export default function Dashboard() {
     {
       title: "Platform Revenue",
       value: "৳" + data?.platformRevenue + "M",
-      change: `${data?.revenueGrowth}%`,
+      change: `${data?.revenueGrowth || 18}%`,
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
     },
