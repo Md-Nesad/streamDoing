@@ -12,12 +12,13 @@ export default function DashboardUsers() {
   const usersStats = useFetch(`${BASE_URL}/admin/users/stats`);
   const usersList = useFetch(`${BASE_URL}/admin/users?page=${page}&limit=10`);
 
-  const statsData = usersStats.data;
   const loading = usersStats.loading;
   const error = usersStats.error || usersList.error;
 
-  if (loading) return <Loading />;
+  const statsData = usersStats.data;
+  const usersListData = usersList.data;
 
+  if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 
   const usersCard = [
@@ -45,7 +46,7 @@ export default function DashboardUsers() {
     {
       title: "Premium Users",
       value: statsData?.premiumUsers,
-      change: `${statsData?.revenueGrowth || 18}%`,
+      change: `${statsData?.revenueGrowth || 0}%`,
       icon: Crown,
       iconBg: "bg-gradient-to-b from-[#1931B8] to-[#61B3BF]",
     },
@@ -54,7 +55,12 @@ export default function DashboardUsers() {
     <div>
       <StatsSection data={usersCard} />
 
-      <UsersTable usersList={usersList} page={page} setPage={setPage} />
+      <UsersTable
+        usersList={usersListData}
+        page={page}
+        setPage={setPage}
+        loading={usersList.loading}
+      />
     </div>
   );
 }

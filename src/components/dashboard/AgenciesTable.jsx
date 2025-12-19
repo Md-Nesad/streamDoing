@@ -1,8 +1,7 @@
 import { Ellipsis, Funnel } from "lucide-react";
-import { tableData } from "../../data/data";
 import star from "../../assests/star.png";
 
-export default function AgenciesTable() {
+export default function AgenciesTable({ agenciesData }) {
   return (
     <div className="w-full mt-7 mb-10">
       {/* Card Container */}
@@ -42,42 +41,54 @@ export default function AgenciesTable() {
             </thead>
 
             <tbody>
-              {tableData.map((row, index) => (
-                <tr
-                  key={index}
-                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-                >
-                  <td className="p-3 font-medium pl-5">{row.id}</td>
-                  <td className="p-3">{row.name}</td>
-                  <td className="p-3">
-                    <span className="px-3 py-1 text-xs bg-[#B31d84] text-white rounded-full font-semibold">
-                      {row.type}
-                    </span>
-                  </td>
-                  <td className="p-3">
-                    {row.level && (
+              {agenciesData?.length > 0 ? (
+                agenciesData?.map((agency, index) => (
+                  <tr
+                    key={index}
+                    className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                  >
+                    <td className="p-3 font-medium pl-5">
+                      {agency.displayId || "N/A"}
+                    </td>
+                    <td className="p-3">{agency.name || "N/A"}</td>
+                    <td className="p-3">
+                      <span className="px-3 py-1 text-xs bg-[#B31d84] text-white rounded-full font-semibold">
+                        {agency.type.charAt(0).toUpperCase() +
+                          agency.type.slice(1)}
+                      </span>
+                    </td>
+                    <td className="p-3">
                       <span className="p-1 text-xs bg-linear-to-b from-[#5DB90A] to-[#175111] rounded-lg font-semibold text-white flex items-center gap-1 w-14">
                         <img src={star} alt="" className="w-4 h-4" />{" "}
-                        {row.level}
+                        {agency.level || "N/A"}
                       </span>
-                    )}
-                  </td>
-                  <td className="p-3">{row.diamonds}</td>
-                  <td className="p-3">{row.beans}</td>
-                  <td className="xl:p-3 px-7">{row.coinSell}</td>
-                  <td className="xl:p-3 px-7">{row.coinBuy}</td>
-                  <td className="p-3">{row.location}</td>
-                  <td className="p-3">
-                    <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
-                      {row.status}
-                    </span>
-                  </td>
-                  <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                    <span className="font-semibold">View</span>{" "}
-                    <Ellipsis size={17} />
+                    </td>
+                    <td className="p-3">{agency.diamonds}M</td>
+                    <td className="p-3">{agency.coins}k</td>
+                    <td className="xl:p-3 px-7">{agency.coinSell || "N/A"}</td>
+                    <td className="xl:p-3 px-7">{agency.coinBuy || "N/A"}</td>
+                    <td className="p-3">{agency.country || "N/A"}</td>
+                    <td className="p-3">
+                      <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
+                        {agency.status}
+                      </span>
+                    </td>
+                    <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                      <span className="font-semibold">View</span>{" "}
+                      <Ellipsis size={17} />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr className="border-t border-[#DFDFDF]">
+                  <td
+                    colSpan={9}
+                    className="text-center pt-5 text-[#555] font-medium"
+                  >
+                    No agencies found.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

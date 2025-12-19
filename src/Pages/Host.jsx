@@ -4,15 +4,16 @@ import HostTable from "../components/host/HostTable";
 import useFetch from "../hooks/useFetch";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
-
-const API = import.meta.env.VITE_API_BASE_URL;
+import { BASE_URL } from "../utility/utility";
 
 export default function Host() {
-  const host = useFetch(`${API}/dashboard/host-stats`);
+  const host = useFetch(`${BASE_URL}/dashboard/host-stats`);
+  const hostList = useFetch(`${BASE_URL}/dashboard/hosts?page=1&limit=10`);
 
   const data = host.data;
-  const loading = host.loading;
-  const error = host.error;
+  const hostListData = hostList?.data;
+  const loading = host.loading || hostList.loading;
+  const error = host.error || hostList.error;
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
@@ -42,7 +43,7 @@ export default function Host() {
     {
       title: "Platform Revenue",
       value: data?.platFormRevenue + "M",
-      change: "+" + data?.revenueGrowth + " %" || "0 %",
+      change: `+${data?.revenueGrowth}%`,
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
     },
@@ -50,7 +51,7 @@ export default function Host() {
   return (
     <div>
       <StatsSection data={hosts} />
-      <HostTable />
+      <HostTable hostListData={hostListData} />
     </div>
   );
 }

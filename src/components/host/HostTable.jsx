@@ -1,7 +1,9 @@
 import { Ellipsis, Eye, Funnel } from "lucide-react";
-import { users } from "../../data/data";
+import { hosts } from "../../data/data";
+import { useState } from "react";
 
-export default function HostTable() {
+export default function HostTable({ hostListData }) {
+  const [hostList, setHostList] = useState(hostListData?.hosts);
   return (
     <>
       {/* search area */}
@@ -43,49 +45,58 @@ export default function HostTable() {
           </thead>
 
           <tbody>
-            {users.map((user, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 font-medium pl-5 max-xl:w-40">
-                  {user.userId}
-                </td>
-                <td className="p-3 max-xl:w-40">{user.name}</td>
-                <td className="p-3">
-                  {user.level && (
+            {hostList?.length > 0 ? (
+              hostList?.map((host) => (
+                <tr
+                  key={host._id}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 font-medium pl-5 max-xl:w-40">
+                    {host.hostId}
+                  </td>
+                  <td className="p-3 max-xl:w-40">{host.name || "-"}</td>
+                  <td className="p-3">
                     <span
-                      className={`px-3 pb-1 pt-0.5 text-xs ${user.bgColor} text-[#FFFFFF] rounded-lg font-semibold`}
+                      className={`px-3 pb-1 pt-0.5 text-xs ${host.bgColor} text-[#FFFFFF] rounded-lg font-semibold`}
                     >
-                      {user.level}
+                      {host.level}
                     </span>
-                  )}
-                </td>
-                <td className="p-3">
-                  {user.crown && (
-                    <span
-                      className={`px-3 pb-1 pt-0.5 text-xs ${user.crownBg} text-[#FFFFFF] rounded-lg font-semibold`}
-                    >
-                      {user.crown}
+                  </td>
+                  <td className="p-3">
+                    {host.crown && (
+                      <span
+                        className={`px-3 pb-1 pt-0.5 text-xs ${host.crownBg} text-[#FFFFFF] rounded-lg font-semibold`}
+                      >
+                        {host.crown}
+                      </span>
+                    )}
+                  </td>
+                  <td className="p-3">{host.diamonds}</td>
+                  <td className="p-3">{host.beans}</td>
+                  <td className="p-3">{host.location}</td>
+                  <td className="p-3">
+                    <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
+                      {host.status}
                     </span>
-                  )}
-                </td>
-                <td className="p-3">{user.diamonds}</td>
-                <td className="p-3">{user.beans}</td>
-                <td className="p-3">{user.location}</td>
-                <td className="p-3">
-                  <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
-                    {user.status}
-                  </span>
-                </td>
-                <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                  <Eye size={17} />
-                  <span>
-                    <Ellipsis size={17} />
-                  </span>
+                  </td>
+                  <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                    <Eye size={17} />
+                    <span>
+                      <Ellipsis size={17} />
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF]">
+                <td
+                  colSpan={9}
+                  className="text-center pt-5 text-[#555] font-medium"
+                >
+                  No Host Found.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

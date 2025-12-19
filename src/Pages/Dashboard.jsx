@@ -5,23 +5,28 @@ import StatsSection from "../components/dashboard/StatsCard";
 import useFetch from "../hooks/useFetch";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
-
-const API = import.meta.env.VITE_API_BASE_URL;
+import { BASE_URL } from "../utility/utility";
 
 export default function Dashboard() {
-  const summary = useFetch(`${API}/dashboard/summary`);
-  const liveStats = useFetch(`${API}/dashboard/live-stats`);
-  // const agencies = useFetch(`${API}/dashboard/agencies`);
+  const summary = useFetch(`${BASE_URL}/dashboard/summary`);
+  const liveStats = useFetch(`${BASE_URL}/dashboard/live-stats`);
+  const agenciesOverview = useFetch(
+    `${BASE_URL}/dashboard/agencies-overview?page=1&limit=30`
+  );
 
-  const loading = summary.loading || liveStats.loading;
+  const loading =
+    summary.loading || liveStats.loading || agenciesOverview.loading;
+  const error = summary.error || liveStats.error || agenciesOverview.error;
 
-  const error = summary.error || liveStats.error;
+  //store data in variables
+  const data = summary.data;
+  const agenciesData = agenciesOverview?.data?.agencies;
 
+  // handaling loading and error
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 
-  const data = summary.data;
-
+  // create dashboard stats
   const dashboardStats = [
     {
       title: "Total Users",
@@ -47,7 +52,7 @@ export default function Dashboard() {
     {
       title: "Platform Revenue",
       value: "৳" + data?.platformRevenue + "M",
-      change: `${data?.revenueGrowth || 18}%`,
+      change: `+${data?.revenueGrowth}%`,
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
     },
@@ -68,7 +73,7 @@ export default function Dashboard() {
       </section>
 
       {/* Agencies table */}
-      <AgenciesTable />
+      <AgenciesTable agenciesData={agenciesData} />
     </>
   );
 }
