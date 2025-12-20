@@ -68,6 +68,7 @@ export const menuItems = [
     link: "/dashboard/notification-center",
   },
   { title: "Inbox Assets", icon: MessageCircleMore, link: "/dashboard/inbox" },
+  { title: "Support", icon: Gift, link: "/dashboard/support" },
   // data store links
   { title: "Host", icon: ShieldCheck, link: "/dashboard/host-management" },
   { title: "Host Agency", icon: BarChart3, link: "/dashboard/host-agency" },
@@ -75,7 +76,6 @@ export const menuItems = [
   { title: "User", icon: Trophy, link: "/dashboard/user-management" },
   { title: "Admin Agency", icon: IdCard, link: "/dashboard/admin-agency" },
   { title: "Coin Agency", icon: Target, link: "/dashboard/coin-agency" },
-  { title: "Support", icon: Gift, link: "/dashboard/support" },
   { title: "Delete/Ban", icon: Gift, link: "/dashboard/delete-ban" },
   { title: "Settings", icon: Settings, link: "/dashboard/settings" },
 ];
