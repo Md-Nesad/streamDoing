@@ -1,8 +1,73 @@
 import { Save } from "lucide-react";
 import { useState } from "react";
+import useJsonPost from "../../hooks/useJsonPost";
+import { BASE_URL } from "../../utility/utility";
 
 export default function SettingsPage() {
-  const [toggle, setToggle] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [platformConfig, setPlatformConfig] = useState({
+    streamDoingLive: "",
+    supportEmail: "",
+  });
+
+  const [userSettings, setUserSettings] = useState({
+    livestreamUnlockLevel: 0,
+    newUserRegistration: false,
+  });
+
+  const [currencySettings, setCurrencySettings] = useState({
+    diamondToBDT: { diamonds: 0, bdt: 0 },
+    beanToDiamond: { beans: 0, diamonds: 0 },
+  });
+
+  const [commissionSettings, setCommissionSettings] = useState({
+    hostAgencyCommission: 0,
+    masterCoinPortal: 0,
+    coinAgency: 0,
+  });
+
+  const [monthlySettings, setMonthlySettings] = useState({
+    monthlyDiamondReset: false,
+  });
+  const handleSubmit = useJsonPost(`${BASE_URL}/admin/platform-settings`);
+
+  const handleSave = async () => {
+    if (
+      platformConfig.streamDoingLive === "" ||
+      platformConfig.supportEmail === ""
+    ) {
+      return alert("Streamdoing Live and Support Email are required");
+    }
+    setLoading(true);
+
+    const data = {
+      platformConfig,
+      userSettings,
+      currencySettings,
+      commissionSettings,
+      monthlySettings,
+    };
+
+    const result = await handleSubmit(data);
+
+    if (result?.success === false) {
+      alert(result.message);
+    } else {
+      alert(result.message || "Saved successfully");
+    }
+
+    platformConfig.streamDoingLive = "";
+    platformConfig.supportEmail = "";
+    userSettings.livestreamUnlockLevel = 0;
+    userSettings.newUserRegistration = false;
+    currencySettings.diamondToBDT = { diamonds: 0, bdt: 0 };
+    currencySettings.beanToDiamond = { beans: 0, diamonds: 0 };
+    commissionSettings.hostAgencyCommission = 0;
+    commissionSettings.masterCoinPortal = 0;
+    commissionSettings.coinAgency = 0;
+    monthlySettings.monthlyDiamondReset = false;
+    setLoading(false);
+  };
 
   return (
     <div className="w-full min-h-screen mb-10">
@@ -16,7 +81,14 @@ export default function SettingsPage() {
             <input
               className="border rounded-md w-full px-3 py-2 text-sm outline-none"
               type="text"
-              defaultValue="Streamdoing Live"
+              value={platformConfig.streamDoingLive}
+              placeholder="Streamdoing Live"
+              onChange={(e) =>
+                setPlatformConfig({
+                  ...platformConfig,
+                  streamDoingLive: e.target.value,
+                })
+              }
             />
           </div>
 
@@ -25,7 +97,14 @@ export default function SettingsPage() {
             <input
               className="border rounded-md w-full px-3 py-2 text-sm outline-none"
               type="email"
-              defaultValue="support@streamkar.live"
+              value={platformConfig.supportEmail}
+              placeholder="Support Email"
+              onChange={(e) =>
+                setPlatformConfig({
+                  ...platformConfig,
+                  supportEmail: e.target.value,
+                })
+              }
             />
           </div>
         </div>
@@ -45,7 +124,13 @@ export default function SettingsPage() {
             </div>
             <input
               type="number"
-              defaultValue={3}
+              value={userSettings.livestreamUnlockLevel}
+              onChange={(e) =>
+                setUserSettings({
+                  ...userSettings,
+                  livestreamUnlockLevel: Number(e.target.value),
+                })
+              }
               className="px-3 py-1 border border-[#AAAAAA] rounded w-[60px] text-center pl-5"
             />
           </div>
@@ -60,18 +145,25 @@ export default function SettingsPage() {
               </p>
             </div>
 
-            <button
-              onClick={() => setToggle(!toggle)}
-              className={`w-11 h-6 flex items-center rounded-full transition px-1 ${
-                toggle ? "bg-pink-500" : "bg-gray-300"
+            <div
+              onClick={() =>
+                setUserSettings({
+                  ...userSettings,
+                  newUserRegistration: !userSettings.newUserRegistration,
+                })
+              }
+              className={`w-10 h-3 rounded-full cursor-pointer flex items-center transition-all duration-300 ${
+                userSettings.newUserRegistration ? "bg-pink-400" : "bg-pink-200"
               }`}
             >
               <div
-                className={`bg-white w-4 h-4 rounded-full shadow transform transition ${
-                  toggle ? "translate-x-5" : "translate-x-0"
+                className={`w-5 h-5 rounded-full shadow-xl transition-all duration-300 bg-linear-to-br from-pink-600 to-pink-400 relative ${
+                  userSettings.newUserRegistration
+                    ? "translate-x-5"
+                    : "translate-x-0"
                 }`}
               ></div>
-            </button>
+            </div>
           </div>
         </div>
       </div>
@@ -87,7 +179,16 @@ export default function SettingsPage() {
             </label>
             <input
               type="number"
-              defaultValue={100000}
+              value={currencySettings.diamondToBDT.diamonds}
+              onChange={(e) =>
+                setCurrencySettings({
+                  ...currencySettings,
+                  diamondToBDT: {
+                    ...currencySettings.diamondToBDT,
+                    diamonds: Number(e.target.value),
+                  },
+                })
+              }
               className="border rounded-md w-full px-3 py-2"
             />
           </div>
@@ -97,7 +198,16 @@ export default function SettingsPage() {
           <input
             className="border rounded-md px-3 py-2 w-full sm:mt-5"
             type="number"
-            defaultValue={900}
+            value={currencySettings.diamondToBDT.bdt}
+            onChange={(e) =>
+              setCurrencySettings({
+                ...currencySettings,
+                diamondToBDT: {
+                  ...currencySettings.diamondToBDT,
+                  bdt: Number(e.target.value),
+                },
+              })
+            }
           />
 
           <span className="text-sm font-medium sm:mt-5">BDT</span>
@@ -110,8 +220,17 @@ export default function SettingsPage() {
             </label>
             <input
               type="number"
-              defaultValue={1000}
               className="border rounded-md w-full px-3 py-2"
+              value={currencySettings.beanToDiamond.beans}
+              onChange={(e) =>
+                setCurrencySettings({
+                  ...currencySettings,
+                  beanToDiamond: {
+                    ...currencySettings.beanToDiamond,
+                    beans: Number(e.target.value),
+                  },
+                })
+              }
             />
           </div>
 
@@ -120,7 +239,16 @@ export default function SettingsPage() {
           <input
             className="border rounded-md px-3 py-2 w-full mt-0.5 sm:mt-5"
             type="number"
-            defaultValue={100}
+            value={currencySettings.beanToDiamond.diamonds}
+            onChange={(e) =>
+              setCurrencySettings({
+                ...currencySettings,
+                beanToDiamond: {
+                  ...currencySettings.beanToDiamond,
+                  diamonds: Number(e.target.value),
+                },
+              })
+            }
           />
 
           <span className="text-sm font-medium mt-0 sm:mt-5">diamond</span>
@@ -128,7 +256,9 @@ export default function SettingsPage() {
 
         {/* Lower User Settings */}
         <div className="pt-4 border-t border-[#AAAAAA]">
-          <h3 className="font-semibold text-md text-base">User Settings</h3>
+          <h3 className="font-semibold text-md text-base">
+            Commission Settings
+          </h3>
 
           <div className="mt-4 flex items-center justify-between">
             <div>
@@ -142,7 +272,13 @@ export default function SettingsPage() {
             <div>
               <input
                 type="number"
-                defaultValue={3}
+                value={commissionSettings.hostAgencyCommission}
+                onChange={(e) =>
+                  setCommissionSettings({
+                    ...commissionSettings,
+                    hostAgencyCommission: Number(e.target.value),
+                  })
+                }
                 className="py-1 border border-[#AAAAAA] rounded w-[60px] text-center pl-5"
               />
               <span className="pl-1">%</span>
@@ -161,7 +297,13 @@ export default function SettingsPage() {
             <div>
               <input
                 type="number"
-                defaultValue={10}
+                value={commissionSettings.masterCoinPortal}
+                onChange={(e) =>
+                  setCommissionSettings({
+                    ...commissionSettings,
+                    masterCoinPortal: Number(e.target.value),
+                  })
+                }
                 className=" py-1 border border-[#AAAAAA] rounded w-[60px] text-center pl-5.5"
               />
               <span className="pl-1">%</span>
@@ -178,15 +320,21 @@ export default function SettingsPage() {
             <div>
               <input
                 type="number"
-                defaultValue={10}
+                value={commissionSettings.coinAgency}
+                onChange={(e) =>
+                  setCommissionSettings({
+                    ...commissionSettings,
+                    coinAgency: Number(e.target.value),
+                  })
+                }
                 className="py-1 border border-[#AAAAAA] rounded w-[60px] text-center pl-5.5"
               />
               <span className="pl-1">%</span>
             </div>
           </div>
 
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between">
-            <div className="max-sm:hidden">
+          <div className="mt-6 flex flex-row items-center justify-between">
+            <div>
               <p className="text-sm sm:text-md font-semibold">
                 Monthly Diamond Reset
               </p>
@@ -194,11 +342,36 @@ export default function SettingsPage() {
                 Auto-reset host diamonds monthly
               </p>
             </div>
-            <div className="flex justify-end">
-              <button className="bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white px-5 py-1 rounded-md flex items-center gap-2 shadow-sm hover:bg-pink-600 transition text-nowrap">
-                <Save size={18} /> Save All Settings
-              </button>
+            <div
+              onClick={() =>
+                setMonthlySettings({
+                  ...monthlySettings,
+                  monthlyDiamondReset: !monthlySettings.monthlyDiamondReset,
+                })
+              }
+              className={`w-10 h-3 rounded-full cursor-pointer flex items-center transition-all duration-300 ${
+                monthlySettings.monthlyDiamondReset
+                  ? "bg-pink-400"
+                  : "bg-pink-200"
+              }`}
+            >
+              <div
+                className={`w-5 h-5 rounded-full shadow-xl transition-all duration-300 bg-linear-to-br from-pink-600 to-pink-400 relative ${
+                  monthlySettings.monthlyDiamondReset
+                    ? "translate-x-5"
+                    : "translate-x-0"
+                }`}
+              ></div>
             </div>
+          </div>
+
+          <div className="flex justify-center sm:justify-end mt-5 sm:mt-3">
+            <button
+              onClick={handleSave}
+              className="bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white px-5 py-1 rounded-md flex items-center gap-2 shadow-sm hover:bg-pink-600 transition text-nowrap"
+            >
+              <Save size={18} /> {loading ? "Saving..." : "Save All Settings"}
+            </button>
           </div>
         </div>
       </div>
