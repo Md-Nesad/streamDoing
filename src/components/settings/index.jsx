@@ -1,9 +1,10 @@
 import { Save } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import useJsonPost from "../../hooks/useJsonPost";
 import { BASE_URL } from "../../utility/utility";
 
 export default function SettingsPage() {
+  const inputRef = useRef();
   const [loading, setLoading] = useState(false);
   const [platformConfig, setPlatformConfig] = useState({
     streamDoingLive: "",
@@ -37,6 +38,10 @@ export default function SettingsPage() {
       platformConfig.supportEmail === ""
     ) {
       return alert("Streamdoing Live and Support Email are required");
+    }
+
+    if (!inputRef.current.value.includes("@" && ".com")) {
+      return alert("Please enter a valid email address.");
     }
     setLoading(true);
 
@@ -95,6 +100,7 @@ export default function SettingsPage() {
           <div className="space-y-1 sm:w-80">
             <label className="text-sm font-medium">Support Email</label>
             <input
+              ref={inputRef}
               className="border rounded-md w-full px-3 py-2 text-sm outline-none"
               type="email"
               value={platformConfig.supportEmail}
