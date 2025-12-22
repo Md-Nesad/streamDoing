@@ -1,8 +1,9 @@
 import { Ellipsis, Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { hostAgencies } from "../../data/data";
 
-export default function CoinSenderTable() {
+export default function CoinSenderTable({ tableData }) {
+  const coinsSend = tableData?.transactions;
+  console.log(coinsSend);
   const navigate = useNavigate();
   return (
     <>
@@ -43,25 +44,33 @@ export default function CoinSenderTable() {
           </thead>
 
           <tbody>
-            {hostAgencies.map((host, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3">TNX012KAD</td>
-                <td className="p-3">Office</td>
-                <td className="p-3">002000</td>
-                <td className="p-3">001000</td>
-                <td className="p-3">Master</td>
-                <td className="p-3">50K</td>
-                <td className="p-3">01-11-2025 21:55</td>
-                <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                  <span>
-                    <Ellipsis size={17} />
-                  </span>
+            {coinsSend?.length > 0 ? (
+              coinsSend.map((coin, index) => (
+                <tr
+                  key={index}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3">{coin.transactionId}</td>
+                  <td className="p-3">{coin.senderType}</td>
+                  <td className="p-3">{coin.senderUserId}</td>
+                  <td className="p-3">{coin.receiverUserId}</td>
+                  <td className="p-3">{coin.receiverType}</td>
+                  <td className="p-3">{coin.coinAmount}</td>
+                  <td className="p-3">{coin.sentDateTime}</td>
+                  <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                    <span>
+                      <Ellipsis size={17} />
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
+                <td colSpan={9} className="p-3 pt-6 text-center">
+                  No data found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

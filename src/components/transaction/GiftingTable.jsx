@@ -1,8 +1,7 @@
-import { Ellipsis, Funnel } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { hostAgencies } from "../../data/data";
+import { Funnel } from "lucide-react";
 import giftImage from "../../assests/giftImage.png";
-export default function GiftingTable() {
+export default function GiftingTable({ tableData }) {
+  const giftList = tableData?.giftTransactions;
   return (
     <>
       {/* search area */}
@@ -42,32 +41,40 @@ export default function GiftingTable() {
           </thead>
 
           <tbody>
-            {hostAgencies.map((host, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3">GFT-042 </td>
-                <td className="p-3">
-                  <img
-                    src={giftImage}
-                    alt="Sender GIft image"
-                    width={35}
-                    height={35}
-                    loading="lazy"
-                    className="ml-5"
-                  />
-                </td>
-                <td className="p-3">Paper Crane</td>
-                <td className="p-3">001000</td>
-                <td className="p-3">002000</td>
-                <td className="p-3">007000</td>
-                <td className="p-3">50k</td>
-                <td className="p-3 text-[#181717] text-sm font-semibold cursor-pointer flex gap-5 items-center">
-                  01-11-2025 21:55
+            {giftList?.length > 0 ? (
+              giftList?.map((host, index) => (
+                <tr
+                  key={index}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3">GFT-042 </td>
+                  <td className="p-3">
+                    <img
+                      src={giftImage}
+                      alt="Sender GIft image"
+                      width={35}
+                      height={35}
+                      loading="lazy"
+                      className="ml-5"
+                    />
+                  </td>
+                  <td className="p-3">Paper Crane</td>
+                  <td className="p-3">001000</td>
+                  <td className="p-3">002000</td>
+                  <td className="p-3">007000</td>
+                  <td className="p-3">50k</td>
+                  <td className="p-3 text-[#181717] text-sm font-semibold cursor-pointer flex gap-5 items-center">
+                    01-11-2025 21:55
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
+                <td colSpan={9} className="p-3 pt-6 text-center">
+                  No data found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

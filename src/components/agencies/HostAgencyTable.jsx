@@ -1,9 +1,41 @@
-import { Ellipsis, Funnel } from "lucide-react";
-import { hostAgencies } from "../../data/data";
+import { Ellipsis, Funnel, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../Pagination";
+import Loading from "../Loading";
+import useDelete from "../../hooks/useDelete";
+import { BASE_URL } from "../../utility/utility";
+import { useEffect, useState } from "react";
 
-export default function HostAgencyTable() {
+export default function HostAgencyTable({ tableData, setPage, loading }) {
+  const hostList = tableData?.agencies?.filter((item) => item.type === "host");
+  const [hosts, setHosts] = useState(hostList);
+  const hostPagination = tableData?.pagination;
   const navigate = useNavigate();
+
+  //handle delete function
+  const deleteUser = useDelete(`${BASE_URL}/admin/agencies`);
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
+    if (!confirmDelete) return;
+
+    const result = await deleteUser(id);
+
+    if (!result) {
+      alert("Failed to delete agency");
+    } else {
+      alert(result.message);
+    }
+    setHosts(hosts?.filter((host) => host._id !== id));
+  };
+
+  useEffect(() => {
+    setHosts(hostList);
+  }, [tableData]);
+
+  if (loading) return <Loading />;
   return (
     <>
       {/* search area */}
@@ -47,39 +79,55 @@ export default function HostAgencyTable() {
           </thead>
 
           <tbody>
-            {hostAgencies.map((host, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 font-medium pl-5">{host.reference}</td>
-                <td className="p-3">{host.hostId}</td>
-                <td className="p-3">{host.name}</td>
-                <td className="p-3">{host.balance}</td>
-                <td className="p-3">{host.diamonds}</td>
-                <td className="p-3">{host.revenue}</td>
-                <td className="p-3">{host.country}</td>
-                <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-xs ${
-                      host.status === "active"
-                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                        : "bg-[#FF929296] text-[#D21B20]"
-                    } text-[#005D23] rounded-full font-semibold`}
-                  >
-                    {host.status}
-                  </span>
-                </td>
-                <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                  View
-                  <span>
-                    <Ellipsis size={17} />
-                  </span>
+            {hosts?.length > 0 ? (
+              hosts?.map((host) => (
+                <tr
+                  key={host._id}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 font-medium pl-5">
+                    {host.reference || "N/A"}
+                  </td>
+                  <td className="p-3">{host.phone}</td>
+                  <td className="p-3">{host.name}</td>
+                  <td className="p-3">{host.balance}</td>
+                  <td className="p-3">{host.diamonds}</td>
+                  <td className="p-3">{host.revenue}</td>
+                  <td className="p-3">{host.country}</td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-xs ${
+                        host.status === "active"
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-[#FF929296] text-[#D21B20]"
+                      } text-[#005D23] rounded-full font-semibold`}
+                    >
+                      {host.status}
+                    </span>
+                  </td>
+                  <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                    View
+                    <span role="button" onClick={() => handleDelete(host._id)}>
+                      <Trash2 size={17} className="text-[#d21b20]" />
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
+                <td colSpan={9} className="p-3 text-center">
+                  No data found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
+        <Pagination
+          page={hostPagination?.page}
+          total={hostPagination?.total}
+          limit={hostPagination?.limit}
+          onPageChange={setPage}
+        />
       </div>
     </>
   );

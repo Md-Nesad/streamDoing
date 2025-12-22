@@ -6,21 +6,22 @@ import useFetch from "../hooks/useFetch";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 import { BASE_URL } from "../utility/utility";
+import { useState } from "react";
 
 export default function Dashboard() {
+  const [page, setPage] = useState(1);
   const summary = useFetch(`${BASE_URL}/dashboard/summary`);
   const liveStats = useFetch(`${BASE_URL}/dashboard/live-stats`);
   const agenciesOverview = useFetch(
-    `${BASE_URL}/dashboard/agencies-overview?page=1&limit=30`
+    `${BASE_URL}/dashboard/agencies-overview?page=${page}&limit=10`
   );
 
-  const loading =
-    summary.loading || liveStats.loading || agenciesOverview.loading;
+  const loading = summary.loading || liveStats.loading;
   const error = summary.error || liveStats.error || agenciesOverview.error;
 
   //store data in variables
   const data = summary.data;
-  const agenciesData = agenciesOverview?.data?.agencies;
+  const agenciesData = agenciesOverview?.data;
 
   // handaling loading and error
   if (loading) return <Loading />;
@@ -73,7 +74,11 @@ export default function Dashboard() {
       </section>
 
       {/* Agencies table */}
-      <AgenciesTable agenciesData={agenciesData} />
+      <AgenciesTable
+        agenciesData={agenciesData}
+        setPage={setPage}
+        loading={agenciesOverview.loading}
+      />
     </>
   );
 }

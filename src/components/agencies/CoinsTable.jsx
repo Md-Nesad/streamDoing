@@ -1,9 +1,14 @@
 import { Ellipsis, Funnel } from "lucide-react";
-import { hostAgencies } from "../../data/data";
 import { useNavigate } from "react-router-dom";
+import Loading from "../Loading";
+import Pagination from "../Pagination";
 
-export default function CoinsTable() {
+export default function CoinsTable({ tableData, setPage, loading }) {
+  const coinList = tableData?.agencies?.filter((item) => item.type === "coin");
+  const coinPagination = tableData?.pagination;
   const navigate = useNavigate();
+
+  if (loading) return <Loading />;
   return (
     <>
       {/* search area */}
@@ -47,39 +52,55 @@ export default function CoinsTable() {
           </thead>
 
           <tbody>
-            {hostAgencies.map((host, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 font-medium pl-5">MST-042</td>
-                <td className="p-3">Coin-042</td>
-                <td className="p-3">{host.name}</td>
-                <td className="p-3">{host.balance}</td>
-                <td className="p-3">{host.diamonds}</td>
-                <td className="p-3">{host.revenue}</td>
-                <td className="p-3">{host.country}</td>
-                <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-xs ${
-                      host.status === "active"
-                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                        : "bg-[#FF929296] text-[#D21B20]"
-                    } text-[#005D23] rounded-full font-semibold`}
-                  >
-                    {host.status}
-                  </span>
-                </td>
-                <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                  View
-                  <span>
-                    <Ellipsis size={17} />
-                  </span>
+            {coinList?.length > 0 ? (
+              coinList?.map((coin, index) => (
+                <tr
+                  key={index}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 font-medium pl-5">
+                    {coin.reference || "N/A"}
+                  </td>
+                  <td className="p-3">{coin.phone}</td>
+                  <td className="p-3">{coin.name}</td>
+                  <td className="p-3">{coin.coinSales || "N/A"}</td>
+                  <td className="p-3">{coin.coinBuy || "N/A"}</td>
+                  <td className="p-3">{coin.revenue}</td>
+                  <td className="p-3">{coin.country}</td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-xs ${
+                        coin.status === "active"
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-[#FF929296] text-[#D21B20]"
+                      } text-[#005D23] rounded-full font-semibold`}
+                    >
+                      {coin.status}
+                    </span>
+                  </td>
+                  <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                    View
+                    <span>
+                      <Ellipsis size={17} />
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
+                <td colSpan={9} className="p-3 text-center">
+                  No data found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
+        <Pagination
+          page={coinPagination?.page}
+          total={coinPagination?.total}
+          limit={coinPagination?.limit}
+          onPageChange={setPage}
+        />
       </div>
     </>
   );

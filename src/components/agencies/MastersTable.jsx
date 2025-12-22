@@ -1,9 +1,16 @@
 import { Ellipsis, Funnel } from "lucide-react";
-import { hostAgencies } from "../../data/data";
 import { useNavigate } from "react-router-dom";
+import Loading from "../Loading";
+import Pagination from "../Pagination";
 
-export default function MastersTable() {
+export default function MastersTable({ tableData, setPage, loading }) {
+  const masterList = tableData?.agencies?.filter(
+    (item) => item.type === "master"
+  );
+  const masterPagination = tableData?.pagination;
   const navigate = useNavigate();
+
+  if (loading) return <Loading />;
   return (
     <>
       {/* search area */}
@@ -46,38 +53,52 @@ export default function MastersTable() {
           </thead>
 
           <tbody>
-            {hostAgencies.map((host, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 pl-5">Coin-042</td>
-                <td className="p-3">{host.name}</td>
-                <td className="p-3">{host.balance}</td>
-                <td className="p-3">{host.diamonds}</td>
-                <td className="p-3">{host.revenue}</td>
-                <td className="p-3">{host.country}</td>
-                <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-xs ${
-                      host.status === "active"
-                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                        : "bg-[#FF929296] text-[#D21B20]"
-                    } text-[#005D23] rounded-full font-semibold`}
-                  >
-                    {host.status}
-                  </span>
-                </td>
-                <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                  View
-                  <span>
-                    <Ellipsis size={17} />
-                  </span>
+            {masterList?.length > 0 ? (
+              masterList.map((master, index) => (
+                <tr
+                  key={index}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 pl-5">{master.phone}</td>
+                  <td className="p-3">{master.name}</td>
+                  <td className="p-3">{master.coinSales || "N/A"}</td>
+                  <td className="p-3">{master.coinBuy || "N/A"}</td>
+                  <td className="p-3">{master.revenue}</td>
+                  <td className="p-3">{master.country}</td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-xs ${
+                        master.status === "active"
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-[#FF929296] text-[#D21B20]"
+                      } text-[#005D23] rounded-full font-semibold`}
+                    >
+                      {master.status}
+                    </span>
+                  </td>
+                  <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                    View
+                    <span>
+                      <Ellipsis size={17} />
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
+                <td colSpan={9} className="p-3 text-center">
+                  No data found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
+        <Pagination
+          page={masterPagination?.page}
+          total={masterPagination?.total}
+          limit={masterPagination?.limit}
+          onPageChange={setPage}
+        />
       </div>
     </>
   );

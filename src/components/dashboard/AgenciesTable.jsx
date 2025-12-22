@@ -1,7 +1,14 @@
 import { Ellipsis, Funnel } from "lucide-react";
 import star from "../../assests/star.png";
+import Pagination from "../Pagination";
+import Loading from "../Loading";
 
-export default function AgenciesTable({ agenciesData }) {
+export default function AgenciesTable({ agenciesData, setPage, loading }) {
+  const agenciesList = agenciesData?.agencies;
+  const agenciesPagination = agenciesData?.pagination;
+
+  if (loading) return <Loading />;
+
   return (
     <div className="w-full mt-7 mb-10">
       {/* Card Container */}
@@ -22,7 +29,7 @@ export default function AgenciesTable({ agenciesData }) {
         </div>
 
         {/* Table Wrapper for Horizontal Scroll */}
-        <div className="overflow-x-auto max-sm:pt-2">
+        <div className="overflow-x-auto max-sm:pt-2 pb-5">
           <table className="w-full text-left border-collapse shrink text-nowrap">
             <thead>
               <tr className="text-[#535353] font-medium text-md">
@@ -41,8 +48,8 @@ export default function AgenciesTable({ agenciesData }) {
             </thead>
 
             <tbody>
-              {agenciesData?.length > 0 ? (
-                agenciesData?.map((agency, index) => (
+              {agenciesList?.length > 0 ? (
+                agenciesList?.map((agency, index) => (
                   <tr
                     key={index}
                     className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
@@ -52,7 +59,7 @@ export default function AgenciesTable({ agenciesData }) {
                     </td>
                     <td className="p-3">{agency.name || "N/A"}</td>
                     <td className="p-3">
-                      <span className="px-3 py-1 text-xs bg-[#B31d84] text-white rounded-full font-semibold">
+                      <span className="px-3 py-1 text-xs block w-15 text-center bg-[#B31d84] text-white rounded-full font-semibold">
                         {agency.type.charAt(0).toUpperCase() +
                           agency.type.slice(1)}
                       </span>
@@ -80,10 +87,10 @@ export default function AgenciesTable({ agenciesData }) {
                   </tr>
                 ))
               ) : (
-                <tr className="border-t border-[#DFDFDF]">
+                <tr className="border-t border-[#DFDFDF] ">
                   <td
                     colSpan={9}
-                    className="text-center pt-5 text-[#555] font-medium"
+                    className="text-center py-5 text-[#555] font-medium"
                   >
                     No agencies found.
                   </td>
@@ -91,6 +98,12 @@ export default function AgenciesTable({ agenciesData }) {
               )}
             </tbody>
           </table>
+          <Pagination
+            page={agenciesPagination?.page}
+            total={agenciesPagination?.total}
+            limit={agenciesPagination?.limit}
+            onPageChange={setPage}
+          />
         </div>
       </div>
     </div>

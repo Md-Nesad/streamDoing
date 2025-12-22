@@ -31,7 +31,6 @@ export default function UserDetailsModal({ open, onClose, user }) {
               <img
                 src={user?.profilePic}
                 className="sm:w-10 w-7 h-7 sm:h-10 rounded-full object-cover"
-                loading="lazy"
                 fetchPriority="true"
               />
               <p className="text-gray-800">{user?.name}</p>

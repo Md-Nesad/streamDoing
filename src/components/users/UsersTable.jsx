@@ -36,7 +36,14 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
     );
     if (!confirmDelete) return;
 
-    await deleteUser(id);
+    const result = await deleteUser(id);
+
+    if (!result) {
+      alert("Failed to delete user");
+    } else {
+      alert(result.message);
+    }
+    //fetching data after delete
     setUsers((prev) => prev.filter((user) => user._id !== id));
   };
 
@@ -114,7 +121,7 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
                           : "bg-linear-to-r from-[#EB57FF] px-5 to-[#3325C9] text-[#FFFFFF] font-thin"
                       } text-[#005D23] rounded-full font-semibold`}
                     >
-                      {user.type[0].toUpperCase() + user.type.slice(1)}
+                      {user.type.charAt(0).toUpperCase() + user.type.slice(1)}
                     </span>
                   </td>
                   <td className="p-3">

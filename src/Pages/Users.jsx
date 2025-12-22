@@ -57,7 +57,7 @@ export default function DashboardUsers() {
 
       <UsersTable
         usersList={usersListData}
-        page={page}
+        // page={page}
         setPage={setPage}
         loading={usersList.loading}
       />

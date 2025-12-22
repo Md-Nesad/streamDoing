@@ -70,7 +70,7 @@ export default function Sidebar({ isToogleNav, onClose }) {
           </div>
 
           <nav className="space-y-2 transition-all duration-500">
-            {isToogleDataStore && renderMenuItems(menuItems.slice(16))}
+            {isToogleDataStore && renderMenuItems(menuItems.slice(17))}
           </nav>
         </aside>
       )}
@@ -96,7 +96,7 @@ export default function Sidebar({ isToogleNav, onClose }) {
         </div>
 
         <nav className="space-y-2 transition-all duration-500">
-          {isToogleDataStore && renderMenuItems(menuItems.slice(16))}
+          {isToogleDataStore && renderMenuItems(menuItems.slice(17))}
         </nav>
       </aside>
     </>
