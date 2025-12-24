@@ -1,6 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import DashboardLayout from "../../layouts/DashboardLayout";
-import AdminLogin from "../../adminPanel/Pages/Login";
+// import AdminLogin from "../../adminPanel/Pages/Login";
 import Host from "../../adminPanel/Pages/Host";
 import CoinManageMent from "../../adminPanel/Pages/CoinManageMent";
 import RateTransaction from "../../adminPanel/Pages/RateTransaction";
@@ -33,13 +33,14 @@ import DeleteBan from "../../adminPanel/Pages/dataStore/DeleteBan";
 import Dashboard from "../../adminPanel/Pages/Dashboard";
 import InboxPage from "../../adminPanel/Pages/InboxAssests";
 import MasterAgency from "../../adminPanel/Pages/dataStore/MasterAgency";
+import AdminLogin from "../../adminPanel/Pages/Login";
 
 export default function DashboardRouter() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/login" element={<AdminLogin />} />
           {/* dashboard nested routes here */}
           <Route path="/dashboard" element={<DashboardLayout />}>
