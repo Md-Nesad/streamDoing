@@ -1,6 +1,6 @@
-import Sidebar from "../AdminPanel/components/Sidebar";
 import { Outlet } from "react-router-dom";
-import AdminHeader from "../AdminPanel/components/header/AdminHeader";
+import AdminHeader from "../adminPanel/components/header/AdminHeader";
+import Sidebar from "../adminPanel/components/Sidebar";
 
 export default function DashboardLayout() {
   return (

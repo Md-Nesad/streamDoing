@@ -1,38 +1,38 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import DashboardLayout from "../../layouts/DashboardLayout";
-import AdminLogin from "../../AdminPanel/Pages/Login";
-import CoinManageMent from "../../AdminPanel/pages/CoinManageMent";
-import RateTransaction from "../../AdminPanel/pages/RateTransaction";
-import ExchangeRate from "../../AdminPanel/pages/ExchangeRate";
-import MasterLedger from "../../AdminPanel/pages/MasterLedger";
-import Agencies from "../../AdminPanel/pages/agencies";
-import AddHostAgency from "../../AdminPanel/pages/agencies/AddHostAgency";
-import AddCoinAgency from "../../AdminPanel/pages/agencies/AddCoinAgency";
-import AddMasterAgency from "../../AdminPanel/pages/agencies/AddMasterAgency";
-import AddAdminAgency from "../../AdminPanel/pages/agencies/AddAdminAgency";
-import Transaction from "../../AdminPanel/pages/Transaction";
-import LiveStreams from "../../AdminPanel/pages/LiveStreams";
-import Moderation from "../../AdminPanel/pages/Moderation";
-import Analytics from "../../AdminPanel/pages/Analytics";
-import Finance from "../../AdminPanel/pages/Finance";
-import KycCenter from "../../AdminPanel/pages/KycCenter";
-import PkMaster from "../../AdminPanel/pages/PkMaster";
-import SalaryTarget from "../../AdminPanel/pages/SalaryTarget";
-import GiftAndAssests from "../../AdminPanel/pages/GiftAndAssests";
-import Setting from "../../AdminPanel/pages/Setting";
-import HostManagement from "../../AdminPanel/pages/dataStore/Host";
-import HostAgency from "../../AdminPanel/pages/dataStore/HostAgency";
-import MasterAgency from "../../AdminPanel/pages/dataStore/MasterAgency";
-import UserManagement from "../../AdminPanel/pages/dataStore/UserManagement";
-import AdminAgency from "../../AdminPanel/pages/dataStore/AdminAgency";
-import CoinAgency from "../../AdminPanel/pages/dataStore/CoinManagement";
-import SupportAgency from "../../AdminPanel/pages/dataStore/SupportAgency";
-import DeleteBan from "../../AdminPanel/pages/dataStore/DeleteBan";
-import NotificationCenter from "../../AdminPanel/pages/NotificationCenter";
-import InboxAssests from "../../AdminPanel/pages/InboxAssests";
-import Dashboard from "../../AdminPanel/Pages/Dashboard";
-import DashboardUsers from "../../AdminPanel/Pages/Users";
-import Host from "../../AdminPanel/pages/Host";
+import AdminLogin from "../../adminPanel/Pages/Login";
+import Host from "../../adminPanel/Pages/Host";
+import CoinManageMent from "../../adminPanel/Pages/CoinManageMent";
+import RateTransaction from "../../adminPanel/Pages/RateTransaction";
+import ExchangeRate from "../../adminPanel/Pages/ExchangeRate";
+import MasterLedger from "../../adminPanel/Pages/MasterLedger";
+import Agencies from "../../adminPanel/Pages/agencies";
+import AddHostAgency from "../../adminPanel/Pages/agencies/AddHostAgency";
+import AddCoinAgency from "../../adminPanel/Pages/agencies/AddCoinAgency";
+import AddMasterAgency from "../../adminPanel/Pages/agencies/AddMasterAgency";
+import AddAdminAgency from "../../adminPanel/Pages/agencies/AddAdminAgency";
+import DashboardUsers from "../../adminPanel/Pages/Users";
+import Transaction from "../../adminPanel/Pages/Transaction";
+import LiveStreams from "../../adminPanel/Pages/LiveStreams";
+import Moderation from "../../adminPanel/Pages/Moderation";
+import Analytics from "../../adminPanel/Pages/Analytics";
+import Finance from "../../adminPanel/Pages/Finance";
+import PkMaster from "../../adminPanel/Pages/PkMaster";
+import KycCenter from "../../adminPanel/Pages/KycCenter";
+import SalaryTarget from "../../adminPanel/Pages/SalaryTarget";
+import GiftAndAssests from "../../adminPanel/Pages/GiftAndAssests";
+import NotificationCenter from "../../adminPanel/Pages/NotificationCenter";
+import Setting from "../../adminPanel/Pages/Setting";
+import HostManagement from "../../adminPanel/Pages/dataStore/Host";
+import HostAgency from "../../adminPanel/Pages/dataStore/HostAgency";
+import UserManagement from "../../adminPanel/Pages/dataStore/UserManagement";
+import AdminAgency from "../../adminPanel/Pages/dataStore/AdminAgency";
+import CoinAgency from "../../adminPanel/Pages/dataStore/CoinManagement";
+import SupportAgency from "../../adminPanel/Pages/dataStore/SupportAgency";
+import DeleteBan from "../../adminPanel/Pages/dataStore/DeleteBan";
+import Dashboard from "../../adminPanel/Pages/Dashboard";
+import InboxPage from "../../adminPanel/Pages/InboxAssests";
+import MasterAgency from "../../adminPanel/Pages/dataStore/MasterAgency";
 
 export default function DashboardRouter() {
   return (
@@ -84,7 +84,7 @@ export default function DashboardRouter() {
               path="notification-center"
               element={<NotificationCenter />}
             />
-            <Route path="inbox" element={<InboxAssests />} />
+            <Route path="inbox" element={<InboxPage />} />
             <Route path="settings" element={<Setting />} />
             {/* data store routes */}
             <Route path="host-management" element={<HostManagement />} />
