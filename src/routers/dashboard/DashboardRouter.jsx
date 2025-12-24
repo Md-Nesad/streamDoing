@@ -40,7 +40,7 @@ export default function DashboardRouter() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/" element={<AdminLogin />} />
           <Route path="/login" element={<AdminLogin />} />
           {/* dashboard nested routes here */}
           <Route path="/dashboard" element={<DashboardLayout />}>
