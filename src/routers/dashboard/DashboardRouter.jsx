@@ -94,7 +94,7 @@ export default function DashboardRouter() {
             <Route path="admin-agency" element={<AdminAgency />} />
             <Route path="coin-agency" element={<CoinAgency />} />
             <Route path="support" element={<SupportAgency />} />
-            <Route path="delete-ban" element={<DeleteBan />} />
+            {/* <Route path="delete-ban" element={<DeleteBan />} /> */}
           </Route>
         </Routes>
       </BrowserRouter>
