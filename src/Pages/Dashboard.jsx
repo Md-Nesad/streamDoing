@@ -1,10 +1,10 @@
 import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
-import AgenciesTable from "../adminPanel/components/dashboard/AgenciesTable";
-import LiveStat from "../adminPanel/components/dashboard/LiveState";
-import StatsSection from "../adminPanel/components/dashboard/StatsCard";
+import AgenciesTable from "../components/dashboard/AgenciesTable";
+import LiveStat from "../components/dashboard/LiveState";
+import StatsSection from "../components/dashboard/StatsCard";
 import useFetch from "../hooks/useFetch";
-import Loading from "../adminPanel/components/Loading";
-import Error from "../adminPanel/components/Error";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 import { BASE_URL } from "../utility/utility";
 import { useState } from "react";
 

@@ -1,5 +1,5 @@
-import AddAdminAgencyForm from "../../adminPanel/components/agencies/AddAdminAgencyForm";
-import TitleAndSubTitle from "../../adminPanel/components/TitleAndSubTitle";
+import AddAdminAgencyForm from "../../components/agencies/AddAdminAgencyForm";
+import TitleAndSubTitle from "../../components/TitleAndSubTitle";
 
 export default function AddAdminAgency() {
   return (

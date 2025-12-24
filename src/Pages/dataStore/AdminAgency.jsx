@@ -1,5 +1,5 @@
-import AdminAgencyTable from "../../adminPanel/components/dataStores/AdminAgencyTable";
-import AdminAgencyTitle from "../../adminPanel/components/TitleAndSubTitle";
+import AdminAgencyTable from "../../components/dataStores/AdminAgencyTable";
+import AdminAgencyTitle from "../../components/TitleAndSubTitle";
 import { Download } from "lucide-react";
 
 export default function AdminAgency() {

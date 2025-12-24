@@ -1,10 +1,10 @@
 import { useState } from "react";
-import ChatHeader from "../adminPanel/components/inboxAssests/ChatHeader";
-import ChatMessages from "../adminPanel/components/inboxAssests/ChatMessage";
-import ChatInput from "../adminPanel/components/inboxAssests/ChatInput";
-import UserDetails from "../adminPanel/components/inboxAssests/UserDetails";
+import ChatHeader from "../components/inboxAssests/ChatHeader";
+import ChatMessages from "../components/inboxAssests/ChatMessage";
+import ChatInput from "../components/inboxAssests/ChatInput";
+import UserDetails from "../components/inboxAssests/UserDetails";
 import { chatUsers } from "../data/data";
-import InBoxSidebar from "../adminPanel/components/inboxAssests/InboxSidebar";
+import InBoxSidebar from "../components/inboxAssests/InboxSidebar";
 
 export default function InboxPage() {
   const [selectedUser, setSelectedUser] = useState(chatUsers[0]);

@@ -1,10 +1,10 @@
-import StatsSection from "../adminPanel/components/dashboard/StatsCard";
-import UsersTable from "../adminPanel/components/users/UsersTable";
-import Loading from "../adminPanel/components/Loading";
+import StatsSection from "../components/dashboard/StatsCard";
+import UsersTable from "../components/users/UsersTable";
+import Loading from "../components/Loading";
 import { Crown, Wallet, Users } from "lucide-react";
 import { BASE_URL } from "../utility/utility";
 import { useState } from "react";
-import Error from "../adminPanel/components/Error";
+import Error from "../components/Error";
 import useFetch from "../hooks/useFetch";
 
 export default function DashboardUsers() {

@@ -1,8 +1,8 @@
 import React from "react";
-import StatsSection from "../adminPanel/components/dashboard/StatsCard";
+import StatsSection from "../components/dashboard/StatsCard";
 import { coinsAgencies } from "../data/data";
-import GiftCategories from "../adminPanel/components/giftAndAssests/GiftCategories";
-import GiftTabs from "../adminPanel/components/giftAndAssests/GiftTabs";
+import GiftCategories from "../components/giftAndAssests/GiftCategories";
+import GiftTabs from "../components/giftAndAssests/GiftTabs";
 
 export default function GiftAndAssests() {
   return (

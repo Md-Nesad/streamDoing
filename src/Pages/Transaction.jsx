@@ -1,5 +1,5 @@
-import TitleAndSubTitle from "../adminPanel/components/TitleAndSubTitle";
-import TransactionTabs from "../adminPanel/components/transaction/TransactionTabs";
+import TitleAndSubTitle from "../components/TitleAndSubTitle";
+import TransactionTabs from "../components/transaction/TransactionTabs";
 
 export default function Transaction() {
   return (

@@ -1,8 +1,8 @@
-import StatsSection from "../adminPanel/components/dashboard/StatsCard";
+import StatsSection from "../components/dashboard/StatsCard";
 import { coinsAgencies } from "../data/data";
-import CoinAgencyTable from "../adminPanel/components/coinAgency/CoinAgencyTable";
-import SellCoins from "../adminPanel/components/coinAgency/SellCoins";
-import TabsSection from "../adminPanel/components/coinAgency/Tabs";
+import CoinAgencyTable from "../components/coinAgency/CoinAgencyTable";
+import SellCoins from "../components/coinAgency/SellCoins";
+import TabsSection from "../components/coinAgency/Tabs";
 
 export default function CoinManageMent() {
   return (

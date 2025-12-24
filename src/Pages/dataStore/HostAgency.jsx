@@ -1,6 +1,6 @@
 import React from "react";
-import HostAgencyTitle from "../../adminPanel/components/TitleAndSubTitle";
-import HostAgnecyTable from "../../adminPanel/components/dataStores/HostAgencyTable";
+import HostAgencyTitle from "../../components/TitleAndSubTitle";
+import HostAgnecyTable from "../../components/dataStores/HostAgencyTable";
 
 export default function HostAgency() {
   return (

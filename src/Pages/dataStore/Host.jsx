@@ -1,6 +1,6 @@
 import React from "react";
-import HostTitle from "../../adminPanel/components/TitleAndSubTitle";
-import HostManageMentTable from "../../adminPanel/components/dataStores/HostTable";
+import HostTitle from "../../components/TitleAndSubTitle";
+import HostManageMentTable from "../../components/dataStores/HostTable";
 export default function HostManagement() {
   return (
     <div>

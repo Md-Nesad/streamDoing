@@ -1,7 +1,7 @@
 import { coinsAgencies, ledger } from "../data/data";
-import StatsSection from "../adminPanel/components/dashboard/StatsCard";
+import StatsSection from "../components/dashboard/StatsCard";
 import { useNavigate } from "react-router-dom";
-import CurrentExchangeRate from "../adminPanel/components/coinAgency/CurrentExchangeRate";
+import CurrentExchangeRate from "../components/coinAgency/CurrentExchangeRate";
 
 export default function MasterLedger() {
   const navigate = useNavigate();

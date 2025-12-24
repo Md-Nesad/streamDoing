@@ -1,6 +1,6 @@
-import UserManagementTitle from "../../adminPanel/components/TitleAndSubTitle";
+import UserManagementTitle from "../../components/TitleAndSubTitle";
 import { Download } from "lucide-react";
-import SupportAgencyTable from "../../adminPanel/components/dataStores/SupportAgencyTable";
+import SupportAgencyTable from "../../components/dataStores/SupportAgencyTable";
 
 export default function SupportAgency() {
   return (

@@ -1,9 +1,9 @@
 import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
-import StatsSection from "../adminPanel/components/dashboard/StatsCard";
-import HostTable from "../adminPanel/components/host/HostTable";
+import StatsSection from "../components/dashboard/StatsCard";
+import HostTable from "../components/host/HostTable";
 import useFetch from "../hooks/useFetch";
-import Loading from "../adminPanel/components/Loading";
-import Error from "../adminPanel/components/Error";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 import { BASE_URL } from "../utility/utility";
 
 export default function Host() {

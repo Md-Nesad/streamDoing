@@ -1,6 +1,6 @@
 import React from "react";
-import TitleAndSubTitle from "../../adminPanel/components/TitleAndSubTitle";
-import AddCoinAgencyForm from "../../adminPanel/components/agencies/AddCoinAgencyForm";
+import TitleAndSubTitle from "../../components/TitleAndSubTitle";
+import AddCoinAgencyForm from "../../components/agencies/AddCoinAgencyForm";
 
 export default function AddCoinAgency() {
   return (

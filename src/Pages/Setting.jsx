@@ -1,4 +1,4 @@
-import SettingsPage from "../adminPanel/components/settings";
+import SettingsPage from "../components/settings";
 
 export default function Setting() {
   return (

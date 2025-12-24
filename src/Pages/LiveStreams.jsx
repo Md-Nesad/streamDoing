@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import TitleAndSubTitle from "../adminPanel/components/TitleAndSubTitle";
-import StatsSection from "../adminPanel/components/dashboard/StatsCard";
-import LiveStreamTable from "../adminPanel/components/LiveStreamTable";
+import TitleAndSubTitle from "../components/TitleAndSubTitle";
+import StatsSection from "../components/dashboard/StatsCard";
+import LiveStreamTable from "../components/LiveStreamTable";
 import useFetch from "../hooks/useFetch";
 import { BASE_URL } from "../utility/utility";
-import Error from "../adminPanel/components/Error";
+import Error from "../components/Error";
 import { Clock, Eye, TrendingUp, Video } from "lucide-react";
 
 export default function LiveStreams() {

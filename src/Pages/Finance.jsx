@@ -1,9 +1,9 @@
-import TitleAndSubTitle from "../adminPanel/components/TitleAndSubTitle";
-import StatsSection from "../adminPanel/components/dashboard/StatsCard";
+import TitleAndSubTitle from "../components/TitleAndSubTitle";
+import StatsSection from "../components/dashboard/StatsCard";
 import { financeCard } from "../data/data";
-import RevenueChart from "../adminPanel/components/finance/RevenueChart";
-import PaymentGatewayChart from "../adminPanel/components/finance/PaymentGatewayChart";
-import FinanceTabs from "../adminPanel/components/finance/FinanceTabs";
+import RevenueChart from "../components/finance/RevenueChart";
+import PaymentGatewayChart from "../components/finance/PaymentGatewayChart";
+import FinanceTabs from "../components/finance/FinanceTabs";
 
 export default function Finance() {
   return (

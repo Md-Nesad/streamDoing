@@ -1,6 +1,6 @@
-import UserManagementTitle from "../../adminPanel/components/TitleAndSubTitle";
+import UserManagementTitle from "../../components/TitleAndSubTitle";
 import { Download } from "lucide-react";
-import UserManagementTable from "../../adminPanel/components/dataStores/UserManagementTable";
+import UserManagementTable from "../../components/dataStores/UserManagementTable";
 
 export default function UserManagement() {
   return (

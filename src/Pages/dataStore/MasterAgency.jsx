@@ -1,6 +1,6 @@
 import React from "react";
-import MasterAgencyTitle from "../../adminPanel/components/TitleAndSubTitle";
-import MasterAgencyTable from "../../adminPanel/components/dataStores/MasterAgencyTable";
+import MasterAgencyTitle from "../../components/TitleAndSubTitle";
+import MasterAgencyTable from "../../components/dataStores/MasterAgencyTable";
 
 export default function MasterAgency() {
   return (

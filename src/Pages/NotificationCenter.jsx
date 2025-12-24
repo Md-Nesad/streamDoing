@@ -1,6 +1,6 @@
-import ComposeNotification from "../adminPanel/components/notificationCenter/ComposeNotification";
-import NotificationHistoryTable from "../adminPanel/components/notificationCenter/NotificationHistoryTable";
-import TitleAndSubTitle from "../adminPanel/components/TitleAndSubTitle";
+import ComposeNotification from "../components/notificationCenter/ComposeNotification";
+import NotificationHistoryTable from "../components/notificationCenter/NotificationHistoryTable";
+import TitleAndSubTitle from "../components/TitleAndSubTitle";
 
 export default function NotificationCenter() {
   return (

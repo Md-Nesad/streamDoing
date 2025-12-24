@@ -1,6 +1,6 @@
-import UserManagementTitle from "../../adminPanel/components/TitleAndSubTitle";
+import UserManagementTitle from "../../components/TitleAndSubTitle";
 import { Download } from "lucide-react";
-import DeleteBanTable from "../../adminPanel/components/dataStores/DeleteBanTable";
+import DeleteBanTable from "../../components/dataStores/DeleteBanTable";
 
 export default function DeleteBan() {
   return (

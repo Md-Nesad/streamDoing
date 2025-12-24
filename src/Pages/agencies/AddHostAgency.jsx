@@ -1,6 +1,6 @@
 import React from "react";
-import TitleAndSubTitle from "../../adminPanel/components/TitleAndSubTitle";
-import AddHostAgencyForm from "../../adminPanel/components/agencies/AddHostAgency";
+import TitleAndSubTitle from "../../components/TitleAndSubTitle";
+import AddHostAgencyForm from "../../components/agencies/AddHostAgency";
 
 export default function AddHostAgency() {
   return (

@@ -1,9 +1,9 @@
 import React from "react";
 import { coinsAgencies } from "../data/data";
-import StatsSection from "../adminPanel/components/dashboard/StatsCard";
-import RateTransactionTable from "../adminPanel/components/coinAgency/RateTransactionTable";
+import StatsSection from "../components/dashboard/StatsCard";
+import RateTransactionTable from "../components/coinAgency/RateTransactionTable";
 import { useNavigate } from "react-router-dom";
-import TitleAndSubTitle from "../adminPanel/components/TitleAndSubTitle";
+import TitleAndSubTitle from "../components/TitleAndSubTitle";
 
 export default function RateTransaction() {
   const navigate = useNavigate();

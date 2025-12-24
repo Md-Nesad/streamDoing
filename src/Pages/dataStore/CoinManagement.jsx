@@ -1,6 +1,6 @@
-import UserManagementTitle from "../../adminPanel/components/TitleAndSubTitle";
+import UserManagementTitle from "../../components/TitleAndSubTitle";
 import { Download } from "lucide-react";
-import CoinAgencyTable from "../../adminPanel/components/dataStores/CoinAgencyTable";
+import CoinAgencyTable from "../../components/dataStores/CoinAgencyTable";
 
 export default function CoinAgency() {
   return (

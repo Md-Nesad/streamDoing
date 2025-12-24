@@ -1,9 +1,9 @@
-import DayMonth from "../adminPanel/components/analytics/DayMonth";
-import StatsSection from "../adminPanel/components/dashboard/StatsCard";
+import DayMonth from "../components/analytics/DayMonth";
+import StatsSection from "../components/dashboard/StatsCard";
 import { stats } from "../data/data";
-import AnalyticsHostTable from "../adminPanel/components/analytics/AnalyticsHostTable";
-import CoinSalesOverview from "../adminPanel/components/analytics/CoinSalesOverview";
-import MetricsCard from "../adminPanel/components/analytics/MetricsCard";
+import AnalyticsHostTable from "../components/analytics/AnalyticsHostTable";
+import CoinSalesOverview from "../components/analytics/CoinSalesOverview";
+import MetricsCard from "../components/analytics/MetricsCard";
 
 export default function Analytics() {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
-import TitleAndSubTitle from "../../adminPanel/components/TitleAndSubTitle";
-import AddMasterAgencyForm from "../../adminPanel/components/agencies/AddMasterAgencyForm";
+import TitleAndSubTitle from "../../components/TitleAndSubTitle";
+import AddMasterAgencyForm from "../../components/agencies/AddMasterAgencyForm";
 
 export default function AddMasterAgency() {
   return (

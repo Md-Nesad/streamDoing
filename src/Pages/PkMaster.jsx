@@ -1,4 +1,4 @@
-import PkMasterTab from "../adminPanel/components/pkMaster/PkMasterTab";
+import PkMasterTab from "../components/pkMaster/PkMasterTab";
 
 export default function PkMaster() {
   return (
