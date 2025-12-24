@@ -1,7 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import AdminLogin from "../../AdminPanel/Pages/Login";
-import Host from "../../AdminPanel/pages/Host";
 import CoinManageMent from "../../AdminPanel/pages/CoinManageMent";
 import RateTransaction from "../../AdminPanel/pages/RateTransaction";
 import ExchangeRate from "../../AdminPanel/pages/ExchangeRate";
@@ -33,6 +32,7 @@ import NotificationCenter from "../../AdminPanel/pages/NotificationCenter";
 import InboxAssests from "../../AdminPanel/pages/InboxAssests";
 import Dashboard from "../../AdminPanel/Pages/Dashboard";
 import DashboardUsers from "../../AdminPanel/Pages/Users";
+import Host from "../../AdminPanel/pages/Host";
 
 export default function DashboardRouter() {
   return (
