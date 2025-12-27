@@ -4,8 +4,10 @@ import { useState } from "react";
 import ReportModal from "../../modals/ReportModal";
 import star from "../../assests/star.png";
 
-export default function AllReportsTable() {
+export default function AllReportsTable({ reports }) {
   const [open, setIsOpen] = useState(false);
+  const allReports = reports?.reports;
+
   return (
     <>
       {/* search area */}
@@ -35,42 +37,53 @@ export default function AllReportsTable() {
           </thead>
 
           <tbody>
-            {hostAgencies.map((host, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3">
-                  <div className="w-8 h-8 bg-black rounded-full"></div>
-                </td>
-                <td className="p-3">User123</td>
-                <td className="p-3">Host Sultana</td>
-                <td className="p-3">
-                  <span className="p-1 text-xs bg-linear-to-b from-[#FA77BD] to-[#940C44] rounded-lg font-semibold text-white flex items-center gap-2 w-13">
-                    <img src={star} alt="" className="w-4 h-4" /> Lv1
-                  </span>
-                </td>
-                <td className="p-3 text-[#FF00C8]">12:00</td>
-                <td className="p-3">
-                  <span className="bg-linear-to-r from-[#2FB6FF] rounded-full to-[#447FFF] py-1 px-3 opacity-70 shadow-md text-white">
-                    Content
-                  </span>
-                </td>
-                <td className="p-3">2024-10-28 14:30</td>
-                <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-sm bg-linear-to-r from-[#2FB6FF] to-[#447FFF] rounded-full text-white opacity-70 flex gap-3 items-center w-21`}
-                  >
-                    <Activity size={15} /> Live
-                  </span>
-                </td>
-                <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
-                  <button title="View">
-                    <Eye size={19} onClick={() => setIsOpen(true)} />
-                  </button>
+            {allReports?.length > 0 ? (
+              allReports?.map((report, index) => (
+                <tr
+                  key={index}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3">
+                    <div className="w-8 h-8 bg-black rounded-full"></div>
+                  </td>
+                  <td className="p-3">User123</td>
+                  <td className="p-3">Host Sultana</td>
+                  <td className="p-3">
+                    <span className="p-1 text-xs bg-linear-to-b from-[#FA77BD] to-[#940C44] rounded-lg font-semibold text-white flex items-center gap-2 w-13">
+                      <img src={star} alt="" className="w-4 h-4" /> Lv1
+                    </span>
+                  </td>
+                  <td className="p-3 text-[#FF00C8]">12:00</td>
+                  <td className="p-3">
+                    <span className="bg-linear-to-r from-[#2FB6FF] rounded-full to-[#447FFF] py-1 px-3 opacity-70 shadow-md text-white">
+                      Content
+                    </span>
+                  </td>
+                  <td className="p-3">2024-10-28 14:30</td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-sm bg-linear-to-r from-[#2FB6FF] to-[#447FFF] rounded-full text-white opacity-70 flex gap-3 items-center w-21`}
+                    >
+                      <Activity size={15} /> Live
+                    </span>
+                  </td>
+                  <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
+                    <button title="View">
+                      <Eye size={19} onClick={() => setIsOpen(true)} />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] ">
+                <td
+                  colSpan={9}
+                  className="text-center py-5 text-[#555] font-medium"
+                >
+                  No Reports found.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
         {open && <ReportModal open={open} onClose={() => setIsOpen(false)} />}

@@ -3,7 +3,8 @@ import { analyticsHost, usersTable } from "../../data/data";
 import { useState } from "react";
 import UserDetailsModal from "../../modals/UserDetailsModal";
 
-export default function AnalyticsHostTable() {
+export default function AnalyticsHostTable({ data }) {
+  const topHosts = data?.data?.data;
   const [open, setIsOpen] = useState(false);
   return (
     <>
@@ -31,60 +32,68 @@ export default function AnalyticsHostTable() {
         <h2 className="text-xl font-semibold mb-5">Top Performing Hosts</h2>
 
         <div className="space-y-4">
-          {analyticsHost.map((host, index) => (
-            <div
-              key={index}
-              className="flex flex-col max-sm:gap-5 sm:flex-row sm:items-center sm:justify-between bg-[#F1F3F6] rounded-xl px-3 sm:px-5 py-4 border border-gray-200"
-            >
-              {/* Left: Image + Info */}
-              <div className="flex items-center gap-4">
-                <img
-                  src={host.img}
-                  alt={host.name}
-                  className="w-14 h-14 rounded-full object-cover border"
-                  loading="lazy"
-                />
-                <div
-                  role="button"
-                  onClick={() => setIsOpen(true)}
-                  className="cursor-pointer"
-                >
-                  <h3 className="font-semibold text-gray-800">{host.name}</h3>
-                  <p className="text-sm text-gray-600">ID : {host.id}</p>
-                  <p className="text-sm text-gray-500">{host.agency}</p>
+          {topHosts?.length > 0 ? (
+            topHosts.map((host, index) => (
+              <div
+                key={index}
+                className="flex flex-col max-sm:gap-5 sm:flex-row sm:items-center sm:justify-between bg-[#F1F3F6] rounded-xl px-3 sm:px-5 py-4 border border-gray-200"
+              >
+                {/* Left: Image + Info */}
+                <div className="flex items-center gap-4">
+                  <img
+                    src={host.img}
+                    alt={host.name}
+                    className="w-14 h-14 rounded-full object-cover border"
+                    loading="lazy"
+                  />
+                  <div
+                    role="button"
+                    onClick={() => setIsOpen(true)}
+                    className="cursor-pointer"
+                  >
+                    <h3 className="font-semibold text-gray-800">{host.name}</h3>
+                    <p className="text-sm text-gray-600">ID : {host.id}</p>
+                    <p className="text-sm text-gray-500">{host.agency}</p>
+                  </div>
+                </div>
+
+                {/* Right: Stats */}
+                <div className="flex items-start gap-3 sm:gap-10 font-medium text-[#181717]">
+                  <div
+                    className={`text-white text-xs px-3 py-1 sm:mt-1 rounded-full ${host.badge.color}`}
+                  >
+                    {host.badge.level}
+                  </div>
+
+                  <div
+                    className={`${host.country === "Pakistan" ? "pl-4" : ""}`}
+                  >
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1 text-start">
+                      {host.country}
+                    </p>
+                  </div>
+
+                  <div className="text-right mt-1">
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      Streaming
+                    </p>
+                    <p className="text-blue-600 max-sm:text-xs max-sm:text-left font-semibold">
+                      {host.hours}
+                    </p>
+                  </div>
+
+                  <div className="text-right mt-1">
+                    <p className="text-xs sm:text-sm text-gray-500">Diamonds</p>
+                    <p className="text-pink-600 max-sm:text-xs max-sm:text-left font-semibold">
+                      {host.diamonds}
+                    </p>
+                  </div>
                 </div>
               </div>
-
-              {/* Right: Stats */}
-              <div className="flex items-start gap-3 sm:gap-10 font-medium text-[#181717]">
-                <div
-                  className={`text-white text-xs px-3 py-1 sm:mt-1 rounded-full ${host.badge.color}`}
-                >
-                  {host.badge.level}
-                </div>
-
-                <div className={`${host.country === "Pakistan" ? "pl-4" : ""}`}>
-                  <p className="text-xs sm:text-sm text-gray-600 mt-1 text-start">
-                    {host.country}
-                  </p>
-                </div>
-
-                <div className="text-right mt-1">
-                  <p className="text-xs sm:text-sm text-gray-500">Streaming</p>
-                  <p className="text-blue-600 max-sm:text-xs max-sm:text-left font-semibold">
-                    {host.hours}
-                  </p>
-                </div>
-
-                <div className="text-right mt-1">
-                  <p className="text-xs sm:text-sm text-gray-500">Diamonds</p>
-                  <p className="text-pink-600 max-sm:text-xs max-sm:text-left font-semibold">
-                    {host.diamonds}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-center text-gray-600">No hosts found</p>
+          )}
         </div>
         {open && (
           <UserDetailsModal open={open} onClose={() => setIsOpen(false)} />

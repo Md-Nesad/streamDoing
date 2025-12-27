@@ -12,8 +12,6 @@ export default function Moderation() {
         subtitle="Review reports and manage violations"
       />
 
-      <StatsSection data={monitaization} />
-
       <ModerationTabs />
     </div>
   );

@@ -1,6 +1,7 @@
 import { Users, Clock, Gift } from "lucide-react";
 
-export default function MetricsCard() {
+export default function MetricsCard({ data }) {
+  const metrics = data?.data;
   return (
     <div className="w-full bg-white p-3 sm:p-6 pb-10 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)] border border-gray-100 my-5">
       <h3 className="mt-1 mb-5 font-semibold text-[#181717] text-xl">
@@ -15,7 +16,9 @@ export default function MetricsCard() {
           </div>
           <div>
             <p className="text-sm text-gray-600">Daily Active Users</p>
-            <h3 className="text-xl font-semibold text-[#837DFF]">8,234</h3>
+            <h3 className="text-xl font-semibold text-[#837DFF]">
+              {metrics?.dailyActiveUsers}
+            </h3>
           </div>
         </div>
 
@@ -26,7 +29,9 @@ export default function MetricsCard() {
           </div>
           <div>
             <p className="text-sm text-gray-600">Avg. Session Duration</p>
-            <h3 className="text-xl font-semibold text-[#837DFF]">42 min</h3>
+            <h3 className="text-xl font-semibold text-[#837DFF]">
+              {metrics?.avgDuration}
+            </h3>
           </div>
         </div>
 
@@ -37,7 +42,9 @@ export default function MetricsCard() {
           </div>
           <div>
             <p className="text-sm text-gray-600">Gift Interactions</p>
-            <h3 className="text-xl font-semibold text-[#EE4096]">15.2K</h3>
+            <h3 className="text-xl font-semibold text-[#EE4096]">
+              {metrics?.totalGifts}
+            </h3>
           </div>
         </div>
       </div>
