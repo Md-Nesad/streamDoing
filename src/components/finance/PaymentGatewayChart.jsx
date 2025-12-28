@@ -9,14 +9,14 @@ import {
 } from "recharts";
 import { useLayoutEffect } from "react";
 
-const paymentData = [
-  { name: "Stripe", value: 25800 },
-  { name: "PayPal", value: 19600 },
-  { name: "Gpay", value: 26000 },
-  { name: "Bank", value: 18000 },
-];
-
 export default function PaymentChart() {
+  const paymentData = [
+    { name: "Stripe", value: 25800 },
+    { name: "PayPal", value: 19600 },
+    { name: "Gpay", value: 26000 },
+    { name: "Bank", value: 18000 },
+  ];
+
   useLayoutEffect(() => {
     const hideGrids = () => {
       // Hide top horizontal grid

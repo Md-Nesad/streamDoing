@@ -7,17 +7,18 @@ import {
   ReferenceLine,
 } from "recharts";
 
-const data = [
-  { name: "Jan", value: 0 },
-  { name: "Feb", value: 1000 },
-  { name: "Mar", value: 3200 },
-  { name: "Apr", value: 3600 },
-  { name: "May", value: 3500 },
-  { name: "Jun", value: 4000 },
-  { name: "Aug", value: 7200 },
-];
+export default function RevenueChart({ apiData }) {
+  const chartData = apiData?.chartData?.revenueChart?.map((rev) => {
+    const expense = apiData?.expenseData?.find(
+      (exp) => exp.month === rev.month
+    );
 
-export default function RevenueChart() {
+    return {
+      name: rev.month.slice(0, 3),
+      revenue: rev.revenue,
+      expense: expense?.totalAmount || 0,
+    };
+  });
   return (
     <div
       style={{
@@ -33,33 +34,28 @@ export default function RevenueChart() {
       </h2>
 
       <LineChart
-        data={data}
+        data={chartData}
         margin={{ top: 5, right: 10, left: -15, bottom: 0 }}
         width="100%"
         height={300}
         responsive
       >
-        {/* Grid */}
         {/* Extra top space line manually */}
         <ReferenceLine y={8000} stroke="#e5e7eb" strokeDasharray="0" />
-
         <ReferenceLine y={6000} stroke="#e5e7eb" strokeDasharray="0" />
-
         <ReferenceLine y={4000} stroke="#e5e7eb" strokeDasharray="0" />
-
         <ReferenceLine y={2000} stroke="#e5e7eb" strokeDasharray="0" />
-
         <ReferenceLine x="Aug" stroke="#e5e7eb" strokeDasharray="0" />
-
         <ReferenceLine x="Feb" stroke="#e5e7eb" strokeDasharray="0" />
-
         <ReferenceLine x={"Mar"} stroke="#e5e7eb" strokeDasharray="0" />
-
         <ReferenceLine x={"Apr"} stroke="#e5e7eb" strokeDasharray="0" />
-
         <ReferenceLine x={"May"} stroke="#e5e7eb" strokeDasharray="0" />
-
         <ReferenceLine x={"Jun"} stroke="#e5e7eb" strokeDasharray="0" />
+        <ReferenceLine x={"Jul"} stroke="#e5e7eb" strokeDasharray="0" />
+        <ReferenceLine x={"Sep"} stroke="#e5e7eb" strokeDasharray="0" />
+        <ReferenceLine x={"Oct"} stroke="#e5e7eb" strokeDasharray="0" />
+        <ReferenceLine x={"Nov"} stroke="#e5e7eb" strokeDasharray="0" />
+        <ReferenceLine x={"Dec"} stroke="#e5e7eb" strokeDasharray="0" />
 
         {/* X Axis */}
         <XAxis
@@ -86,11 +82,21 @@ export default function RevenueChart() {
         {/* Smooth line */}
         <Line
           type="monotone"
-          dataKey="value"
+          dataKey="revenue"
           stroke="#22c55e"
           strokeWidth={2}
-          dot={{ r: 3, fill: "white", strokeWidth: 2, stroke: "#22c55e" }}
-          activeDot={{ r: 2 }}
+          dot={{ r: 3, fill: "white", stroke: "#22c55e", strokeWidth: 2 }}
+          activeDot={{ r: 5 }}
+        />
+
+        {/* Expense Line */}
+        <Line
+          type="monotone"
+          dataKey="expense"
+          stroke="#ef4444"
+          strokeWidth={2}
+          dot={{ r: 3, fill: "white", stroke: "#ef4444", strokeWidth: 2 }}
+          activeDot={{ r: 5 }}
         />
       </LineChart>
     </div>

@@ -1,7 +1,8 @@
 import { CircleCheckBig, CircleX, Eye } from "lucide-react";
 import { hostAgencies } from "../../data/data";
 
-export default function WithdrawTable() {
+export default function WithdrawTable({ data }) {
+  const withdraws = data?.requests;
   return (
     <>
       {/* table area */}
@@ -27,32 +28,43 @@ export default function WithdrawTable() {
           </thead>
 
           <tbody>
-            {hostAgencies.map((host, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 pl-6">Sarah Johnson</td>
-                <td className="p-3 text-[#FF00C8]">
-                  <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold opacity-90">
-                    Normal
-                  </span>
-                </td>
-                <td className="p-3">$2,450</td>
-                <td className="p-3">Stripe</td>
-                <td className="p-3">
-                  <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold opacity-90">
-                    Pending
-                  </span>
-                </td>
-                <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
-                  <span className="flex items-center gap-3">
-                    <CircleCheckBig size={17} className="text-[#11B324]" />
-                    <CircleX size={18} className="text-[#FF0037]" />
-                  </span>
+            {withdraws?.length > 0 ? (
+              withdraws.map((withdraw, index) => (
+                <tr
+                  key={index}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 pl-6">Sarah Johnson</td>
+                  <td className="p-3 text-[#FF00C8]">
+                    <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold opacity-90">
+                      Normal
+                    </span>
+                  </td>
+                  <td className="p-3">$2,450</td>
+                  <td className="p-3">Stripe</td>
+                  <td className="p-3">
+                    <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold opacity-90">
+                      Pending
+                    </span>
+                  </td>
+                  <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
+                    <span className="flex items-center gap-3">
+                      <CircleCheckBig size={17} className="text-[#11B324]" />
+                      <CircleX size={18} className="text-[#FF0037]" />
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] ">
+                <td
+                  colSpan={9}
+                  className="text-center py-5 text-[#555] font-medium"
+                >
+                  No withdrawals found.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
