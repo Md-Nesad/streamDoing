@@ -10,7 +10,7 @@ import { Clock, Eye, TrendingUp, Video } from "lucide-react";
 export default function LiveStreams() {
   const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/live-streams?page=${page}&limit=10`
+    `${BASE_URL}/admin/live-streams?page=${page}&limit=20`
   );
 
   console.log(data);
