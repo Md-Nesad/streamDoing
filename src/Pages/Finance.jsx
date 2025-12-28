@@ -17,7 +17,7 @@ export default function Finance() {
   );
 
   const loading = financeSummary.loading;
-  const error = financeSummary.error;
+  const error = financeSummary.error || revenueChart.error;
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;

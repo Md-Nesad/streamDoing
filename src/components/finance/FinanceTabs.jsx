@@ -4,6 +4,7 @@ import CoinPurchaseTable from "./CoinPurchaseTable";
 import PaymentCards from "./PaymentCard";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
+import Error from "../Error";
 
 export default function FinanceTabs() {
   const withdrawRequest = useFetch(
@@ -12,6 +13,10 @@ export default function FinanceTabs() {
   const coinPurchase = useFetch(
     `${BASE_URL}/admin/finance/coin-purchases?page=1&limit=20`
   );
+
+  const error = withdrawRequest.error || coinPurchase.error;
+
+  if (error) return <Error error={error} />;
   return (
     <Tabs>
       <TabList className="flex items-center gap-4 bg-[#F4F4F4] w-full sm:w-fit overflow-x-auto text-nowrap px-2 py-1 rounded mb-5 hide_scrollbar max-sm:text-sm">
