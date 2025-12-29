@@ -654,24 +654,6 @@ export const usersTable = [
   },
 ];
 
-export const tiers = [
-  {
-    title: "Master Tier",
-    min: "100,000",
-    price: "$1",
-  },
-  {
-    title: "Agency Tier",
-    min: "10,000",
-    price: "$0.95",
-  },
-  {
-    title: "User Tier",
-    min: "100",
-    price: "$0.9",
-  },
-];
-
 export const logData = [
   {
     title: "Warning Issued",
@@ -692,34 +674,6 @@ export const logData = [
     title: "Warning Issued",
     min: "By Moderator1 • 4 hours ago",
     price: "Resolved",
-  },
-];
-
-export const ledger = [
-  {
-    title: "Ledger Entry #1000",
-    min: "2024-10-28 14:30:00",
-    price: "+5000 coins",
-  },
-  {
-    title: "Ledger Entry #1001",
-    min: "Min Purchase: 10,000 coins",
-    price: "-10000 coins",
-  },
-  {
-    title: "Ledger Entry #1002",
-    min: "2024-10-27 14:32:00",
-    price: "+15000 coins",
-  },
-  {
-    title: "Ledger Entry #1002",
-    min: "2024-10-27 14:32:00",
-    price: "+15000 coins",
-  },
-  {
-    title: "Ledger Entry #1002",
-    min: "2024-10-27 14:32:00",
-    price: "+15000 coins",
   },
 ];
 

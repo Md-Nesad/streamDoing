@@ -7,7 +7,7 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import SellCoins from "./SellCoins";
 import RateTransactionTable from "./RateTransactionTable";
 import CurrentExchangeRate from "./CurrentExchangeRate";
-import { ledger, tiers } from "../../data/data";
+import MasterLedger from "./MasterLedger";
 
 export default function TabsSection() {
   const [openCoinModal, setOpenCoinModal] = useState(false);
@@ -93,11 +93,11 @@ export default function TabsSection() {
         </TabPanel>
 
         <TabPanel>
-          <CurrentExchangeRate tiers={tiers} title="Current Exchange Rate" />
+          <CurrentExchangeRate />
         </TabPanel>
 
         <TabPanel>
-          <CurrentExchangeRate tiers={ledger} title="Master Coin Ledger" />
+          <MasterLedger />
         </TabPanel>
       </Tabs>
 

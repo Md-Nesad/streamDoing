@@ -1,7 +1,21 @@
 import { CircleCheckBig, CircleX, Eye, RotateCw } from "lucide-react";
-import { coinAgenciesTable } from "../../data/data";
+import useFetch from "../../hooks/useFetch";
+import { BASE_URL, formatNumber, formatOnlyDate } from "../../utility/utility";
+import Loading from "../Loading";
+import Error from "../Error";
+import Pagination from "../Pagination";
+import { useState } from "react";
 
 export default function RateTransactionTable() {
+  const [page, setPage] = useState(1);
+  const { data, loading, error } = useFetch(
+    `${BASE_URL}/coins/rates/transactions?page=${page}&limit=10`
+  );
+  const transactions = data?.transactions;
+  const pagination = data?.pagination;
+
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
   return (
     <>
       <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mt-6 mb-10">
@@ -19,16 +33,18 @@ export default function RateTransactionTable() {
           </thead>
 
           <tbody>
-            {coinAgenciesTable.map((item, index) => (
+            {transactions?.map((item, index) => (
               <tr
                 key={index}
                 className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
               >
-                <td className="p-3 font-medium pl-5">{item.portalId}</td>
-                <td className="p-3">{item.name}</td>
-                <td className="p-3">{item.coin}</td>
-                <td className="p-3 text-[#00D519]">{item.value}</td>
-                <td className="p-3">{item.date}</td>
+                <td className="p-3 font-medium pl-5">{item.to.slice(0, 10)}</td>
+                <td className="p-3">Master agency</td>
+                <td className="p-3">{formatNumber(item.coins)}</td>
+                <td className="p-3 text-[#00D519]">
+                  ${formatNumber(item.amount)}
+                </td>
+                <td className="p-3">{formatOnlyDate(item.createdAt)}</td>
                 <td className="p-3">
                   <span
                     className={`px-4 py-1 text-xs text-center block w-23 ${
@@ -58,6 +74,12 @@ export default function RateTransactionTable() {
             ))}
           </tbody>
         </table>
+        <Pagination
+          page={page}
+          limit={pagination?.limit}
+          total={pagination?.total}
+          onPageChange={setPage}
+        />
       </div>
     </>
   );
