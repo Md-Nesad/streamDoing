@@ -4,7 +4,7 @@ import HostTable from "../components/host/HostTable";
 import useFetch from "../hooks/useFetch";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
-import { BASE_URL } from "../utility/utility";
+import { BASE_URL, formatNumber } from "../utility/utility";
 
 export default function Host() {
   const host = useFetch(`${BASE_URL}/dashboard/host-stats`);
@@ -28,21 +28,21 @@ export default function Host() {
     },
     {
       title: "Total Diamonds",
-      value: data?.totalDiamonds + "M",
+      value: formatNumber(data?.totalDiamonds),
       change: "",
       icon: RadioTower,
       iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
     },
     {
       title: "Total Beans",
-      value: data?.totalBeans + "K",
+      value: formatNumber(data?.totalBeans),
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
     },
     {
       title: "Platform Revenue",
-      value: data?.platFormRevenue + "M",
+      value: "৳" + formatNumber(data?.platFormRevenue),
       change: `+${data?.revenueGrowth}%`,
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",

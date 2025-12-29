@@ -5,7 +5,7 @@ import CoinsTable from "./CoinsTable";
 import MastersTable from "./MastersTable";
 import AdminAgencyTable from "./AdminAgencyTable";
 import useFetch from "../../hooks/useFetch";
-import { BASE_URL } from "../../utility/utility";
+import { BASE_URL, formatNumber } from "../../utility/utility";
 import Loading from "../Loading";
 import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
 import { useState } from "react";
@@ -22,7 +22,6 @@ export default function AgencisTabs() {
   );
 
   const agenciesData = agenciesList?.data;
-  console.log(agenciesData);
   const loading = hostAgencies.loading || coinAgencies.loading;
   const error =
     hostAgencies.error ||
@@ -52,14 +51,14 @@ export default function AgencisTabs() {
     },
     {
       title: "Active Balance",
-      value: `${hostAgencies?.data?.activeAgencyBalance}M`,
+      value: formatNumber(hostAgencies?.data?.activeAgencyBalance),
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
     },
     {
       title: "Platform Revenue",
-      value: `৳${hostAgencies?.data?.totalRevenue}k`,
+      value: `৳${formatNumber(hostAgencies?.data?.totalRevenue)}`,
       change: "",
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",

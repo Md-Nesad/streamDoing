@@ -1,8 +1,10 @@
 import { Ellipsis, Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { formatNumber, formatOnlyDate } from "../../utility/utility";
 
 export default function CoinSenderTable({ tableData }) {
   const coinsSend = tableData?.transactions;
+  console.log(coinsSend);
   const navigate = useNavigate();
   return (
     <>
@@ -20,7 +22,10 @@ export default function CoinSenderTable({ tableData }) {
           <button className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto">
             <Funnel size={18} /> Filter
           </button>
-          <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
+          <button
+            onClick={() => navigate("/dashboard/agencies/add-host-agency")}
+            className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
+          >
             Add Agency
           </button>
         </div>
@@ -49,17 +54,19 @@ export default function CoinSenderTable({ tableData }) {
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
-                  <td className="p-3">{coin.transactionId}</td>
-                  <td className="p-3">{coin.senderType}</td>
-                  <td className="p-3">{coin.senderUserId}</td>
-                  <td className="p-3">{coin.receiverUserId}</td>
-                  <td className="p-3">{coin.receiverType}</td>
-                  <td className="p-3">{coin.coinAmount}</td>
-                  <td className="p-3">{coin.sentDateTime}</td>
-                  <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                    <span>
-                      <Ellipsis size={17} />
-                    </span>
+                  <td title={coin.transactionId} className="p-3">
+                    {coin.transactionId.slice(0, 10)}
+                  </td>
+                  <td className="p-3">{coin.saleFrom}</td>
+                  <td className="p-3">{coin.senderUserId || "N/A"}</td>
+                  <td title={coin?.to?.id} className="p-3">
+                    {coin?.to?.id.slice(0, 10)}
+                  </td>
+                  <td className="p-3">{coin.saleTo}</td>
+                  <td className="p-3">{formatNumber(coin.amount)}</td>
+                  <td className="p-3">{formatOnlyDate(coin.date)}</td>
+                  <td className="p-3 text-[#181717] font-medium cursor-pointer flex gap-5 items-center">
+                    <span>{coin.status}</span>
                   </td>
                 </tr>
               ))

@@ -2,6 +2,7 @@ import { Ellipsis, Funnel } from "lucide-react";
 import star from "../../assests/star.png";
 import Pagination from "../Pagination";
 import Loading from "../Loading";
+import { formatNumber } from "../../utility/utility";
 
 export default function AgenciesTable({ agenciesData, setPage, loading }) {
   const agenciesList = agenciesData?.agencies;
@@ -74,13 +75,13 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                             {agency.level || "N/A"}
                           </span>
                         </td>
-                        <td className="p-3">{agency.diamonds}M</td>
-                        <td className="p-3">{agency.coins}k</td>
+                        <td className="p-3">{formatNumber(agency.diamonds)}</td>
+                        <td className="p-3">{formatNumber(agency.coins)}</td>
                         <td className="xl:p-3 px-7">
-                          {agency.coinSell || "N/A"}
+                          {formatNumber(agency.coinSell) || "N/A"}
                         </td>
                         <td className="xl:p-3 px-7">
-                          {agency.coinBuy || "N/A"}
+                          {formatNumber(agency.coinBuy) || "N/A"}
                         </td>
                         <td className="p-3">{agency.country || "N/A"}</td>
                         <td className="p-3">

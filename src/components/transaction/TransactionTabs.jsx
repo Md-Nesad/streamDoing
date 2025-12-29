@@ -3,7 +3,7 @@ import StatsSection from "../dashboard/StatsCard";
 import CoinSenderTable from "./CoinSenderTable";
 import GiftingTable from "./GiftingTable";
 import useFetch from "../../hooks/useFetch";
-import { BASE_URL } from "../../utility/utility";
+import { BASE_URL, formatNumber, formatPercent } from "../../utility/utility";
 import Loading from "../Loading";
 import Error from "../Error";
 import { TrendingUp, Users, Wallet } from "lucide-react";
@@ -26,21 +26,21 @@ export default function TransactionTabs() {
   const coinSender = [
     {
       title: "Total Coins",
-      value: statsSummary?.totalCoins,
+      value: formatNumber(statsSummary?.totalCoins),
       change: `+${statsSummary?.transactionCount} this month`,
       icon: Users,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
     },
     {
       title: "Total Coin Sales",
-      value: statsSummary?.totalAmount + "M",
+      value: formatNumber(statsSummary?.totalAmount),
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
     },
     {
       title: "Avg Commission",
-      value: statsSummary?.avgRate + "%",
+      value: formatPercent(statsSummary?.avgRate),
       change: "",
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",

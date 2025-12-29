@@ -4,7 +4,7 @@ import RevenueChart from "../components/finance/RevenueChart";
 import PaymentGatewayChart from "../components/finance/PaymentGatewayChart";
 import FinanceTabs from "../components/finance/FinanceTabs";
 import useFetch from "../hooks/useFetch";
-import { BASE_URL } from "../utility/utility";
+import { BASE_URL, formatNumber } from "../utility/utility";
 import { Users, Wallet } from "lucide-react";
 import { Coin } from "../../public/icons/Coin";
 import Loading from "../components/Loading";
@@ -39,14 +39,14 @@ export default function Finance() {
     },
     {
       title: "Coin Purchases",
-      value: "$" + financeSummary?.data?.totalCoinPurchase,
+      value: "$" + formatNumber(financeSummary?.data?.totalCoinPurchase),
       change: "This month",
       icon: Wallet,
       iconBg: "bg-gradient-to-tl from-[#30ACFF] to-[#C213E1]",
     },
     {
       title: "$ Net Profit",
-      value: "$" + financeSummary?.data?.netProfit,
+      value: "$" + formatNumber(financeSummary?.data?.netProfit),
       change: "After expenses",
       icon: Coin,
       iconBg: "bg-gradient-to-b from-[#1931B8] to-[#61B3BF]",

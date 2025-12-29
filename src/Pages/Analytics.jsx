@@ -4,7 +4,7 @@ import AnalyticsHostTable from "../components/analytics/AnalyticsHostTable";
 import CoinSalesOverview from "../components/analytics/CoinSalesOverview";
 import MetricsCard from "../components/analytics/MetricsCard";
 import useFetch from "../hooks/useFetch";
-import { BASE_URL } from "../utility/utility";
+import { BASE_URL, formatNumber } from "../utility/utility";
 import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
@@ -59,7 +59,7 @@ export default function Analytics() {
     },
     {
       title: "Diamond Earned",
-      value: analyticsStats?.data?.totalDiamondEarned + "M",
+      value: formatNumber(analyticsStats?.data?.totalDiamondEarned),
       change: "-",
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",

@@ -5,7 +5,7 @@ import StatsSection from "../components/dashboard/StatsCard";
 import useFetch from "../hooks/useFetch";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
-import { BASE_URL } from "../utility/utility";
+import { BASE_URL, formatNumber } from "../utility/utility";
 import { useState } from "react";
 
 export default function Dashboard() {
@@ -52,7 +52,7 @@ export default function Dashboard() {
     },
     {
       title: "Platform Revenue",
-      value: "৳" + data?.platformRevenue + "M",
+      value: "৳" + formatNumber(data?.platformRevenue),
       change: `+${data?.revenueGrowth}%`,
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",

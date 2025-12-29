@@ -10,3 +10,40 @@ export default function duration(startTime, endTime) {
   const seconds = Math.floor((duration % 60000) / 1000);
   return `${hours}h ${minutes}m ${seconds}s`;
 }
+
+//money format
+export function formatNumber(num) {
+  if (!num) return 0;
+
+  if (num >= 1_000_000_000_000) {
+    return (num / 1_000_000_000_000).toFixed(1) + "T";
+  }
+  if (num >= 1_000_000_000) {
+    return (num / 1_000_000_000).toFixed(1) + "B";
+  }
+  if (num >= 1_000_000) {
+    return (num / 1_000_000).toFixed(1) + "M";
+  }
+  if (num >= 1_000) {
+    return (num / 1_000).toFixed(1) + "K";
+  }
+
+  return num;
+}
+
+//percentage formater
+export function formatPercent(value, decimals = 2) {
+  return `${Number(value)
+    .toFixed(decimals)
+    .replace(/\.0+$/, "")
+    .replace(/(\.\d*[1-9])0+$/, "$1")}%`;
+}
+
+//date format
+export function formatOnlyDate(dateString) {
+  return new Date(dateString).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
