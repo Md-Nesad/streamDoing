@@ -17,6 +17,7 @@ export default function SellCoins() {
   const [loading, setLoading] = useState(false);
 
   const handleCoinSell = async () => {
+    if (!masterId) return alert("Please enter Master ID");
     const masterExists = masterIds?.some(
       (item) => String(item?.displayId) === String(masterId)
     );
