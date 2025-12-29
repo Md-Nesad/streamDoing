@@ -1,7 +1,42 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import useFetch from "../hooks/useFetch";
+import { BASE_URL } from "../utility/utility";
 
 export default function ExchangesRateModal({ open, onClose }) {
   if (!open) return null;
+  // get latest coin rate
+  const { data } = useFetch(`${BASE_URL}/coins/rates/latest`);
+
+  const [masterRate, setMasterRate] = useState(data?.coinRate?.masterRate);
+  const [agencyRate, setAgencyRate] = useState(data?.coinRate?.agencyRate);
+  const [userRate, setUserRate] = useState(data?.coinRate?.userRate);
+  const [loading, setLoading] = useState(false);
+
+  //update coin rates
+  const updateCoinRates = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`${BASE_URL}/coins/rates`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("admin_token")}`,
+        },
+        body: JSON.stringify({ masterRate, agencyRate, userRate }),
+      });
+      const result = await res.json();
+      alert(result.message);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    setMasterRate(data?.coinRate?.masterRate);
+    setAgencyRate(data?.coinRate?.agencyRate);
+    setUserRate(data?.coinRate?.userRate);
+  }, [data]);
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
@@ -18,28 +53,36 @@ export default function ExchangesRateModal({ open, onClose }) {
         <div className="mt-6 space-y-3">
           <div>
             <label className="text-sm font-medium text-gray-700">
-              User Id/ Transaction Id
+              Master Rate
             </label>
             <input
-              type="text"
-              className="w-full mt-1 rounded-md px-3 py-1.5 focus:outline-none border border-[#626060]"
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-gray-700">Balance</label>
-            <input
-              type="text"
+              type="number"
+              value={masterRate}
+              onChange={(e) => setMasterRate(Number(e.target.value))}
               className="w-full mt-1 rounded-md px-3 py-1.5 focus:outline-none border border-[#626060]"
             />
           </div>
 
           <div>
             <label className="text-sm font-medium text-gray-700">
-              Coin Amount
+              Agency Rate
             </label>
             <input
               type="number"
+              value={agencyRate}
+              onChange={(e) => setAgencyRate(Number(e.target.value))}
+              className="w-full mt-1 rounded-md px-3 py-1.5 focus:outline-none border border-[#626060]"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium text-gray-700">
+              User Rate
+            </label>
+            <input
+              type="number"
+              value={userRate}
+              onChange={(e) => setUserRate(Number(e.target.value))}
               className="w-full mt-1 rounded-md px-3 py-1.5 focus:outline-none border border-[#626060]"
             />
           </div>
@@ -51,7 +94,9 @@ export default function ExchangesRateModal({ open, onClose }) {
             Cancel
           </button>
 
-          <button className="px-8 py-1 btn_gradient">Confirm</button>
+          <button onClick={updateCoinRates} className="px-8 py-1 btn_gradient">
+            {loading ? "Updating..." : "Update"}
+          </button>
         </div>
       </div>
     </div>
