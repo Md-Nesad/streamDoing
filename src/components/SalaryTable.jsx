@@ -2,8 +2,10 @@ import { Ban, Eye, Funnel, Trash2 } from "lucide-react";
 import { usersTable } from "../data/data";
 import { useState } from "react";
 import SalaryModal from "../modals/SalaryModal";
+import { formatNumber } from "../utility/utility";
 
-export default function SalaryTable() {
+export default function SalaryTable({ data }) {
+  console.log(data);
   const [open, setIsOpen] = useState(false);
   return (
     <>
@@ -29,16 +31,16 @@ export default function SalaryTable() {
           </thead>
 
           <tbody>
-            {usersTable.map((user, index) => (
+            {data?.map((salary) => (
               <tr
-                key={index}
+                key={salary._id}
                 className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
               >
-                <td className="p-3 font-medium pl-5">200000</td>
-                <td className="p-3">$14</td>
-                <td className="p-3">$50</td>
-                <td className="p-3">$15</td>
-                <td className="p-3">$5</td>
+                <td className="p-3 font-medium pl-5">{salary.targetCoin}</td>
+                <td className="p-3">{formatNumber(salary.targetDiamond)}</td>
+                <td className="p-3">${formatNumber(salary.basicSalary)}</td>
+                <td className="p-3">${formatNumber(salary.totalSalary)}</td>
+                <td className="p-3">${formatNumber(salary.agencyShare)}</td>
               </tr>
             ))}
           </tbody>

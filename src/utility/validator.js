@@ -134,3 +134,26 @@ export const vipSchema = z.object({
       "Only SVG, PNG or MP4 allowed"
     ),
 });
+//add gift schema
+export const addGiftSchema = z.object({
+  giftName: z.string().min(2, "Gift Name is required"),
+  giftPrice: z.string().min(2, "Price is required"),
+  giftCategory: z.string().min(1, "Category is required"),
+  giftSubCategory: z.string().min(1, "Sub category is required"),
+  giftLogo: z
+    .any()
+    .refine((files) => files?.length > 0, "Logo is required")
+    .refine(
+      (files) =>
+        ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
+      "Only SVG, PNG or MP4 allowed"
+    ),
+  giftSound: z
+    .any()
+    .refine((files) => files?.length > 0, "Sound file is required")
+    .refine(
+      (files) =>
+        ["audio/mpeg", "audio/wav", "audio/ogg"].includes(files?.[0]?.type),
+      "Only MP3, WAV or OGG audio files are allowed"
+    ),
+});

@@ -3,7 +3,7 @@ import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { entrySchema, eventSchema } from "../../utility/validator";
+import { eventSchema } from "../../utility/validator";
 import { useState } from "react";
 import useFormDataPost from "../../hooks/useFormDataPost";
 
@@ -38,7 +38,7 @@ export default function AddNewEventModal({ open, onClose }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-    console.log(result);
+
     if (!result.message) {
       alert("Failed to create entry");
     } else {

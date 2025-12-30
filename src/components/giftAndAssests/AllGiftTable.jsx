@@ -1,12 +1,23 @@
-import { ChevronDown, ChevronUp, Ellipsis, Funnel } from "lucide-react";
-import { hostAgencies } from "../../data/data";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import AddGiftModal from "../../modals/AddGiftModal";
 import AssestsDropdown from "./AssestsDropdown";
+import useFetch from "../../hooks/useFetch";
+import { BASE_URL, formatNumber } from "../../utility/utility";
+import Loading from "../Loading";
 
 export default function AllGiftTable() {
   const [open, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const category = useFetch(`${BASE_URL}/gift-category/list?limit=20`);
+  const { data, loading, error } = useFetch(`${BASE_URL}/gifts/list`);
+
+  const allGifts = data?.gifts;
+  const categories = category?.data?.categories;
+
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
   return (
     <>
       {/* search area */}
@@ -55,35 +66,40 @@ export default function AllGiftTable() {
           </thead>
 
           <tbody>
-            {hostAgencies.map((host, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 font-medium pl-5">{host.reference}</td>
-                <td className="p-3">{host.hostId}</td>
-                <td className="p-3">{host.name}</td>
-                <td className="p-3">{host.balance}</td>
-                <td className="p-3">{host.revenue}</td>
-                <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-xs ${
-                      host.status === "active"
-                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                        : "bg-[#FF929296] text-[#D21B20]"
-                    } text-[#005D23] rounded-full font-semibold`}
-                  >
-                    {host.status}
-                  </span>
-                </td>
-                <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                  <button className="font-semibold">Edit</button>
-                  <button className="font-semibold bg-[#FFE9E9] text-[#CF0D13] py-1 px-3 rounded">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {allGifts?.map((gift) => {
+              const categoryName = categories?.find(
+                (category) => category._id === gift.category
+              )?.name;
+              return (
+                <tr
+                  key={gift._id}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 font-medium pl-5">{gift.name}</td>
+                  <td className="p-3">{categoryName || "N/A"}</td>
+                  <td className="p-3">{formatNumber(gift.cost)}</td>
+                  <td className="p-3">{gift.totalUses || "N/A"}</td>
+                  <td className="p-3">{formatNumber(gift.revenue) || "N/A"}</td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-xs ${
+                        gift.isActive === true
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-[#FF929296] text-[#D21B20]"
+                      } text-[#005D23] rounded-full font-semibold`}
+                    >
+                      {gift.isActive === true ? "active" : "Inactive"}
+                    </span>
+                  </td>
+                  <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                    <button className="font-semibold">Edit</button>
+                    <button className="font-semibold bg-[#FFE9E9] text-[#CF0D13] py-1 px-3 rounded">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         {open && <AddGiftModal open={open} onClose={() => setIsOpen(false)} />}
