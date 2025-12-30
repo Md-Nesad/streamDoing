@@ -1,9 +1,18 @@
-import React from "react";
+import { useState } from "react";
 
 const SalaryModal = ({ onClose }) => {
+  const [targetCoin, setTargetCoin] = useState("");
+  const [targetDiamond, setTargetDiamond] = useState("");
+  const [basicSalary, setBasicSalary] = useState("");
+  const [totalSalary, setTotalSalary] = useState("");
+  const [agencyShare, setAgencyShare] = useState("");
+  const [durationDays, setDurationDays] = useState("");
+  const [dailyLiveHour, setDailyLiveHour] = useState("");
+  const [frequency, setFrequency] = useState("monthly");
+
   return (
-    <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50 max-sm:px-3">
-      <div className="bg-white rounded-xl p-4 sm:p-6 w-[600px] shadow-lg">
+    <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50 max-sm:px-3 ">
+      <div className="bg-white rounded-xl p-4 sm:p-6 w-[600px] shadow-lg animate animatefadeIn">
         <h2 className="text-lg font-semibold mb-6">Create New Salary Target</h2>
 
         <div className="grid sm:grid-cols-2 gap-3">
@@ -14,7 +23,8 @@ const SalaryModal = ({ onClose }) => {
             </label>
             <input
               type="number"
-              defaultValue="10000"
+              value={targetCoin}
+              onChange={(e) => setTargetCoin(e.target.value)}
               className="border rounded-md px-3 py-2 w-32 text-sm"
             />
           </div>
@@ -26,7 +36,8 @@ const SalaryModal = ({ onClose }) => {
             </label>
             <input
               type="number"
-              defaultValue="5000"
+              value={targetDiamond}
+              onChange={(e) => setTargetDiamond(e.target.value)}
               className="border rounded-md px-3 py-2 w-32 text-sm"
             />
           </div>
@@ -38,7 +49,8 @@ const SalaryModal = ({ onClose }) => {
             </label>
             <input
               type="number"
-              defaultValue="5000"
+              value={basicSalary}
+              onChange={(e) => setBasicSalary(e.target.value)}
               className="border rounded-md px-3 py-2 w-32 text-sm"
             />
           </div>
@@ -50,7 +62,8 @@ const SalaryModal = ({ onClose }) => {
             </label>
             <input
               type="number"
-              defaultValue="5000"
+              value={totalSalary}
+              onChange={(e) => setTotalSalary(e.target.value)}
               className="border rounded-md px-3 py-2 w-32 text-sm"
             />
           </div>
@@ -62,7 +75,8 @@ const SalaryModal = ({ onClose }) => {
             </label>
             <input
               type="number"
-              defaultValue="5000"
+              value={agencyShare}
+              onChange={(e) => setAgencyShare(e.target.value)}
               className="border rounded-md px-3 py-2 w-32 text-sm"
             />
           </div>
@@ -72,7 +86,8 @@ const SalaryModal = ({ onClose }) => {
             <label className="text-sm font-medium text-gray-700">Day :</label>
             <input
               type="text"
-              defaultValue="30 days"
+              value={durationDays}
+              onChange={(e) => setDurationDays(e.target.value)}
               className="border rounded-md px-3 py-2 w-32 text-sm"
             />
           </div>
@@ -82,9 +97,66 @@ const SalaryModal = ({ onClose }) => {
             <label className="text-sm font-medium text-gray-700">Time :</label>
             <input
               type="text"
-              defaultValue="12 hr"
+              value={dailyLiveHour}
+              onChange={(e) => setDailyLiveHour(e.target.value)}
               className="border rounded-md px-3 py-2 w-32 text-sm"
             />
+          </div>
+
+          <div className="flex gap-4 text-base text-gray-700">
+            {/* Monthly */}
+            <label className="flex items-center gap-2 cursor-pointer text-gray-700">
+              <input
+                type="radio"
+                name="frequency"
+                value="monthly"
+                checked={frequency === "monthly"}
+                onChange={(e) => setFrequency(e.target.value)}
+                className="hidden"
+              />
+              <span className="w-4 h-4 rounded-full border-2 border-gray-700 flex items-center justify-center">
+                {frequency === "monthly" && (
+                  <span className="w-2 h-2 bg-gray-500 rounded-full" />
+                )}
+              </span>
+              Monthly
+            </label>
+
+            {/* Weekly */}
+            <label className="flex items-center gap-2 cursor-pointer text-gray-700">
+              <input
+                type="radio"
+                name="frequency"
+                value="weekly"
+                checked={frequency === "weekly"}
+                onChange={(e) => setFrequency(e.target.value)}
+                className="hidden"
+              />
+              <span className="w-4 h-4 rounded-full border-2 border-gray-700 flex items-center justify-center">
+                {frequency === "weekly" && (
+                  <span className="w-2 h-2 bg-gray-500 rounded-full" />
+                )}
+              </span>
+              Weekly
+            </label>
+
+            {/* Yearly */}
+            <label className="flex items-center gap-2 cursor-pointer text-gray-700">
+              <input
+                type="radio"
+                name="frequency"
+                value="yearly"
+                checked={frequency === "yearly"}
+                onChange={(e) => setFrequency(e.target.value)}
+                className="hidden"
+              />
+              <span className="w-4 h-4 rounded-full border-2 border-gray-700 flex items-center justify-center">
+                {frequency === "yearly" && (
+                  <span className="w-2 h-2 bg-gray-500 rounded-full" />
+                )}
+              </span>
+              Yearly
+            </label>
           </div>
         </div>
 

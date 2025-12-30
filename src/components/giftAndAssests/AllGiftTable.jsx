@@ -91,3 +91,60 @@ export default function AllGiftTable() {
     </>
   );
 }
+
+// import { useState } from "react";
+// import BannerGifts from "./BannerGifts";
+// import LevelGifts from "./LevelGifts";
+// import BadgeGifts from "./BadgeGifts";
+
+// export default function AllGiftTable() {
+//   const [activeGift, setActiveGift] = useState("banner");
+
+//   return (
+//     <div>
+//       {/* INNER BUTTONS */}
+//       <div className="flex gap-3 mb-4">
+//         <button
+//           onClick={() => setActiveGift("banner")}
+//           className={`px-3 py-1 rounded text-sm
+//             ${
+//               activeGift === "banner"
+//                 ? "bg-blue-500 text-white"
+//                 : "bg-gray-100 text-gray-700"
+//             }`}
+//         >
+//           Banner Gifts
+//         </button>
+
+//         <button
+//           onClick={() => setActiveGift("level")}
+//           className={`px-3 py-1 rounded text-sm
+//             ${
+//               activeGift === "level"
+//                 ? "bg-blue-500 text-white"
+//                 : "bg-gray-100 text-gray-700"
+//             }`}
+//         >
+//           Level Gifts
+//         </button>
+
+//         <button
+//           onClick={() => setActiveGift("badge")}
+//           className={`px-3 py-1 rounded text-sm
+//             ${
+//               activeGift === "badge"
+//                 ? "bg-blue-500 text-white"
+//                 : "bg-gray-100 text-gray-700"
+//             }`}
+//         >
+//           Badge Gifts
+//         </button>
+//       </div>
+
+//       {/* DIFFERENT UI */}
+//       {activeGift === "banner" && <BannerGifts />}
+//       {activeGift === "level" && <LevelGifts />}
+//       {activeGift === "badge" && <BadgeGifts />}
+//     </div>
+//   );
+// }
