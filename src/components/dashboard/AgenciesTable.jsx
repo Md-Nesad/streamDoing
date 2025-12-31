@@ -78,12 +78,12 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                         <td className="p-3">{formatNumber(agency.diamonds)}</td>
                         <td className="p-3">{formatNumber(agency.coins)}</td>
                         <td className="xl:p-3 px-7">
-                          {formatNumber(agency.coinSell) || "N/A"}
+                          {formatNumber(agency.balance)}
                         </td>
                         <td className="xl:p-3 px-7">
-                          {formatNumber(agency.coinBuy) || "N/A"}
+                          {formatNumber(agency.holdCoins)}
                         </td>
-                        <td className="p-3">{agency.country || "N/A"}</td>
+                        <td className="p-3">{agency.country}</td>
                         <td className="p-3">
                           <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
                             {agency.status}

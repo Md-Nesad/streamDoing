@@ -32,7 +32,7 @@ export default function Dashboard() {
     {
       title: "Total Users",
       value: data?.users?.total,
-      change: `+${data?.coinAgencies?.today} today`,
+      change: `+${data?.users?.today} today`,
       icon: Users,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
     },
