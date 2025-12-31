@@ -3,10 +3,12 @@ import star from "../../assests/star.png";
 import Pagination from "../Pagination";
 import Loading from "../Loading";
 import { formatNumber } from "../../utility/utility";
+import { useStream } from "../../context/streamContext";
 
 export default function AgenciesTable({ agenciesData, setPage, loading }) {
   const agenciesList = agenciesData?.agencies;
   const agenciesPagination = agenciesData?.pagination;
+  const { countriesName } = useStream();
 
   // if (loading) return <Loading />;
 
@@ -54,47 +56,56 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
 
                 <tbody>
                   {agenciesList?.length > 0 ? (
-                    agenciesList?.map((agency, index) => (
-                      <tr
-                        key={index}
-                        className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-                      >
-                        <td className="p-3 font-medium pl-5">
-                          {agency.displayId || "N/A"}
-                        </td>
-                        <td className="p-3">{agency.name || "N/A"}</td>
-                        <td className="p-3">
-                          <span className="px-3 py-1 text-xs block w-15 text-center bg-[#B31d84] text-white rounded-full font-semibold">
-                            {agency.type.charAt(0).toUpperCase() +
-                              agency.type.slice(1)}
-                          </span>
-                        </td>
-                        <td className="p-3">
-                          <span className="p-1 text-xs bg-linear-to-b from-[#5DB90A] to-[#175111] rounded-lg font-semibold text-white flex items-center gap-1 w-14">
-                            <img src={star} alt="" className="w-4 h-4" />{" "}
-                            {agency.level || "N/A"}
-                          </span>
-                        </td>
-                        <td className="p-3">{formatNumber(agency.diamonds)}</td>
-                        <td className="p-3">{formatNumber(agency.coins)}</td>
-                        <td className="xl:p-3 px-7">
-                          {formatNumber(agency.balance)}
-                        </td>
-                        <td className="xl:p-3 px-7">
-                          {formatNumber(agency.holdCoins)}
-                        </td>
-                        <td className="p-3">{agency.country}</td>
-                        <td className="p-3">
-                          <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
-                            {agency.status}
-                          </span>
-                        </td>
-                        <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                          <span className="font-semibold">View</span>{" "}
-                          <Ellipsis size={17} />
-                        </td>
-                      </tr>
-                    ))
+                    agenciesList?.map((agency, index) => {
+                      // const country = countries?.find(
+                      //   (country) => country._id === agency.country
+                      // )?.name;
+                      return (
+                        <tr
+                          key={index}
+                          className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                        >
+                          <td className="p-3 font-medium pl-5">
+                            {agency.displayId || "N/A"}
+                          </td>
+                          <td className="p-3">{agency.name || "N/A"}</td>
+                          <td className="p-3">
+                            <span className="px-3 py-1 text-xs block w-15 text-center bg-[#B31d84] text-white rounded-full font-semibold">
+                              {agency.type.charAt(0).toUpperCase() +
+                                agency.type.slice(1)}
+                            </span>
+                          </td>
+                          <td className="p-3">
+                            <span className="p-1 text-xs bg-linear-to-b from-[#5DB90A] to-[#175111] rounded-lg font-semibold text-white flex items-center gap-1 w-14">
+                              <img src={star} alt="" className="w-4 h-4" />{" "}
+                              {agency.level || "N/A"}
+                            </span>
+                          </td>
+                          <td className="p-3">
+                            {formatNumber(agency.diamonds)}
+                          </td>
+                          <td className="p-3">{formatNumber(agency.coins)}</td>
+                          <td className="xl:p-3 px-7">
+                            {formatNumber(agency.revenue)}
+                          </td>
+                          <td className="xl:p-3 px-7">
+                            {formatNumber(agency.balance)}
+                          </td>
+                          <td className="p-3">
+                            {countriesName(agency.country) || "N/A"}
+                          </td>
+                          <td className="p-3">
+                            <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
+                              {agency.status}
+                            </span>
+                          </td>
+                          <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                            <span className="font-semibold">View</span>{" "}
+                            <Ellipsis size={17} />
+                          </td>
+                        </tr>
+                      );
+                    })
                   ) : (
                     <tr className="border-t border-[#DFDFDF] ">
                       <td

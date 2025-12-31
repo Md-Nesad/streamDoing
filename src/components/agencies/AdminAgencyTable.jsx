@@ -2,12 +2,14 @@ import { Ellipsis, Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
 import Loading from "../Loading";
+import { useStream } from "../../context/streamContext";
 
 export default function AdminAgencyTable({ tableData, setPage, loading }) {
   const adminList = tableData?.agencies?.filter(
     (item) => item.type === "admin"
   );
   const adminPagination = tableData?.pagination;
+  const { countriesName } = useStream();
   const navigate = useNavigate();
 
   if (loading) return <Loading />;
@@ -66,7 +68,9 @@ export default function AdminAgencyTable({ tableData, setPage, loading }) {
                   <td className="p-3">{admin.name}</td>
                   <td className="p-3">{admin.diamonds + "M"}</td>
                   <td className="p-3">{admin.commission || "N/A"}</td>
-                  <td className="p-3">{admin.country}</td>
+                  <td className="p-3">
+                    {countriesName(admin.country) || "N/A"}
+                  </td>
                   <td className="p-3">
                     <span
                       className={`px-4 py-1 text-xs ${

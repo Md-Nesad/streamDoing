@@ -2,6 +2,7 @@ import { Ellipsis, Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading";
 import Pagination from "../Pagination";
+import { useStream } from "../../context/streamContext";
 
 export default function MastersTable({ tableData, setPage, loading }) {
   const masterList = tableData?.agencies?.filter(
@@ -9,6 +10,7 @@ export default function MastersTable({ tableData, setPage, loading }) {
   );
   const masterPagination = tableData?.pagination;
   const navigate = useNavigate();
+  const { countriesName } = useStream();
 
   if (loading) return <Loading />;
   return (
@@ -64,7 +66,9 @@ export default function MastersTable({ tableData, setPage, loading }) {
                   <td className="p-3">{master.coinSales || "N/A"}</td>
                   <td className="p-3">{master.coinBuy || "N/A"}</td>
                   <td className="p-3">{master.revenue}</td>
-                  <td className="p-3">{master.country}</td>
+                  <td className="p-3">
+                    {countriesName(master.country) || "N/A"}
+                  </td>
                   <td className="p-3">
                     <span
                       className={`px-4 py-1 text-xs ${

@@ -5,12 +5,14 @@ import Loading from "../Loading";
 import useDelete from "../../hooks/useDelete";
 import { BASE_URL } from "../../utility/utility";
 import { useEffect, useState } from "react";
+import { useStream } from "../../context/streamContext";
 
 export default function HostAgencyTable({ tableData, setPage, loading }) {
   const hostList = tableData?.agencies?.filter((item) => item.type === "host");
   const [hosts, setHosts] = useState(hostList);
   const hostPagination = tableData?.pagination;
   const navigate = useNavigate();
+  const { countriesName } = useStream();
 
   //handle delete function
   const deleteUser = useDelete(`${BASE_URL}/admin/agencies`);
@@ -93,7 +95,9 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
                   <td className="p-3">{host.balance}</td>
                   <td className="p-3">{host.diamonds}</td>
                   <td className="p-3">{host.revenue}</td>
-                  <td className="p-3">{host.country}</td>
+                  <td className="p-3">
+                    {countriesName(host.country) || "N/A"}
+                  </td>
                   <td className="p-3">
                     <span
                       className={`px-4 py-1 text-xs ${

@@ -2,11 +2,13 @@ import { Ellipsis, Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading";
 import Pagination from "../Pagination";
+import { useStream } from "../../context/streamContext";
 
 export default function CoinsTable({ tableData, setPage, loading }) {
   const coinList = tableData?.agencies?.filter((item) => item.type === "coin");
   const coinPagination = tableData?.pagination;
   const navigate = useNavigate();
+  const { countriesName } = useStream();
 
   if (loading) return <Loading />;
   return (
@@ -66,7 +68,9 @@ export default function CoinsTable({ tableData, setPage, loading }) {
                   <td className="p-3">{coin.coinSales || "N/A"}</td>
                   <td className="p-3">{coin.coinBuy || "N/A"}</td>
                   <td className="p-3">{coin.revenue}</td>
-                  <td className="p-3">{coin.country}</td>
+                  <td className="p-3">
+                    {countriesName(coin.country) || "N/A"}
+                  </td>
                   <td className="p-3">
                     <span
                       className={`px-4 py-1 text-xs ${

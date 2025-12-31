@@ -75,7 +75,7 @@ export default function AgencisTabs() {
     },
     {
       title: "Total Coin Sales",
-      value: coinAgencies?.data?.totalCoinSales + "M",
+      value: formatNumber(coinAgencies?.data?.totalCoinSales),
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
@@ -99,7 +99,7 @@ export default function AgencisTabs() {
     },
     {
       title: "Total Coin Sales",
-      value: masterAgencies?.data?.totalCoinSales + "M",
+      value: formatNumber(masterAgencies?.data?.totalCoinSales),
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
@@ -123,7 +123,7 @@ export default function AgencisTabs() {
     },
     {
       title: "Total Coin Sales",
-      value: adminAgencies?.data?.totalCoinSales + "M",
+      value: formatNumber(adminAgencies?.data?.totalCoinSales),
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",

@@ -4,7 +4,7 @@ import UserDetailsModal from "../../modals/UserDetailsModal";
 import Pagination from "../Pagination";
 import Loading from "../Loading";
 import useDelete from "../../hooks/useDelete";
-import { BASE_URL } from "../../utility/utility";
+import { BASE_URL, formatNumber } from "../../utility/utility";
 import star from "../../assests/star.png";
 
 export default function HostAgencyTable({ usersList, setPage, loading }) {
@@ -130,8 +130,8 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
                       {user.level || "N/A"}
                     </span>
                   </td>
-                  <td className="p-3">{user.diamonds}M</td>
-                  <td className="p-3">{user.beans}K</td>
+                  <td className="p-3">{formatNumber(user.diamonds)}</td>
+                  <td className="p-3">{formatNumber(user.beans)}</td>
                   <td className="p-3">{user.location || "N/A"}</td>
                   <td className="p-3">
                     <span
