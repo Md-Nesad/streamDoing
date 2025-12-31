@@ -20,13 +20,12 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
   //filtered users
   const handleFilter = () => {
     const filteredUsers = usersList?.users?.filter((user) => {
-      return user.name.toLowerCase().includes(text.toLowerCase());
+      return (
+        user.name.toLowerCase().includes(text.toLowerCase()) ||
+        user.displayId.toString().includes(text)
+      );
     });
-    if (filteredUsers) {
-      setUsers(filteredUsers);
-    } else {
-      setUsers(usersList?.users);
-    }
+    setUsers(filteredUsers);
   };
 
   // Delete user by ID
@@ -51,6 +50,7 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
     if (usersList?.users) {
       setUsers(usersList?.users);
     }
+    setText("");
   }, [usersList]);
 
   useEffect(() => {
@@ -69,7 +69,6 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          onKeyUp={(e) => e.key === "Backspace" && handleFilter()}
           className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
           placeholder="Search by ID or name"
         />
