@@ -67,10 +67,10 @@ export default function AdminLogin() {
           <img
             src="/logo.png"
             alt="Logo"
-            className="w-10 h-10 rounded-full border lg:block hidden"
+            className="w-12 h-12 rounded-full lg:block hidden"
             loading="lazy"
           />
-          <h1 className="text-lg font-semibold bg-linear-to-r from-[#FF44E3] to-[#294599] text-transparent bg-clip-text">
+          <h1 className="text-xl font-semibold bg-linear-to-r from-[#FF44E3] to-[#294599] text-transparent bg-clip-text">
             StreamDoing
           </h1>
         </div>

@@ -101,7 +101,10 @@ export default function AddGiftModal({ open, onClose }) {
                   </option>
                 ))}
               </select>
-              <button className="absolute right-1 top-1/2 -translate-y-1/2 pointer-events-auto bg-[#AC90EC] py-1 px-4 rounded-md text-white">
+              <button
+                type="button"
+                className="absolute right-1 top-1/2 -translate-y-1/2 pointer-events-auto bg-[#AC90EC] py-1 px-4 rounded-md text-white"
+              >
                 Add custom
               </button>
             </div>
@@ -128,7 +131,10 @@ export default function AddGiftModal({ open, onClose }) {
                   </option>
                 ))}
               </select>
-              <button className="absolute right-1 top-1/2 -translate-y-1/2 pointer-events-auto bg-[#AC90EC] py-1 px-4 rounded-md text-white">
+              <button
+                type="button"
+                className="absolute right-1 top-1/2 -translate-y-1/2 pointer-events-auto bg-[#AC90EC] py-1 px-4 rounded-md text-white"
+              >
                 Add custom
               </button>
             </div>

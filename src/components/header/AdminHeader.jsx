@@ -19,12 +19,12 @@ export default function AdminHeader() {
   return (
     <>
       <div className="w-full bg-white shadow-md border-b border-gray-100 lg:px-12 px-7 max-sm:pr-5 max-sm:pl-2 pt-10 pb-4 flex items-center justify-between mb-5">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <Link to="/">
             <img
               src="/logo.png"
               alt="Logo"
-              className="w-12 h-12 rounded-full border lg:block hidden"
+              className="w-13 h-13 rounded-full  lg:block hidden"
               loading="lazy"
             />
           </Link>
