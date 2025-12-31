@@ -19,7 +19,7 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
 
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this user?"
+      "Are you sure you want to delete this agency?"
     );
     if (!confirmDelete) return;
 
@@ -120,7 +120,7 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
             ) : (
               <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
                 <td colSpan={9} className="p-3 text-center">
-                  No data found
+                  No hosts agency found
                 </td>
               </tr>
             )}

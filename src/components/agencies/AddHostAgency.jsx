@@ -6,11 +6,13 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { agencySchema } from "../../utility/validator";
 import { useForm } from "react-hook-form";
+import { useStream } from "../../context/streamContext";
 
 export default function AddHostAgencyForm() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleFormData = useFormDataPost(`${BASE_URL}/admin/agencies`);
+  const { countries } = useStream();
 
   //validated form using react hook form + zod
   const {
@@ -141,17 +143,17 @@ export default function AddHostAgencyForm() {
             <div className="relative">
               <select
                 {...register("country")}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm appearance-none"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-md appearance-none"
               >
                 <option value="">Select</option>
-                <option value="693f016c539475bfec26a51d">Bangladesh</option>
-                <option value="69550bee6f66520b824f4696">India</option>
-                <option value="United States">United States</option>
-                <option value="United Kingdom">United Kingdom</option>
-                <option value="Other">Other</option>
+                {countries?.map((country) => (
+                  <option key={country._id} value={country._id}>
+                    {country.name}
+                  </option>
+                ))}
               </select>
 
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <ChevronDown className="absolute right-3 top-2.5 text-gray-400 pointer-events-none" />
             </div>
             {errors.country && (
               <p className="text-red-500 text-xs mt-1">

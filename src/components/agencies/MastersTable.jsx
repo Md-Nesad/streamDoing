@@ -1,16 +1,42 @@
-import { Ellipsis, Funnel } from "lucide-react";
+import { Funnel, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading";
 import Pagination from "../Pagination";
 import { useStream } from "../../context/streamContext";
+import { useEffect, useState } from "react";
+import useDelete from "../../hooks/useDelete";
+import { BASE_URL } from "../../utility/utility";
 
 export default function MastersTable({ tableData, setPage, loading }) {
   const masterList = tableData?.agencies?.filter(
     (item) => item.type === "master"
   );
+  const [masters, setMasters] = useState(masterList);
   const masterPagination = tableData?.pagination;
   const navigate = useNavigate();
   const { countriesName } = useStream();
+
+  const deleteUser = useDelete(`${BASE_URL}/admin/agencies`);
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this agency?"
+    );
+    if (!confirmDelete) return;
+
+    const result = await deleteUser(id);
+
+    if (!result) {
+      alert("Failed to delete agency");
+    } else {
+      alert(result.message);
+    }
+    setMasters(masters?.filter((master) => master._id !== id));
+  };
+
+  useEffect(() => {
+    setMasters(masterList);
+  }, [tableData]);
 
   if (loading) return <Loading />;
   return (
@@ -55,8 +81,8 @@ export default function MastersTable({ tableData, setPage, loading }) {
           </thead>
 
           <tbody>
-            {masterList?.length > 0 ? (
-              masterList.map((master, index) => (
+            {masters?.length > 0 ? (
+              masters.map((master, index) => (
                 <tr
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
@@ -82,8 +108,11 @@ export default function MastersTable({ tableData, setPage, loading }) {
                   </td>
                   <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                     View
-                    <span>
-                      <Ellipsis size={17} />
+                    <span
+                      role="button"
+                      onClick={() => handleDelete(master._id)}
+                    >
+                      <Trash2 size={17} className="text-[#d21b20]" />
                     </span>
                   </td>
                 </tr>
@@ -91,7 +120,7 @@ export default function MastersTable({ tableData, setPage, loading }) {
             ) : (
               <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
                 <td colSpan={9} className="p-3 text-center">
-                  No data found
+                  No master agency found
                 </td>
               </tr>
             )}
