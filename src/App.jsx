@@ -6,10 +6,9 @@ export default function App() {
 
   const host = window.location.hostname;
 
-  if (host.startsWith("admin")) return <AdminAgencyPortal />;
-  return (
-    <>
-      <DashboardRouter />
-    </>
-  );
+  if (host.startsWith("admin")) {
+    return <AdminAgencyPortal />;
+  } else if (host === "localhost") {
+    return <DashboardRouter />;
+  }
 }

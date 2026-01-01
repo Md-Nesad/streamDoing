@@ -33,10 +33,7 @@ import Dashboard from "../../Pages/Dashboard";
 import InboxPage from "../../Pages/InboxAssests";
 import MasterAgency from "../../Pages/dataStore/MasterAgency";
 import AdminLogin from "../../Pages/Login";
-import AdminAgencyLayout from "../../layouts/AdminAgencyLayout";
-import AdminDashboard from "../../Pages/AdminAgencies/AdminDashboard";
-import AdminModerator from "../../Pages/AdminAgencies/AdminModerator";
-import AddAgency from "../../Pages/AdminAgencies/AddAgency";
+import NotFound from "../../Pages/NotFound";
 
 export default function DashboardRouter() {
   return (
@@ -100,12 +97,7 @@ export default function DashboardRouter() {
             <Route path="support" element={<SupportAgency />} />
             <Route path="delete-ban" element={<DeleteBan />} />
           </Route>
-          {/* Admin agency nested routes */}
-          <Route path="/admin-agency-portal" element={<AdminAgencyLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="add-agency" element={<AddAgency />} />
-            <Route path="moderator" element={<AdminModerator />} />
-          </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </>
