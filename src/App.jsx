@@ -10,6 +10,8 @@ export default function App() {
     return <AdminAgencyPortal />;
   } else if (host === "localhost") {
     return <DashboardRouter />;
+  } else if (host.startsWith("www")) {
+    return <DashboardRouter />;
   } else {
     return <DashboardRouter />;
   }

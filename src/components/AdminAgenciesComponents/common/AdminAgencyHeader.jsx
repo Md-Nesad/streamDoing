@@ -58,7 +58,7 @@ export default function AdminAgencyHeader() {
                 localStorage.removeItem("admin_token");
                 alert("Logout Successfully");
                 setIsToken(false);
-                navigate("/login");
+                navigate("/admin-portal-login");
               }}
               className="flex items-center gap-2 text-[18px] font-medium text-[#BE8283] hover:text-[#da9b9c] transition-colors duration-300"
             >
@@ -68,7 +68,7 @@ export default function AdminAgencyHeader() {
           </>
         ) : (
           <>
-            <Link to="/login">
+            <Link to="/admin-portal-login">
               <button className="flex items-center gap-2 text-[18px] font-medium text-[#BE8283] hover:text-[#da9b9c] transition-colors duration-300">
                 <LogOut size={18} />
                 <span>Login</span>

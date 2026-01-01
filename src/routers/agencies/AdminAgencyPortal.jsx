@@ -3,6 +3,7 @@ import AdminAgencyLayout from "../../layouts/AdminAgencyLayout";
 import AdminDashboard from "../../Pages/AdminAgencies/AdminDashboard";
 import AddAgency from "../../Pages/AdminAgencies/AddAgency";
 import AdminModerator from "../../Pages/AdminAgencies/AdminModerator";
+import AdminAgencyLogin from "../../Pages/AdminAgencies/AdminAgencyLogin";
 
 export default function AdminAgencyPortal() {
   return (
@@ -11,9 +12,9 @@ export default function AdminAgencyPortal() {
         <Routes>
           <Route
             path="/"
-            element={<Navigate to="/admin-agency-portal" replace />}
+            element={<Navigate to="/admin-portal-login" replace />}
           />
-          {/* <Route path="/login" element={<AdminLogin />} /> */}
+          <Route path="/admin-portal-login" element={<AdminAgencyLogin />} />
 
           {/* Admin agency nested routes */}
           <Route path="/admin-agency-portal" element={<AdminAgencyLayout />}>
