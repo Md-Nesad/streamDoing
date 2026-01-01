@@ -33,6 +33,8 @@ import Dashboard from "../../Pages/Dashboard";
 import InboxPage from "../../Pages/InboxAssests";
 import MasterAgency from "../../Pages/dataStore/MasterAgency";
 import AdminLogin from "../../Pages/Login";
+import AdminAgencyLayout from "../../layouts/AdminAgencyLayout";
+import AdminDashboard from "../../components/AdminAgenciesComponents/dashboard/AdminDashboard";
 
 export default function DashboardRouter() {
   return (
@@ -95,6 +97,10 @@ export default function DashboardRouter() {
             <Route path="coin-agency" element={<CoinAgency />} />
             <Route path="support" element={<SupportAgency />} />
             <Route path="delete-ban" element={<DeleteBan />} />
+          </Route>
+          {/* Admin agency nested routes */}
+          <Route path="/admin-agency-dashboard" element={<AdminAgencyLayout />}>
+            <Route index element={<AdminDashboard />} />
           </Route>
         </Routes>
       </BrowserRouter>
