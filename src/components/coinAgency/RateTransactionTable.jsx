@@ -5,14 +5,17 @@ import Loading from "../Loading";
 import Error from "../Error";
 import Pagination from "../Pagination";
 import { useState } from "react";
+import { useStream } from "../../context/streamContext";
 
 export default function RateTransactionTable() {
   const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/coins/rates/transactions?page=${page}&limit=10`
+    `${BASE_URL}/coins/rates/transactions?page=${page}&limit=20`
   );
   const transactions = data?.transactions;
   const pagination = data?.pagination;
+  const { agencies } = useStream();
+  console.log(agencies);
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
@@ -22,7 +25,7 @@ export default function RateTransactionTable() {
         <table className="w-full text-left border-collapse text-nowrap">
           <thead>
             <tr className="text-[#535353] text-md font-medium">
-              <th className="p-3 pl-5">Coin Agency ID</th>
+              <th className="p-3 pl-5">Master Agency ID</th>
               <th className="p-3">Name</th>
               <th className="p-3">Coin</th>
               <th className="p-3">Value</th>
@@ -33,45 +36,52 @@ export default function RateTransactionTable() {
           </thead>
 
           <tbody>
-            {transactions?.map((item, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 font-medium pl-5">{item.to.slice(0, 10)}</td>
-                <td className="p-3">Master agency</td>
-                <td className="p-3">{formatNumber(item.coins)}</td>
-                <td className="p-3 text-[#00D519]">
-                  ${formatNumber(item.amount)}
-                </td>
-                <td className="p-3">{formatOnlyDate(item.createdAt)}</td>
-                <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-xs text-center block w-23 ${
-                      item.status === "Completed"
-                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                        : "bg-[#FF929296] text-[#D21B20]"
-                    } text-[#005D23] rounded-full font-semibold`}
-                  >
-                    {item.status}
-                  </span>
-                </td>
-                <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                  {item.status === "Completed" ? (
-                    <span className="flex items-center gap-3">
-                      <Eye size={19} />
-                      <RotateCw size={17} className="text-[#F5AD7C]" />
+            {transactions?.map((item, index) => {
+              const findAgency = agencies?.agencies?.find(
+                (agency) => agency._id === item.to
+              );
+              return (
+                <tr
+                  key={index}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 font-medium pl-5">
+                    {findAgency?.displayId || "N/A"}
+                  </td>
+                  <td className="p-3">{findAgency?.name || "N/A"}</td>
+                  <td className="p-3">{formatNumber(item.coins)}</td>
+                  <td className="p-3 text-[#00D519]">
+                    ${formatNumber(item.amount)}
+                  </td>
+                  <td className="p-3">{formatOnlyDate(item.createdAt)}</td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-xs text-center block w-23 ${
+                        item.status === "Completed"
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-[#FF929296] text-[#D21B20]"
+                      } text-[#005D23] rounded-full font-semibold`}
+                    >
+                      {item.status}
                     </span>
-                  ) : (
-                    <span className="flex items-center gap-3">
-                      <Eye size={19} />
-                      <CircleCheckBig size={17} className="text-[#11B324]" />
-                      <CircleX size={18} className="text-[#FF0037]" />
-                    </span>
-                  )}
-                </td>
-              </tr>
-            ))}
+                  </td>
+                  <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                    {item.status === "Completed" ? (
+                      <span className="flex items-center gap-3">
+                        <Eye size={19} />
+                        <RotateCw size={17} className="text-[#F5AD7C]" />
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-3">
+                        <Eye size={19} />
+                        <CircleCheckBig size={17} className="text-[#11B324]" />
+                        <CircleX size={18} className="text-[#FF0037]" />
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <Pagination

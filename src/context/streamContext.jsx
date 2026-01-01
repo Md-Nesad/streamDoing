@@ -13,8 +13,12 @@ export default function StreamProvider({ children }) {
     }
   };
 
+  const { data: agencies } = useFetch(
+    `${BASE_URL}/admin/agencies?page=1&limit=100&search=&status=&type=`
+  );
+
   return (
-    <StreamContext.Provider value={{ countriesName, countries }}>
+    <StreamContext.Provider value={{ countriesName, countries, agencies }}>
       {children}
     </StreamContext.Provider>
   );

@@ -15,8 +15,18 @@ export default function MastersTable({ tableData, setPage, loading }) {
   const masterPagination = tableData?.pagination;
   const navigate = useNavigate();
   const { countriesName } = useStream();
-
+  const [text, setText] = useState("");
   const deleteUser = useDelete(`${BASE_URL}/admin/agencies`);
+
+  const handleFilter = () => {
+    const filteredUsers = masterList?.filter((agency) => {
+      return (
+        agency.name.toLowerCase().includes(text.toLowerCase()) ||
+        agency.displayId.toString().includes(text)
+      );
+    });
+    setMasters(filteredUsers);
+  };
 
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
@@ -38,6 +48,12 @@ export default function MastersTable({ tableData, setPage, loading }) {
     setMasters(masterList);
   }, [tableData]);
 
+  useEffect(() => {
+    if (text === "") {
+      handleFilter();
+    }
+  }, [text]);
+
   if (loading) return <Loading />;
   return (
     <>
@@ -46,13 +62,18 @@ export default function MastersTable({ tableData, setPage, loading }) {
         {/* Search Input */}
         <input
           type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
           placeholder="Search by ID or name"
         />
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto">
+          <button
+            onClick={handleFilter}
+            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+          >
             <Funnel size={18} /> Filter
           </button>
           <button
@@ -87,7 +108,7 @@ export default function MastersTable({ tableData, setPage, loading }) {
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
-                  <td className="p-3 pl-5">{master.phone}</td>
+                  <td className="p-3 pl-5">{master.displayId}</td>
                   <td className="p-3">{master.name}</td>
                   <td className="p-3">{master.coinSales || "N/A"}</td>
                   <td className="p-3">{master.coinBuy || "N/A"}</td>

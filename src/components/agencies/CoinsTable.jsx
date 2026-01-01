@@ -13,10 +13,21 @@ export default function CoinsTable({ tableData, setPage, loading }) {
   const coinPagination = tableData?.pagination;
   const navigate = useNavigate();
   const { countriesName } = useStream();
-
-  //handle delete function
   const deleteUser = useDelete(`${BASE_URL}/admin/agencies`);
 
+  const [text, setText] = useState("");
+
+  const handleFilter = () => {
+    const filteredUsers = coinList?.filter((agency) => {
+      return (
+        agency.name.toLowerCase().includes(text.toLowerCase()) ||
+        agency.displayId.toString().includes(text)
+      );
+    });
+    setCoins(filteredUsers);
+  };
+
+  //handle delete function
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this agency?"
@@ -37,6 +48,12 @@ export default function CoinsTable({ tableData, setPage, loading }) {
     setCoins(coinList);
   }, [tableData]);
 
+  useEffect(() => {
+    if (text === "") {
+      handleFilter();
+    }
+  }, [text]);
+
   if (loading) return <Loading />;
   return (
     <>
@@ -45,13 +62,18 @@ export default function CoinsTable({ tableData, setPage, loading }) {
         {/* Search Input */}
         <input
           type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
           placeholder="Search by ID or name"
         />
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto">
+          <button
+            onClick={handleFilter}
+            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+          >
             <Funnel size={18} /> Filter
           </button>
           <button
@@ -90,7 +112,7 @@ export default function CoinsTable({ tableData, setPage, loading }) {
                   <td className="p-3 font-medium pl-5">
                     {coin.reference || "N/A"}
                   </td>
-                  <td className="p-3">{coin.phone}</td>
+                  <td className="p-3">{coin.displayId}</td>
                   <td className="p-3">{coin.name}</td>
                   <td className="p-3">{coin.coinSales || "N/A"}</td>
                   <td className="p-3">{coin.coinBuy || "N/A"}</td>
