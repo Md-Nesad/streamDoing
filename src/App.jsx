@@ -11,7 +11,7 @@ export default function App() {
   } else if (host === "localhost") {
     return <DashboardRouter />;
   } else if (host.startsWith("www")) {
-    return <DashboardRouter />;
+    return <AdminAgencyPortal />;
   } else {
     return <DashboardRouter />;
   }
