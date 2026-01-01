@@ -5,16 +5,16 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  // server: {
-  //   host: true,
-  //   port: 5173,
-  //   strictPort: true,
-  //   allowedHosts: [
-  //     "admin.local",
-  //     "master.local",
-  //     "coin.local",
-  //     "host.local",
-  //     "support.local",
-  //   ],
-  // },
+  server: {
+    host: true,
+    port: 5173,
+    strictPort: true,
+    allowedHosts: [
+      "admin.local",
+      "master.local",
+      "coin.local",
+      "host.local",
+      "support.local",
+    ],
+  },
 });

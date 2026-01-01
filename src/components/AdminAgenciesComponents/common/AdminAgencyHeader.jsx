@@ -47,7 +47,7 @@ export default function AdminAgencyHeader() {
               StreamDoing
             </h1>
             <p className="text-sm text-[#4473FF] font-semibold max-sm:-mt-0.5">
-              Admin Panel
+              Admin agency portal
             </p>
           </div>
         </div>

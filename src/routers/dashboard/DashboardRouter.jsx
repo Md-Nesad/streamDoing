@@ -101,7 +101,7 @@ export default function DashboardRouter() {
             <Route path="delete-ban" element={<DeleteBan />} />
           </Route>
           {/* Admin agency nested routes */}
-          <Route path="/admin-agency-dashboard" element={<AdminAgencyLayout />}>
+          <Route path="/admin-agency-portal" element={<AdminAgencyLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path="add-agency" element={<AddAgency />} />
             <Route path="moderator" element={<AdminModerator />} />
