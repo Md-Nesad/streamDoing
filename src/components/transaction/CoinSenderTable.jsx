@@ -57,12 +57,12 @@ export default function CoinSenderTable({ tableData }) {
                   <td title={coin.transactionId} className="p-3">
                     {coin.transactionId.slice(0, 10)}
                   </td>
-                  <td className="p-3">{coin.saleFrom}</td>
+                  <td className="p-3">{coin.fromType}</td>
                   <td className="p-3">{coin.senderUserId || "N/A"}</td>
                   <td title={coin?.to?.id} className="p-3">
-                    {coin?.to?.id.slice(0, 10)}
+                    {coin?.to?.displayId}
                   </td>
-                  <td className="p-3">{coin.saleTo}</td>
+                  <td className="p-3">{coin.toType}</td>
                   <td className="p-3">{formatNumber(coin.amount)}</td>
                   <td className="p-3">{formatOnlyDate(coin.date)}</td>
                   <td className="p-3 text-[#181717] font-medium cursor-pointer flex gap-5 items-center">
