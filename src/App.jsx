@@ -10,5 +10,7 @@ export default function App() {
     return <AdminAgencyPortal />;
   } else if (host === "localhost") {
     return <DashboardRouter />;
+  } else {
+    return <DashboardRouter />;
   }
 }
