@@ -20,7 +20,6 @@ import {
   Crown,
   Eye,
   Video,
-  Timer,
   Clock,
   TriangleAlert,
   Check,
@@ -28,7 +27,6 @@ import {
   MessageCircleMore,
 } from "lucide-react";
 import mayaPatel from "/mayaPatel.png";
-import { CiBitcoin } from "react-icons/ci";
 import { Coin } from "../../public/icons/Coin";
 import Salary from "../../public/icons/Salary";
 import Agency from "../../public/icons/Agency";

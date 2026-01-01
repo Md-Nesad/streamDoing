@@ -34,7 +34,9 @@ import InboxPage from "../../Pages/InboxAssests";
 import MasterAgency from "../../Pages/dataStore/MasterAgency";
 import AdminLogin from "../../Pages/Login";
 import AdminAgencyLayout from "../../layouts/AdminAgencyLayout";
-import AdminDashboard from "../../components/AdminAgenciesComponents/dashboard/AdminDashboard";
+import AdminDashboard from "../../Pages/AdminAgencies/AdminDashboard";
+import AdminModerator from "../../Pages/AdminAgencies/AdminModerator";
+import AddAgency from "../../Pages/AdminAgencies/AddAgency";
 
 export default function DashboardRouter() {
   return (
@@ -101,6 +103,8 @@ export default function DashboardRouter() {
           {/* Admin agency nested routes */}
           <Route path="/admin-agency-dashboard" element={<AdminAgencyLayout />}>
             <Route index element={<AdminDashboard />} />
+            <Route path="add-agency" element={<AddAgency />} />
+            <Route path="moderator" element={<AdminModerator />} />
           </Route>
         </Routes>
       </BrowserRouter>
