@@ -10,7 +10,7 @@ export default function App() {
   } else if (host.startsWith("coin")) {
     return <CoinAgencyPortal />;
   } else if (host.startsWith("www")) {
-    return <AdminAgencyPortal />;
+    return <CoinAgencyPortal />;
   } else {
     return <DashboardRouter />;
   }
