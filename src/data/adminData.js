@@ -9,3 +9,14 @@ export const adminMenuItems = [
   },
   { title: "Moderator", icon: Mic, link: "/admin-agency-portal/moderator" },
 ];
+
+// coin agency
+export const coinMenuItems = [
+  { title: "Dashboard", icon: Home, link: "/coin-agency-portal" },
+  {
+    title: "Transaction History",
+    icon: Users,
+    link: "/coin-agency-portal/transaction-history",
+  },
+  { title: "Coin Freeze", icon: Mic, link: "/coin-agency-portal/coin-freeze" },
+];

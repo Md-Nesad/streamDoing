@@ -4,6 +4,7 @@ import AdminDashboard from "../../Pages/AdminAgencies/AdminDashboard";
 import AddAgency from "../../Pages/AdminAgencies/AddAgency";
 import AdminModerator from "../../Pages/AdminAgencies/AdminModerator";
 import AdminAgencyLogin from "../../Pages/AdminAgencies/AdminAgencyLogin";
+import NotFound from "../../Pages/NotFound";
 
 export default function AdminAgencyPortal() {
   return (
@@ -22,6 +23,7 @@ export default function AdminAgencyPortal() {
             <Route path="add-agency" element={<AddAgency />} />
             <Route path="moderator" element={<AdminModerator />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </div>

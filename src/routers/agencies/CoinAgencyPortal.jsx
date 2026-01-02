@@ -1,0 +1,33 @@
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import CoinAgencyLogin from "../../Pages/coinAgencies/CoinAgencyLogin";
+import CoinPortalLayout from "../../layouts/CoinPortalLayout";
+import CoinDashboard from "../../Pages/coinAgencies/CoinDashboard";
+import CoinTranactionHistory from "../../Pages/coinAgencies/CoinTranactionHistory";
+import FreezCoins from "../../Pages/coinAgencies/FreezCoins";
+import NotFound from "../../Pages/NotFound";
+
+export default function CoinAgencyPortal() {
+  return (
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={<Navigate to="/coin-portal-login" replace />}
+          />
+          <Route path="/coin-portal-login" element={<CoinAgencyLogin />} />
+
+          <Route path="/coin-agency-portal" element={<CoinPortalLayout />}>
+            <Route index element={<CoinDashboard />} />
+            <Route
+              path="transaction-history"
+              element={<CoinTranactionHistory />}
+            />
+            <Route path="coin-freeze" element={<FreezCoins />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+}
