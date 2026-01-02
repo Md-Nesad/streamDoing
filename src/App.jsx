@@ -1,5 +1,6 @@
 import AdminAgencyPortal from "./routers/agencies/AdminAgencyPortal";
 import CoinAgencyPortal from "./routers/agencies/CoinAgencyPortal";
+import HostAgencyPortal from "./routers/agencies/HostAgencyPortal";
 import DashboardRouter from "./routers/dashboard/DashboardRouter";
 
 export default function App() {
@@ -9,6 +10,8 @@ export default function App() {
     return <AdminAgencyPortal />;
   } else if (host.startsWith("coin")) {
     return <CoinAgencyPortal />;
+  } else if (host.startsWith("host")) {
+    return <HostAgencyPortal />;
   } else if (host.startsWith("www")) {
     return <CoinAgencyPortal />;
   } else {

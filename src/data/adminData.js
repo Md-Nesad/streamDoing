@@ -20,3 +20,21 @@ export const coinMenuItems = [
   },
   { title: "Coin Freeze", icon: Mic, link: "/coin-agency-portal/coin-freeze" },
 ];
+
+// host agency
+export const hostMenuItems = [
+  { title: "Dashboard", icon: Home, link: "/host-agency-portal" },
+  {
+    title: "Join Requests",
+    icon: Users,
+    link: "/host-agency-portal/join-requests",
+  },
+  { title: "Salaries", icon: Mic, link: "/host-agency-portal/salaries" },
+  {
+    title: "Salary Target",
+    icon: Mic,
+    link: "/host-agency-portal/salary-target",
+  },
+  { title: "Official Pk", icon: Mic, link: "/host-agency-portal/official-pk" },
+  { title: "Analytics", icon: Mic, link: "/host-agency-portal/analytics" },
+];
