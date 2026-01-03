@@ -17,8 +17,12 @@ export default function StreamProvider({ children }) {
     `${BASE_URL}/admin/agencies?page=1&limit=100&search=&status=&type=`
   );
 
+  const salariesData = useFetch(`${BASE_URL}/admin/salary-targets`);
+
   return (
-    <StreamContext.Provider value={{ countriesName, countries, agencies }}>
+    <StreamContext.Provider
+      value={{ countriesName, countries, agencies, salariesData }}
+    >
       {children}
     </StreamContext.Provider>
   );

@@ -1,5 +1,14 @@
 import React from "react";
+import HostStats from "../../components/hostAgencyPortal/hostDashboard/HostStats";
+import HostPortalForm from "../../components/hostAgencyPortal/hostDashboard/HostPortalForm";
+import OfficialPkList from "../../components/hostAgencyPortal/hostDashboard/OfficialPkList";
 
 export default function OfficialPk() {
-  return <div>OfficialPk</div>;
+  return (
+    <>
+      <HostStats />
+      <HostPortalForm />
+      <OfficialPkList />
+    </>
+  );
 }

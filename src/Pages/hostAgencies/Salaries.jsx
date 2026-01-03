@@ -1,5 +1,11 @@
-import React from "react";
+import HostStats from "../../components/hostAgencyPortal/hostDashboard/HostStats";
+import HostSalariesTable from "../../components/hostAgencyPortal/hostDashboard/HostSalariesTable";
 
 export default function HostSalaries() {
-  return <div>Host</div>;
+  return (
+    <>
+      <HostStats />
+      <HostSalariesTable />
+    </>
+  );
 }

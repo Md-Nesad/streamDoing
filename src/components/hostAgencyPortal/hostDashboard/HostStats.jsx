@@ -1,13 +1,13 @@
-import StatsSection from "../../components/dashboard/StatsCard";
+import React from "react";
+import StatsSection from "../../dashboard/StatsCard";
 import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
-import HostPerformanceList from "../../components/hostAgencyPortal/hostDashboard/HostPerformanceList";
 
-export default function HostAnalytics() {
+export default function HostStats() {
   const stats = [
     {
-      title: "Total Diamonds",
+      title: "Total Hosts",
       value: "12",
-      change: "",
+      change: "+245 today",
       icon: Users,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
     },
@@ -19,24 +19,23 @@ export default function HostAnalytics() {
       iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
     },
     {
-      title: "Avg Diamonds/Host",
+      title: "Monthly Diamond",
       value: "12M",
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
     },
     {
-      title: "Avg Minutes/Host",
+      title: "Total Earnings",
       value: "৳2.4M",
-      change: "-",
+      change: "+18%",
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
     },
   ];
   return (
-    <div>
+    <div className="mb-6">
       <StatsSection data={stats} />
-      <HostPerformanceList />
     </div>
   );
 }
