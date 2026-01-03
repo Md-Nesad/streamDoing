@@ -13,7 +13,7 @@ export default function App() {
   } else if (host.startsWith("host")) {
     return <HostAgencyPortal />;
   } else if (host.startsWith("www")) {
-    return <CoinAgencyPortal />;
+    return <HostAgencyPortal />;
   } else {
     return <DashboardRouter />;
   }
