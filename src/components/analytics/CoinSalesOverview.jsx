@@ -1,7 +1,6 @@
 import { formatNumber } from "../../utility/utility";
 
 export default function CoinSalesOverview({ data }) {
-  console.log(data);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 sm:pr-2">
       <div className="bg-[#DEE8FF] py-4 px-8 rounded-md shadow-sm">

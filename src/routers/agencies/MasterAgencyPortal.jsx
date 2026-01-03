@@ -25,7 +25,7 @@ export default function MasterAgencyPortal() {
               element={<MasterTransactionHistory />}
             />
             <Route path="agencies" element={<MasterPortalAgencies />} />
-            <Route path="wallet" element={<MasterPortalAnalytics />} />
+            <Route path="analytics" element={<MasterPortalAnalytics />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

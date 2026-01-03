@@ -53,8 +53,8 @@ export const masterMenuItems = [
     link: "/master-agency-portal/agencies",
   },
   {
-    title: "Wallet",
-    icon: Coins,
-    link: "/master-agency-portal/wallet",
+    title: "Analytics",
+    icon: BarChart3,
+    link: "/master-agency-portal/analytics",
   },
 ];
