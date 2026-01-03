@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { hostMenuItems } from "../../../data/adminData";
+import { masterMenuItems } from "../../../data/adminData";
 
-export default function HostPortalSidebar({ isToogleNav, onClose }) {
+export default function MasterPortalSidebar({ isToogleNav, onClose }) {
   const location = useLocation();
 
   // Helper function to handle parent + child route active
@@ -45,7 +45,7 @@ export default function HostPortalSidebar({ isToogleNav, onClose }) {
           className={`space-y-2 lg:w-55 shrink-0 overflow-y-auto bg-[#FFFFFF] px-1 py-2 shadow-[0_2px_10px_rgba(0,0,0,0.06)] rounded-md fixed top-26.5 z-10 left-0 h-[83vh] hide_scrollbar animatefadeInLeft`}
         >
           <nav aria-label="dashboard_navbar">
-            {renderMenuItems(hostMenuItems)}
+            {renderMenuItems(masterMenuItems)}
           </nav>
         </aside>
       )}
@@ -53,7 +53,7 @@ export default function HostPortalSidebar({ isToogleNav, onClose }) {
       {/* Desktop Sidebar */}
       <aside className="space-y-2 lg:w-55 md:w-50 shrink-0 overflow-y-auto bg-[#FFFFFF] px-1 py-2 lg:ml-13 shadow-[0_2px_10px_rgba(0,0,0,0.06)] rounded-md hidden lg:block h-[80vh] hide_scrollbar">
         <nav aria-label="dashboard_navbar">
-          {renderMenuItems(hostMenuItems)}
+          {renderMenuItems(masterMenuItems)}
         </nav>
       </aside>
     </>

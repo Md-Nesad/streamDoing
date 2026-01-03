@@ -1,0 +1,76 @@
+import { Ellipsis, Funnel } from "lucide-react";
+// import Pagination from "../Pagination";
+// import Loading from "../Loading";
+// import { formatNumber } from "../../utility/utility";
+// import { useStream } from "../../context/streamContext";
+import { agencies } from "../../../data/data";
+
+export default function MasterAgencisOverview() {
+  //   const agenciesList = agenciesData?.agencies;
+  //   const agenciesPagination = agenciesData?.pagination;
+  //   const { countriesName } = useStream();
+
+  // if (loading) return <Loading />;
+
+  return (
+    <>
+      <div className="w-full mt-7 mb-10">
+        {/* Table Wrapper for Horizontal Scroll */}
+        <div className="overflow-x-auto max-sm:pt-2 pb-5 bg-white rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] pt-5">
+          <table className="w-full text-left border-collapse shrink text-nowrap">
+            <thead>
+              <tr className="text-[#535353] font-medium text-md">
+                <th className="p-3 pl-5">Agency ID</th>
+                <th className="p-3">Name</th>
+                <th className="p-3">Balance</th>
+                <th className="p-3">Total Sales</th>
+                <th className="p-3">Revenue</th>
+                <th className="p-3">Status</th>
+                <th className="p-3 pl-5">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {agencies.length > 0 ? (
+                agencies.map((agency, index) => {
+                  // const country = countries?.find(
+                  //   (country) => country._id === agency.country
+                  // )?.name;
+                  return (
+                    <tr
+                      key={index}
+                      className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                    >
+                      <td className="p-3 font-medium pl-5">COIN-042</td>
+                      <td className="p-3">{agency.name || "N/A"}</td>
+                      <td className="p-3">108K</td>
+                      <td className="p-3">1.2M coins</td>
+                      <td className="p-3">৳2.25M</td>
+                      <td className="p-3">
+                        <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
+                          active
+                        </span>
+                      </td>
+                      <td className="p-3">
+                        <span className="font-semibold">View</span>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr className="border-t border-[#DFDFDF] ">
+                  <td
+                    colSpan={9}
+                    className="text-center py-5 text-[#555] font-medium"
+                  >
+                    No agencies found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>
+  );
+}

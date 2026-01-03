@@ -6,7 +6,6 @@ const StreamContext = createContext();
 
 export default function StreamProvider({ children }) {
   const { data: countries } = useFetch(`${BASE_URL}/countries`);
-
   const countriesName = (id) => {
     if (countries) {
       return countries.find((country) => country._id === id)?.name;
@@ -17,12 +16,8 @@ export default function StreamProvider({ children }) {
     `${BASE_URL}/admin/agencies?page=1&limit=100&search=&status=&type=`
   );
 
-  const salariesData = useFetch(`${BASE_URL}/admin/salary-targets`);
-
   return (
-    <StreamContext.Provider
-      value={{ countriesName, countries, agencies, salariesData }}
-    >
+    <StreamContext.Provider value={{ countriesName, countries, agencies }}>
       {children}
     </StreamContext.Provider>
   );

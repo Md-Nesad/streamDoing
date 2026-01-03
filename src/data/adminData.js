@@ -1,4 +1,4 @@
-import { Home, Mic, Users } from "lucide-react";
+import { BarChart3, Building2, Coins, Home, Mic, Users } from "lucide-react";
 
 export const adminMenuItems = [
   { title: "Dashboard", icon: Home, link: "/admin-agency-portal" },
@@ -37,4 +37,24 @@ export const hostMenuItems = [
   },
   { title: "Official Pk", icon: Mic, link: "/host-agency-portal/official-pk" },
   { title: "Analytics", icon: Mic, link: "/host-agency-portal/analytics" },
+];
+
+//master menu items
+export const masterMenuItems = [
+  { title: "Dashboard", icon: Home, link: "/master-agency-portal" },
+  {
+    title: "Transaction History",
+    icon: Users,
+    link: "/master-agency-portal/transaction-history",
+  },
+  {
+    title: "Agencies",
+    icon: Building2,
+    link: "/master-agency-portal/agencies",
+  },
+  {
+    title: "Wallet",
+    icon: Coins,
+    link: "/master-agency-portal/wallet",
+  },
 ];
