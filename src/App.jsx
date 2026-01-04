@@ -19,7 +19,7 @@ export default function App() {
   } else if (host.startsWith("support")) {
     return <SupportDashboardPortal />;
   } else if (host.startsWith("www")) {
-    return <HostAgencyPortal />;
+    return <SupportDashboardPortal />;
   } else {
     return <DashboardRouter />;
   }
