@@ -1,5 +1,3 @@
-import { Pen, Trash2 } from "lucide-react";
-import TitleAndSubTitle from "../../TitleAndSubTitle";
 import { kycTable } from "../../../data/data";
 export default function RefundHistory() {
   return (
