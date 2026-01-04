@@ -4,8 +4,11 @@ import { Ellipsis, Funnel } from "lucide-react";
 // import { formatNumber } from "../../utility/utility";
 // import { useStream } from "../../context/streamContext";
 import { agencies } from "../../../data/data";
+import { useState } from "react";
+import MasterHostAgencyDetailsModal from "./MasterHostAgencyDetailsModal";
 
 export default function MasterHostAgenciesTable() {
+  const [open, setOpen] = useState(false);
   //   const agenciesList = agenciesData?.agencies;
   //   const agenciesPagination = agenciesData?.pagination;
   //   const { countriesName } = useStream();
@@ -72,7 +75,12 @@ export default function MasterHostAgenciesTable() {
                         </span>
                       </td>
                       <td className="p-3">
-                        <span className="font-semibold">View</span>
+                        <button
+                          onClick={() => setOpen(true)}
+                          className="font-semibold"
+                        >
+                          View
+                        </button>
                       </td>
                     </tr>
                   );
@@ -89,6 +97,12 @@ export default function MasterHostAgenciesTable() {
               )}
             </tbody>
           </table>
+          {open && (
+            <MasterHostAgencyDetailsModal
+              open={open}
+              onClose={() => setOpen(false)}
+            />
+          )}
         </div>
       </div>
     </>
