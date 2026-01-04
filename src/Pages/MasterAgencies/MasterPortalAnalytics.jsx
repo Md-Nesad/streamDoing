@@ -6,16 +6,14 @@ import { BASE_URL } from "../../utility/utility";
 import MasterHostPerformance from "../../components/masterAgencyPortal/masterPortal/MasterHostPerformance";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
-import { useState } from "react";
 
 export default function MasterPortalAnalytics() {
-  const [selectedDate, setSelectedDate] = useState("Today");
   const coinSalesOverview = useFetch(
     `${BASE_URL}/admin/analytics/coin-sales-overview`
   );
 
-  const loading = coinSalesOverview.loading;
-  const error = coinSalesOverview.error;
+  const loading = coinSalesOverview?.loading;
+  const error = coinSalesOverview?.error;
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
@@ -41,7 +39,7 @@ export default function MasterPortalAnalytics() {
       <StatsSection data={stats} />
 
       {/* data based on date */}
-      <div className="flex gap-2 sm:gap-4 my-5">
+      {/* <div className="flex gap-2 sm:gap-4 my-5">
         <button
           onClick={() => setSelectedDate("Today")}
           className="py-1 px-2 sm:px-4 text-nowrap max-sm:text-sm rounded border border-[#CCCCCC] text-[#181717]"
@@ -66,7 +64,7 @@ export default function MasterPortalAnalytics() {
         <button className="py-1 px-2 sm:px-4 text-nowrap max-sm:text-sm rounded border border-[#CCCCCC] text-[#181717]">
           Custom
         </button>
-      </div>
+      </div> */}
       {/* coin sales overview */}
       <section className="bg-[#FFFFFF] shadow-[0_2px_10px_rgba(0,0,0,0.06)] pb-10 pt-1 mt-6 pl-3 sm:pl-5 sm:pr-7 pr-3 rounded-md">
         <h3 className="mt-5 mb-6 font-semibold text-[#181717] text-xl">
