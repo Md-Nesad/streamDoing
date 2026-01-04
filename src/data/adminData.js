@@ -1,4 +1,18 @@
-import { BarChart3, Building2, Coins, Home, Mic, Users } from "lucide-react";
+import {
+  Ban,
+  BarChart3,
+  Bell,
+  Building2,
+  Coins,
+  Home,
+  MessageCircle,
+  MessageCircleQuestionMark,
+  MessageSquare,
+  Mic,
+  Timer,
+  Users,
+} from "lucide-react";
+import { BiNotification } from "react-icons/bi";
 
 export const adminMenuItems = [
   { title: "Dashboard", icon: Home, link: "/admin-agency-portal" },
@@ -56,5 +70,50 @@ export const masterMenuItems = [
     title: "Analytics",
     icon: BarChart3,
     link: "/master-agency-portal/analytics",
+  },
+];
+
+//support menu items
+export const supportMenuItems = [
+  { title: "Dashboard", icon: Home, link: "/support-dashboard" },
+  {
+    title: "Live Chat",
+    icon: MessageSquare,
+    link: "/support-dashboard/live-chat",
+  },
+  {
+    title: "Tickets",
+    icon: Building2,
+    link: "/support-dashboard/tickets",
+  },
+  {
+    title: "Delete/Ban",
+    icon: Ban,
+    link: "/support-dashboard/delete-ban",
+  },
+  {
+    title: "Refund Coins",
+    icon: Coins,
+    link: "/support-dashboard/refund-coins",
+  },
+  {
+    title: "Reports",
+    icon: BarChart3,
+    link: "/support-dashboard/reports",
+  },
+  {
+    title: "Notification Center",
+    icon: Bell,
+    link: "/support-dashboard/notification-center",
+  },
+  {
+    title: "Notification History",
+    icon: Timer,
+    link: "/support-dashboard/notification-history",
+  },
+  {
+    title: "FAQs",
+    icon: MessageCircleQuestionMark,
+    link: "/support-dashboard/faqs",
   },
 ];

@@ -5,7 +5,7 @@ import { ChevronDown, Eye, RotateCw, Send } from "lucide-react";
 export default function ComposeNotification() {
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-7">
         {/* Left Panel */}
         <div className="bg-white rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] p-5">
           <h3 className="text-xl font-semibold mb-1">Select Recipients</h3>

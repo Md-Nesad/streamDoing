@@ -1,5 +1,5 @@
 import { CircleCheckBig, CircleX, Ellipsis, Eye, Funnel } from "lucide-react";
-import { hostAgencies, kycTable } from "../data/data";
+import { kycTable } from "../data/data";
 import { useState } from "react";
 import UserDetailsModal from "../modals/KycUserDetailsModal";
 

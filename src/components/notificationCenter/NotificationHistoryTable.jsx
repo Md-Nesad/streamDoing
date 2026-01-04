@@ -5,7 +5,7 @@ import TitleAndSubTitle from "../TitleAndSubTitle";
 export default function NotificationHistoryTable() {
   return (
     <>
-      <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mt-7 mb-10">
+      <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mb-10">
         <div className="pl-5 mt-1">
           <TitleAndSubTitle
             title="See Notification History"
