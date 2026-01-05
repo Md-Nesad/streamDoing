@@ -157,3 +157,26 @@ export const addGiftSchema = z.object({
       "Only MP3, WAV or OGG audio files are allowed"
     ),
 });
+
+//suport agency schema
+export const supportAgencySchema = z.object({
+  supportName: z.string().min(1, "Agency Name is required"),
+  supportEmail: z.string().email("Invalid email"),
+  supportPhone: z.string().min(4, "Phone number required"),
+  supportGender: z.string().min(1, "Gender is required"),
+  supportPassword: z.string().min(6, "Minimum 6 characters"),
+  supportLocation: z.string().min(1, "Country is required"),
+  supportNID: z.string().min(1, "NID is required"),
+  supportProfilePic: z
+    .any()
+    .optional()
+    .refine((files) => files?.length > 0, "Profile picture is required"),
+  supportDocumentFront: z
+    .any()
+    .optional()
+    .refine((files) => files?.length > 0, "NID front is required"),
+  supportDocumentBack: z
+    .any()
+    .optional()
+    .refine((files) => files?.length > 0, "NID back is required"),
+});

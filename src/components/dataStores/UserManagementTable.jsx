@@ -1,10 +1,23 @@
-import { Ban, Eye, Funnel, Pen, Trash2 } from "lucide-react";
+import { Funnel, Pen, Trash2 } from "lucide-react";
 import { usersTable } from "../../data/data";
 import { useState } from "react";
 import EditUserDetailsModal from "../../modals/dataSroreModals/EditUserDetailsModal";
+import useFetch from "../../hooks/useFetch";
+import Loading from "../Loading";
+import Error from "../Error";
+import { BASE_URL } from "../../utility/utility";
 
 export default function UserManagementTable() {
   const [isOpen, setIsOpen] = useState(false);
+  // const navigate = useNavigate();
+  // const [isOpen, setIsOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const { data, loading, error } = useFetch(
+    `${BASE_URL}/admin/users?page=${page}&limit=20`
+  );
+  const users = data?.users || [];
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
   return (
     <>
       {/* search area */}
@@ -21,9 +34,9 @@ export default function UserManagementTable() {
           <button className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto">
             <Funnel size={18} /> Filter
           </button>
-          <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
+          {/* <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
             Add Agency
-          </button>
+          </button> */}
         </div>
       </div>
 
@@ -45,24 +58,23 @@ export default function UserManagementTable() {
           </thead>
 
           <tbody>
-            {usersTable.map((user, index) => (
+            {users?.map((user, index) => (
               <tr
                 key={index}
                 className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
               >
-                <td className="p-3 font-medium pl-5">{user.userId}</td>
+                <td className="p-3 font-medium pl-5">{user.displayId}</td>
                 <td className="p-3">{user.name}</td>
-                <td className="p-3">Male</td>
-                <td className="p-3">alice@example.com</td>
+                <td className="p-3">{user.gender || "N/A"}</td>
+                <td className="p-3">{user.email}</td>
                 <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-sm ${user.levelBg} text-white rounded-full font-semibold`}
-                  >
-                    {user.level}
+                  <span className="px-1.5 py-1 text-xs bg-linear-to-b from-[#5DB90A] to-[#175111] rounded-lg font-semibold text-white flex items-center gap-1.5 w-10 pl-3">
+                    {/* <img src={star} alt="" className="w-4 h-4" /> Lv */}
+                    LV{user.level || "N/A"}
                   </span>
                 </td>
-                <td className="p-3">+1234567890</td>
-                <td className="p-3">New York, USA</td>
+                <td className="p-3">{user.phone}</td>
+                <td className="p-3">{user.location || "N/A"}</td>
                 <td className="p-3">
                   <span
                     className={`px-4 py-1 text-xs ${

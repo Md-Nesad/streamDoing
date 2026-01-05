@@ -1,10 +1,26 @@
-import { Ban, Eye, Funnel, Pen, Trash2 } from "lucide-react";
-import { usersTable } from "../../data/data";
+import { Funnel, Pen, Trash2 } from "lucide-react";
 import { useState } from "react";
 import EditSupportModal from "../../modals/dataSroreModals/EditSupportModal";
+import { useNavigate } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
+import { BASE_URL } from "../../utility/utility";
+import Loading from "../Loading";
+import Error from "../Error";
+import { useStream } from "../../context/streamContext";
 
 export default function SupportAgencyTable() {
+  const navigate = useNavigate();
+  const [page, setPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
+  const { countriesName } = useStream();
+  const { data, loading, error } = useFetch(
+    `${BASE_URL}/admin/support-agencies?page=${page}&limit=10`
+  );
+
+  const supportAgencies = data?.supportAgencies || [];
+  console.log(supportAgencies);
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-4">
@@ -20,7 +36,10 @@ export default function SupportAgencyTable() {
           <button className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto">
             <Funnel size={18} /> Filter
           </button>
-          <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
+          <button
+            onClick={() => navigate("/dashboard/add-support-agency")}
+            className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
+          >
             Add Agency
           </button>
         </div>
@@ -31,7 +50,7 @@ export default function SupportAgencyTable() {
         <table className="w-full text-left border-collapse text-nowrap">
           <thead>
             <tr className="text-[#535353] text-md font-medium">
-              <th className="p-3 pl-5">User ID</th>
+              <th className="p-3 pl-5">Agency ID</th>
               <th className="p-3">Name</th>
               <th className="p-3">Gender</th>
               <th className="p-3">Level</th>
@@ -43,26 +62,28 @@ export default function SupportAgencyTable() {
           </thead>
 
           <tbody>
-            {usersTable.map((user, index) => (
+            {supportAgencies?.map((support) => (
               <tr
-                key={index}
+                key={support._id}
                 className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
               >
-                <td className="p-3 font-medium pl-5">{user.userId}</td>
-                <td className="p-3">{user.name}</td>
-                <td className="p-3">Male</td>
-                <td className="p-3">alice@example.com</td>
-                <td className="p-3">+1234567890</td>
-                <td className="p-3">New York, USA</td>
+                <td className="p-3 font-medium pl-5">S {support.displayId}</td>
+                <td className="p-3">{support.name}</td>
+                <td className="p-3">{support.gender}</td>
+                <td className="p-3">{support.email}</td>
+                <td className="p-3">{support.phone}</td>
+                <td className="p-3">
+                  {countriesName(support.location) || "N/A"}
+                </td>
                 <td className="p-3">
                   <span
                     className={`px-4 py-1 text-xs ${
-                      user.status === "active"
+                      support.ban.isPermanent === false
                         ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                         : "bg-[#FF929296] text-[#D21B20]"
                     } text-[#005D23] rounded-full font-semibold`}
                   >
-                    {user.status}
+                    {support.ban.isPermanent === false ? "Active" : "Banned"}
                   </span>
                 </td>
                 <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

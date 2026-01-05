@@ -34,6 +34,7 @@ import InboxPage from "../../Pages/InboxAssests";
 import MasterAgency from "../../Pages/dataStore/MasterAgency";
 import AdminLogin from "../../Pages/Login";
 import NotFound from "../../Pages/NotFound";
+import AddSupportAgency from "../../components/dataStores/AddSupportAgency";
 
 export default function DashboardRouter() {
   return (
@@ -95,6 +96,7 @@ export default function DashboardRouter() {
             <Route path="admin-agency" element={<AdminAgency />} />
             <Route path="coin-agency" element={<CoinAgency />} />
             <Route path="support" element={<SupportAgency />} />
+            <Route path="add-support-agency" element={<AddSupportAgency />} />
             <Route path="delete-ban" element={<DeleteBan />} />
           </Route>
           <Route path="*" element={<NotFound />} />

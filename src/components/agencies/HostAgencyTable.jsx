@@ -1,4 +1,4 @@
-import { Ellipsis, Funnel, Trash2 } from "lucide-react";
+import { Ellipsis, Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
 import Loading from "../Loading";
@@ -24,22 +24,6 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
       );
     });
     setHosts(filteredUsers);
-  };
-
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this agency?"
-    );
-    if (!confirmDelete) return;
-
-    const result = await deleteUser(id);
-
-    if (!result) {
-      alert("Failed to delete agency");
-    } else {
-      alert(result.message);
-    }
-    setHosts(hosts?.filter((host) => host._id !== id));
   };
 
   useEffect(() => {
@@ -131,8 +115,8 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
                   </td>
                   <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                     View
-                    <span role="button" onClick={() => handleDelete(host._id)}>
-                      <Trash2 size={17} className="text-[#d21b20]" />
+                    <span role="button">
+                      <Ellipsis size={17} />
                     </span>
                   </td>
                 </tr>

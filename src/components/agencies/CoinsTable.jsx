@@ -1,4 +1,4 @@
-import { Funnel, Trash2 } from "lucide-react";
+import { Ellipsis, Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading";
 import Pagination from "../Pagination";
@@ -25,23 +25,6 @@ export default function CoinsTable({ tableData, setPage, loading }) {
       );
     });
     setCoins(filteredUsers);
-  };
-
-  //handle delete function
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this agency?"
-    );
-    if (!confirmDelete) return;
-
-    const result = await deleteUser(id);
-
-    if (!result) {
-      alert("Failed to delete agency");
-    } else {
-      alert(result.message);
-    }
-    setCoins(coins?.filter((coin) => coin._id !== id));
   };
 
   useEffect(() => {
@@ -133,8 +116,8 @@ export default function CoinsTable({ tableData, setPage, loading }) {
                   </td>
                   <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                     View
-                    <span role="button" onClick={() => handleDelete(coin._id)}>
-                      <Trash2 size={17} className="text-[#d21b20]" />
+                    <span role="button">
+                      <Ellipsis size={17} />
                     </span>
                   </td>
                 </tr>
