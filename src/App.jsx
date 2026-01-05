@@ -1,3 +1,5 @@
+import HostProvider from "./context/hostContext";
+import StreamProvider from "./context/streamContext";
 import AdminAgencyPortal from "./routers/agencies/AdminAgencyPortal";
 import CoinAgencyPortal from "./routers/agencies/CoinAgencyPortal";
 import HostAgencyPortal from "./routers/agencies/HostAgencyPortal";
@@ -13,7 +15,11 @@ export default function App() {
   } else if (host.startsWith("coin")) {
     return <CoinAgencyPortal />;
   } else if (host.startsWith("host")) {
-    return <HostAgencyPortal />;
+    return (
+      <HostProvider>
+        <HostAgencyPortal />
+      </HostProvider>
+    );
   } else if (host.startsWith("master")) {
     return <MasterAgencyPortal />;
   } else if (host.startsWith("support")) {
@@ -21,6 +27,10 @@ export default function App() {
   } else if (host.startsWith("www")) {
     return <SupportDashboardPortal />;
   } else {
-    return <DashboardRouter />;
+    return (
+      <StreamProvider>
+        <DashboardRouter />
+      </StreamProvider>
+    );
   }
 }

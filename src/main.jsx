@@ -6,8 +6,9 @@ import StreamProvider from "./context/streamContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <StreamProvider>
+    {/* <StreamProvider>
       <App />
-    </StreamProvider>
+    </StreamProvider> */}
+    <App />
   </StrictMode>
 );

@@ -2,10 +2,10 @@ export default function StatsSection({ data }) {
   return (
     <div
       className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 ${
-        data.length === 3 ? "lg:grid-cols-3" : "xl:grid-cols-4"
+        data?.length === 3 ? "lg:grid-cols-3" : "xl:grid-cols-4"
       } gap-5`}
     >
-      {data.map((item, index) => (
+      {data?.map((item, index) => (
         <div
           key={index}
           className="bg-white shadow-[0_2px_6px_rgba(0,0,0,0.06)] rounded-md px-5 py-4 flex items-start justify-between border border-gray-100"
