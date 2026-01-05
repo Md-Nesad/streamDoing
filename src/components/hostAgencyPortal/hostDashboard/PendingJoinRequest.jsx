@@ -1,6 +1,5 @@
-import { usersTable } from "../../../data/data";
-
-export default function PendingJoinRequest() {
+export default function PendingJoinRequest({ data }) {
+  const hostRequest = data?.hostRequests;
   return (
     <>
       {/* table area */}
@@ -24,31 +23,39 @@ export default function PendingJoinRequest() {
           </thead>
 
           <tbody>
-            {usersTable.map((user, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 font-medium pl-10">{user.userId}</td>
-                <td className="p-3">{user.name}</td>
-                <td className="p-3">{user.beans}</td>
-                <td className="p-3">{user.location}</td>
-                <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-xs ${
-                      user.status === "active"
-                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                        : "bg-[#FF929296] text-[#D21B20]"
-                    } text-[#005D23] rounded-full font-semibold`}
-                  >
-                    {user.status}
-                  </span>
-                </td>
-                <td className="p-3 ">
-                  <button>View</button>
+            {hostRequest?.length > 0 ? (
+              hostRequest?.map((request, index) => (
+                <tr
+                  key={index}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 font-medium pl-10">{request.requestId}</td>
+                  <td className="p-3">{request.name}</td>
+                  <td className="p-3">{request.beans}</td>
+                  <td className="p-3">{request.location}</td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-xs ${
+                        request.status === "active"
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-[#FF929296] text-[#D21B20]"
+                      } text-[#005D23] rounded-full font-semibold`}
+                    >
+                      {request.status}
+                    </span>
+                  </td>
+                  <td className="p-3 ">
+                    <button>View</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
+                <td colSpan={9} className="p-3 text-center">
+                  No host requests found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

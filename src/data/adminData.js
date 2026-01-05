@@ -1,18 +1,19 @@
 import {
+  Armchair,
   Ban,
+  Banknote,
   BarChart3,
   Bell,
   Building2,
+  ChartColumn,
   Coins,
   Home,
-  MessageCircle,
   MessageCircleQuestionMark,
   MessageSquare,
   Mic,
   Timer,
   Users,
 } from "lucide-react";
-import { BiNotification } from "react-icons/bi";
 
 export const adminMenuItems = [
   { title: "Dashboard", icon: Home, link: "/admin-agency-portal" },
@@ -43,14 +44,22 @@ export const hostMenuItems = [
     icon: Users,
     link: "/host-agency-portal/join-requests",
   },
-  { title: "Salaries", icon: Mic, link: "/host-agency-portal/salaries" },
+  { title: "Salaries", icon: Banknote, link: "/host-agency-portal/salaries" },
   {
     title: "Salary Target",
-    icon: Mic,
+    icon: Coins,
     link: "/host-agency-portal/salary-target",
   },
-  { title: "Official Pk", icon: Mic, link: "/host-agency-portal/official-pk" },
-  { title: "Analytics", icon: Mic, link: "/host-agency-portal/analytics" },
+  {
+    title: "Official Pk",
+    icon: Armchair,
+    link: "/host-agency-portal/official-pk",
+  },
+  {
+    title: "Analytics",
+    icon: ChartColumn,
+    link: "/host-agency-portal/analytics",
+  },
 ];
 
 //master menu items

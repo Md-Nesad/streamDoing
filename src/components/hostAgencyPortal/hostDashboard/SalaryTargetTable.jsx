@@ -1,6 +1,7 @@
 import { formatNumber } from "../../../utility/utility";
 
 export default function SalaryTargetTable({ data }) {
+  console.log(data);
   return (
     <>
       <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mt-7 mb-10">

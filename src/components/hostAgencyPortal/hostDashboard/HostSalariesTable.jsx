@@ -1,40 +1,8 @@
-export default function HostSalariesTable() {
-  const data = [
-    {
-      id: 1,
-      name: "Sarah Johnson",
-      userId: "198465",
-      image: "https://i.pravatar.cc/40?img=1",
-    },
-    {
-      id: 2,
-      name: "Romana Hoq",
-      userId: "248465",
-      image: "https://i.pravatar.cc/40?img=2",
-    },
-    {
-      id: 3,
-      name: "Oishi Khanom",
-      userId: "123465",
-      image: "https://i.pravatar.cc/40?img=3",
-    },
-    {
-      id: 4,
-      name: "Rofiqa Hoq",
-      userId: "368465",
-      image: "https://i.pravatar.cc/40?img=4",
-    },
-    {
-      id: 5,
-      name: "Oishi Khanom",
-      userId: "968465",
-      image: "https://i.pravatar.cc/40?img=5",
-    },
-  ];
-
+export default function HostSalariesTable({ data }) {
+  const salarySheet = data?.hostSalaries;
   return (
     <>
-      <div className=" bg-white rounded-xl shadow">
+      <div className=" bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mt-7 mb-10">
         <table className="w-full border-collapse text-sm overflow-x-auto">
           {/* HEADER */}
           <thead>
@@ -82,30 +50,38 @@ export default function HostSalariesTable() {
 
           {/* BODY */}
           <tbody className="text-nowrap">
-            {data.map((item, index) => (
-              <tr key={item.id} className="text-center">
-                <td className="border-t border-r p-3">{index + 1}</td>
+            {salarySheet?.length > 0 ? (
+              salarySheet.map((item, index) => (
+                <tr key={item.id} className="text-center">
+                  <td className="border-t border-r p-3">{index + 1}</td>
 
-                <td className="border-t border-r p-3">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-10 h-10 rounded-full mx-auto"
-                  />
+                  <td className="border-t border-r p-3">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-10 h-10 rounded-full mx-auto"
+                    />
+                  </td>
+
+                  <td className="border-t border-r p-3">{item.name}</td>
+                  <td className="border-t border-r p-3">{item.userId}</td>
+                  <td className="border-t border-r p-3">13</td>
+                  <td className="border-t border-r p-3">13</td>
+                  <td className="border-t border-r p-3">24H 15m</td>
+                  <td className="border-t border-r p-3">17H 15m</td>
+                  <td className="border-t border-r p-3">10k</td>
+                  <td className="border-t border-r p-3">98$</td>
+                  <td className="border-t border-r p-3">98$</td>
+                  <td className="border-r-0 border-t p-3">98$</td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
+                <td colSpan={12} className="p-3 text-center py-6">
+                  No data found
                 </td>
-
-                <td className="border-t border-r p-3">{item.name}</td>
-                <td className="border-t border-r p-3">{item.userId}</td>
-                <td className="border-t border-r p-3">13</td>
-                <td className="border-t border-r p-3">13</td>
-                <td className="border-t border-r p-3">24H 15m</td>
-                <td className="border-t border-r p-3">17H 15m</td>
-                <td className="border-t border-r p-3">10k</td>
-                <td className="border-t border-r p-3">98$</td>
-                <td className="border-t border-r p-3">98$</td>
-                <td className="border-r-0 border-t p-3">98$</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

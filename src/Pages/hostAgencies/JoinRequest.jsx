@@ -1,14 +1,19 @@
 import PendingJoinRequest from "../../components/hostAgencyPortal/hostDashboard/PendingJoinRequest";
-import { formatNumber } from "../../utility/utility";
+import { BASE_URL, formatNumber } from "../../utility/utility";
 import HostStats from "../../components/hostAgencyPortal/hostDashboard/HostStats";
 import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
 import { useHost } from "../../context/hostContext";
+import useFetch from "../../hooks/useFetch";
 
 export default function JoinRequest() {
   const { dashboardStats } = useHost();
   const stats = dashboardStats?.data;
+
+  const { data, loading, error } = useFetch(
+    `${BASE_URL}/agency/host/host-verification/requests?page=1&limit=10`
+  );
 
   const dashboardStat = [
     {
@@ -41,16 +46,13 @@ export default function JoinRequest() {
     },
   ];
 
-  const loading = dashboardStats?.loading;
-  const error = dashboardStats?.error;
-
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 
   return (
     <>
       <HostStats data={dashboardStat} />
-      <PendingJoinRequest />
+      <PendingJoinRequest data={data} />
     </>
   );
 }
