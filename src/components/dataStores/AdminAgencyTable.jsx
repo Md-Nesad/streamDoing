@@ -1,22 +1,72 @@
-import { Ban, Eye, Funnel, Pen, Trash2 } from "lucide-react";
-import { useState } from "react";
-import EditAdminDetailsModal from "../../modals/dataSroreModals/EditAdminDetailsModal";
-import { useNavigate } from "react-router-dom";
-import { useStream } from "../../context/streamContext";
+import { Funnel, LoaderCircle, Pen, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
+import { useNavigate } from "react-router-dom";
+import { useStream } from "../../context/streamContext";
 import Loading from "../Loading";
 import Error from "../Error";
+import useDelete from "../../hooks/useDelete";
+import Pagination from "../Pagination";
 
 export default function AdminAgencyTable() {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(null);
   const [page, setPage] = useState(1);
+  const [text, setText] = useState("");
   const { countriesName } = useStream();
+  const deleteUser = useDelete(`${BASE_URL}/admin/agencies`);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/agencies?page=${page}&limit=10&search=`
+    `${BASE_URL}/admin/agencies?page=${page}&limit=20&search=`
   );
-  const adminAgencies = data?.agencies?.filter((item) => item.type === "admin");
+  const hostAgencies = data?.agencies?.filter((item) => item.type === "admin");
+  const pagination = data?.pagination;
+  const [hosts, setHosts] = useState(hostAgencies);
+
+  //handle filter
+  const handleFilter = () => {
+    const filteredUsers = hostAgencies?.filter((agency) => {
+      return (
+        agency.name.toLowerCase().includes(text.toLowerCase()) ||
+        agency.displayId.toString().includes(text)
+      );
+    });
+    setHosts(filteredUsers);
+  };
+
+  //handle delete
+  const handleDelete = async (id) => {
+    try {
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this agency?"
+      );
+      if (!confirmDelete) return;
+      setDeleteLoading(id);
+      const result = await deleteUser(id);
+
+      if (!result) {
+        alert("Failed to delete agency");
+      } else {
+        alert(result.message);
+      }
+      setHosts(hosts?.filter((host) => host._id !== id));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setDeleteLoading(null);
+    }
+  };
+
+  useEffect(() => {
+    setHosts(hostAgencies);
+  }, [data]);
+
+  useEffect(() => {
+    if (text === "") {
+      handleFilter();
+    }
+  }, [text]);
+
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
   return (
@@ -25,13 +75,18 @@ export default function AdminAgencyTable() {
         {/* Search Input */}
         <input
           type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
           placeholder="Search by ID or name"
         />
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto">
+          <button
+            onClick={handleFilter}
+            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+          >
             <Funnel size={18} /> Filter
           </button>
           <button
@@ -60,48 +115,72 @@ export default function AdminAgencyTable() {
           </thead>
 
           <tbody>
-            {adminAgencies?.map((admin, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 font-medium pl-5">
-                  ADMIN-{admin.displayId}
-                </td>
-                <td className="p-3">{admin.name}</td>
-                <td className="p-3">{admin.referenceId || "N/A"}</td>
-                <td className="p-3">{admin.email}</td>
-                <td className="p-3">{admin.phone}</td>
-                <td className="p-3">{countriesName(admin.country) || "N/A"}</td>
-                <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-xs ${
-                      admin.status === "active"
-                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                        : "bg-[#FF929296] text-[#D21B20]"
-                    } text-[#005D23] rounded-full font-semibold`}
-                  >
-                    {admin.status}
-                  </span>
-                </td>
-                <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                  <span className="flex items-center gap-3">
-                    <button onClick={() => setIsOpen(true)} title="Edit">
-                      <Pen size={19} />
-                    </button>
-                    <Trash2 size={18} className="text-[#FF0037]" />
-                  </span>
+            {hosts?.length > 0 ? (
+              hosts?.map((host, index) => (
+                <tr
+                  key={index}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 font-medium pl-5">
+                    HOST-{host.displayId}
+                  </td>
+                  <td className="p-3">{host.name}</td>
+                  <td className="p-3">{host.referenceId || "N/A"}</td>
+                  <td className="p-3">{host.email}</td>
+                  <td className="p-3">{host.phone}</td>
+                  <td className="p-3">
+                    {countriesName(host.country) || "N/A"}
+                  </td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-xs ${
+                        host.status === "active"
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-[#FF929296] text-[#D21B20]"
+                      } text-[#005D23] rounded-full font-semibold`}
+                    >
+                      {host.status}
+                    </span>
+                  </td>
+                  <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                    <span className="flex items-center gap-3">
+                      <button
+                        onClick={() =>
+                          navigate(`/dashboard/agencies/${host._id}`)
+                        }
+                        title="Edit"
+                      >
+                        <Pen size={19} />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(host._id)}
+                        title="Delete"
+                      >
+                        {deleteLoading === host._id ? (
+                          <LoaderCircle size={18} className="animate-spin" />
+                        ) : (
+                          <Trash2 size={19} className="text-[#D21B20]" />
+                        )}
+                      </button>
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
+                <td colSpan={9} className="p-3 text-center">
+                  No admin agency found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
-        {isOpen && (
-          <EditAdminDetailsModal
-            open={isOpen}
-            onClose={() => setIsOpen(false)}
-          />
-        )}
+        <Pagination
+          page={page}
+          limit={pagination?.limit}
+          total={pagination?.total}
+          onPageChange={setPage}
+        />
       </div>
     </>
   );

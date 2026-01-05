@@ -4,8 +4,6 @@ import Pagination from "../Pagination";
 import Loading from "../Loading";
 import { useStream } from "../../context/streamContext";
 import { useEffect, useState } from "react";
-import useDelete from "../../hooks/useDelete";
-import { BASE_URL } from "../../utility/utility";
 
 export default function AdminAgencyTable({ tableData, setPage, loading }) {
   const adminList = tableData?.agencies?.filter(
@@ -15,7 +13,6 @@ export default function AdminAgencyTable({ tableData, setPage, loading }) {
   const adminPagination = tableData?.pagination;
   const { countriesName } = useStream();
   const navigate = useNavigate();
-  const deleteUser = useDelete(`${BASE_URL}/admin/agencies`);
   const [text, setText] = useState("");
 
   const handleFilter = () => {

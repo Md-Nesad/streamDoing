@@ -4,8 +4,6 @@ import Loading from "../Loading";
 import Pagination from "../Pagination";
 import { useStream } from "../../context/streamContext";
 import { useEffect, useState } from "react";
-import useDelete from "../../hooks/useDelete";
-import { BASE_URL } from "../../utility/utility";
 
 export default function MastersTable({ tableData, setPage, loading }) {
   const masterList = tableData?.agencies?.filter(
@@ -16,8 +14,6 @@ export default function MastersTable({ tableData, setPage, loading }) {
   const navigate = useNavigate();
   const { countriesName } = useStream();
   const [text, setText] = useState("");
-  const deleteUser = useDelete(`${BASE_URL}/admin/agencies`);
-
   const handleFilter = () => {
     const filteredUsers = masterList?.filter((agency) => {
       return (

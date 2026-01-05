@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../Loading";
 import Pagination from "../Pagination";
 import { useStream } from "../../context/streamContext";
-import useDelete from "../../hooks/useDelete";
-import { BASE_URL } from "../../utility/utility";
 import { useEffect, useState } from "react";
 
 export default function CoinsTable({ tableData, setPage, loading }) {
@@ -13,7 +11,6 @@ export default function CoinsTable({ tableData, setPage, loading }) {
   const coinPagination = tableData?.pagination;
   const navigate = useNavigate();
   const { countriesName } = useStream();
-  const deleteUser = useDelete(`${BASE_URL}/admin/agencies`);
 
   const [text, setText] = useState("");
 

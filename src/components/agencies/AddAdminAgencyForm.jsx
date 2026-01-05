@@ -107,7 +107,7 @@ export default function AddAdminAgencyForm() {
 
           {/* User ID */}
           <div>
-            <label>User ID</label>
+            <label>Phone</label>
             <input
               type="text"
               {...register("phoneNumber")}

@@ -35,6 +35,7 @@ import MasterAgency from "../../Pages/dataStore/MasterAgency";
 import AdminLogin from "../../Pages/Login";
 import NotFound from "../../Pages/NotFound";
 import AddSupportAgency from "../../components/dataStores/AddSupportAgency";
+import UpdateAgenciesDetails from "../../Pages/agencies/UpdateAgenciesDetails";
 
 export default function DashboardRouter() {
   return (
@@ -71,6 +72,10 @@ export default function DashboardRouter() {
             <Route
               path="agencies/add-admin-agency"
               element={<AddAdminAgency />}
+            />
+            <Route
+              path="agencies/:agencyId"
+              element={<UpdateAgenciesDetails />}
             />
             <Route path="users" element={<DashboardUsers />} />
             <Route path="transaction-history" element={<Transaction />} />

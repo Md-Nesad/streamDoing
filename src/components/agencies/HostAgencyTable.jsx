@@ -2,8 +2,6 @@ import { Ellipsis, Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
 import Loading from "../Loading";
-import useDelete from "../../hooks/useDelete";
-import { BASE_URL } from "../../utility/utility";
 import { useEffect, useState } from "react";
 import { useStream } from "../../context/streamContext";
 
@@ -13,7 +11,6 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
   const hostPagination = tableData?.pagination;
   const navigate = useNavigate();
   const { countriesName } = useStream();
-  const deleteUser = useDelete(`${BASE_URL}/admin/agencies`);
   const [text, setText] = useState("");
 
   const handleFilter = () => {

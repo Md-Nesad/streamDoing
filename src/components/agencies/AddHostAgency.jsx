@@ -58,7 +58,7 @@ export default function AddHostAgencyForm() {
     }
     setLoading(false);
 
-    reset();
+    // reset();
   };
 
   return (
@@ -107,7 +107,7 @@ export default function AddHostAgencyForm() {
 
           {/* User ID */}
           <div>
-            <label>User ID</label>
+            <label>Phone</label>
             <input
               type="text"
               {...register("phoneNumber")}
