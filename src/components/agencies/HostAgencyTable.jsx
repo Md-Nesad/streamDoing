@@ -12,6 +12,8 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
   const navigate = useNavigate();
   const { countriesName } = useStream();
   const [text, setText] = useState("");
+  console.log(countriesName("69550bee6f66520b824f4696"));
+  console.log(hosts);
 
   const handleFilter = () => {
     const filteredUsers = hostList?.filter((agency) => {
@@ -97,7 +99,9 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
                   <td className="p-3">{host.diamonds}</td>
                   <td className="p-3">{host.revenue}</td>
                   <td className="p-3">
-                    {countriesName(host.country) || "N/A"}
+                    {host?.country?.name ||
+                      countriesName(host.country) ||
+                      "N/A"}
                   </td>
                   <td className="p-3">
                     <span

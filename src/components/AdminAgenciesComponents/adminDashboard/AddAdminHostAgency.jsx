@@ -11,7 +11,7 @@ import { countries } from "../../../data/adminData";
 export default function AddAdminHostAgency() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const handleFormData = useFormDataPost(`${BASE_URL}/admin/agencies`);
+  const handleFormData = useFormDataPost(`${BASE_URL}/agency/admin/agencies`);
 
   //validated form using react hook form + zod
   const {
@@ -26,6 +26,11 @@ export default function AddAdminHostAgency() {
 
   // form submission handler
   const handleSave = async (data) => {
+    if (data.password !== data.rePassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
     const formData = new FormData();
 
     // formData.append("type", data.agencyType);
@@ -33,14 +38,11 @@ export default function AddAdminHostAgency() {
     formData.append("email", data.email);
     formData.append("phone", data.phoneNumber);
     formData.append("whatsapp", data.whatsapp);
+    formData.append("password", data.password);
     formData.append("country", data.country);
     formData.append("documentType", data.documentType);
     formData.append("status", "active");
-    if (data.password !== data.rePassword) {
-      alert("Passwords do not match");
-    } else {
-      formData.append("password", data.password);
-    }
+
     if (data.profilePic) {
       formData.append("profilePic", data.profilePic?.[0]);
     }
@@ -53,7 +55,6 @@ export default function AddAdminHostAgency() {
 
     setLoading(true);
     const result = await handleFormData(formData);
-
     if (result.success === false) {
       alert(result.message);
     } else {

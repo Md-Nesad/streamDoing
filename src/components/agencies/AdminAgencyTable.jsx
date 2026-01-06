@@ -97,7 +97,9 @@ export default function AdminAgencyTable({ tableData, setPage, loading }) {
                   <td className="p-3">{admin.diamonds + "M"}</td>
                   <td className="p-3">{admin.commission || "N/A"}</td>
                   <td className="p-3">
-                    {countriesName(admin.country) || "N/A"}
+                    {admin?.country?.name ||
+                      countriesName(admin.country) ||
+                      "N/A"}
                   </td>
                   <td className="p-3">
                     <span

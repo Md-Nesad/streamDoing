@@ -13,7 +13,7 @@ export default function AdminDashboard() {
     error,
   } = useFetch(`${BASE_URL}/agency/admin/dashboard/stats`);
 
-  //agency performance
+  //agency performance data
   const {
     data: performance,
     loading: performanceLoading,

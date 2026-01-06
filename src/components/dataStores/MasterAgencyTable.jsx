@@ -129,7 +129,9 @@ export default function MasterAgencyTable() {
                   <td className="p-3">{host.email}</td>
                   <td className="p-3">{host.phone}</td>
                   <td className="p-3">
-                    {countriesName(host.country) || "N/A"}
+                    {host?.country?.name ||
+                      countriesName(host.country) ||
+                      "N/A"}
                   </td>
                   <td className="p-3">
                     <span

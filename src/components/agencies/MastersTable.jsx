@@ -94,7 +94,9 @@ export default function MastersTable({ tableData, setPage, loading }) {
                   <td className="p-3">{master.coinBuy || "N/A"}</td>
                   <td className="p-3">{master.revenue}</td>
                   <td className="p-3">
-                    {countriesName(master.country) || "N/A"}
+                    {master?.country?.name ||
+                      countriesName(master.country) ||
+                      "N/A"}
                   </td>
                   <td className="p-3">
                     <span

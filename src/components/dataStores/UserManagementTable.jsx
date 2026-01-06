@@ -16,6 +16,7 @@ export default function UserManagementTable() {
     `${BASE_URL}/admin/users?page=${page}&limit=20`
   );
   const [users, setUsers] = useState(data?.users || []);
+  console.log(users);
   const pagination = data?.pagination;
   const deleteUser = useDelete(`${BASE_URL}/admin/users`);
 

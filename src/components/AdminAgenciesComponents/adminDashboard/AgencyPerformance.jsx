@@ -1,9 +1,19 @@
 import { useState } from "react";
 import PerformanceModal from "./PerformanceModal";
+import { BASE_URL, formatNumber } from "../../../utility/utility";
+import useFetch from "../../../hooks/useFetch";
+import { countries } from "../../../data/adminData";
 
 export default function AgencyPerformance({ data }) {
   const [isOpen, setIsOpen] = useState(false);
   const performance = data?.performance || [];
+  const [selectedPerformance, setSelectedPerformance] = useState(null);
+
+  const handleOpenModal = (performance) => {
+    setSelectedPerformance(performance);
+    setIsOpen(true);
+  };
+
   return (
     <>
       {/* table area */}
@@ -31,50 +41,60 @@ export default function AgencyPerformance({ data }) {
 
           <tbody>
             {performance?.length > 0 ? (
-              performance?.map((agency, index) => (
-                <tr
-                  key={index}
-                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-                >
-                  <td className="p-3 font-medium pl-5">{agency.agencyId}</td>
-                  <td className="p-3">{agency.name}</td>
-                  <td className="p-3">
-                    <span
-                      className={`px-4 py-1 text-sm opacity-80 ${
-                        agency.type === "Normal"
-                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                          : "bg-linear-to-r from-[#EB57FF] to-[#3325C9] text-[#FFFFFF] font-thin"
-                      } text-[#005D23] rounded-full font-semibold`}
-                    >
-                      {agency.type}
-                    </span>
-                  </td>
-                  <td className="p-3">
-                    <span
-                      className={`px-4 py-1 text-sm ${agency.levelBg} text-white rounded-full font-semibold`}
-                    >
-                      {agency.level}
-                    </span>
-                  </td>
-                  <td className="p-3">{agency.diamonds}</td>
-                  <td className="p-3">{agency.beans}</td>
-                  <td className="p-3">{agency.location}</td>
-                  <td className="p-3">
-                    <span
-                      className={`px-4 py-1 text-xs ${
-                        agency.status === "active"
-                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                          : "bg-[#FF929296] text-[#D21B20]"
-                      } text-[#005D23] rounded-full font-semibold`}
-                    >
-                      {agency.status}
-                    </span>
-                  </td>
-                  <td className="p-3 ">
-                    <button onClick={() => setIsOpen(true)}>View</button>
-                  </td>
-                </tr>
-              ))
+              performance?.map((agency, index) => {
+                //for getting display id and status
+                const { data } = useFetch(
+                  `${BASE_URL}/agency/admin/agencies/${agency?.agencyId}`
+                );
+                // console.log(data);
+                //for getting country name
+                const countryName = countries.find(
+                  (country) => country._id === data?.country
+                )?.name;
+                return (
+                  <tr
+                    key={index}
+                    className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                  >
+                    <td className="p-3 font-medium pl-5">
+                      Agc-{data?.displayId}
+                    </td>
+
+                    <td className="p-3">
+                      <img
+                        src={agency.profilePic}
+                        className="w-8 h-8 rounded-full object-cover"
+                        fetchPriority="true"
+                      />
+                    </td>
+                    <td className="p-3">{agency.agencyName}</td>
+                    <td className="p-3">{formatNumber(agency.avgDiamond)}</td>
+                    <td className="p-3">{agency.email}</td>
+                    <td className="p-3">{agency.number}</td>
+                    <td className="p-3">{countryName || "N/A"}</td>
+                    <td className="p-3">
+                      <span
+                        className={`px-4 py-1 text-xs ${
+                          data?.status === "active"
+                            ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                            : "bg-[#FF929296] text-[#D21B20]"
+                        } text-[#005D23] rounded-full font-semibold`}
+                      >
+                        {data?.status}
+                      </span>
+                    </td>
+                    <td className="p-3 ">
+                      <button
+                        onClick={() =>
+                          handleOpenModal({ agency, data, countryName })
+                        }
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
                 <td colSpan={9} className="p-3 text-center pt-5">
@@ -85,7 +105,11 @@ export default function AgencyPerformance({ data }) {
           </tbody>
         </table>
         {isOpen && (
-          <PerformanceModal open={isOpen} onClose={() => setIsOpen(false)} />
+          <PerformanceModal
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+            performance={selectedPerformance}
+          />
         )}
       </div>
     </>

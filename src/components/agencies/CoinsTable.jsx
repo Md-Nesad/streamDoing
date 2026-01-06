@@ -98,7 +98,9 @@ export default function CoinsTable({ tableData, setPage, loading }) {
                   <td className="p-3">{coin.coinBuy || "N/A"}</td>
                   <td className="p-3">{coin.revenue}</td>
                   <td className="p-3">
-                    {countriesName(coin.country) || "N/A"}
+                    {coin?.country?.name ||
+                      countriesName(coin.country) ||
+                      "N/A"}
                   </td>
                   <td className="p-3">
                     <span
