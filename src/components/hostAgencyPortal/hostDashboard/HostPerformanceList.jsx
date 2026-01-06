@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import HostPerformanceModal from "./HostPerformanceModal";
 import useFetch from "../../../hooks/useFetch";
 import { BASE_URL } from "../../../utility/utility";
-import Loading from "../../Loading";
-import Error from "../../Error";
 
 export default function HostPerformanceList() {
   const [isOpen, setIsOpen] = useState(false);
@@ -96,9 +94,17 @@ export default function HostPerformanceList() {
           <h2 className="sm:text-xl text-sm font-semibold">Host Performance</h2>
         </div>
 
-        {loading && <Loading />}
+        {loading && (
+          <p className="text-center text-md font-semibold text-gray-600">
+            Loading...
+          </p>
+        )}
 
-        {error && <Error error={error} />}
+        {error && (
+          <p className="text-center text-md font-semibold text-gray-600">
+            {error}
+          </p>
+        )}
 
         {!loading && !error && (
           <table className="w-full text-left border-collapse text-nowrap">

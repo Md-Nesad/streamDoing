@@ -14,9 +14,10 @@ export default function HostDashboard() {
 
   //fetch host list
   const hosts = useFetch(
-    `${BASE_URL}/agency/host/dashboard/hosts?page=1&limit=20`
+    `${BASE_URL}/agency/host/dashboard/hosts?page=1&limit=20&search=`
   );
   const hostList = hosts?.data;
+  console.log(hostList);
 
   const dashboardStat = [
     {

@@ -4,11 +4,11 @@ import HostTable from "../components/host/HostTable";
 import useFetch from "../hooks/useFetch";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
-import { BASE_URL, formatNumber } from "../utility/utility";
+import { BASE_URL, formatNumber, formatPercent } from "../utility/utility";
 
 export default function Host() {
   const host = useFetch(`${BASE_URL}/dashboard/host-stats`);
-  const hostList = useFetch(`${BASE_URL}/dashboard/hosts?page=1&limit=10`);
+  const hostList = useFetch(`${BASE_URL}/dashboard/hosts?page=1&limit=20`);
 
   const data = host.data;
   const hostListData = hostList?.data;
@@ -43,7 +43,7 @@ export default function Host() {
     {
       title: "Platform Revenue",
       value: "৳" + formatNumber(data?.platFormRevenue),
-      change: `+${data?.revenueGrowth}%`,
+      change: formatPercent(data?.revenueGrowth),
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
     },
