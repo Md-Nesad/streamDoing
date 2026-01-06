@@ -1,18 +1,17 @@
-import { ChevronDown } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import useFormDataPost from "../../hooks/useFormDataPost";
-import { BASE_URL } from "../../utility/utility";
 import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { agencySchema } from "../../utility/validator";
+import { useNavigate } from "react-router-dom";
+import useFormDataPost from "../../../hooks/useFormDataPost";
+import { BASE_URL } from "../../../utility/utility";
 import { useForm } from "react-hook-form";
-import { useStream } from "../../context/streamContext";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { adminHostAgencySchema } from "../../../utility/validator";
+import { ChevronDown } from "lucide-react";
+import { countries } from "../../../data/adminData";
 
-export default function AddHostAgencyForm() {
+export default function AddAdminHostAgency() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleFormData = useFormDataPost(`${BASE_URL}/admin/agencies`);
-  const { countries } = useStream();
 
   //validated form using react hook form + zod
   const {
@@ -22,22 +21,26 @@ export default function AddHostAgencyForm() {
     reset,
     watch,
   } = useForm({
-    resolver: zodResolver(agencySchema),
+    resolver: zodResolver(adminHostAgencySchema),
   });
 
   // form submission handler
   const handleSave = async (data) => {
     const formData = new FormData();
 
-    formData.append("type", data.agencyType);
+    // formData.append("type", data.agencyType);
     formData.append("name", data.agencyName);
-    formData.append("password", data.password);
     formData.append("email", data.email);
     formData.append("phone", data.phoneNumber);
     formData.append("whatsapp", data.whatsapp);
     formData.append("country", data.country);
     formData.append("documentType", data.documentType);
     formData.append("status", "active");
+    if (data.password !== data.rePassword) {
+      alert("Passwords do not match");
+    } else {
+      formData.append("password", data.password);
+    }
     if (data.profilePic) {
       formData.append("profilePic", data.profilePic?.[0]);
     }
@@ -68,27 +71,6 @@ export default function AddHostAgencyForm() {
           onSubmit={handleSubmit(handleSave)}
           className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6"
         >
-          {/* Agency Type */}
-          <div>
-            <label>Agency Type</label>
-            <div className="relative mt-1">
-              <select {...register("agencyType")}>
-                <option value="">Select</option>
-                <option value="host">Host</option>
-                <option value="coin">Coin</option>
-                <option value="master">Master</option>
-                <option value="admin">Admin</option>
-              </select>
-
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-            </div>
-            {errors.agencyType && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.agencyType.message}
-              </p>
-            )}
-          </div>
-
           {/* Agency Name */}
           <div>
             <label>Agency Name</label>
@@ -137,6 +119,22 @@ export default function AddHostAgencyForm() {
             )}
           </div>
 
+          {/* WhatsApp Number */}
+          <div>
+            <label>WhatsApp Number</label>
+            <input
+              type="text"
+              {...register("whatsapp")}
+              placeholder="+1 (737)-123-3265"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
+            />
+            {errors.whatsapp && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.whatsapp.message}
+              </p>
+            )}
+          </div>
+
           {/* Country */}
           <div>
             <label>Country</label>
@@ -162,20 +160,22 @@ export default function AddHostAgencyForm() {
             )}
           </div>
 
-          {/* WhatsApp Number */}
+          {/* Passwords */}
           <div>
-            <label>WhatsApp Number</label>
-            <input
-              type="text"
-              {...register("whatsapp")}
-              placeholder="+1 (737)-123-3265"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
-            />
-            {errors.whatsapp && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.whatsapp.message}
-              </p>
-            )}
+            <label>Passwords</label>
+            <div className="relative">
+              <input
+                type="text"
+                {...register("password")}
+                placeholder="Enter password"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
+              />
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Document Type */}
@@ -199,19 +199,19 @@ export default function AddHostAgencyForm() {
             )}
           </div>
 
-          {/* Passwords */}
+          {/*Re Passwords */}
           <div>
-            <label>Passwords</label>
+            <label>Re-Passwords</label>
             <div className="relative">
               <input
                 type="text"
-                {...register("password")}
-                placeholder="Enter password"
+                {...register("rePassword")}
+                placeholder="Re-Enter password"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
               />
-              {errors.password && (
+              {errors.rePassword && (
                 <p className="text-red-500 text-xs mt-1">
-                  {errors.password.message}
+                  {errors.rePassword.message}
                 </p>
               )}
             </div>

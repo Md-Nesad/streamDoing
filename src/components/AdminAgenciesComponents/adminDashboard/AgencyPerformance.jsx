@@ -1,9 +1,9 @@
-import { usersTable } from "../../../data/data";
 import { useState } from "react";
 import PerformanceModal from "./PerformanceModal";
 
-export default function AgencyPerformance() {
+export default function AgencyPerformance({ data }) {
   const [isOpen, setIsOpen] = useState(false);
+  const performance = data?.performance || [];
   return (
     <>
       {/* table area */}
@@ -30,50 +30,58 @@ export default function AgencyPerformance() {
           </thead>
 
           <tbody>
-            {usersTable.map((user, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 font-medium pl-5">{user.userId}</td>
-                <td className="p-3">{user.name}</td>
-                <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-sm opacity-80 ${
-                      user.type === "Normal"
-                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                        : "bg-linear-to-r from-[#EB57FF] to-[#3325C9] text-[#FFFFFF] font-thin"
-                    } text-[#005D23] rounded-full font-semibold`}
-                  >
-                    {user.type}
-                  </span>
-                </td>
-                <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-sm ${user.levelBg} text-white rounded-full font-semibold`}
-                  >
-                    {user.level}
-                  </span>
-                </td>
-                <td className="p-3">{user.diamonds}</td>
-                <td className="p-3">{user.beans}</td>
-                <td className="p-3">{user.location}</td>
-                <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-xs ${
-                      user.status === "active"
-                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                        : "bg-[#FF929296] text-[#D21B20]"
-                    } text-[#005D23] rounded-full font-semibold`}
-                  >
-                    {user.status}
-                  </span>
-                </td>
-                <td className="p-3 ">
-                  <button onClick={() => setIsOpen(true)}>View</button>
+            {performance?.length > 0 ? (
+              performance?.map((agency, index) => (
+                <tr
+                  key={index}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 font-medium pl-5">{agency.agencyId}</td>
+                  <td className="p-3">{agency.name}</td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-sm opacity-80 ${
+                        agency.type === "Normal"
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-linear-to-r from-[#EB57FF] to-[#3325C9] text-[#FFFFFF] font-thin"
+                      } text-[#005D23] rounded-full font-semibold`}
+                    >
+                      {agency.type}
+                    </span>
+                  </td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-sm ${agency.levelBg} text-white rounded-full font-semibold`}
+                    >
+                      {agency.level}
+                    </span>
+                  </td>
+                  <td className="p-3">{agency.diamonds}</td>
+                  <td className="p-3">{agency.beans}</td>
+                  <td className="p-3">{agency.location}</td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-xs ${
+                        agency.status === "active"
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-[#FF929296] text-[#D21B20]"
+                      } text-[#005D23] rounded-full font-semibold`}
+                    >
+                      {agency.status}
+                    </span>
+                  </td>
+                  <td className="p-3 ">
+                    <button onClick={() => setIsOpen(true)}>View</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
+                <td colSpan={9} className="p-3 text-center pt-5">
+                  No performance agency found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
         {isOpen && (

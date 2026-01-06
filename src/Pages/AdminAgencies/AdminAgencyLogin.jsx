@@ -5,7 +5,7 @@ export default function AdminAgencyLogin() {
   const BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: "",
+    agencyIdOrPhone: "",
     password: "",
   });
   const [error, setError] = useState("");
@@ -22,15 +22,15 @@ export default function AdminAgencyLogin() {
     e.preventDefault();
     setError("");
 
-    if (!formData.username || !formData.password) {
-      setError("Username and password are required");
+    if (!formData.agencyIdOrPhone || !formData.password) {
+      setError("Agency Id or Phone and password are required");
       return;
     }
 
     try {
       setLoading(true);
 
-      const res = await fetch(`${BASE_URL}/admin/login`, {
+      const res = await fetch(`${BASE_URL}/agency/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export default function AdminAgencyLogin() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || "Login failed");
+        setError(data.error || "Login failed");
         return;
       }
 
@@ -88,9 +88,9 @@ export default function AdminAgencyLogin() {
             <label className="block text-sm font-medium mb-1">Username</label>
             <input
               type="text"
-              name="username"
-              placeholder="Enter admin username"
-              value={formData.username}
+              name="agencyIdOrPhone"
+              placeholder="Enter Agency Id or Phone"
+              value={formData.agencyIdOrPhone}
               onChange={handleChange}
               className="w-full border rounded-lg px-4 py-2 focus:outline-none"
             />
