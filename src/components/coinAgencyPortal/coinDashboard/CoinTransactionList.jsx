@@ -1,13 +1,19 @@
-// import { Ellipsis, Funnel } from "lucide-react";
-// import { useNavigate } from "react-router-dom";
-// import { formatNumber, formatOnlyDate } from "../../utility/utility";
-
-import { tableData } from "../../../data/data";
+import useFetch from "../../../hooks/useFetch";
+import { BASE_URL } from "../../../utility/utility";
+import Error from "../../Error";
+// import Loading from "../../Loading";
 
 export default function CoinTransactionList() {
-  //   const coinsSend = tableData?.transactions;
-  //   console.log(coinsSend);
-  //   const navigate = useNavigate();
+  const { data, error } = useFetch(
+    `${BASE_URL}/agency/coin/dashboard/buy-sale-transactions?page=1&limit=10`
+  );
+  const tableData = data?.data;
+
+  if (error) return <Error error={error} />;
+
+  // useEffect(() => {
+  //   if (loading) return <Loading />;
+  // }, []);
   return (
     <>
       {/* table area */}
@@ -44,7 +50,7 @@ export default function CoinTransactionList() {
             ) : (
               <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
                 <td colSpan={9} className="p-3 pt-6 text-center">
-                  No data found
+                  No transaction history found
                 </td>
               </tr>
             )}

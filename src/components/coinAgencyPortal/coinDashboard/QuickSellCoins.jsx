@@ -1,37 +1,25 @@
-// import { useState } from "react";
-// import useFetch from "../../hooks/useFetch";
-// import useJsonPost from "../../hooks/useJsonPost";
-// import { BASE_URL } from "../../utility/utility";
+import { useState } from "react";
+import useJsonPost from "../../../hooks/useJsonPost";
+import { BASE_URL } from "../../../utility/utility";
 
 export default function QuickSellCoins() {
-  //   const { data } = useFetch(`${BASE_URL}/coins/rates/latest`);
-  //   const handleSubmit = useJsonPost(`${BASE_URL}/coins/sales/admin-to-master`);
-  //   const agenciesOverview = useFetch(
-  //     `${BASE_URL}/dashboard/agencies-overview?limit=10`
-  //   );
-  //   const masterIds = agenciesOverview?.data?.agencies;
+  const [userId, setUserId] = useState("");
+  const [coins, setCoins] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  //   const [masterId, setMasterId] = useState("");
-  //   const [coins, setCoins] = useState("");
-  //   const [loading, setLoading] = useState(false);
+  const handleSubmit = useJsonPost(`${BASE_URL}/agency/coin/coin-sale/to-user`);
 
-  //   const handleCoinSell = async () => {
-  //     if (!masterId) return alert("Please enter Master ID");
-  //     const masterExists = masterIds?.some(
-  //       (item) => String(item?.displayId) === String(masterId)
-  //     );
+  const handleCoinSell = async () => {
+    if (!userId) return alert("Please enter Valid User ID");
+    if (!coins) return alert("Please enter coin amount");
+    setLoading(true);
+    const result = await handleSubmit({ userId, coins });
+    setLoading(false);
+    alert(result.message);
 
-  //     if (!masterExists) return alert("Invalid Master ID");
-  //     if (!coins) return alert("Please enter coin amount");
-
-  //     setLoading(true);
-  //     const result = await handleSubmit({ masterId, coins });
-  //     alert(result.message);
-
-  //     setMasterId("");
-  //     setCoins("");
-  //     setLoading(false);
-  //   };
+    setUserId("");
+    setCoins("");
+  };
 
   return (
     <div className="w-full px-5 py-7 bg-white shadow-[0_2px_6px_rgba(0,0,0,0.06)] rounded-md mt-8">
@@ -48,6 +36,8 @@ export default function QuickSellCoins() {
           <label className="text-sm font-medium text-gray-700">User ID</label>
           <input
             type="number"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
             placeholder="Enter User Id"
             className="border border-[#626060] rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400"
           />
@@ -60,6 +50,8 @@ export default function QuickSellCoins() {
           </label>
           <input
             type="number"
+            value={coins}
+            onChange={(e) => setCoins(e.target.value)}
             placeholder="Enter Amount"
             className="border border-[#626060] rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400"
           />
@@ -69,8 +61,12 @@ export default function QuickSellCoins() {
           {/* <label className="text-sm font-medium text-gray-700">
             Number of Coins
           </label> */}
-          <button className="px-12 py-2 text-md btn_gradient">
-            Transfer Coins
+          <button
+            type="button"
+            onClick={handleCoinSell}
+            className="px-12 py-2 text-md btn_gradient"
+          >
+            {loading ? "transferring..." : "Transfer Coins"}
           </button>
         </div>
       </form>

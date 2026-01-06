@@ -11,6 +11,7 @@ import {
   MessageCircleQuestionMark,
   MessageSquare,
   Mic,
+  Snowflake,
   Timer,
   Users,
 } from "lucide-react";
@@ -30,10 +31,14 @@ export const coinMenuItems = [
   { title: "Dashboard", icon: Home, link: "/coin-agency-portal" },
   {
     title: "Transaction History",
-    icon: Users,
+    icon: Timer,
     link: "/coin-agency-portal/transaction-history",
   },
-  { title: "Coin Freeze", icon: Mic, link: "/coin-agency-portal/coin-freeze" },
+  {
+    title: "Coin Freeze",
+    icon: Snowflake,
+    link: "/coin-agency-portal/coin-freeze",
+  },
 ];
 
 // host agency

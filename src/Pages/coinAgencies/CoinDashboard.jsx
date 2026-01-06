@@ -2,41 +2,54 @@ import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
 import StatsSection from "../../components/dashboard/StatsCard";
 import QuickSellCoins from "../../components/coinAgencyPortal/coinDashboard/QuickSellCoins";
 import CoinTransactionList from "../../components/coinAgencyPortal/coinDashboard/CoinTransactionList";
+import useFetch from "../../hooks/useFetch";
+import { BASE_URL, formatNumber, formatPercent } from "../../utility/utility";
+import Loading from "../../components/Loading";
+import Error from "../../components/Error";
 
 export default function CoinDashboard() {
-  const stats = [
+  const {
+    data: stats,
+    loading,
+    error,
+  } = useFetch(`${BASE_URL}/agency/coin/dashboard/stats`);
+
+  const stat = [
     {
       title: "Total Sell",
-      value: "12",
-      change: "+245 today",
+      value: formatNumber(stats?.totalSales?.totalCoinSales),
+      change: formatPercent(stats?.totalSales?.saleGrowth),
       icon: Users,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
     },
     {
       title: "Today’s Sale",
-      value: "34",
-      change: "",
+      value: formatNumber(stats?.dailySales?.todayCoinSales),
+      change: formatPercent(stats?.dailySales?.dailyGrowth),
       icon: RadioTower,
       iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
     },
     {
       title: "Total user",
-      value: "12M",
+      value: formatNumber(stats?.totalUsers),
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
     },
     {
       title: "This Month",
-      value: "৳2.4M",
-      change: "+18%",
+      value: "$" + formatNumber(stats?.thisMonthCoinSalesAmount),
+      change: "",
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
     },
   ];
+
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
   return (
     <div>
-      <StatsSection data={stats} />
+      <StatsSection data={stat} />
       <QuickSellCoins />
       <CoinTransactionList />
     </div>

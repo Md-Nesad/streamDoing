@@ -5,6 +5,7 @@ import { formatNumber } from "../../../utility/utility";
 export default function HostList({ data }) {
   const [hosts, setHosts] = useState(data?.hosts);
   const [text, setText] = useState("");
+  console.log(hosts);
 
   //handle filter
   const handleFilter = () => {

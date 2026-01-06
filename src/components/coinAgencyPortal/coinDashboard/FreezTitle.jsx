@@ -1,4 +1,20 @@
+import { useState } from "react";
+import useJsonPost from "../../../hooks/useJsonPost";
+import { BASE_URL } from "../../../utility/utility";
+
 export default function FreezTitle() {
+  const [transactionId, setTransactionId] = useState("");
+  const handleSubmit = useJsonPost(`${BASE_URL}/agency/coin/coin-freeze/apply`);
+
+  const handleCoinApply = async () => {
+    if (!transactionId) return alert("Please enter Valid Transaction ID");
+    const result = await handleSubmit({ transactionId });
+    alert(result.message);
+
+    if (result?.success === true) {
+      setTransactionId("");
+    }
+  };
   return (
     <>
       <div aria-label="rate transaction header" className="mb-5">
@@ -14,15 +30,21 @@ export default function FreezTitle() {
         {/* user ID */}
         <div className="flex flex-col gap-2 mb-3 col-span-2">
           <input
-            type="number"
+            type="text"
+            value={transactionId}
+            onChange={(e) => setTransactionId(e.target.value)}
             placeholder="Transaction Id"
             className="border border-[#626060] rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
         <div className="flex flex-col gap-2 w-60">
-          <button type="button" className="px-12 py-2 text-md btn_gradient">
-            Transfer Coins
+          <button
+            type="button"
+            onClick={handleCoinApply}
+            className="px-12 py-2 text-md btn_gradient"
+          >
+            Apply
           </button>
         </div>
       </form>
