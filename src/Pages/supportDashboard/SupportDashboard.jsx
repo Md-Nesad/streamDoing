@@ -2,38 +2,63 @@ import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
 import StatsSection from "../../components/dashboard/StatsCard";
 import TitleAndSubTitle from "../../components/TitleAndSubTitle";
 import AllTicketsList from "../../components/supportTeamPortal/SupportDashboardComponents/AllTicketsList";
+import useFetch from "../../hooks/useFetch";
+import { BASE_URL } from "../../utility/utility";
+import Loading from "../../components/Loading";
+import Error from "../../components/Error";
 
 export default function SupportDashboard() {
+  //stats
+  const {
+    data: stat,
+    loading: statLoading,
+    error: statError,
+  } = useFetch(`${BASE_URL}/support-agency/dashboard/stats`);
+
+  //get all tickets
+  const {
+    data: tickets,
+    loading: ticketsLoading,
+    error: ticketsError,
+  } = useFetch(
+    `${BASE_URL}/support-agency/dashboard/tickets?page=1&limit=10&status=open&search=issue`
+  );
+
+  if (statLoading || ticketsLoading) return <Loading />;
+
+  if (statError || ticketsError) return <Error error={error} />;
+
   const stats = [
     {
       title: "Open Tickets",
-      value: "12",
-      change: "+245 today",
+      value: stat?.totalOpenTickets,
+      change: `+${stat?.thisMonthOpenTickets} today`,
       icon: Users,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
     },
     {
       title: "Pending",
-      value: "34",
+      value: stat?.totalPendingTickets,
       change: "",
       icon: RadioTower,
       iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
     },
     {
       title: "Resolved Today",
-      value: "12M",
+      value: stat?.resolvedToday,
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
     },
     {
       title: "Avg Response Time",
-      value: "৳2.4M",
+      value: `${stat?.avgResponseTime}m`,
       change: "+18%",
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
     },
   ];
+
   return (
     <>
       <TitleAndSubTitle
@@ -43,7 +68,7 @@ export default function SupportDashboard() {
 
       <StatsSection data={stats} />
 
-      <AllTicketsList />
+      <AllTicketsList data={tickets} />
     </>
   );
 }

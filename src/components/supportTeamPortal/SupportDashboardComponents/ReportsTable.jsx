@@ -1,7 +1,13 @@
-import { Ellipsis, Funnel, SquarePen, Trash2 } from "lucide-react";
+import { Ellipsis, Funnel } from "lucide-react";
 import { kycTable } from "../../../data/data";
+// import useFetch from "../../../hooks/useFetch";
+// import { BASE_URL } from "../../../utility/utility";
 
 export default function ReportsTable() {
+  // const { data, loading, error } = useFetch(
+  //   `${BASE_URL}/support-agency/reports?status=&page=1&limit=10`
+  // );
+  // console.log(data);
   return (
     <>
       <div className="mb-4 flex gap-10">

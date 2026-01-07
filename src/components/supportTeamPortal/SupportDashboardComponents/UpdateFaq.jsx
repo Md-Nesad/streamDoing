@@ -1,40 +1,40 @@
 import { ChevronDown } from "lucide-react";
-import useJsonPost from "../../../hooks/useJsonPost";
-import { BASE_URL } from "../../../utility/utility";
 import { useState } from "react";
+import { BASE_URL } from "../../../utility/utility";
 
-export default function AddFAQsModal({ open, onClose }) {
-  if (!open) return null;
-  const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
-  const [category, setCategory] = useState("");
+export default function UpdateFaq({ edit, onEdit, faq }) {
+  if (!edit) return null;
+  //   console.log(faqId);
+  const [question, setQuestion] = useState(faq.question);
+  const [answer, setAnswer] = useState(faq.answer);
+  const [category, setCategory] = useState(faq.category);
   const [loading, setLoading] = useState(false);
-  const handlesubmit = useJsonPost(`${BASE_URL}/support-agency/faq`);
 
-  //handle Save
   const handleSave = async () => {
-    if (!question || !answer || !category)
-      return alert("Please fill all fields");
     try {
       setLoading(true);
-      const result = await handlesubmit({
-        question,
-        answer,
-        category,
+      const updatedFaq = { ...faq, question, answer, category };
+      const res = await fetch(`${BASE_URL}/support-agency/faq/${faq._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("admin_token")}`,
+        },
+        body: JSON.stringify(updatedFaq),
       });
-      if (!result) {
-        alert("Failed to add FAQ");
-      } else {
-        alert(result.message);
+      const result = await res.json();
+      if (!res.ok) {
+        throw new Error(result.message || "Something went wrong");
       }
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
-      window.location.refresh();
-      onClose(false);
+      window.location.reload();
+      onEdit(false);
     }
   };
+
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
       <div className="bg-[#FDFDFD] w-full max-w-2xl rounded-xl shadow-xl p-4 sm:p-8 relative animatefadeIn">
@@ -92,14 +92,14 @@ export default function AddFAQsModal({ open, onClose }) {
         <div className="sm:mt-10 mt-6 mb-2 sm:mb-0 flex justify-center sm:justify-end gap-4">
           <button
             type="button"
-            onClick={onClose}
+            onClick={onEdit}
             className="border px-6 py-1 btn_white"
           >
             Cancel
           </button>
 
           <button onClick={handleSave} className="px-8 py-1 btn_gradient">
-            {loading ? "Publishing..." : "Publish"}
+            {loading ? "Updating..." : "Update"}
           </button>
         </div>
       </div>

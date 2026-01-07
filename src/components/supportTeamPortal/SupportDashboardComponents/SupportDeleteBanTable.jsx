@@ -1,13 +1,17 @@
 import { Funnel, Pen, Trash2 } from "lucide-react";
-import { usersTable } from "../../data/data";
-// import useFetch from "../../hooks/useFetch";
-// import { BASE_URL } from "../../utility/utility";
+import Error from "../../Error";
+import Loading from "../../Loading";
+import useFetch from "../../../hooks/useFetch";
+import { BASE_URL } from "../../../utility/utility";
 
-export default function DeleteBanTable() {
-  // const { data, error, loading } = useFetch(
-  //   `${BASE_URL}/support-agency/ban/banned-users?page=1&limit=10`
-  // );
-  // const bannedUsers = data?.bannedUsers || [];
+export default function SupportDeleteBanTable() {
+  const { data, error, loading } = useFetch(
+    `${BASE_URL}/support-agency/ban/banned-users?page=1&limit=10`
+  );
+  const bannedUsers = data?.bannedUsers || [];
+
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
 
   return (
     <>
@@ -46,8 +50,8 @@ export default function DeleteBanTable() {
           </thead>
 
           <tbody>
-            {usersTable?.length > 0 ? (
-              usersTable?.map((user, index) => (
+            {bannedUsers?.length > 0 ? (
+              bannedUsers?.map((user, index) => (
                 <tr
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
