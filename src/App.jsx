@@ -25,7 +25,7 @@ export default function App() {
   } else if (host.startsWith("support")) {
     return <SupportDashboardPortal />;
   } else if (host.startsWith("www")) {
-    return <SupportDashboardPortal />;
+    return <MasterAgencyPortal />;
   } else {
     return (
       <StreamProvider>
