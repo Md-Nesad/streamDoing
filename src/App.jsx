@@ -1,4 +1,3 @@
-import HostProvider from "./context/hostContext";
 import StreamProvider from "./context/streamContext";
 import AdminAgencyPortal from "./routers/agencies/AdminAgencyPortal";
 import CoinAgencyPortal from "./routers/agencies/CoinAgencyPortal";
@@ -15,11 +14,7 @@ export default function App() {
   } else if (host.startsWith("coin")) {
     return <CoinAgencyPortal />;
   } else if (host.startsWith("host")) {
-    return (
-      <HostProvider>
-        <HostAgencyPortal />
-      </HostProvider>
-    );
+    return <HostAgencyPortal />;
   } else if (host.startsWith("master")) {
     return <MasterAgencyPortal />;
   } else if (host.startsWith("support")) {

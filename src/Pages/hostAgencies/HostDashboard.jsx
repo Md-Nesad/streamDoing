@@ -5,11 +5,11 @@ import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
 import HostStats from "../../components/hostAgencyPortal/hostDashboard/HostStats";
-import { useHost } from "../../context/hostContext";
+// import { useHost } from "../../context/hostContext";
 
 export default function HostDashboard() {
   // Fetch dashboard statistics
-  const { dashboardStats } = useHost();
+  const dashboardStats = useFetch(`${BASE_URL}/agency/host/dashboard/stats`);
   const stats = dashboardStats?.data;
 
   //fetch host list
@@ -17,7 +17,6 @@ export default function HostDashboard() {
     `${BASE_URL}/agency/host/dashboard/hosts?page=1&limit=20&search=`
   );
   const hostList = hosts?.data;
-  console.log(hostList);
 
   const dashboardStat = [
     {

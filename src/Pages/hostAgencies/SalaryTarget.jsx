@@ -4,11 +4,11 @@ import Loading from "../../components/Loading";
 import Error from "../../components/Error";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatNumber } from "../../utility/utility";
-import { useHost } from "../../context/hostContext";
+// import { useHost } from "../../context/hostContext";
 import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
 
 export default function HostSalaryTarget() {
-  const { dashboardStats } = useHost();
+  const dashboardStats = useFetch(`${BASE_URL}/agency/host/dashboard/stats`);
   const stats = dashboardStats?.data;
   const { data, loading, error } = useFetch(
     `${BASE_URL}/agency/host/salary-targets`

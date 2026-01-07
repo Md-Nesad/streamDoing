@@ -1,6 +1,6 @@
 import HostStats from "../../components/hostAgencyPortal/hostDashboard/HostStats";
 import HostSalariesTable from "../../components/hostAgencyPortal/hostDashboard/HostSalariesTable";
-import { useHost } from "../../context/hostContext";
+// import { useHost } from "../../context/hostContext";
 import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import useFetch from "../../hooks/useFetch";
@@ -8,7 +8,7 @@ import Loading from "../../components/Loading";
 import Error from "../../components/Error";
 
 export default function HostSalaries() {
-  const { dashboardStats } = useHost();
+  const dashboardStats = useFetch(`${BASE_URL}/agency/host/dashboard/stats`);
   const stats = dashboardStats?.data;
 
   //get host salaries sheet

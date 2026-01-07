@@ -13,7 +13,7 @@ export default function Dashboard() {
   const summary = useFetch(`${BASE_URL}/dashboard/summary`);
   const liveStats = useFetch(`${BASE_URL}/dashboard/live-stats`);
   const agenciesOverview = useFetch(
-    `${BASE_URL}/dashboard/agencies-overview?page=${page}&limit=10`
+    `${BASE_URL}/dashboard/agencies-overview?page=${page}&limit=20`
   );
 
   const loading = summary.loading || liveStats.loading;

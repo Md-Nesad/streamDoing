@@ -4,11 +4,11 @@ import HostStats from "../../components/hostAgencyPortal/hostDashboard/HostStats
 import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
-import { useHost } from "../../context/hostContext";
+// import { useHost } from "../../context/hostContext";
 import useFetch from "../../hooks/useFetch";
 
 export default function JoinRequest() {
-  const { dashboardStats } = useHost();
+  const dashboardStats = useFetch(`${BASE_URL}/agency/host/dashboard/stats`);
   const stats = dashboardStats?.data;
 
   const { data, loading, error } = useFetch(
