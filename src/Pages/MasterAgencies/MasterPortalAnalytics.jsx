@@ -1,37 +1,74 @@
-import { RadioTower, Users } from "lucide-react";
+import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
 import StatsSection from "../../components/dashboard/StatsCard";
 import CoinSalesOverview from "../../components/analytics/CoinSalesOverview";
 import useFetch from "../../hooks/useFetch";
-import { BASE_URL } from "../../utility/utility";
+import { BASE_URL, formatNumber } from "../../utility/utility";
 import MasterHostPerformance from "../../components/masterAgencyPortal/masterPortal/MasterHostPerformance";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
 
 export default function MasterPortalAnalytics() {
-  const coinSalesOverview = useFetch(
-    `${BASE_URL}/admin/analytics/coin-sales-overview`
+  //analytics stats
+  const {
+    data: stat,
+    loading: statLoading,
+    error: statError,
+  } = useFetch(`${BASE_URL}/agency/master/analytics/stats`);
+
+  //coin sales overview
+  const {
+    data: coinSalesOverview,
+    loading: overviewLoading,
+    error: overviewError,
+  } = useFetch(`${BASE_URL}/agency/master/analytics/coin-sales-overview`);
+
+  //coin agencies performance
+  const {
+    data: coinAgenciesPerformance,
+    loading: coinAgenciesPerformanceLoading,
+    error: coinAgenciesPerformanceError,
+  } = useFetch(
+    `${BASE_URL}/agency/master/analytics/coin-agencies-performance?page=1&limit=10`
   );
 
-  const loading = coinSalesOverview?.loading;
-  const error = coinSalesOverview?.error;
+  //loading
+  const loading =
+    statLoading || overviewLoading || coinAgenciesPerformanceLoading;
+
+  //error
+  const error = statError || overviewError || coinAgenciesPerformanceError;
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 
   const stats = [
     {
-      title: "Total Balance",
-      value: "12",
-      change: "+245 today",
+      title: "Total Transactions",
+      value: stat?.totalTransactions,
+      change: "",
       icon: Users,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
     },
     {
-      title: "Diamond Earned",
-      value: "34",
+      title: "Total Amount Sent",
+      value: stat?.totalAmountSent,
       change: "",
       icon: RadioTower,
       iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
+    },
+    {
+      title: "Total Coin Sent",
+      value: formatNumber(stat?.totalCoinsSent),
+      change: "",
+      icon: Wallet,
+      iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
+    },
+    {
+      title: "Total Avalable Coins",
+      value: formatNumber(stat?.totalAvailableCoins),
+      change: "-",
+      icon: TrendingUp,
+      iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
     },
   ];
   return (
@@ -73,7 +110,7 @@ export default function MasterPortalAnalytics() {
         <CoinSalesOverview data={coinSalesOverview} />
       </section>
 
-      <MasterHostPerformance />
+      <MasterHostPerformance data={coinAgenciesPerformance} />
     </div>
   );
 }

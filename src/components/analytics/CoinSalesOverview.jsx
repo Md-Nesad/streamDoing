@@ -6,31 +6,25 @@ export default function CoinSalesOverview({ data }) {
       <div className="bg-[#DEE8FF] py-4 px-8 rounded-md shadow-sm">
         <p className="text-sm text-[#6F6E6E] font-medium mb-3">Today's Sales</p>
         <h3 className="text-xl font-bold text-[#0C00E6]">
-          {formatNumber(data?.data?.todaySales?.totalAmount)}
+          {formatNumber(data?.todaySales)}
         </h3>
-        <small className="text-[#25C962] mt-4 font-medium">
-          +{data?.data?.todayGrowth}%
-        </small>
+        <small className="text-[#25C962] mt-4 font-medium">-</small>
       </div>
 
       <div className="bg-[#F4D5FCAB] py-4 px-8 rounded-md shadow-sm">
         <p className="text-sm text-[#6F6E6E] font-medium mb-3">Weekly Sales</p>
         <h3 className="text-xl font-bold text-[#DE06ED]">
-          {formatNumber(data?.data?.weekSales?.totalAmount)}
+          {formatNumber(data?.weeklySales)}
         </h3>
-        <small className="text-[#25C962] mt-4 font-medium">
-          +{data?.data?.weekGrowth}%
-        </small>
+        <small className="text-[#25C962] mt-4 font-medium">-</small>
       </div>
 
       <div className="bg-[#D5FCDBAB] py-4 px-8 rounded-md shadow-sm">
         <p className="text-sm text-[#6F6E6E] font-medium mb-3">Monthly Sales</p>
         <h3 className="text-xl font-bold text-[#16B340]">
-          {formatNumber(data?.data?.monthSales?.totalAmount)}
+          {formatNumber(data?.monthlySales)}
         </h3>
-        <small className="text-[#25C962] mt-4 font-medium">
-          +{data?.data?.weekGrowth}%
-        </small>
+        <small className="text-[#25C962] mt-4 font-medium">- </small>
       </div>
 
       <div className="bg-[#FCD5D5AB] py-4 px-8 rounded-md shadow-sm">
@@ -38,7 +32,7 @@ export default function CoinSalesOverview({ data }) {
           Total Transactions
         </p>
         <h3 className="text-xl font-bold text-[#ED0606]">
-          {formatNumber(data?.data?.totalSales?.totalAmount)}
+          {formatNumber(data?.totalTransactions)}
         </h3>
         {/* <small className="text-[#25C962] mt-4 font-medium"></small> */}
       </div>

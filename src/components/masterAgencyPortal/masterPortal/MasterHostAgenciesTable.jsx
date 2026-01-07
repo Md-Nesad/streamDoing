@@ -1,19 +1,32 @@
-import { Ellipsis, Funnel } from "lucide-react";
-// import Pagination from "../Pagination";
-// import Loading from "../Loading";
-// import { formatNumber } from "../../utility/utility";
-// import { useStream } from "../../context/streamContext";
-import { agencies } from "../../../data/data";
-import { useState } from "react";
+import { Funnel } from "lucide-react";
+import { useEffect, useState } from "react";
 import MasterHostAgencyDetailsModal from "./MasterHostAgencyDetailsModal";
+import { formatNumber } from "../../../utility/utility";
 
-export default function MasterHostAgenciesTable() {
+export default function MasterHostAgenciesTable({ data }) {
   const [open, setOpen] = useState(false);
-  //   const agenciesList = agenciesData?.agencies;
-  //   const agenciesPagination = agenciesData?.pagination;
-  //   const { countriesName } = useStream();
+  const [text, setText] = useState("");
+  const [agencies, setAgencies] = useState(data?.agencies || []);
+  const [selectedAgencies, setSelectedAgencies] = useState(null);
+  //filtered coin agencies
+  const hostAgencies = agencies?.filter((item) => item.type === "host");
 
-  // if (loading) return <Loading />;
+  //hadle filter functionallity
+  const handleFilter = () => {
+    const filteredUsers = agencies?.filter((agency) => {
+      return (
+        agency.name.toLowerCase().includes(text.toLowerCase()) ||
+        agency.displayId.toString().includes(text)
+      );
+    });
+    setAgencies(filteredUsers);
+  };
+  //updating state when text empty
+  useEffect(() => {
+    if (text === "") {
+      setAgencies(data?.agencies);
+    }
+  }, [text, data]);
 
   return (
     <>
@@ -21,13 +34,18 @@ export default function MasterHostAgenciesTable() {
         {/* Search Input */}
         <input
           type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
           placeholder="Search by ID or name"
         />
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto">
+          <button
+            onClick={handleFilter}
+            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+          >
             <Funnel size={18} /> Filter
           </button>
           <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
@@ -54,8 +72,8 @@ export default function MasterHostAgenciesTable() {
             </thead>
 
             <tbody>
-              {agencies.length > 0 ? (
-                agencies.map((agency, index) => {
+              {hostAgencies?.length > 0 ? (
+                hostAgencies?.map((agency, index) => {
                   // const country = countries?.find(
                   //   (country) => country._id === agency.country
                   // )?.name;
@@ -64,19 +82,24 @@ export default function MasterHostAgenciesTable() {
                       key={index}
                       className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                     >
-                      <td className="p-3 font-medium pl-5">COIN-042</td>
+                      <td className="p-3 font-medium pl-5">
+                        HST-{agency.displayId}
+                      </td>
                       <td className="p-3">{agency.name || "N/A"}</td>
-                      <td className="p-3">108K</td>
-                      <td className="p-3">1.2M coins</td>
-                      <td className="p-3">1.2M coins</td>
+                      <td className="p-3">{formatNumber(agency.balance)}</td>
+                      <td className="p-3">{formatNumber(agency.diamonds)}</td>
+                      <td className="p-3">{formatNumber(agency.revenue)}</td>
                       <td className="p-3">
                         <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
-                          active
+                          {agency.status}
                         </span>
                       </td>
                       <td className="p-3">
                         <button
-                          onClick={() => setOpen(true)}
+                          onClick={() => {
+                            setSelectedAgencies(agency);
+                            setOpen(true);
+                          }}
                           className="font-semibold"
                         >
                           View
@@ -101,6 +124,7 @@ export default function MasterHostAgenciesTable() {
             <MasterHostAgencyDetailsModal
               open={open}
               onClose={() => setOpen(false)}
+              agency={selectedAgencies}
             />
           )}
         </div>

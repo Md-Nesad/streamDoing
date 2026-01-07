@@ -85,7 +85,9 @@ export default function MasterAgencyLogin() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Username</label>
+            <label className="block text-sm font-medium mb-1">
+              Agency ID or Phone
+            </label>
             <input
               type="text"
               name="agencyIdOrPhone"

@@ -55,8 +55,9 @@ export default function HostPortalHeader() {
           <>
             <button
               onClick={() => {
+                const confirm = window.confirm("Are you sure to logout?");
+                if (!confirm) return;
                 localStorage.removeItem("admin_token");
-                alert("Logout Successfully");
                 setIsToken(false);
                 navigate("/host-portal-login");
               }}

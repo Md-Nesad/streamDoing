@@ -5,8 +5,15 @@ import { RadioTower, Users, Wallet } from "lucide-react";
 import MasterCoinAgenciesTable from "./MasterCoinAgenciesTable";
 import MasterHostAgenciesTable from "./MasterHostAgenciesTable";
 import MasterAdminAgenciesTable from "./MasterAdminAgenciesTable";
+import useFetch from "../../../hooks/useFetch";
+import { BASE_URL } from "../../../utility/utility";
+import Loading from "../../Loading";
+import Error from "../../Error";
 
 export default function MasterAgenciesTabs() {
+  const { data, loading, error } = useFetch(
+    `${BASE_URL}/agency/master/agencies?page=1&limit=50&search=&status=`
+  );
   const agencies = [
     {
       title: "Today Sell",
@@ -67,6 +74,9 @@ export default function MasterAgenciesTabs() {
     //   iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
     // },
   ];
+
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
   return (
     <div>
       <Tabs>
@@ -94,17 +104,17 @@ export default function MasterAgenciesTabs() {
 
         <TabPanel>
           <StatsSection data={agencies} />
-          <MasterCoinAgenciesTable />
+          <MasterCoinAgenciesTable data={data} />
         </TabPanel>
 
         <TabPanel>
           <StatsSection data={agencies} />
-          <MasterHostAgenciesTable />
+          <MasterHostAgenciesTable data={data} />
         </TabPanel>
 
         <TabPanel>
           <StatsSection data={adminAgencies} />
-          <MasterAdminAgenciesTable />
+          <MasterAdminAgenciesTable data={data} />
         </TabPanel>
       </Tabs>
     </div>

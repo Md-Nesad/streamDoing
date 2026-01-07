@@ -1,17 +1,7 @@
-import { Ellipsis, Funnel } from "lucide-react";
-// import Pagination from "../Pagination";
-// import Loading from "../Loading";
-// import { formatNumber } from "../../utility/utility";
-// import { useStream } from "../../context/streamContext";
-import { agencies } from "../../../data/data";
+import { formatNumber } from "../../../utility/utility";
 
-export default function MasterAgencisOverview() {
-  //   const agenciesList = agenciesData?.agencies;
-  //   const agenciesPagination = agenciesData?.pagination;
-  //   const { countriesName } = useStream();
-
-  // if (loading) return <Loading />;
-
+export default function MasterAgencisOverview({ data }) {
+  const agencies = data?.agencies;
   return (
     <>
       <div className="w-full mt-7 mb-10">
@@ -31,8 +21,8 @@ export default function MasterAgencisOverview() {
             </thead>
 
             <tbody>
-              {agencies.length > 0 ? (
-                agencies.map((agency, index) => {
+              {agencies?.length > 0 ? (
+                agencies?.map((agency, index) => {
                   // const country = countries?.find(
                   //   (country) => country._id === agency.country
                   // )?.name;
@@ -41,14 +31,18 @@ export default function MasterAgencisOverview() {
                       key={index}
                       className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                     >
-                      <td className="p-3 font-medium pl-5">COIN-042</td>
+                      <td className="p-3 font-medium pl-5">
+                        COIN-{agency.displayId}
+                      </td>
                       <td className="p-3">{agency.name || "N/A"}</td>
-                      <td className="p-3">108K</td>
-                      <td className="p-3">1.2M coins</td>
-                      <td className="p-3">৳2.25M</td>
+                      <td className="p-3">{formatNumber(agency.balance)}</td>
+                      <td className="p-3">
+                        {formatNumber(agency.totalSales) || "N/A"}
+                      </td>
+                      <td className="p-3">{formatNumber(agency.revenue)}</td>
                       <td className="p-3">
                         <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
-                          active
+                          {agency.status}
                         </span>
                       </td>
                       <td className="p-3">

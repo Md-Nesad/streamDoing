@@ -1,5 +1,17 @@
-export default function MasterHostAgencyDetailsModal({ open, onClose }) {
+import { countries } from "../../../data/adminData";
+import { formatNumber, formatOnlyDate } from "../../../utility/utility";
+
+export default function MasterHostAgencyDetailsModal({
+  open,
+  onClose,
+  agency,
+}) {
   if (!open) return null;
+  console.log(agency);
+
+  const countryName = countries.find(
+    (country) => country._id === agency.country
+  )?.name;
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
       <div className="bg-[#FDFDFD] w-full max-w-md rounded-xl shadow-lg sm:p-6 p-4 relative animatefadeIn">
@@ -13,7 +25,7 @@ export default function MasterHostAgencyDetailsModal({ open, onClose }) {
 
         {/* Name */}
         <h2 className="text-xl sm:text-2xl font-semibold text-center mb-6">
-          Razia Sultana
+          Agency Details
         </h2>
 
         {/* Rows */}
@@ -21,65 +33,72 @@ export default function MasterHostAgencyDetailsModal({ open, onClose }) {
           {/* ID */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Host Id :</p>
-            <p className="text-gray-800">djdhjf</p>
+            <p className="text-gray-800">{agency.displayId}</p>
           </div>
 
           {/* User */}
           <div className="flex justify-between items-center">
-            <p className="font-medium text-gray-700">User :</p>
+            <p className="font-medium text-gray-700">Name :</p>
             <div className="flex items-center gap-3">
               <img
-                src="/logo.png"
+                src={agency.profilePic}
                 className="sm:w-10 w-7 h-7 sm:h-10 rounded-full object-cover"
                 fetchPriority="true"
               />
-              <p className="text-gray-800">Md. Neasad</p>
+              <p className="text-gray-800">{agency.name}</p>
             </div>
           </div>
 
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Country :</p>
-            <p className="text-gray-800">b</p>
+            <p className="text-gray-800">{countryName || "N/A"}</p>
+          </div>
+
+          <div className="flex justify-between">
+            <p className="font-medium text-gray-700">Coin Balance :</p>
+            <p className="text-gray-800">{formatNumber(agency.balance)}</p>
           </div>
 
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Coin Spend :</p>
-            <p className="text-gray-800">12</p>
+            <p className="text-gray-800">{formatNumber(agency.coins)}</p>
           </div>
 
           {/* Coin Spend */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Earning Balance :</p>
-            <p className="text-gray-800">36</p>
+            <p className="text-gray-800">{formatNumber(agency.revenue)}</p>
           </div>
 
           {/* Country */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Grand Total Earning :</p>
-            <p className="text-gray-800">36</p>
+            <p className="text-gray-800">
+              {formatNumber(agency.totalEarning) || "N/A"}
+            </p>
           </div>
 
           {/* Phone Number */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Video Live Time : :</p>
-            <p className="text-gray-800">jhjhjh</p>
+            <p className="text-gray-800">{agency.videoLiveTime || "N/A"}</p>
           </div>
 
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Audio Live Time : :</p>
-            <p className="text-gray-800">jhjhjh</p>
+            <p className="text-gray-800">{agency.audioLiveTime || "N/A"}</p>
           </div>
 
           {/* Registration Time */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Registration Time :</p>
-            <p className="text-gray-800">12/4/2025 12:10:30</p>
+            <p className="text-gray-800">{formatOnlyDate(agency.createdAt)}</p>
           </div>
 
           {/* Last Login Time */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Last Login Time :</p>
-            <p className="text-gray-800">12/4/2025 12:10:30</p>
+            <p className="text-gray-800">{formatOnlyDate(agency.updatedAt)}</p>
           </div>
         </div>
       </div>

@@ -1,7 +1,5 @@
-import { useState } from "react";
-import { usersTable } from "../../../data/data";
-
-export default function MasterHostPerformance() {
+export default function MasterHostPerformance({ data }) {
+  const coinAgencyPerformance = data?.data;
   return (
     <>
       {/* table area */}
@@ -26,24 +24,32 @@ export default function MasterHostPerformance() {
           </thead>
 
           <tbody>
-            {usersTable.map((user, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 font-medium pl-5">{index + 1}</td>
-                <td className="p-3">Sarah Johnson</td>
-                <td className="p-3">Lv8</td>
-                <td className="p-3">5M</td>
-                <td className="p-3">100M</td>
-                <td className="p-3 text-[#30ACFF] font-semibold">172h</td>
-                <td className="p-3 text-[#FF0AB1] font-semibold">98%</td>
-                <td className="p-3">৳138K</td>
-                <td className="p-3 ">
-                  <button>View</button>
+            {coinAgencyPerformance?.length > 0 ? (
+              coinAgencyPerformance?.map((agency, index) => (
+                <tr
+                  key={index}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 font-medium pl-5">{index + 1}</td>
+                  <td className="p-3">Sarah Johnson</td>
+                  <td className="p-3">Lv8</td>
+                  <td className="p-3">5M</td>
+                  <td className="p-3">100M</td>
+                  <td className="p-3 text-[#30ACFF] font-semibold">172h</td>
+                  <td className="p-3 text-[#FF0AB1] font-semibold">98%</td>
+                  <td className="p-3">৳138K</td>
+                  <td className="p-3 ">
+                    <button>View</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
+                <td colSpan={9} className="p-3 text-center pt-5">
+                  No host found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

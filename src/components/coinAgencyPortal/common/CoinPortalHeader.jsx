@@ -55,8 +55,9 @@ export default function CoinPortalHeader() {
           <>
             <button
               onClick={() => {
+                const confirm = window.confirm("Are you sure to logout?");
+                if (!confirm) return;
                 localStorage.removeItem("admin_token");
-                alert("Logout Successfully");
                 setIsToken(false);
                 navigate("/coin-portal-login");
               }}

@@ -1,19 +1,5 @@
-import useFetch from "../../../hooks/useFetch";
-import { BASE_URL } from "../../../utility/utility";
-import Error from "../../Error";
-// import Loading from "../../Loading";
-
-export default function CoinTransactionList() {
-  const { data, error } = useFetch(
-    `${BASE_URL}/agency/coin/dashboard/buy-sale-transactions?page=1&limit=10`
-  );
-  const tableData = data?.data;
-
-  if (error) return <Error error={error} />;
-
-  // useEffect(() => {
-  //   if (loading) return <Loading />;
-  // }, []);
+export default function CoinTransactionList({ data }) {
+  const transactionHistory = data?.data;
   return (
     <>
       {/* table area */}
@@ -30,18 +16,18 @@ export default function CoinTransactionList() {
           </thead>
 
           <tbody>
-            {tableData?.length > 0 ? (
-              tableData.map((coin, index) => (
+            {transactionHistory?.length > 0 ? (
+              transactionHistory.map((transaction) => (
                 <tr
-                  key={index}
+                  key={transaction._id}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
-                  <td title={coin.transactionId} className="p-3 pl-10">
+                  <td title={transaction.transactionId} className="p-3 pl-10">
                     TNX012KAD
                   </td>
                   <td className="p-3">User29034245</td>
                   <td className="p-3">buy</td>
-                  <td title={coin?.to?.id} className="p-3">
+                  <td title={transaction?.to?.id} className="p-3">
                     457851
                   </td>
                   <td className="p-3">12 min age</td>
