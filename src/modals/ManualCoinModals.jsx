@@ -1,7 +1,38 @@
-import React from "react";
+import { useState } from "react";
+import useJsonPost from "../hooks/useJsonPost";
+import { BASE_URL } from "../utility/utility";
 
 export default function ManualCoinModal({ open, onClose }) {
   if (!open) return null;
+  const [action, setAction] = useState("");
+  const [isHold, setIsHold] = useState(false);
+  const [adjusted_id, setAdjusted_id] = useState("");
+  const [coins, setCoins] = useState("");
+  const [category, setCategory] = useState("");
+  const [reason, setReason] = useState("");
+
+  const handleToggle = () => {
+    setIsHold(!isHold);
+    setAction(isHold ? "unhold" : "hold");
+  };
+
+  // handle form submission
+  const handleSubmit = useJsonPost(`${BASE_URL}/coins/adjustments`);
+
+  const handleFormSubmit = async () => {
+    if (!adjusted_id || !coins || !category || !reason)
+      return alert("Please fill all");
+    if (!action) return alert("Please select an action");
+    const result = await handleSubmit({
+      adjusted_id,
+      coins,
+      category,
+      reason,
+      action,
+    });
+
+    alert(result.message);
+  };
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 sm:px-4 px-2">
@@ -21,15 +52,21 @@ export default function ManualCoinModal({ open, onClose }) {
               User Id <span className="hidden sm:block">/ Transaction Id</span>
             </label>
             <input
-              type="text"
+              type="number"
+              placeholder="Enter User Id"
+              value={adjusted_id}
+              onChange={(e) => setAdjusted_id(e.target.value)}
               className="w-full mt-1 border border-[#626060] rounded-md px-3 py-1.5 focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700">Balance</label>
+            <label className="text-sm font-medium text-gray-700">Reason</label>
             <input
               type="text"
+              placeholder="Enter Reason"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
               className="w-full mt-1 border border-[#626060] rounded-md px-3 py-1.5 focus:outline-none"
             />
           </div>
@@ -40,6 +77,9 @@ export default function ManualCoinModal({ open, onClose }) {
             </label>
             <input
               type="number"
+              placeholder="Enter Coin Amount"
+              value={coins}
+              onChange={(e) => setCoins(e.target.value)}
               className="w-full mt-1 border border-[#626060] rounded-md px-3 py-1.5 focus:outline-none"
             />
           </div>
@@ -48,8 +88,13 @@ export default function ManualCoinModal({ open, onClose }) {
             <label className="text-sm z font-medium text-gray-700">
               Category
             </label>
-            <select className="w-full mt-1 border border-[#626060] rounded-md px-3 py-2 text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-400 appearance-none">
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full mt-1 border border-[#626060] rounded-md px-3 py-2 text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-400 appearance-none"
+            >
               <option>Category</option>
+              <option value="user">User</option>
             </select>
           </div>
         </div>
@@ -57,21 +102,34 @@ export default function ManualCoinModal({ open, onClose }) {
         {/* Action Buttons */}
         <div className="mt-6 flex sm:flex-row flex-col items-center gap-4">
           <div className="flex gap-5">
-            <button className="border px-4 py-1.5 rounded-md text-gray-700">
+            <button
+              onClick={() => setAction("add")}
+              className="border px-4 py-1.5 rounded-md text-gray-700 active:scale-y-150"
+            >
               Add Coin
             </button>
 
-            <button className="border px-4 py-1.5 rounded-md text-gray-700">
+            <button
+              onClick={() => setAction("remove")}
+              className="border px-4 py-1.5 rounded-md text-gray-700 active:scale-y-150"
+            >
               Remove Coin
             </button>
           </div>
 
           {/* Toggle */}
           <div className="flex items-center gap-4 border px-4 py-1.5 rounded-md">
-            <span className="text-gray-700 font-medium">Hold</span>
+            <span className="text-gray-700 font-medium">
+              {isHold ? "Hold" : "Unhold"}
+            </span>
             <label className="relative inline-flex cursor-pointer items-center">
-              <input type="checkbox" defaultChecked className="sr-only peer" />
-              <div className="w-10 h-5 bg-gray-300 rounded-full peer peer-checked:bg-pink-500 transition"></div>
+              <input
+                type="checkbox"
+                checked={isHold}
+                onChange={handleToggle}
+                className="sr-only peer"
+              />
+              <div className="w-10 h-5 bg-gray-300 rounded-full peer-checked:bg-pink-500 transition"></div>
               <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow peer-checked:translate-x-5 transition"></div>
             </label>
           </div>
@@ -83,7 +141,10 @@ export default function ManualCoinModal({ open, onClose }) {
             Cancel
           </button>
 
-          <button className="px-8 py-1 rounded-md text-white btn_gradient">
+          <button
+            onClick={handleFormSubmit}
+            className="px-8 py-1 rounded-md text-white btn_gradient"
+          >
             Confirm
           </button>
         </div>

@@ -15,7 +15,6 @@ export default function RateTransactionTable() {
   const transactions = data?.transactions;
   const pagination = data?.pagination;
   const { agencies } = useStream();
-  console.log(agencies);
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
@@ -47,10 +46,11 @@ export default function RateTransactionTable() {
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
                   <td className="p-3 font-medium pl-5">
-                    {findAgency?.displayId || "COIN-042	"}
+                    {findAgency ? findAgency?.type.toUpperCase() + "-" : ""}
+                    {findAgency?.displayId || "N/A"}
                   </td>
-                  <td className="p-3">{findAgency?.name || "Nova Agency"}</td>
-                  <td className="p-3">{findAgency?.category || "Master"}</td>
+                  <td className="p-3">{findAgency?.name || "N/A"}</td>
+                  <td className="p-3">{findAgency?.type || "Master"} agency</td>
                   <td className="p-3">{formatNumber(item.coins)}</td>
                   <td className="p-3 text-[#00D519]">
                     ${formatNumber(item.amount)}
@@ -68,7 +68,7 @@ export default function RateTransactionTable() {
                     </span>
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                    {item.status === "Completed" ? (
+                    {item.status === "completed" ? (
                       <span className="flex items-center gap-3">
                         <Eye size={19} />
                         <RotateCw size={17} className="text-[#F5AD7C]" />

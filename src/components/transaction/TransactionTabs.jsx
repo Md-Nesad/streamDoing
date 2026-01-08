@@ -47,30 +47,6 @@ export default function TransactionTabs() {
     },
   ];
 
-  // const giftingData = [
-  //   {
-  //     title: "Total Transactions",
-  //     value: giftData?.totalTransactions,
-  //     change: `+${statsSummary?.transactionCount} this month`,
-  //     icon: Users,
-  //     iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
-  //   },
-  //   {
-  //     title: "Total Coin Sales",
-  //     value: statsSummary?.totalAmount + "M",
-  //     change: "",
-  //     icon: Wallet,
-  //     iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
-  //   },
-  //   {
-  //     title: "Avg Commission",
-  //     value: statsSummary?.avgRate + "%",
-  //     change: "",
-  //     icon: TrendingUp,
-  //     iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
-  //   },
-  // ];
-
   return (
     <Tabs>
       <TabList className="flex items-center gap-4 bg-[#F4F4F4] w-fit px-2 py-1 rounded mb-5">

@@ -4,6 +4,7 @@ import Pagination from "../Pagination";
 import Loading from "../Loading";
 import { useStream } from "../../context/streamContext";
 import { useEffect, useState } from "react";
+import { formatNumber } from "../../utility/utility";
 
 export default function AdminAgencyTable({ tableData, setPage, loading }) {
   const adminList = tableData?.agencies?.filter(
@@ -94,7 +95,7 @@ export default function AdminAgencyTable({ tableData, setPage, loading }) {
                   </td>
                   <td className="p-3">{admin.displayId}</td>
                   <td className="p-3">{admin.name}</td>
-                  <td className="p-3">{admin.diamonds + "M"}</td>
+                  <td className="p-3">{formatNumber(admin.diamond)}</td>
                   <td className="p-3">{admin.commission || "N/A"}</td>
                   <td className="p-3">
                     {admin?.country?.name ||

@@ -17,12 +17,12 @@ export default function SellCoins() {
   const [loading, setLoading] = useState(false);
 
   const handleCoinSell = async () => {
-    if (!masterId) return alert("Please enter Master ID");
+    if (!masterId) return alert("Please enter Agency ID");
     const masterExists = masterIds?.some(
       (item) => String(item?.displayId) === String(masterId)
     );
 
-    if (!masterExists) return alert("Invalid Master ID");
+    if (!masterExists) return alert("Invalid ID");
     if (!coins) return alert("Please enter coin amount");
 
     setLoading(true);
@@ -53,7 +53,7 @@ export default function SellCoins() {
             type="number"
             value={masterId}
             onChange={(e) => setMasterId(e.target.value)}
-            placeholder="Enter Master Agency Id"
+            placeholder="Enter Agency Id"
             className="border border-[#626060] rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>

@@ -32,7 +32,7 @@ export default function AddFAQsModal({ open, onClose }) {
     } finally {
       setLoading(false);
       window.location.refresh();
-      onClose(false);
+      onClose();
     }
   };
   return (
