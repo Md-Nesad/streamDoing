@@ -13,7 +13,6 @@ export default function LiveStreams() {
     `${BASE_URL}/admin/live-streams?page=${page}&limit=30`
   );
 
-  console.log(data);
   const streams = data?.summary;
 
   // if (loading) return <Loading />;

@@ -1,12 +1,41 @@
-import { Activity, Ban, Eye, Mic, UserRound, Video } from "lucide-react";
+import {
+  Activity,
+  Ban,
+  Eye,
+  Funnel,
+  Mic,
+  UserRound,
+  Video,
+} from "lucide-react";
 import star from "../assests/star.png";
 import duration from "../utility/utility";
 import Pagination from "./Pagination";
 import Loading from "./Loading";
+import { useEffect, useState } from "react";
 
 export default function LiveStreamTable({ streamsData, loading, setPage }) {
-  const streamList = streamsData?.liveStreams;
+  const [text, setText] = useState("");
+  const [streamList, setStreamList] = useState(streamsData?.liveStreams);
   const streamPagination = streamsData?.pagination;
+
+  //handle filter
+  const handleFilter = () => {
+    const filteredUsers = streamList?.filter((stream) => {
+      return (
+        stream?.host?.name.toLowerCase().includes(text.toLowerCase()) ||
+        stream?.host?.displayId.toString().includes(text)
+      );
+    });
+    setStreamList(filteredUsers);
+  };
+
+  //getting streams when text empty
+  useEffect(() => {
+    if (text === "") {
+      setStreamList(streamsData?.liveStreams);
+    }
+  }, [text, streamsData?.liveStreams]);
+
   return (
     <>
       {loading ? (
@@ -14,12 +43,21 @@ export default function LiveStreamTable({ streamsData, loading, setPage }) {
       ) : (
         <>
           {/* search area */}
-          <div className="mb-4 pt-6">
+          <div className="mt-6 flex gap-10">
             <input
               type="text"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
               className="border border-[#BBBBBB] outline-[#BBBBBB] w-full px-4 py-1.5 rounded-md"
-              placeholder="Search by User ID or name"
+              placeholder="Search withdrawals"
             />
+
+            <button
+              onClick={handleFilter}
+              className="sm:px-5 px-2 py-2 bg-[#FFFFFF] rounded-md font-medium border border-[#CCCCCC] flex items-center gap-2 text-sm sm:text-md"
+            >
+              <Funnel size={18} /> Filter
+            </button>
           </div>
 
           {/* table area */}
@@ -71,7 +109,7 @@ export default function LiveStreamTable({ streamsData, loading, setPage }) {
                         <span
                           className={`px-4 py-1 text-sm bg-linear-to-r from-[#2FB6FF] to-[#447FFF] rounded-full text-white opacity-70 flex gap-3 items-center w-21`}
                         >
-                          <Activity size={15} /> Live
+                          <Activity size={15} /> {stream.status || "N/A"}
                         </span>
                       </td>
                       <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
@@ -89,7 +127,7 @@ export default function LiveStreamTable({ streamsData, loading, setPage }) {
                 ) : (
                   <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
                     <td colSpan={9} className="p-3 text-center">
-                      No data found
+                      No stream found
                     </td>
                   </tr>
                 )}
