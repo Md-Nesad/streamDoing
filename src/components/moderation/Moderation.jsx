@@ -7,10 +7,12 @@ import { BASE_URL } from "../../utility/utility";
 import { Check, Clock, Eye, TriangleAlert } from "lucide-react";
 import Loading from "../Loading";
 import Error from "../Error";
+import { useState } from "react";
 
 export default function ModerationTabs() {
+  const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/reports?status=&page=1&limit=10`
+    `${BASE_URL}/admin/reports?status=&page=${page}&limit=20`
   );
 
   const moderationSummary = data?.summary;
@@ -69,7 +71,7 @@ export default function ModerationTabs() {
         </TabList>
 
         <TabPanel>
-          <AllReportsTable reports={data} />
+          <AllReportsTable reports={data} setPage={setPage} />
         </TabPanel>
 
         <TabPanel>

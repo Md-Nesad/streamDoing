@@ -1,14 +1,12 @@
+import useFetch from "../../hooks/useFetch";
+import { BASE_URL, formatNumber } from "../../utility/utility";
 export default function PaymentCards() {
-  const data = [
-    { name: "Stripe", transactions: 1245, revenue: 25000 },
-    { name: "PayPal", transactions: 1245, revenue: 18000 },
-    { name: "bKash", transactions: 1245, revenue: 25000 },
-    { name: "Nagad", transactions: 1245, revenue: 25000 },
-  ];
+  const { data } = useFetch(`${BASE_URL}/admin/payment-gateways`);
+  const paymentGateways = data?.paymentGateways;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-7">
-      {data.map((item, index) => (
+      {paymentGateways?.map((item, index) => (
         <div
           key={index}
           className="bg-white shadow-md rounded-xl p-6 border border-gray-100"
@@ -21,13 +19,15 @@ export default function PaymentCards() {
           {/* Stats */}
           <div className="flex justify-between mb-2 text-gray-700">
             <span>Total Transactions</span>
-            <span className="font-medium">{item.transactions}</span>
+            <span className="font-medium">
+              {formatNumber(item.totalTransactions)}
+            </span>
           </div>
 
           <div className="flex justify-between text-gray-700 mb-6">
             <span>Total Revenue</span>
             <span className="font-medium text-green-600">
-              ${item.revenue.toLocaleString()}
+              ${formatNumber(item.totalAmount)}
             </span>
           </div>
 

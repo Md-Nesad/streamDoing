@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function DayMonth() {
   const dayMonth = ["Today", "Week", "Month", "Custom Range"];
   return (

@@ -5,13 +5,15 @@ import PaymentCards from "./PaymentCard";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
 import Error from "../Error";
+import { useState } from "react";
 
 export default function FinanceTabs() {
+  const [page, setPage] = useState(1);
   const withdrawRequest = useFetch(
-    `${BASE_URL}/admin/finance/withdrawals?page=1&limit=10`
+    `${BASE_URL}/admin/finance/withdrawals?page=${page}&limit=10`
   );
   const coinPurchase = useFetch(
-    `${BASE_URL}/admin/finance/coin-purchases?page=1&limit=20`
+    `${BASE_URL}/admin/finance/coin-purchases?page=${page}&limit=20`
   );
 
   const error = withdrawRequest.error || coinPurchase.error;
@@ -45,7 +47,11 @@ export default function FinanceTabs() {
       </TabPanel>
 
       <TabPanel>
-        <CoinPurchaseTable data={coinPurchase?.data} />
+        <CoinPurchaseTable
+          data={coinPurchase?.data}
+          setPage={setPage}
+          loading={coinPurchase?.loading}
+        />
       </TabPanel>
 
       <TabPanel>

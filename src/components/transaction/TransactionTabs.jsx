@@ -7,14 +7,16 @@ import { BASE_URL, formatNumber, formatPercent } from "../../utility/utility";
 import Loading from "../Loading";
 import Error from "../Error";
 import { TrendingUp, Users, Wallet } from "lucide-react";
+import { useState } from "react";
 
 export default function TransactionTabs() {
+  const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/transactions/history?page=1&limit=50&status=completed&sortBy=createdAt&sortOrder=desc`
+    `${BASE_URL}/admin/transactions/history?page=${page}&limit=20&status=completed&sortBy=createdAt&sortOrder=desc`
   );
 
   const gifting = useFetch(
-    `${BASE_URL}/admin/transactions/gift-history?page=1&limit=10`
+    `${BASE_URL}/admin/transactions/gift-history?page=1&limit=10&fromDate=2024-01-01&toDate=2024-12-31`
   );
   const statsSummary = data?.summary;
   // const giftData = gifting?.data?.summary;
@@ -66,7 +68,7 @@ export default function TransactionTabs() {
 
       <TabPanel>
         <StatsSection data={coinSender} />
-        <CoinSenderTable tableData={data} />
+        <CoinSenderTable tableData={data} setPage={setPage} />
       </TabPanel>
 
       <TabPanel>

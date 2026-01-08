@@ -46,6 +46,7 @@ export default function RevenueChart({ apiData }) {
         <ReferenceLine y={4000} stroke="#e5e7eb" strokeDasharray="0" />
         <ReferenceLine y={2000} stroke="#e5e7eb" strokeDasharray="0" />
         <ReferenceLine x="Aug" stroke="#e5e7eb" strokeDasharray="0" />
+        <ReferenceLine x="Jan" stroke="#e5e7eb" strokeDasharray="0" />
         <ReferenceLine x="Feb" stroke="#e5e7eb" strokeDasharray="0" />
         <ReferenceLine x={"Mar"} stroke="#e5e7eb" strokeDasharray="0" />
         <ReferenceLine x={"Apr"} stroke="#e5e7eb" strokeDasharray="0" />

@@ -43,7 +43,15 @@ export function formatPercent(value, decimals = 2) {
 export function formatOnlyDate(dateString) {
   return new Date(dateString).toLocaleDateString("en-GB", {
     day: "2-digit",
-    month: "short",
+    month: "2-digit",
     year: "numeric",
+  });
+}
+
+export function formatOnlyTime(dateString) {
+  return new Date(dateString).toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
   });
 }

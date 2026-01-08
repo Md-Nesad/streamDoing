@@ -1,4 +1,4 @@
-import DayMonth from "../components/analytics/DayMonth";
+// import DayMonth from "../components/analytics/DayMonth";
 import StatsSection from "../components/dashboard/StatsCard";
 import AnalyticsHostTable from "../components/analytics/AnalyticsHostTable";
 import CoinSalesOverview from "../components/analytics/CoinSalesOverview";
@@ -67,7 +67,7 @@ export default function Analytics() {
   ];
   return (
     <div>
-      <DayMonth />
+      {/* <DayMonth /> */}
       <StatsSection data={stats} />
       <AnalyticsHostTable data={topHosts} />
       <section className="bg-[#FFFFFF] shadow-[0_2px_10px_rgba(0,0,0,0.06)] pb-10 pt-1 mt-5 pl-3 sm:pl-5 sm:pr-7 pr-3 rounded-md">

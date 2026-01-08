@@ -1,11 +1,32 @@
-import { Ellipsis, Funnel } from "lucide-react";
+import { Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { formatNumber, formatOnlyDate } from "../../utility/utility";
+import Pagination from "../Pagination";
+import { useEffect, useState } from "react";
 
-export default function CoinSenderTable({ tableData }) {
-  const coinsSend = tableData?.transactions;
-  console.log(coinsSend);
+export default function CoinSenderTable({ tableData, setPage }) {
+  const [text, setText] = useState("");
+  const [coinsSend, setCoinsSend] = useState(tableData?.transactions);
+  const pagination = tableData?.pagination;
   const navigate = useNavigate();
+
+  //handle filter
+  const handleFilter = () => {
+    const filteredUsers = coinsSend?.filter((coin) => {
+      return (
+        coin.transactionId.toLowerCase().includes(text.toLowerCase()) ||
+        coin?.to?.displayId.toString().includes(text)
+      );
+    });
+    setCoinsSend(filteredUsers);
+  };
+
+  useEffect(() => {
+    if (text === "") {
+      setCoinsSend(tableData?.transactions);
+    }
+  }, [text, tableData]);
+
   return (
     <>
       {/* search area */}
@@ -13,13 +34,18 @@ export default function CoinSenderTable({ tableData }) {
         {/* Search Input */}
         <input
           type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
-          placeholder="Search by Agency ID or name"
+          placeholder="Search by transaction ID or receiver Id"
         />
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto">
+          <button
+            onClick={handleFilter}
+            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+          >
             <Funnel size={18} /> Filter
           </button>
           <button
@@ -58,9 +84,9 @@ export default function CoinSenderTable({ tableData }) {
                     {coin.transactionId.slice(0, 10)}
                   </td>
                   <td className="p-3">{coin.fromType}</td>
-                  <td className="p-3">{coin.senderUserId || "N/A"}</td>
+                  <td className="p-3">{coin?.from?.displayId || "N/A"}</td>
                   <td title={coin?.to?.id} className="p-3">
-                    {coin?.to?.displayId}
+                    {coin?.to?.displayId || "N/A"}
                   </td>
                   <td className="p-3">{coin.toType}</td>
                   <td className="p-3">{formatNumber(coin.amount)}</td>
@@ -79,6 +105,12 @@ export default function CoinSenderTable({ tableData }) {
             )}
           </tbody>
         </table>
+        <Pagination
+          page={pagination?.page}
+          limit={pagination?.limit}
+          total={pagination?.total}
+          onPageChange={setPage}
+        />
       </div>
     </>
   );
