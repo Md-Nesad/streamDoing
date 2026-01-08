@@ -1,14 +1,20 @@
+import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
 import Error from "../Error";
+import Pagination from "../Pagination";
+import Loading from "../Loading";
 
 export default function ActionLog() {
-  const { data, error } = useFetch(
-    `${BASE_URL}/admin/reports/action-logs?page=1&limit=20&actionType=warning`
+  const [page, setPage] = useState(1);
+  const { data, error, loading } = useFetch(
+    `${BASE_URL}/admin/reports/action-logs?page=${page}&limit=20&actionType=warning`
   );
 
   const logs = data?.logs;
+  const pagination = data?.pagination;
 
+  if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 
   return (
@@ -24,10 +30,10 @@ export default function ActionLog() {
               {/* Left */}
               <div>
                 <h3 className="sm:text-lg text-md font-semibold text-[#1a1a1a] mb-1">
-                  {t.title}
+                  {t.details}
                 </h3>
                 <p className="sm:text-sm text-xs text-[#535353] font-medium">
-                  Min Purchase: {t.min}
+                  By {t?.moderator?.name} • {t.timeAgo}
                 </p>
               </div>
 
@@ -35,12 +41,12 @@ export default function ActionLog() {
               <div className="text-right">
                 <p
                   className={`sm:text-md text-sm font-semibold py-1 px-2 rounded ${
-                    t.price === "Banned"
-                      ? "bg-[#FFE9E9] text-[#CF0D13]"
-                      : "bg-[#C9FFCC] text-[#0B8707]"
+                    t.actionType === "resolved"
+                      ? "bg-[#C9FFCC] text-[#0B8707]"
+                      : "bg-[#FFE9E9] text-[#CF0D13]"
                   }`}
                 >
-                  {t.price}
+                  {t.actionType}
                 </p>
               </div>
             </div>
@@ -51,6 +57,12 @@ export default function ActionLog() {
           </div>
         )}
       </div>
+      <Pagination
+        page={pagination?.page}
+        total={pagination?.total}
+        limit={pagination?.limit}
+        onPageChange={setPage}
+      />
     </div>
   );
 }

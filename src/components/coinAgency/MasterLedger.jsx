@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
-import { BASE_URL, formatNumber, formatOnlyDate } from "../../utility/utility";
+import { BASE_URL, formatNumber } from "../../utility/utility";
 import Loading from "../Loading";
 
 export default function MasterLedger() {
@@ -19,7 +19,7 @@ export default function MasterLedger() {
       {/* Tiers */}
       <div className="flex flex-col gap-4">
         {seeAll
-          ? ledgers?.map((ledger) => (
+          ? ledgers?.map((ledger, index) => (
               <div
                 key={ledger._id}
                 className="flex flex-col max-sm:gap-3 justify-start sm:flex-row sm:items-center sm:justify-between w-full border border-gray-200 rounded-lg sm:px-6 px-3 py-2 bg-white"
@@ -27,7 +27,7 @@ export default function MasterLedger() {
                 {/* Left */}
                 <div>
                   <h3 className="text-lg font-semibold text-[#1a1a1a] mb-1">
-                    Ledger Entry
+                    Ledger Entry #{index + 1}
                   </h3>
                   <p className="text-sm text-[#535353] font-medium">
                     {ledger.remarks}
@@ -45,7 +45,7 @@ export default function MasterLedger() {
                 </div>
               </div>
             ))
-          : ledgers?.slice(0, 20)?.map((ledger) => (
+          : ledgers?.slice(0, 20)?.map((ledger, index) => (
               <div
                 key={ledger._id}
                 className="flex flex-col max-sm:gap-3 justify-start sm:flex-row sm:items-center sm:justify-between w-full border border-gray-200 rounded-lg sm:px-6 px-3 py-2 bg-white"
@@ -53,7 +53,7 @@ export default function MasterLedger() {
                 {/* Left */}
                 <div>
                   <h3 className="text-lg font-semibold text-[#1a1a1a] mb-1">
-                    Ledger Entry
+                    Ledger Entry #{index + 1}
                   </h3>
                   <p className="text-sm text-[#535353] font-medium">
                     {ledger.remarks}
