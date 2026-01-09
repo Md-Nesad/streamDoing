@@ -24,7 +24,6 @@ export default function BkashConfig({ open, onClose, selected }) {
       config: {
         appKey,
         appSecret,
-        appSecret,
         username,
         password,
         baseURL,

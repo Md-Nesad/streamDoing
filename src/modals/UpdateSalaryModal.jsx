@@ -1,50 +1,50 @@
 import { useState } from "react";
-import useJsonPost from "../hooks/useJsonPost";
 import { BASE_URL } from "../utility/utility";
+import { useNavigate } from "react-router-dom";
 
-const SalaryModal = ({ onClose }) => {
-  const [targetCoin, setTargetCoin] = useState("");
-  const [targetDiamond, setTargetDiamond] = useState("");
-  const [basicSalary, setBasicSalary] = useState("");
-  const [totalSalary, setTotalSalary] = useState("");
-  const [agencyShare, setAgencyShare] = useState("");
-  const [durationDays, setDurationDays] = useState("");
-  const [dailyLiveHour, setDailyLiveHour] = useState("");
-  const [frequency, setFrequency] = useState("");
+const UpdateSalaryModal = ({ onClose, selected }) => {
+  const [targetCoin, setTargetCoin] = useState(selected?.targetCoin);
+  const [targetDiamond, setTargetDiamond] = useState(selected?.targetDiamond);
+  const [basicSalary, setBasicSalary] = useState(selected?.basicSalary);
+  const [totalSalary, setTotalSalary] = useState(selected?.totalSalary);
+  const [agencyShare, setAgencyShare] = useState(selected?.agencyShare);
+  const [durationDays, setDurationDays] = useState(selected?.durationDays);
+  const [dailyLiveHour, setDailyLiveHour] = useState(selected?.dailyLiveHour);
+  const [frequency, setFrequency] = useState(selected?.frequency);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = useJsonPost(`${BASE_URL}/admin/salary-targets`);
-
-  const handleClose = () => {
-    setTargetCoin("");
-    setTargetDiamond("");
-    setBasicSalary("");
-    setTotalSalary("");
-    setAgencyShare("");
-    setDurationDays("");
-    setDailyLiveHour("");
-    setFrequency("");
-  };
-
-  const handleCreate = async () => {
+  const handleSubmit = async () => {
+    const data = {
+      targetCoin,
+      targetDiamond,
+      basicSalary,
+      totalSalary,
+      agencyShare,
+      durationDays,
+      dailyLiveHour,
+      frequency,
+    };
     try {
       setLoading(true);
-      await handleSubmit({
-        targetCoin,
-        targetDiamond,
-        basicSalary,
-        totalSalary,
-        agencyShare,
-        durationDays,
-        dailyLiveHour,
-        frequency,
-      });
-      alert("Salary Target Created");
-      handleClose();
+      const res = await fetch(
+        `${BASE_URL}/admin/salary-targets/${selected._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("admin_token")}`,
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      const result = await res.json();
+      console.log(result);
+      alert(result.message);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
+      onClose();
     }
   };
 
@@ -215,8 +215,8 @@ const SalaryModal = ({ onClose }) => {
             Cancel
           </button>
 
-          <button onClick={handleCreate} className="px-10 py-1 btn_gradient">
-            {loading ? "Creating..." : "Create"}
+          <button onClick={handleSubmit} className="px-10 py-1 btn_gradient">
+            {loading ? "updating..." : "Update"}
           </button>
         </div>
       </div>
@@ -224,4 +224,4 @@ const SalaryModal = ({ onClose }) => {
   );
 };
 
-export default SalaryModal;
+export default UpdateSalaryModal;
