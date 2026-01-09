@@ -15,12 +15,9 @@ export default function TransactionTabs() {
     `${BASE_URL}/admin/transactions/history?page=${page}&limit=20&status=completed&sortBy=createdAt&sortOrder=desc`
   );
 
-  const gifting = useFetch(
-    `${BASE_URL}/admin/transactions/gift-history?page=1&limit=10&fromDate=2024-01-01&toDate=2024-12-31`
-  );
   const statsSummary = data?.summary;
   // const giftData = gifting?.data?.summary;
-  const giftData = gifting?.data;
+  // const giftData = gifting?.data;
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
@@ -73,7 +70,7 @@ export default function TransactionTabs() {
 
       <TabPanel>
         <StatsSection data={coinSender} />
-        <GiftingTable tableData={giftData} />
+        <GiftingTable />
       </TabPanel>
     </Tabs>
   );
