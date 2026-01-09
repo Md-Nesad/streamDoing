@@ -92,7 +92,15 @@ export default function CoinSenderTable({ tableData, setPage }) {
                   <td className="p-3">{formatNumber(coin.amount)}</td>
                   <td className="p-3">{formatOnlyDate(coin.date)}</td>
                   <td className="p-3 text-[#181717] font-medium cursor-pointer flex gap-5 items-center">
-                    <span>{coin.status}</span>
+                    <span
+                      className={`px-4 py-1 text-xs text-center block w-23 ${
+                        coin.status === "completed"
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-[#FF929296] text-[#D21B20]"
+                      } text-[#005D23] rounded-full font-semibold`}
+                    >
+                      {coin.status}
+                    </span>
                   </td>
                 </tr>
               ))

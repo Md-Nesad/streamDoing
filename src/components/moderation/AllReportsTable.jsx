@@ -8,6 +8,7 @@ export default function AllReportsTable({ reports, setPage }) {
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
   const [allReports, setAllReports] = useState(reports?.reports);
+  const [selectedReportId, setSelectedReportId] = useState(null);
   const pagination = reports?.pagination;
 
   //handle Filter
@@ -106,7 +107,13 @@ export default function AllReportsTable({ reports, setPage }) {
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
                     <button title="View">
-                      <Eye size={19} onClick={() => setIsOpen(true)} />
+                      <Eye
+                        size={19}
+                        onClick={() => {
+                          setSelectedReportId(report?._id);
+                          setIsOpen(true);
+                        }}
+                      />
                     </button>
                   </td>
                 </tr>
@@ -129,7 +136,13 @@ export default function AllReportsTable({ reports, setPage }) {
           limit={pagination?.limit}
           onPageChange={setPage}
         />
-        {open && <ReportModal open={open} onClose={() => setIsOpen(false)} />}
+        {open && (
+          <ReportModal
+            open={open}
+            onClose={() => setIsOpen(false)}
+            id={selectedReportId}
+          />
+        )}
       </div>
     </>
   );

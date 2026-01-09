@@ -55,3 +55,14 @@ export function formatOnlyTime(dateString) {
     hour12: true,
   });
 }
+
+export function getMinutesAgo(date) {
+  const diffMs = Date.now() - new Date(date).getTime();
+  const diffMin = Math.floor(diffMs / 60000);
+
+  if (diffMin < 1) return "Just now";
+  if (diffMin < 60) return `${diffMin} minutes ago`;
+
+  const hours = Math.floor(diffMin / 60);
+  return `${hours} hours ago`;
+}

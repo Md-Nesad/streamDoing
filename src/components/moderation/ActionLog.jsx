@@ -8,9 +8,8 @@ import Loading from "../Loading";
 export default function ActionLog() {
   const [page, setPage] = useState(1);
   const { data, error, loading } = useFetch(
-    `${BASE_URL}/admin/reports/action-logs?page=${page}&limit=20&actionType=warning`
+    `${BASE_URL}/admin/reports/action-logs?page=${page}&limit=20&actionType=`
   );
-
   const logs = data?.logs;
   const pagination = data?.pagination;
 
@@ -41,7 +40,7 @@ export default function ActionLog() {
               <div className="text-right">
                 <p
                   className={`sm:text-md text-sm font-semibold py-1 px-2 rounded ${
-                    t.actionType === "resolved"
+                    t.actionType === "resolve"
                       ? "bg-[#C9FFCC] text-[#0B8707]"
                       : "bg-[#FFE9E9] text-[#CF0D13]"
                   }`}

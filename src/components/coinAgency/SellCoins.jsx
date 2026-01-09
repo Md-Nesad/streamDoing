@@ -8,7 +8,7 @@ export default function SellCoins() {
   const { data } = useFetch(`${BASE_URL}/coins/rates/latest`);
   const handleSubmit = useJsonPost(`${BASE_URL}/coins/sales/admin-to-master`);
   const agenciesOverview = useFetch(
-    `${BASE_URL}/dashboard/agencies-overview?limit=10`
+    `${BASE_URL}/dashboard/agencies-overview?limit=100`
   );
   const masterIds = agenciesOverview?.data?.agencies;
 
