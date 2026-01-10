@@ -13,7 +13,7 @@ export default function UserManagementTable() {
   const [text, setText] = useState("");
   const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/users?page=${page}&limit=20`
+    `${BASE_URL}/admin/users?page=${page}&limit=30`
   );
   const [users, setUsers] = useState(data?.users || []);
   console.log(users);

@@ -17,7 +17,7 @@ export default function AdminAgencyTable() {
   const { countriesName } = useStream();
   const deleteUser = useDelete(`${BASE_URL}/admin/agencies`);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/agencies?page=${page}&limit=20&search=`
+    `${BASE_URL}/admin/agencies?page=${page}&limit=30&search=`
   );
   const hostAgencies = data?.agencies?.filter((item) => item.type === "admin");
   const pagination = data?.pagination;

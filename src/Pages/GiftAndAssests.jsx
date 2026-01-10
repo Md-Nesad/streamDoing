@@ -2,8 +2,15 @@ import StatsSection from "../components/dashboard/StatsCard";
 import GiftCategories from "../components/giftAndAssests/GiftCategories";
 import GiftTabs from "../components/giftAndAssests/GiftTabs";
 import { Clock, Gem, MonitorPlay, TrendingUp } from "lucide-react";
+import useFetch from "../hooks/useFetch";
+import { BASE_URL } from "../utility/utility";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 export default function GiftAndAssests() {
+  const { data, loading, error } = useFetch(
+    `${BASE_URL}/gifts/category-wise-gifts`
+  );
   const giftsSummary = [
     {
       title: "Total Gifts",
@@ -34,6 +41,9 @@ export default function GiftAndAssests() {
       iconBg: "bg-gradient-to-b from-[#1931B8] to-[#6624FF] opacity-60",
     },
   ];
+
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
   return (
     <div>
       <StatsSection data={giftsSummary} />
@@ -42,7 +52,7 @@ export default function GiftAndAssests() {
         <h3 className="mt-5 mb-6 font-semibold text-[#181717] text-xl">
           Gift Categories
         </h3>
-        <GiftCategories />
+        <GiftCategories data={data} />
       </section>
 
       <GiftTabs />

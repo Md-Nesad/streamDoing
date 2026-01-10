@@ -9,8 +9,12 @@ import { BASE_URL } from "../utility/utility";
 
 export default function AddGiftModal({ open, onClose }) {
   if (!open) return null;
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   const categories = useFetch(`${BASE_URL}/gift-category/list?limit=20`);
-  const subCategories = useFetch(`${BASE_URL}/gift-subcategory/list?limit=20`);
+  const subCategories = useFetch(
+    `${BASE_URL}/gift-subcategory/by-category/${selectedCategory || null}`
+  );
   const handleFormData = useFormDataPost(`${BASE_URL}/gifts/create`);
   const [loading, setLoading] = useState(false);
 
@@ -93,20 +97,28 @@ export default function AddGiftModal({ open, onClose }) {
               <select
                 {...register("giftCategory")}
                 className="border border-[#626060] py-2"
+                onChange={(e) => {
+                  const selectedId = e.target.value;
+                  const selectedCategory = categories?.data?.categories?.find(
+                    (cat) => cat._id === selectedId
+                  );
+                  setSelectedCategory(selectedCategory?._id || null);
+                }}
               >
                 <option value="">Search Category</option>
+
                 {categories?.data?.categories?.map((category) => (
                   <option value={category._id} key={category._id}>
                     {category.name}
                   </option>
                 ))}
               </select>
-              <button
+              {/* <button
                 type="button"
                 className="absolute right-1 top-1/2 -translate-y-1/2 pointer-events-auto bg-[#AC90EC] py-1 px-4 rounded-md text-white"
               >
                 Add custom
-              </button>
+              </button> */}
             </div>
             {errors.giftCategory && (
               <p className="text-red-500 text-xs mt-1">
@@ -131,12 +143,12 @@ export default function AddGiftModal({ open, onClose }) {
                   </option>
                 ))}
               </select>
-              <button
+              {/* <button
                 type="button"
                 className="absolute right-1 top-1/2 -translate-y-1/2 pointer-events-auto bg-[#AC90EC] py-1 px-4 rounded-md text-white"
               >
                 Add custom
-              </button>
+              </button> */}
             </div>
             {errors.giftSubCategory && (
               <p className="text-red-500 text-xs mt-1">

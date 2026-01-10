@@ -8,6 +8,7 @@ export default function useDelete(baseUrl) {
         },
       });
       const data = await res.json();
+      console.log(data);
       return data;
     } catch (err) {
       console.log(err.message);

@@ -8,7 +8,6 @@ export default function HostManageMentTable({ hostListData }) {
   const [isOpen, setIsOpen] = useState(false);
   const [hostList, setHostList] = useState(hostListData?.hosts);
   const [text, setText] = useState("");
-  console.log(hostList);
 
   //handle filter
   const handleFilter = () => {

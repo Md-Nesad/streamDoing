@@ -1,73 +1,45 @@
-import { Gift } from "lucide-react";
+import { timeAgo } from "../../utility/utility";
 
-const gifts = [
-  {
-    user: "User1",
-    gift: "Rose",
-    to: "Host1",
-    time: "Just now",
-    coins: "10 coins",
-  },
-  {
-    user: "User2",
-    gift: "Diamond",
-    to: "Host1",
-    time: "Just now",
-    coins: "500 coins",
-  },
-  {
-    user: "User3",
-    gift: "Heart",
-    to: "Host3",
-    time: "Just now",
-    coins: "1000 coins",
-  },
-  {
-    user: "User4",
-    gift: "Crown",
-    to: "Host3",
-    time: "Just now",
-    coins: "100 coins",
-  },
-  {
-    user: "User5",
-    gift: "Fireworks",
-    to: "Host8",
-    time: "One min ago",
-    coins: "10 coins",
-  },
-];
+export default function RecentGiftActivity({ data }) {
+  const allGifts = data?.gifts;
 
-export default function RecentGiftActivity() {
+  const recentGifts = (allGifts || []).sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
   return (
-    <div className="w-fullmx-auto bg-white rounded-lg p-3 sm:p-5 shadow">
+    <div className="w-fullmx-auto bg-white rounded-lg p-3 sm:p-5 shadow mb-10">
       <h2 className="text-lg font-semibold mb-4">Recent Gift Activity</h2>
 
       <div className="space-y-3">
-        {gifts.map((item, index) => (
+        {recentGifts?.slice(0, 10).map((item, index) => (
           <div
             key={index}
             className="flex items-center justify-between border border-[#ABABAB54] rounded-lg px-3 sm:px-4 py-3"
           >
             {/* Left */}
             <div className="flex items-center gap-2 sm:gap-4">
-              <div className="w-11 h-11 rounded-full bg-pink-100 flex items-center justify-center">
-                <Gift className="text-pink-500" size={22} />
+              <div className="">
+                <img
+                  src={item?.imageUrl}
+                  alt="Gift Image"
+                  className="w-10 h-10 object-cover rounded-full"
+                />
               </div>
 
               <div className="space-y-1">
                 <p className="text-sm font-semibold text-gray-900">
-                  {item.user} sent {item.gift}
+                  User{index + 1} sent {item.name}
                 </p>
                 <p className="text-xs text-gray-500 font-medium">
-                  To {item.to} • {item.time}
+                  {timeAgo(item.createdAt)}
                 </p>
               </div>
             </div>
 
             {/* Right */}
             <div className="text-sm sm:text-md font-semibold text-gray-900">
-              {item.coins}
+              {item.cost} coins
             </div>
           </div>
         ))}
