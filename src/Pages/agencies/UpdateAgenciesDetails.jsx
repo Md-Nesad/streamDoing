@@ -198,6 +198,7 @@ export default function UpdateAgenciesDetails() {
                   <option value="">Select</option>
                   <option value="active">Active</option>
                   <option value="suspended">Suspended</option>
+                  <option value="banned">Banned</option>
                 </select>
 
                 <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
@@ -270,8 +271,8 @@ export default function UpdateAgenciesDetails() {
               </div>
             </div>
 
-            <div className="mt-5 flex flex-wrap items-center justify-between max-sm:justify-center gap-4">
-              <div className="flex items-center gap-8 border border-gray-300 rounded-md px-3 py-2">
+            <div className="mt-5 flex flex-wrap items-center justify-between max-sm:justify-center gap-4 w-full">
+              <div className="flex items-center gap-8 border border-gray-300 rounded-md px-3 py-2 w-[48%]">
                 <span className="text-sm">Temporary Ban</span>
                 <div
                   onClick={() => {
@@ -290,7 +291,7 @@ export default function UpdateAgenciesDetails() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-8 border border-gray-300 rounded-md px-3 py-2">
+              <div className="flex items-center gap-8 border border-gray-300 rounded-md px-3 py-2 w-[48%]">
                 <span className="text-sm">Permanent Ban</span>
                 <div
                   onClick={() => {

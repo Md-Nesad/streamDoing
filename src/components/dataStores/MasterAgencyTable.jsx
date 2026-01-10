@@ -125,7 +125,9 @@ export default function MasterAgencyTable() {
                     HOST-{host.displayId}
                   </td>
                   <td className="p-3">{host.name}</td>
-                  <td className="p-3">{host.referenceId || "N/A"}</td>
+                  <td className="p-3">
+                    {host?.parent ? "REF" + host?.parent?.displayId : "N/A"}
+                  </td>
                   <td className="p-3">{host.email}</td>
                   <td className="p-3">{host.phone}</td>
                   <td className="p-3">
