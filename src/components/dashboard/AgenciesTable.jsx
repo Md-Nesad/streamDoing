@@ -95,7 +95,13 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                             {countriesName(agency.country) || "N/A"}
                           </td>
                           <td className="p-3">
-                            <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
+                            <span
+                              className={`px-4 py-1 text-xs ${
+                                agency.status === "active"
+                                  ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                                  : "bg-[#FF929296] text-[#D21B20]"
+                              } text-[#005D23] rounded-full font-semibold`}
+                            >
                               {agency.status}
                             </span>
                           </td>

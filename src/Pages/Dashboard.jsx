@@ -21,7 +21,6 @@ export default function Dashboard() {
 
   //store data in variables
   const data = summary.data;
-  console.log(data);
   const agenciesData = agenciesOverview?.data;
 
   // handaling loading and error

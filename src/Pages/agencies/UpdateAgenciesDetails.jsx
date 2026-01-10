@@ -12,6 +12,10 @@ import Loading from "../../components/Loading";
 export default function UpdateAgenciesDetails() {
   const { agencyId } = useParams();
   const [isloading, setIsLoading] = useState(false);
+  const [isTempOn, setIsTempOn] = useState(false);
+  const [isPerOn, setIsPerOn] = useState(false);
+  const [reason, setReason] = useState("");
+  const [until, setUntil] = useState("");
   const navigate = useNavigate();
   const { data, loading } = useFetch(`${BASE_URL}/admin/agencies/${agencyId}`);
   const handleFormData = usePutApi(`${BASE_URL}/admin/agencies/${agencyId}`);
@@ -33,6 +37,10 @@ export default function UpdateAgenciesDetails() {
     formData.append("country", data.country);
     formData.append("documentType", data.documentType);
     formData.append("status", data.status);
+    formData.append("ban[isPermanent]", isPerOn);
+    formData.append("ban[isTemporary]", isTempOn);
+    formData.append("ban[reason]", reason);
+    formData.append("ban[until]", until);
     if (data.profilePic) {
       formData.append("profilePic", data.profilePic?.[0]);
     }
@@ -47,8 +55,8 @@ export default function UpdateAgenciesDetails() {
     const result = await handleFormData(formData);
     console.log("Update Result:", result);
 
-    if (result.success === false) {
-      alert(result.message);
+    if (result.error) {
+      alert(result.error);
     } else {
       alert(result.message || "Agency updated successfully");
     }
@@ -66,7 +74,7 @@ export default function UpdateAgenciesDetails() {
         phoneNumber: data.phone,
         email: data.email,
         whatsapp: data.whatsapp,
-        country: data.country,
+        country: data.country?._id,
         status: data.status,
         documentType: data.documentType,
       });
@@ -261,6 +269,86 @@ export default function UpdateAgenciesDetails() {
                 </div>
               </div>
             </div>
+
+            <div className="mt-5 flex flex-wrap items-center justify-between max-sm:justify-center gap-4">
+              <div className="flex items-center gap-8 border border-gray-300 rounded-md px-3 py-2">
+                <span className="text-sm">Temporary Ban</span>
+                <div
+                  onClick={() => {
+                    setIsTempOn(!isTempOn);
+                    setIsPerOn(false);
+                  }}
+                  className={`w-10 h-3 rounded-full cursor-pointer flex items-center transition-all duration-300 ${
+                    isTempOn ? "bg-pink-400" : "bg-pink-200"
+                  }`}
+                >
+                  <div
+                    className={`w-5 h-5 rounded-full shadow-xl transition-all duration-300 bg-linear-to-br from-pink-600 to-pink-400 relative ${
+                      isTempOn ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  ></div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-8 border border-gray-300 rounded-md px-3 py-2">
+                <span className="text-sm">Permanent Ban</span>
+                <div
+                  onClick={() => {
+                    setIsPerOn(!isPerOn);
+                    setIsTempOn(false);
+                  }}
+                  className={`w-10 h-3 rounded-full cursor-pointer flex items-center transition-all duration-300 ${
+                    isPerOn ? "bg-pink-400" : "bg-pink-200"
+                  }`}
+                >
+                  <div
+                    className={`w-5 h-5 rounded-full shadow-xl transition-all duration-300 bg-linear-to-br from-pink-600 to-pink-400 relative ${
+                      isPerOn ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            {isTempOn && (
+              <>
+                <div>
+                  <label>Ban Reason</label>
+                  <input
+                    type="text"
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    placeholder="Enter reason (optional)"
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm mt-1"
+                  />
+                </div>
+
+                <div>
+                  <label>Until</label>
+                  <input
+                    type="date"
+                    value={until}
+                    onChange={(e) => setUntil(e.target.value)}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
+                  />
+                </div>
+              </>
+            )}
+
+            {isPerOn && (
+              <>
+                <div>
+                  <label>Reason</label>
+                  <input
+                    type="text"
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    placeholder="Enter reason (optional)"
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm mt-1"
+                  />
+                </div>
+              </>
+            )}
           </form>
 
           {/* Buttons */}
