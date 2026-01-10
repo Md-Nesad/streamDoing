@@ -1,5 +1,5 @@
 import { Funnel, Pen, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditSupportModal from "../../modals/dataSroreModals/EditSupportModal";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
@@ -7,18 +7,61 @@ import { BASE_URL } from "../../utility/utility";
 import Loading from "../Loading";
 import Error from "../Error";
 import { useStream } from "../../context/streamContext";
+import Pagination from "../Pagination";
+import useDelete from "../../hooks/useDelete";
 
 export default function SupportAgencyTable() {
   const navigate = useNavigate();
+  const [text, setText] = useState("");
   const [page, setPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const { countriesName } = useStream();
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/support-agencies?page=${page}&limit=10`
+    `${BASE_URL}/admin/support-agencies?page=${page}&limit=20`
   );
+  const deleteUser = useDelete(`${BASE_URL}/admin/support-agencies`);
+  const [supportAgencies, setSupportAgencies] = useState(data?.supportAgencies);
+  const pagination = data?.pagination;
 
-  const supportAgencies = data?.supportAgencies || [];
-  console.log(supportAgencies);
+  //handle filter
+  const handleFilter = () => {
+    const filteredUsers = supportAgencies?.filter((support) => {
+      return (
+        support.name.toLowerCase().includes(text.toLowerCase()) ||
+        support.displayId.toString().includes(text)
+      );
+    });
+    setSupportAgencies(filteredUsers);
+  };
+
+  //handle delete
+  const handleDelete = async (id) => {
+    try {
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this support agency?"
+      );
+      if (!confirmDelete) return;
+      const result = await deleteUser(id);
+      if (!result) {
+        alert("Failed to delete support agency");
+      } else {
+        alert(result.message);
+      }
+      setSupportAgencies(
+        supportAgencies?.filter((support) => support._id !== id)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //get data when text empty after filtering
+  useEffect(() => {
+    if (text === "") {
+      setSupportAgencies(data?.supportAgencies);
+    }
+  }, [text, data]);
+
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
   return (
@@ -27,13 +70,18 @@ export default function SupportAgencyTable() {
         {/* Search Input */}
         <input
           type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
           placeholder="Search by ID or name"
         />
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto">
+          <button
+            onClick={handleFilter}
+            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+          >
             <Funnel size={18} /> Filter
           </button>
           <button
@@ -62,42 +110,65 @@ export default function SupportAgencyTable() {
           </thead>
 
           <tbody>
-            {supportAgencies?.map((support) => (
-              <tr
-                key={support._id}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 font-medium pl-5">S {support.displayId}</td>
-                <td className="p-3">{support.name}</td>
-                <td className="p-3">{support.gender}</td>
-                <td className="p-3">{support.email}</td>
-                <td className="p-3">{support.phone}</td>
-                <td className="p-3">
-                  {countriesName(support.location) || "N/A"}
-                </td>
-                <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-xs ${
-                      support.ban.isPermanent === false
-                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                        : "bg-[#FF929296] text-[#D21B20]"
-                    } text-[#005D23] rounded-full font-semibold`}
-                  >
-                    {support.ban.isPermanent === false ? "Active" : "Banned"}
-                  </span>
-                </td>
-                <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                  <span className="flex items-center gap-3">
-                    <button onClick={() => setIsOpen(true)} title="Edit">
-                      <Pen size={19} />
-                    </button>
-                    <Trash2 size={18} className="text-[#FF0037]" />
-                  </span>
+            {supportAgencies?.length > 0 ? (
+              supportAgencies?.map((support) => (
+                <tr
+                  key={support._id}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 font-medium pl-5">
+                    S {support.displayId}
+                  </td>
+                  <td className="p-3">{support.name}</td>
+                  <td className="p-3">{support.gender}</td>
+                  <td className="p-3">{support.email}</td>
+                  <td className="p-3">{support.phone}</td>
+                  <td className="p-3">
+                    {countriesName(support.location) || "N/A"}
+                  </td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-xs ${
+                        support.ban.isPermanent === false
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-[#FF929296] text-[#D21B20]"
+                      } text-[#005D23] rounded-full font-semibold`}
+                    >
+                      {support.ban.isPermanent === false ? "Active" : "Banned"}
+                    </span>
+                  </td>
+                  <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                    <span className="flex items-center gap-3">
+                      <button onClick={() => setIsOpen(true)} title="Edit">
+                        <Pen size={19} />
+                      </button>
+
+                      <button
+                        title="Delete"
+                        onClick={() => handleDelete(support._id)}
+                      >
+                        <Trash2 size={18} className="text-[#FF0037]" />
+                      </button>
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
+                <td colSpan={9} className="p-3 text-center">
+                  No support agency found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
+        <Pagination
+          page={pagination?.page}
+          limit={pagination?.limit}
+          total={pagination?.total}
+          onPageChange={setPage}
+        />
+
         {isOpen && (
           <EditSupportModal open={isOpen} onClose={() => setIsOpen(false)} />
         )}

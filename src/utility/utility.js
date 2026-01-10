@@ -64,7 +64,10 @@ export function getMinutesAgo(date) {
   if (diffMin < 60) return `${diffMin} minutes ago`;
 
   const hours = Math.floor(diffMin / 60);
-  return `${hours} hours ago`;
+  if (hours < 24) return `${hours} hour ago`;
+
+  const days = Math.floor(hours / 24);
+  return `${days} day ago`;
 }
 
 export function timeAgo(dateString) {

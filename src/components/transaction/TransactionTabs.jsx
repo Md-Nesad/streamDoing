@@ -11,35 +11,36 @@ import { useState } from "react";
 
 export default function TransactionTabs() {
   const [page, setPage] = useState(1);
+  const {
+    data: state,
+    loading: stateLoading,
+    error: stateError,
+  } = useFetch(`${BASE_URL}/admin/transactions/stats`);
   const { data, loading, error } = useFetch(
     `${BASE_URL}/admin/transactions/history?page=${page}&limit=20&status=completed&sortBy=createdAt&sortOrder=desc`
   );
-
-  const statsSummary = data?.summary;
-  // const giftData = gifting?.data?.summary;
-  // const giftData = gifting?.data;
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 
   const coinSender = [
     {
-      title: "Total Coins",
-      value: formatNumber(statsSummary?.totalCoins),
-      change: `+${statsSummary?.transactionCount} this month`,
+      title: "Total Agencies",
+      value: formatNumber(state?.totalAgengies),
+      change: `+${state?.thisMonthAgengies} this month`,
       icon: Users,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
     },
     {
       title: "Total Coin Sales",
-      value: formatNumber(statsSummary?.totalAmount),
+      value: formatNumber(state?.totalCoinSale),
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
     },
     {
       title: "Avg Commission",
-      value: formatPercent(statsSummary?.avgRate),
+      value: formatPercent(state?.averageCommission),
       change: "",
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",

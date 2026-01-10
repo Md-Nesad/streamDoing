@@ -1,20 +1,22 @@
 import { Upload } from "lucide-react";
 import useFetch from "../hooks/useFetch";
-import useFormDataPost from "../hooks/useFormDataPost";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { addGiftSchema } from "../utility/validator";
 import { BASE_URL } from "../utility/utility";
+import usePatch from "../hooks/usePatch";
 
-export default function AddGiftModal({ open, onClose }) {
+export default function UpdateGiftModal({ open, onClose, gift }) {
   if (!open) return null;
+  console.log(gift);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  //get gift categories
   const categories = useFetch(`${BASE_URL}/gift-category/list?limit=20`);
+  //get gift subcategories
   const subCategories = useFetch(
     `${BASE_URL}/gift-subcategory/by-category/${selectedCategory || null}`
   );
-  const handleFormData = useFormDataPost(`${BASE_URL}/gifts/create`);
+
+  const handleFormData = usePatch(`${BASE_URL}/gifts/update/${gift._id}`);
   const [loading, setLoading] = useState(false);
 
   const {
@@ -23,9 +25,7 @@ export default function AddGiftModal({ open, onClose }) {
     formState: { errors },
     reset,
     watch,
-  } = useForm({
-    resolver: zodResolver(addGiftSchema),
-  });
+  } = useForm();
 
   // form submission handler
   const handleSave = async (data) => {
@@ -57,15 +57,26 @@ export default function AddGiftModal({ open, onClose }) {
     reset();
   };
 
+  useEffect(() => {
+    if (gift) {
+      reset({
+        giftName: gift.name,
+        giftPrice: gift.cost,
+        giftCategory: gift.category,
+        giftSubCategory: gift.subCategory,
+      });
+    }
+  }, [gift, reset]);
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/30 z-50">
       <form className="w-full max-w-[650px] bg-white rounded-2xl shadow-lg p-4 sm:p-6 max-sm:h-[95vh] overflow-y-auto animatefadeIn hide_scrollbar max-sm:mx-3">
         {/* Title */}
         <h2 className="text-[20px] font-semibold text-gray-800 mb-1">
-          Add New Gift
+          Update Gift Modal
         </h2>
         <p className="text-gray-500 text-[14px] mb-6">
-          Create a new virtual gift for users to send during livestreams
+          Update a new virtual gift for users to send during livestreams
         </p>
 
         {/* Gift Name */}
@@ -79,11 +90,6 @@ export default function AddGiftModal({ open, onClose }) {
             placeholder="Enter Gift name"
             className="w-full border rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
-          {errors.giftName && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.giftName.message}
-            </p>
-          )}
         </div>
 
         {/* Category */}
@@ -119,11 +125,6 @@ export default function AddGiftModal({ open, onClose }) {
                 Add custom
               </button> */}
             </div>
-            {errors.giftCategory && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.giftCategory.message}
-              </p>
-            )}
           </div>
 
           <div className="mt-1 w-full">
@@ -135,7 +136,7 @@ export default function AddGiftModal({ open, onClose }) {
                 {...register("giftSubCategory")}
                 className="border border-[#626060] py-2"
               >
-                <option value="">Search Category</option>
+                <option value="">Select Category First</option>
                 {subCategories?.data?.subcategories?.map((category) => (
                   <option value={category._id} key={category._id}>
                     {category.name}
@@ -149,11 +150,6 @@ export default function AddGiftModal({ open, onClose }) {
                 Add custom
               </button> */}
             </div>
-            {errors.giftSubCategory && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.giftSubCategory.message}
-              </p>
-            )}
           </div>
         </div>
 
@@ -168,11 +164,6 @@ export default function AddGiftModal({ open, onClose }) {
             placeholder="Enter Price"
             className="w-full border rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
-          {errors.giftPrice && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.giftPrice.message}
-            </p>
-          )}
         </div>
 
         {/* Upload Logo */}
@@ -197,11 +188,6 @@ export default function AddGiftModal({ open, onClose }) {
               </span>
             </div>
           </div>
-          {errors.giftLogo && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.giftLogo.message}
-            </p>
-          )}
         </div>
 
         {/* Upload Sound */}
@@ -226,11 +212,6 @@ export default function AddGiftModal({ open, onClose }) {
               </span>
             </div>
           </div>
-          {errors.giftSound && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.giftSound.message}
-            </p>
-          )}
         </div>
 
         {/* Buttons */}
@@ -247,7 +228,7 @@ export default function AddGiftModal({ open, onClose }) {
             onClick={handleSubmit(handleSave)}
             className="px-10 py-1 btn_gradient"
           >
-            {loading ? "creating..." : "Create"}
+            {loading ? "updating..." : "Update"}
           </button>
         </div>
       </form>

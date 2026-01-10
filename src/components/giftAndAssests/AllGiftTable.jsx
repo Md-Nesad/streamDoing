@@ -7,15 +7,18 @@ import { BASE_URL, formatNumber } from "../../utility/utility";
 import Loading from "../Loading";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
+import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
 export default function AllGiftTable({ data, loading, error }) {
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
+  const [update, setUpdate] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const deleteUser = useDelete(`${BASE_URL}/gifts/delete`);
   const [allGifts, setAllGifts] = useState(data?.gifts);
   const [dloading, setDLoading] = useState(null);
+  const [selectedGift, setSelectedGift] = useState(null);
 
   const category = useFetch(`${BASE_URL}/gift-category/list?page=1&limit=20`);
   const subCategory = useFetch(`${BASE_URL}/gift-subcategory/list?limit=100`);
@@ -52,6 +55,11 @@ export default function AllGiftTable({ data, loading, error }) {
     } finally {
       setDLoading(null);
     }
+  };
+
+  const handleUpdateModal = (gift) => {
+    setSelectedGift(gift);
+    setUpdate(true);
   };
 
   useEffect(() => {
@@ -151,7 +159,13 @@ export default function AllGiftTable({ data, loading, error }) {
                       </span>
                     </td>
                     <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                      <button className="font-semibold">Edit</button>
+                      <button
+                        title="Edit"
+                        onClick={() => handleUpdateModal(gift)}
+                        className="font-semibold"
+                      >
+                        Edit
+                      </button>
                       <button
                         title="Delete"
                         onClick={() => handleDelete(gift._id)}
@@ -180,6 +194,13 @@ export default function AllGiftTable({ data, loading, error }) {
           </tbody>
         </table>
         {open && <AddGiftModal open={open} onClose={() => setIsOpen(false)} />}
+        {update && (
+          <UpdateGiftModal
+            open={update}
+            onClose={() => setUpdate(false)}
+            gift={selectedGift}
+          />
+        )}
       </div>
     </>
   );

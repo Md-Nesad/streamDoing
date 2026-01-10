@@ -59,7 +59,7 @@ export default function Details({ report, loading, error, id }) {
             label="Report Type"
             value={report?.actions[0]?.actionType || "N/A"}
           />
-          <Info label="Admin Name" value={admin?.name || "N/A"} />
+          <Info label="Admin Name" value={admin?.name || "Super Admin"} />
           <Info label="Admin Id" value={admin?.displayId || "N/A"} />
           <Info label="Report Time" value={formatOnlyTime(report?.createdAt)} />
         </div>
