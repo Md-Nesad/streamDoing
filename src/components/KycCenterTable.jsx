@@ -24,8 +24,8 @@ export default function KycCenterTable() {
         <table className="w-full text-left border-collapse text-nowrap">
           <thead>
             <tr className="text-[#535353] text-md font-medium">
-              <th className="p-3 pl-6">User ID dasdf</th>
-              <th className="p-3">User Name dfasdf</th>
+              <th className="p-3 pl-6">User ID</th>
+              <th className="p-3">User Name</th>
               <th className="p-3">Agency ID</th>
               <th className="p-3">Agency Name</th>
               <th className="p-3">Categories</th>

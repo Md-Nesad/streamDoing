@@ -30,6 +30,10 @@ export function formatNumber(num) {
     return (num / 1_000).toFixed(1) + "K";
   }
 
+  if (num < 1000) {
+    return Math.round(num);
+  }
+
   return num;
 }
 
@@ -88,20 +92,31 @@ export function timeAgo(dateString) {
 }
 
 //total viewers + average duration
-export const totalViewersWithAvgDuration = (streams) => {
-  const totalViewers = streams.reduce((sum, stream) => sum + stream.viewers, 0);
+export const totalViewersWithAvgDuration = (streams = []) => {
+  if (!streams.length) {
+    return { totalViewers: 0, avgDuration: "0h 0m 0s" };
+  }
 
-  // Total duration in milliseconds
+  // Total viewers
+  const totalViewers = streams.reduce(
+    (sum, stream) => sum + (stream.viewers || 0),
+    0
+  );
+
+  // Total duration from startTime → now
+  const now = Date.now();
+
   const totalDurationMs = streams.reduce((sum, stream) => {
-    const start = new Date(stream.startTime);
-    const end = new Date(stream.endTime);
-    return sum + (end - start); // difference in milliseconds
+    if (!stream.startTime) return sum;
+
+    const start = new Date(stream.startTime).getTime();
+    return sum + (now - start);
   }, 0);
 
-  // Average duration in milliseconds
+  // Average duration
   const averageDurationMs = totalDurationMs / streams.length;
 
-  // Convert average duration to hh:mm:ss
+  // Convert ms → h m s
   const hours = Math.floor(averageDurationMs / (1000 * 60 * 60));
   const minutes = Math.floor(
     (averageDurationMs % (1000 * 60 * 60)) / (1000 * 60)
@@ -110,8 +125,17 @@ export const totalViewersWithAvgDuration = (streams) => {
 
   return {
     totalViewers,
-    avgDuration: `${hours > 0 ? hours : 0}h ${minutes > 0 ? minutes : 0}m ${
-      seconds > 0 ? seconds : 0
-    }s`,
+    avgDuration: `${hours}h ${minutes}m ${seconds}s`,
   };
 };
+
+//duration from start date
+export function getDurationFromStartDate(startDate) {
+  const now = new Date().getTime();
+  const start = new Date(startDate).getTime();
+  const durationMs = now - start;
+  const hours = Math.floor(durationMs / (1000 * 60 * 60));
+  const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((durationMs % (1000 * 60)) / 1000);
+  return `${hours}h ${minutes}m ${seconds}s`;
+}

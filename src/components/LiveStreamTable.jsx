@@ -8,7 +8,7 @@ import {
   Video,
 } from "lucide-react";
 import star from "../assests/star.png";
-import duration from "../utility/utility";
+import { getDurationFromStartDate } from "../utility/utility";
 // import Pagination from "./Pagination";
 import Loading from "./Loading";
 import { useEffect, useState } from "react";
@@ -109,7 +109,7 @@ export default function LiveStreamTable({
                         </span>
                       </td>
                       <td className="p-3">
-                        {duration(stream.startTime, stream.endTime)}
+                        {getDurationFromStartDate(stream.startTime)}
                       </td>
                       <td className="p-3">
                         <span

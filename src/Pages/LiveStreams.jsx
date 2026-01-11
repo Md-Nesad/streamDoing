@@ -50,20 +50,23 @@ export default function LiveStreams() {
   // Socket listeners
   useEffect(() => {
     socket.on("connect", () => {
-      console.log("connect");
+      console.log("Connected to socket");
     });
     // New live created
-    socket.on("admin:new-live-created", () => {
+    socket.on("admin:new-live-created", (data) => {
+      console.log("create event", data);
       fetchLiveStreams(); // re-fetch live streams
     });
 
     // Live ended
-    socket.on("admin:live-ended", () => {
-      fetchLiveStreams(); // re-fetch to remove ended streams
+    socket.on("admin:live-ended", (data) => {
+      console.log("end event", data);
+      fetchLiveStreams(); // re-fetch live streams
     });
 
     // Viewers count update
     socket.on("admin:total-live-viewers", ({ roomId, viewers }) => {
+      console.log(roomId, viewers);
       setLives((prev) =>
         prev.map((live) =>
           live.roomId === roomId ? { ...live, viewers } : live
@@ -80,7 +83,6 @@ export default function LiveStreams() {
       socket.off("admin:new-live-created");
       socket.off("admin:live-ended");
       socket.off("admin:total-live-viewers");
-      socket.off("connect");
     };
   }, []);
 

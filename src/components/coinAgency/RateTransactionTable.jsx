@@ -39,7 +39,7 @@ export default function RateTransactionTable() {
             {transactions?.length > 0 ? (
               transactions?.map((item, index) => {
                 const findAgency = agencies?.agencies?.find(
-                  (agency) => agency._id === item.to
+                  (agency) => agency._id === item.to._id
                 );
                 return (
                   <tr
