@@ -22,7 +22,8 @@ export default function LiveStreams() {
     {
       title: "Active Streams",
       value: streams?.totalActiveLives,
-      change: "Currently live",
+      change:
+        streams?.totalActiveLives > 0 ? "Currently live" : "Currently offline",
       icon: Video,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
     },

@@ -90,7 +90,7 @@ export default function CoinsTable({ tableData, setPage, loading }) {
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
                   <td className="p-3 font-medium pl-5">
-                    {coin.reference || "N/A"}
+                    {coin?.parent ? "REF" + coin?.parent?.displayId : "N/A"}
                   </td>
                   <td className="p-3">{coin.displayId}</td>
                   <td className="p-3">{coin.name}</td>

@@ -9,14 +9,61 @@ import {
 } from "lucide-react";
 import star from "../assests/star.png";
 import duration from "../utility/utility";
-import Pagination from "./Pagination";
+// import Pagination from "./Pagination";
 import Loading from "./Loading";
 import { useEffect, useState } from "react";
+import { socket } from "../socket/socket";
 
 export default function LiveStreamTable({ streamsData, loading, setPage }) {
   const [text, setText] = useState("");
   const [streamList, setStreamList] = useState(streamsData?.liveStreams);
-  const streamPagination = streamsData?.pagination;
+  // const streamPagination = streamsData?.pagination;
+  const [lives, setLives] = useState([]);
+  console.log(lives);
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected");
+    });
+    // New live created
+    socket.on("admin:new-live-created", (liveSession) => {
+      // if (!liveSession?.roomId) return;
+
+      setLives((prev) => {
+        // for avoiding duplicate
+        const exists = prev.some((l) => l.roomId === liveSession.roomId);
+        if (exists) return prev;
+
+        return [
+          ...prev,
+          {
+            ...liveSession,
+            viewers: liveSession.viewers ?? 0,
+          },
+        ];
+      });
+    });
+
+    // viewers count
+    socket.on("admin:total-live-viewers", ({ roomId, viewers }) => {
+      setLives((prev) =>
+        prev.map((live) =>
+          live.roomId === roomId ? { ...live, viewers } : live
+        )
+      );
+    });
+
+    // live ended
+    socket.on("admin:live-ended", ({ roomId }) => {
+      setLives((prev) => prev.filter((live) => live.roomId !== roomId));
+    });
+
+    return () => {
+      socket.off("admin:new-live-created");
+      socket.off("admin:total-live-viewers");
+      socket.off("admin:live-ended");
+    };
+  }, []);
 
   //handle filter
   const handleFilter = () => {
@@ -49,7 +96,7 @@ export default function LiveStreamTable({ streamsData, loading, setPage }) {
               value={text}
               onChange={(e) => setText(e.target.value)}
               className="border border-[#BBBBBB] outline-[#BBBBBB] w-full px-4 py-1.5 rounded-md"
-              placeholder="Search withdrawals"
+              placeholder="Search by ID or name"
             />
 
             <button
@@ -77,8 +124,8 @@ export default function LiveStreamTable({ streamsData, loading, setPage }) {
               </thead>
 
               <tbody>
-                {streamList?.length > 0 ? (
-                  streamList?.map((stream, index) => (
+                {lives?.length > 0 ? (
+                  lives?.map((stream, index) => (
                     <tr
                       key={index}
                       className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
@@ -133,12 +180,12 @@ export default function LiveStreamTable({ streamsData, loading, setPage }) {
                 )}
               </tbody>
             </table>
-            <Pagination
+            {/* <Pagination
               page={streamPagination?.page}
               total={streamPagination?.total}
               limit={streamPagination?.limit}
               onPageChange={setPage}
-            />
+            /> */}
           </div>
         </>
       )}

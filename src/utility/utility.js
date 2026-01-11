@@ -1,4 +1,6 @@
 export const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+//socket url
+export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
 // stream duration format
 export default function duration(startTime, endTime) {

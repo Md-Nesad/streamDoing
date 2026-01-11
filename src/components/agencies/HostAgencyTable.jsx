@@ -13,7 +13,6 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
   const { countriesName } = useStream();
   const [text, setText] = useState("");
   console.log(countriesName("69550bee6f66520b824f4696"));
-  console.log(hosts);
 
   const handleFilter = () => {
     const filteredUsers = hostList?.filter((agency) => {
@@ -91,7 +90,7 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
                   <td className="p-3 font-medium pl-5">
-                    {host.reference || "N/A"}
+                    {host?.parent ? "REF" + host?.parent?.displayId : "N/A"}
                   </td>
                   <td className="p-3">{host.displayId}</td>
                   <td className="p-3">{host.name}</td>
