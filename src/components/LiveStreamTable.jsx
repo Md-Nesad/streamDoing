@@ -22,9 +22,6 @@ export default function LiveStreamTable({ streamsData, loading, setPage }) {
   console.log(lives);
 
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("connected");
-    });
     // New live created
     socket.on("admin:new-live-created", (liveSession) => {
       // if (!liveSession?.roomId) return;
