@@ -12,73 +12,35 @@ import duration from "../utility/utility";
 // import Pagination from "./Pagination";
 import Loading from "./Loading";
 import { useEffect, useState } from "react";
-import { socket } from "../socket/socket";
 
-export default function LiveStreamTable({ streamsData, loading, setPage }) {
+export default function LiveStreamTable({
+  lives,
+  setLives,
+  setPage,
+  loading,
+  streamList,
+}) {
   const [text, setText] = useState("");
-  const [streamList, setStreamList] = useState(streamsData?.liveStreams);
-  // const streamPagination = streamsData?.pagination;
-  const [lives, setLives] = useState([]);
-  console.log(lives);
 
-  useEffect(() => {
-    // New live created
-    socket.on("admin:new-live-created", (liveSession) => {
-      // if (!liveSession?.roomId) return;
-
-      setLives((prev) => {
-        // for avoiding duplicate
-        const exists = prev.some((l) => l.roomId === liveSession.roomId);
-        if (exists) return prev;
-
-        return [
-          ...prev,
-          {
-            ...liveSession,
-            viewers: liveSession.viewers ?? 0,
-          },
-        ];
-      });
-    });
-
-    // viewers count
-    socket.on("admin:total-live-viewers", ({ roomId, viewers }) => {
-      setLives((prev) =>
-        prev.map((live) =>
-          live.roomId === roomId ? { ...live, viewers } : live
-        )
-      );
-    });
-
-    // live ended
-    socket.on("admin:live-ended", ({ roomId }) => {
-      setLives((prev) => prev.filter((live) => live.roomId !== roomId));
-    });
-
-    return () => {
-      socket.off("admin:new-live-created");
-      socket.off("admin:total-live-viewers");
-      socket.off("admin:live-ended");
-    };
-  }, []);
-
-  //handle filter
   const handleFilter = () => {
-    const filteredUsers = streamList?.filter((stream) => {
-      return (
-        stream?.host?.name.toLowerCase().includes(text.toLowerCase()) ||
-        stream?.host?.displayId.toString().includes(text)
+    if (text === "") {
+      setLives(streamList);
+    } else {
+      const filtered = streamList.filter(
+        (stream) =>
+          stream?.host?.name.toLowerCase().includes(text.toLowerCase()) ||
+          stream?.host?.displayId.toString().includes(text)
       );
-    });
-    setStreamList(filteredUsers);
+      setLives(filtered);
+    }
   };
 
-  //getting streams when text empty
+  // Optional: live search when typing
   useEffect(() => {
     if (text === "") {
-      setStreamList(streamsData?.liveStreams);
+      setLives(streamList);
     }
-  }, [text, streamsData?.liveStreams]);
+  }, [text, streamList, setLives]);
 
   return (
     <>
@@ -151,7 +113,7 @@ export default function LiveStreamTable({ streamsData, loading, setPage }) {
                       </td>
                       <td className="p-3">
                         <span
-                          className={`px-4 py-1 text-sm bg-linear-to-r from-[#2FB6FF] to-[#447FFF] rounded-full text-white opacity-70 flex gap-3 items-center w-21`}
+                          className={`px-4 py-1 text-sm bg-linear-to-r from-[#2FB6FF] to-[#447FFF] rounded-full text-white opacity-70 flex gap-3 items-center w-25`}
                         >
                           <Activity size={15} /> {stream.status || "N/A"}
                         </span>

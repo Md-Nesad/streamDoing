@@ -86,3 +86,32 @@ export function timeAgo(dateString) {
   if (hours < 24) return `${hours} hour ago`;
   return `${days} day ago`;
 }
+
+//total viewers + average duration
+export const totalViewersWithAvgDuration = (streams) => {
+  const totalViewers = streams.reduce((sum, stream) => sum + stream.viewers, 0);
+
+  // Total duration in milliseconds
+  const totalDurationMs = streams.reduce((sum, stream) => {
+    const start = new Date(stream.startTime);
+    const end = new Date(stream.endTime);
+    return sum + (end - start); // difference in milliseconds
+  }, 0);
+
+  // Average duration in milliseconds
+  const averageDurationMs = totalDurationMs / streams.length;
+
+  // Convert average duration to hh:mm:ss
+  const hours = Math.floor(averageDurationMs / (1000 * 60 * 60));
+  const minutes = Math.floor(
+    (averageDurationMs % (1000 * 60 * 60)) / (1000 * 60)
+  );
+  const seconds = Math.floor((averageDurationMs % (1000 * 60)) / 1000);
+
+  return {
+    totalViewers,
+    avgDuration: `${hours > 0 ? hours : 0}h ${minutes > 0 ? minutes : 0}m ${
+      seconds > 0 ? seconds : 0
+    }s`,
+  };
+};
