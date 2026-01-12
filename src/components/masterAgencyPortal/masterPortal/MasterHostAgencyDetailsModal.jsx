@@ -7,7 +7,6 @@ export default function MasterHostAgencyDetailsModal({
   agency,
 }) {
   if (!open) return null;
-  console.log(agency);
 
   const countryName = countries.find(
     (country) => country._id === agency.country

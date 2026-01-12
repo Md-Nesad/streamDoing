@@ -35,13 +35,19 @@ export default function MasterAgencisOverview({ data }) {
                         COIN-{agency.displayId}
                       </td>
                       <td className="p-3">{agency.name || "N/A"}</td>
-                      <td className="p-3">{formatNumber(agency.balance)}</td>
+                      <td className="p-3">{formatNumber(agency.coins)}</td>
                       <td className="p-3">
-                        {formatNumber(agency.totalSales) || "N/A"}
+                        {formatNumber(agency.totalCoinsSold)}
                       </td>
                       <td className="p-3">{formatNumber(agency.revenue)}</td>
                       <td className="p-3">
-                        <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
+                        <span
+                          className={`px-4 py-1 text-xs text-center block w-23 ${
+                            agency.status === "active"
+                              ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                              : "bg-[#FF929296] text-[#D21B20]"
+                          } text-[#005D23] rounded-full font-semibold`}
+                        >
                           {agency.status}
                         </span>
                       </td>

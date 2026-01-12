@@ -22,7 +22,6 @@ export default function MasterTransactionHistory() {
   } = useFetch(
     `${BASE_URL}/agency/master/transaction-history?page=1&limit=20&search=Coin`
   );
-  console.log(transactionHistory);
 
   const stats = [
     {

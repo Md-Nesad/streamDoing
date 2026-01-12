@@ -13,6 +13,14 @@ export default function CoinTranactionHistory() {
     error,
   } = useFetch(`${BASE_URL}/agency/coin/dashboard/stats`);
 
+  const {
+    data: transactionHistory,
+    loading: transactionHistoryLoading,
+    error: transactionHistoryError,
+  } = useFetch(
+    `${BASE_URL}/agency/coin/dashboard/buy-sale-transactions?page=1&limit=10&search=&type=`
+  );
+
   const stat = [
     {
       title: "Total Sell",
@@ -44,12 +52,12 @@ export default function CoinTranactionHistory() {
     },
   ];
 
-  if (loading) return <Loading />;
-  if (error) return <Error error={error} />;
+  if (loading || transactionHistoryLoading) return <Loading />;
+  if (error || transactionHistoryError) return <Error error={error} />;
   return (
     <div>
       <StatsSection data={stat} />
-      <CoinTransactionList />
+      <CoinTransactionList data={transactionHistory} />
     </div>
   );
 }

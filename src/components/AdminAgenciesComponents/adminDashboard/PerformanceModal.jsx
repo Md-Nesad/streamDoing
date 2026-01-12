@@ -1,6 +1,5 @@
 export default function PerformanceModal({ open, onClose, performance }) {
   if (!open) return null;
-  console.log(performance);
   const { agency, data, countryName } = performance;
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
