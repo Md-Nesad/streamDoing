@@ -4,6 +4,8 @@ import Loading from "../Loading";
 import Pagination from "../Pagination";
 import { useStream } from "../../context/streamContext";
 import { useEffect, useState } from "react";
+import useFetch from "../../hooks/useFetch";
+import { BASE_URL, formatNumber } from "../../utility/utility";
 
 export default function MastersTable({ tableData, setPage, loading }) {
   const masterList = tableData?.agencies?.filter(
@@ -14,6 +16,13 @@ export default function MastersTable({ tableData, setPage, loading }) {
   const navigate = useNavigate();
   const { countriesName } = useStream();
   const [text, setText] = useState("");
+  const { data, loading: masterLoading } = useFetch(
+    `${BASE_URL}/admin/agencies/master-agencies?search=`
+  );
+  const coinlists = data?.data;
+  console.log("coinlists", coinlists);
+
+  //handle filter
   const handleFilter = () => {
     const filteredUsers = masterList?.filter((agency) => {
       return (
@@ -34,7 +43,7 @@ export default function MastersTable({ tableData, setPage, loading }) {
     }
   }, [text]);
 
-  if (loading) return <Loading />;
+  if (loading || masterLoading) return <Loading />;
   return (
     <>
       {/* search area */}
@@ -83,40 +92,50 @@ export default function MastersTable({ tableData, setPage, loading }) {
 
           <tbody>
             {masters?.length > 0 ? (
-              masters.map((master, index) => (
-                <tr
-                  key={index}
-                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-                >
-                  <td className="p-3 pl-5">{master.displayId}</td>
-                  <td className="p-3">{master.name}</td>
-                  <td className="p-3">{master.coinSales || "N/A"}</td>
-                  <td className="p-3">{master.coinBuy || "N/A"}</td>
-                  <td className="p-3">{master.revenue}</td>
-                  <td className="p-3">
-                    {master?.country?.name ||
-                      countriesName(master.country) ||
-                      "N/A"}
-                  </td>
-                  <td className="p-3">
-                    <span
-                      className={`px-4 py-1 text-xs ${
-                        master.status === "active"
-                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                          : "bg-[#FF929296] text-[#D21B20]"
-                      } text-[#005D23] rounded-full font-semibold`}
-                    >
-                      {master.status}
-                    </span>
-                  </td>
-                  <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                    View
-                    <span role="button">
-                      <Ellipsis size={17} />
-                    </span>
-                  </td>
-                </tr>
-              ))
+              masters.map((master, index) => {
+                const saleBye = coinlists?.find(
+                  (item) => item?._id === master._id
+                );
+                console.log(saleBye);
+                return (
+                  <tr
+                    key={index}
+                    className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                  >
+                    <td className="p-3 pl-5">{master.displayId}</td>
+                    <td className="p-3">{master.name}</td>
+                    <td className="p-3">
+                      {formatNumber(saleBye?.totalSaleCoins)}
+                    </td>
+                    <td className="p-3">
+                      {formatNumber(saleBye?.totalBuyCoins)}
+                    </td>
+                    <td className="p-3">{formatNumber(master.revenue)}</td>
+                    <td className="p-3">
+                      {master?.country?.name ||
+                        countriesName(master.country) ||
+                        "N/A"}
+                    </td>
+                    <td className="p-3">
+                      <span
+                        className={`px-4 py-1 text-xs ${
+                          master.status === "active"
+                            ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                            : "bg-[#FF929296] text-[#D21B20]"
+                        } text-[#005D23] rounded-full font-semibold`}
+                      >
+                        {master.status}
+                      </span>
+                    </td>
+                    <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                      View
+                      <span role="button">
+                        <Ellipsis size={17} />
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
                 <td colSpan={9} className="p-3 text-center">

@@ -4,6 +4,8 @@ import Loading from "../Loading";
 import Pagination from "../Pagination";
 import { useStream } from "../../context/streamContext";
 import { useEffect, useState } from "react";
+import useFetch from "../../hooks/useFetch";
+import { BASE_URL, formatNumber } from "../../utility/utility";
 
 export default function CoinsTable({ tableData, setPage, loading }) {
   const coinList = tableData?.agencies?.filter((item) => item.type === "coin");
@@ -11,6 +13,10 @@ export default function CoinsTable({ tableData, setPage, loading }) {
   const coinPagination = tableData?.pagination;
   const navigate = useNavigate();
   const { countriesName } = useStream();
+  const { data, loading: coinLoading } = useFetch(
+    `${BASE_URL}/admin/agencies/coin-agencies?search=`
+  );
+  const coinlists = data?.data;
 
   const [text, setText] = useState("");
 
@@ -34,7 +40,7 @@ export default function CoinsTable({ tableData, setPage, loading }) {
     }
   }, [text]);
 
-  if (loading) return <Loading />;
+  if (loading || coinLoading) return <Loading />;
   return (
     <>
       {/* search area */}
@@ -84,43 +90,52 @@ export default function CoinsTable({ tableData, setPage, loading }) {
 
           <tbody>
             {coins?.length > 0 ? (
-              coins?.map((coin, index) => (
-                <tr
-                  key={index}
-                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-                >
-                  <td className="p-3 font-medium pl-5">
-                    {coin?.parent ? "REF" + coin?.parent?.displayId : "N/A"}
-                  </td>
-                  <td className="p-3">{coin.displayId}</td>
-                  <td className="p-3">{coin.name}</td>
-                  <td className="p-3">{coin.coinSales || "N/A"}</td>
-                  <td className="p-3">{coin.coinBuy || "N/A"}</td>
-                  <td className="p-3">{coin.revenue}</td>
-                  <td className="p-3">
-                    {coin?.country?.name ||
-                      countriesName(coin.country) ||
-                      "N/A"}
-                  </td>
-                  <td className="p-3">
-                    <span
-                      className={`px-4 py-1 text-xs ${
-                        coin.status === "active"
-                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                          : "bg-[#FF929296] text-[#D21B20]"
-                      } text-[#005D23] rounded-full font-semibold`}
-                    >
-                      {coin.status}
-                    </span>
-                  </td>
-                  <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                    View
-                    <span role="button">
-                      <Ellipsis size={17} />
-                    </span>
-                  </td>
-                </tr>
-              ))
+              coins?.map((coin, index) => {
+                const saleBye = coinlists?.find(
+                  (item) => item?._id === coin._id
+                );
+                return (
+                  <tr
+                    key={index}
+                    className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                  >
+                    <td className="p-3 font-medium pl-5">
+                      {coin?.parent ? "REF" + coin?.parent?.displayId : "N/A"}
+                    </td>
+                    <td className="p-3">{coin.displayId}</td>
+                    <td className="p-3">{coin.name}</td>
+                    <td className="p-3">
+                      {formatNumber(saleBye?.totalSaleCoins)}
+                    </td>
+                    <td className="p-3">
+                      {formatNumber(saleBye?.totalBuyCoins)}
+                    </td>
+                    <td className="p-3">{coin.revenue}</td>
+                    <td className="p-3">
+                      {coin?.country?.name ||
+                        countriesName(coin.country) ||
+                        "N/A"}
+                    </td>
+                    <td className="p-3">
+                      <span
+                        className={`px-4 py-1 text-xs ${
+                          coin.status === "active"
+                            ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                            : "bg-[#FF929296] text-[#D21B20]"
+                        } text-[#005D23] rounded-full font-semibold`}
+                      >
+                        {coin.status}
+                      </span>
+                    </td>
+                    <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                      View
+                      <span role="button">
+                        <Ellipsis size={17} />
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
                 <td colSpan={9} className="p-3 text-center">

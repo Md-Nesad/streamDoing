@@ -12,6 +12,7 @@ export default function RateTransactionTable() {
   const { data, loading, error } = useFetch(
     `${BASE_URL}/coins/rates/transactions?page=${page}&limit=20`
   );
+
   const transactions = data?.transactions;
   const pagination = data?.pagination;
   const { agencies } = useStream();
@@ -41,6 +42,7 @@ export default function RateTransactionTable() {
                 const findAgency = agencies?.agencies?.find(
                   (agency) => agency._id === item?.to?._id
                 );
+
                 return (
                   <tr
                     key={index}

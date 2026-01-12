@@ -47,11 +47,22 @@ export default function LiveStreams() {
     fetchLiveStreams();
   }, []);
 
+  // Fetch live streams every 1 min if live exits
+  useEffect(() => {
+    if (!lives || lives.length === 0) return;
+
+    const intervalId = setInterval(() => {
+      fetchLiveStreams();
+    }, 60000);
+
+    return () => clearInterval(intervalId);
+  }, [lives]);
+
   // Socket listeners
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Connected to socket");
-    });
+    // socket.on("connect", () => {
+    //   console.log("Connected to socket");
+    // });
     // New live created
     socket.on("admin:new-live-created", (data) => {
       console.log("create event", data);

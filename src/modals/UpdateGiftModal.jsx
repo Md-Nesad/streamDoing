@@ -136,7 +136,7 @@ export default function UpdateGiftModal({ open, onClose, gift }) {
                 {...register("giftSubCategory")}
                 className="border border-[#626060] py-2"
               >
-                <option value="">Select Category First</option>
+                <option value="">Search Sub-Category</option>
                 {subCategories?.data?.subcategories?.map((category) => (
                   <option value={category._id} key={category._id}>
                     {category.name}

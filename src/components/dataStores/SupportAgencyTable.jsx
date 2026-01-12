@@ -21,7 +21,6 @@ export default function SupportAgencyTable() {
   const deleteUser = useDelete(`${BASE_URL}/admin/support-agencies`);
   const [supportAgencies, setSupportAgencies] = useState(data?.supportAgencies);
   const pagination = data?.pagination;
-  console.log(supportAgencies);
 
   //handle filter
   const handleFilter = () => {
@@ -42,6 +41,7 @@ export default function SupportAgencyTable() {
       );
       if (!confirmDelete) return;
       const result = await deleteUser(id);
+      console.log(result);
       if (!result) {
         alert("Failed to delete support agency");
       } else {

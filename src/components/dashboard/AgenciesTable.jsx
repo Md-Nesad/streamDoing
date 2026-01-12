@@ -3,12 +3,10 @@ import star from "../../assests/star.png";
 import Pagination from "../Pagination";
 import Loading from "../Loading";
 import { formatNumber } from "../../utility/utility";
-import { useStream } from "../../context/streamContext";
 
 export default function AgenciesTable({ agenciesData, setPage, loading }) {
   const agenciesList = agenciesData?.agencies;
   const agenciesPagination = agenciesData?.pagination;
-  const { countriesName } = useStream();
 
   // if (loading) return <Loading />;
 
@@ -60,6 +58,7 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                       // const country = countries?.find(
                       //   (country) => country._id === agency.country
                       // )?.name;
+                      console.log(agency);
                       return (
                         <tr
                           key={index}
@@ -68,7 +67,7 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                           <td className="p-3 font-medium pl-5">
                             {agency.displayId || "N/A"}
                           </td>
-                          <td className="p-3">{agency.name || "N/A"}</td>
+                          <td className="p-3">{agency.name}</td>
                           <td className="p-3">
                             <span className="px-3 py-1 text-xs block w-15 text-center bg-[#B31d84] text-white rounded-full font-semibold">
                               {agency.type.charAt(0).toUpperCase() +
@@ -86,13 +85,13 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                           </td>
                           <td className="p-3">{formatNumber(agency.coins)}</td>
                           <td className="xl:p-3 px-7">
-                            {formatNumber(agency.revenue)}
+                            {formatNumber(agency.totalSaleCoins)}
                           </td>
                           <td className="xl:p-3 px-7">
-                            {formatNumber(agency.balance)}
+                            {formatNumber(agency.totalBuyCoins)}
                           </td>
                           <td className="p-3">
-                            {countriesName(agency.country) || "N/A"}
+                            {agency?.country?.name || "N/A"}
                           </td>
                           <td className="p-3">
                             <span

@@ -9,6 +9,7 @@ export default function CoinSenderTable({ tableData, setPage }) {
   const [coinsSend, setCoinsSend] = useState(tableData?.transactions);
   const pagination = tableData?.pagination;
   const navigate = useNavigate();
+  console.log(coinsSend);
 
   //handle filter
   const handleFilter = () => {
@@ -84,7 +85,11 @@ export default function CoinSenderTable({ tableData, setPage }) {
                     {coin.transactionId.slice(0, 10)}
                   </td>
                   <td className="p-3">{coin.fromType}</td>
-                  <td className="p-3">{coin?.from?.displayId || "N/A"}</td>
+                  <td className="p-3">
+                    {coin?.from?.displayId === "N/A"
+                      ? "Admin"
+                      : coin?.from?.displayId || "N/A"}
+                  </td>
                   <td title={coin?.to?.id} className="p-3">
                     {coin?.to?.displayId || "N/A"}
                   </td>

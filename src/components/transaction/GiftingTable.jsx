@@ -86,7 +86,7 @@ export default function GiftingTable() {
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
-                  <td className="p-3">{gift?.displayId || "N/A"} </td>
+                  <td className="p-3">GFT-{gift?.gift.giftID} </td>
                   <td className="p-3">
                     <img
                       src={gift?.gift.image}
