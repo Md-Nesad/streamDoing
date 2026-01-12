@@ -1,6 +1,6 @@
 import { Funnel, Pen, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import EditSupportModal from "../../modals/dataSroreModals/EditSupportModal";
+// import EditSupportModal from "../../modals/dataSroreModals/EditSupportModal";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
@@ -14,7 +14,6 @@ export default function SupportAgencyTable() {
   const navigate = useNavigate();
   const [text, setText] = useState("");
   const [page, setPage] = useState(1);
-  const [isOpen, setIsOpen] = useState(false);
   const { countriesName } = useStream();
   const { data, loading, error } = useFetch(
     `${BASE_URL}/admin/support-agencies?page=${page}&limit=20`
@@ -22,6 +21,7 @@ export default function SupportAgencyTable() {
   const deleteUser = useDelete(`${BASE_URL}/admin/support-agencies`);
   const [supportAgencies, setSupportAgencies] = useState(data?.supportAgencies);
   const pagination = data?.pagination;
+  console.log(supportAgencies);
 
   //handle filter
   const handleFilter = () => {
@@ -85,7 +85,7 @@ export default function SupportAgencyTable() {
             <Funnel size={18} /> Filter
           </button>
           <button
-            onClick={() => navigate("/dashboard/add-support-agency")}
+            onClick={() => navigate("/dashboard/support/add-support-agency")}
             className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
           >
             Add Agency
@@ -128,18 +128,30 @@ export default function SupportAgencyTable() {
                   </td>
                   <td className="p-3">
                     <span
-                      className={`px-4 py-1 text-xs ${
-                        support.ban.isPermanent === false
+                      className={`px-3 py-1 text-xs block w-20 text-center ${
+                        support.ban.isPermanent === false &&
+                        support.ban.isTemporary === false
                           ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                           : "bg-[#FF929296] text-[#D21B20]"
                       } text-[#005D23] rounded-full font-semibold`}
                     >
-                      {support.ban.isPermanent === false ? "Active" : "Banned"}
+                      {support.ban.isPermanent
+                        ? "Perm. Ban"
+                        : support.ban.isTemporary
+                        ? "Temp. Ban"
+                        : "Active"}
                     </span>
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                     <span className="flex items-center gap-3">
-                      <button onClick={() => setIsOpen(true)} title="Edit">
+                      <button
+                        title="Edit"
+                        onClick={() =>
+                          navigate(
+                            `/dashboard/support/update-support-agency/${support._id}`
+                          )
+                        }
+                      >
                         <Pen size={19} />
                       </button>
 
@@ -168,10 +180,6 @@ export default function SupportAgencyTable() {
           total={pagination?.total}
           onPageChange={setPage}
         />
-
-        {isOpen && (
-          <EditSupportModal open={isOpen} onClose={() => setIsOpen(false)} />
-        )}
       </div>
     </>
   );

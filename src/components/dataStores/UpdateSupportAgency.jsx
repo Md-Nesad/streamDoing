@@ -1,30 +1,32 @@
 import { ChevronDown } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import useFormDataPost from "../../hooks/useFormDataPost";
+import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../../utility/utility";
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { supportAgencySchema } from "../../utility/validator";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useStream } from "../../context/streamContext";
 import TitleAndSubTitle from "../TitleAndSubTitle";
+import useFetch from "../../hooks/useFetch";
+import usePutApi from "../../hooks/usePutAPI";
+import Loading from "../Loading";
 
-export default function AddSupportAgency() {
-  const [loading, setLoading] = useState(false);
+export default function UpdateSupportAgency() {
+  const { supportId } = useParams();
+  const [isTempOn, setIsTempOn] = useState(false);
+  const [isPerOn, setIsPerOn] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
+  const [reason, setReason] = useState("");
+  const [until, setUntil] = useState("");
   const navigate = useNavigate();
-  const handleFormData = useFormDataPost(`${BASE_URL}/admin/support-agencies`);
+  const { data, loading } = useFetch(
+    `${BASE_URL}/admin/support-agencies/${supportId}`
+  );
+  const handleFormData = usePutApi(
+    `${BASE_URL}/admin/support-agencies/${supportId}`
+  );
   const { countries } = useStream();
 
   //validated form using react hook form
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    watch,
-  } = useForm({
-    resolver: zodResolver(supportAgencySchema),
-  });
+  const { register, handleSubmit, reset, watch } = useForm();
 
   // form submission handler
   const handleSave = async (data) => {
@@ -37,6 +39,10 @@ export default function AddSupportAgency() {
     formData.append("password", data.supportPassword);
     formData.append("location", data.supportLocation);
     formData.append("nid", data.supportNID);
+    formData.append("ban[isPermanent]", isPerOn);
+    formData.append("ban[isTemporary]", isTempOn);
+    formData.append("ban[reason]", reason);
+    formData.append("ban[until]", until);
 
     if (data.supportProfilePic) {
       formData.append("profilePic", data.supportProfilePic?.[0]);
@@ -48,7 +54,7 @@ export default function AddSupportAgency() {
       formData.append("nidBack", data.supportDocumentBack?.[0]);
     }
 
-    setLoading(true);
+    setIsLoading(true);
     const result = await handleFormData(formData);
     console.log(result);
 
@@ -57,16 +63,31 @@ export default function AddSupportAgency() {
     } else {
       alert(result.message);
     }
-    setLoading(false);
+    setIsLoading(false);
 
-    reset();
+    // reset();
   };
+
+  useEffect(() => {
+    if (data) {
+      reset({
+        supportName: data?.supportAgency.name,
+        supportEmail: data?.supportAgency.email,
+        supportPhone: data?.supportAgency.phone,
+        supportGender: data?.supportAgency.gender,
+        supportLocation: data?.supportAgency.location,
+        supportNID: data?.supportAgency.nid,
+      });
+    }
+  }, [data, reset]);
+
+  if (loading) return <Loading />;
 
   return (
     <>
       <TitleAndSubTitle
-        title="Add Support Agency"
-        subtitle="Manage Support Agency details and information"
+        title="Update Support Agency"
+        subtitle="Update Support Agency details and information"
       />
 
       <div className="w-full flex justify-center shadow-[0_2px_10px_rgba(0,0,0,0.06)] mb-10">
@@ -84,11 +105,6 @@ export default function AddSupportAgency() {
                 placeholder="StreamDoing Agency"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
               />
-              {errors.supportName && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.supportName.message}
-                </p>
-              )}
             </div>
 
             {/* Email */}
@@ -100,11 +116,6 @@ export default function AddSupportAgency() {
                 placeholder="jon.doe@example.com"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
               />
-              {errors.supportEmail && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.supportEmail.message}
-                </p>
-              )}
             </div>
 
             {/* phone */}
@@ -116,11 +127,6 @@ export default function AddSupportAgency() {
                 placeholder="+1 (737)-123-3265"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
               />
-              {errors.supportPhone && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.supportPhone.message}
-                </p>
-              )}
             </div>
 
             {/* Gender */}
@@ -135,11 +141,6 @@ export default function AddSupportAgency() {
 
                 <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
               </div>
-              {errors.supportGender && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.supportGender.message}
-                </p>
-              )}
             </div>
             {/* password */}
             <div>
@@ -151,11 +152,6 @@ export default function AddSupportAgency() {
                   placeholder="Enter password"
                   className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
                 />
-                {errors.supportPassword && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.supportPassword.message}
-                  </p>
-                )}
               </div>
             </div>
 
@@ -177,11 +173,6 @@ export default function AddSupportAgency() {
 
                 <ChevronDown className="absolute right-3 top-3 text-gray-400 pointer-events-none" />
               </div>
-              {errors.supportLocation && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.supportLocation.message}
-                </p>
-              )}
             </div>
 
             {/* NID Number */}
@@ -193,11 +184,6 @@ export default function AddSupportAgency() {
                 placeholder="NID12345678"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
               />
-              {errors.supportNID && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.supportNID.message}
-                </p>
-              )}
             </div>
 
             {/* NID Front */}
@@ -221,11 +207,6 @@ export default function AddSupportAgency() {
                   </span>
                 </div>
               </div>
-              {errors.supportDocumentFront && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.supportDocumentFront.message}
-                </p>
-              )}
             </div>
 
             {/* NID Back */}
@@ -249,11 +230,46 @@ export default function AddSupportAgency() {
                   </span>
                 </div>
               </div>
-              {errors.supportDocumentBack && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.supportDocumentBack.message}
-                </p>
-              )}
+            </div>
+
+            <div className="mt-5 flex flex-wrap items-center justify-between max-sm:justify-center gap-4 w-full">
+              <div className="flex items-center gap-8 border border-gray-300 rounded-md px-3 py-2 w-[48%]">
+                <span className="text-sm">Temporary Ban</span>
+                <div
+                  onClick={() => {
+                    setIsTempOn(!isTempOn);
+                    setIsPerOn(false);
+                  }}
+                  className={`w-10 h-3 rounded-full cursor-pointer flex items-center transition-all duration-300 ${
+                    isTempOn ? "bg-pink-400" : "bg-pink-200"
+                  }`}
+                >
+                  <div
+                    className={`w-5 h-5 rounded-full shadow-xl transition-all duration-300 bg-linear-to-br from-pink-600 to-pink-400 relative ${
+                      isTempOn ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  ></div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-8 border border-gray-300 rounded-md px-3 py-2 w-[48%]">
+                <span className="text-sm">Permanent Ban</span>
+                <div
+                  onClick={() => {
+                    setIsPerOn(!isPerOn);
+                    setIsTempOn(false);
+                  }}
+                  className={`w-10 h-3 rounded-full cursor-pointer flex items-center transition-all duration-300 ${
+                    isPerOn ? "bg-pink-400" : "bg-pink-200"
+                  }`}
+                >
+                  <div
+                    className={`w-5 h-5 rounded-full shadow-xl transition-all duration-300 bg-linear-to-br from-pink-600 to-pink-400 relative ${
+                      isPerOn ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  ></div>
+                </div>
+              </div>
             </div>
 
             {/* Profile Pic */}
@@ -276,12 +292,87 @@ export default function AddSupportAgency() {
                   </span>
                 </div>
               </div>
-              {errors.supportProfilePic && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.supportProfilePic.message}
-                </p>
-              )}
             </div>
+            {/* ban logic here */}
+            {/* <div className="mt-5 flex flex-wrap items-center justify-between max-sm:justify-center gap-4 w-full">
+              <div className="flex items-center gap-8 border border-gray-300 rounded-md px-3 py-2 w-[48%]">
+                <span className="text-sm">Temporary Ban</span>
+                <div
+                  onClick={() => {
+                    setIsTempOn(!isTempOn);
+                    setIsPerOn(false);
+                  }}
+                  className={`w-10 h-3 rounded-full cursor-pointer flex items-center transition-all duration-300 ${
+                    isTempOn ? "bg-pink-400" : "bg-pink-200"
+                  }`}
+                >
+                  <div
+                    className={`w-5 h-5 rounded-full shadow-xl transition-all duration-300 bg-linear-to-br from-pink-600 to-pink-400 relative ${
+                      isTempOn ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  ></div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-8 border border-gray-300 rounded-md px-3 py-2 w-[48%]">
+                <span className="text-sm">Permanent Ban</span>
+                <div
+                  onClick={() => {
+                    setIsPerOn(!isPerOn);
+                    setIsTempOn(false);
+                  }}
+                  className={`w-10 h-3 rounded-full cursor-pointer flex items-center transition-all duration-300 ${
+                    isPerOn ? "bg-pink-400" : "bg-pink-200"
+                  }`}
+                >
+                  <div
+                    className={`w-5 h-5 rounded-full shadow-xl transition-all duration-300 bg-linear-to-br from-pink-600 to-pink-400 relative ${
+                      isPerOn ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  ></div>
+                </div>
+              </div>
+            </div> */}
+
+            {isTempOn && (
+              <>
+                <div>
+                  <label>Ban Reason</label>
+                  <input
+                    type="text"
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    placeholder="Enter reason (optional)"
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm mt-1"
+                  />
+                </div>
+
+                <div>
+                  <label>Until</label>
+                  <input
+                    type="date"
+                    value={until}
+                    onChange={(e) => setUntil(e.target.value)}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
+                  />
+                </div>
+              </>
+            )}
+
+            {isPerOn && (
+              <>
+                <div>
+                  <label>Reason</label>
+                  <input
+                    type="text"
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    placeholder="Enter reason (optional)"
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm mt-1"
+                  />
+                </div>
+              </>
+            )}
           </form>
 
           {/* Buttons */}
@@ -300,7 +391,7 @@ export default function AddSupportAgency() {
               className="px-10 py-1 rounded-md text-white text-sm font-medium 
             bg-linear-to-r from-[#6DA5FF] to-[#F576D6]"
             >
-              {loading ? "Submiting..." : "Submit"}
+              {isloading ? "Updating..." : "Update"}
             </button>
           </div>
         </div>

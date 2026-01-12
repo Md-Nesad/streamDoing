@@ -26,7 +26,7 @@ export default function SupportDashboard() {
 
   if (statLoading || ticketsLoading) return <Loading />;
 
-  if (statError || ticketsError) return <Error error={error} />;
+  if (statError || ticketsError) return <Error error={statError} />;
 
   const stats = [
     {

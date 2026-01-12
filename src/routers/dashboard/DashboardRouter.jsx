@@ -36,6 +36,7 @@ import AdminLogin from "../../Pages/Login";
 import NotFound from "../../Pages/NotFound";
 import AddSupportAgency from "../../components/dataStores/AddSupportAgency";
 import UpdateAgenciesDetails from "../../Pages/agencies/UpdateAgenciesDetails";
+import UpdateSupportAgency from "../../components/dataStores/UpdateSupportAgency";
 
 export default function DashboardRouter() {
   return (
@@ -101,7 +102,14 @@ export default function DashboardRouter() {
             <Route path="admin-agency" element={<AdminAgency />} />
             <Route path="coin-agency" element={<CoinAgency />} />
             <Route path="support" element={<SupportAgency />} />
-            <Route path="add-support-agency" element={<AddSupportAgency />} />
+            <Route
+              path="support/add-support-agency"
+              element={<AddSupportAgency />}
+            />
+            <Route
+              path="support/update-support-agency/:supportId"
+              element={<UpdateSupportAgency />}
+            />
             <Route path="delete-ban" element={<DeleteBan />} />
           </Route>
           <Route path="*" element={<NotFound />} />
