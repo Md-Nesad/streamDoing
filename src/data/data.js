@@ -60,12 +60,12 @@ export const menuItems = [
   { title: "KYC Centre", icon: IdCard, link: "/dashboard/kyc-centre" },
   { title: "Salary Target", icon: Target, link: "/dashboard/salary-target" },
   { title: "Gifts & Assets", icon: Gift, link: "/dashboard/gifts-assets" },
-  {
-    title: "Notification Center",
-    icon: Bell,
-    link: "/dashboard/notification-center",
-  },
-  { title: "Inbox Assets", icon: MessageCircleMore, link: "/dashboard/inbox" },
+  // {
+  //   title: "Notification Center",
+  //   icon: Bell,
+  //   link: "/dashboard/notification-center",
+  // },
+  // { title: "Inbox Assets", icon: MessageCircleMore, link: "/dashboard/inbox" },
   { title: "Support Agency", icon: Gift, link: "/dashboard/support" },
   // data store links
   { title: "Host", icon: ShieldCheck, link: "/dashboard/host-management" },
