@@ -1,10 +1,31 @@
 import { CircleCheckBig, CircleX, Ellipsis, Eye, Funnel } from "lucide-react";
-import { kycTable } from "../data/data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserDetailsModal from "../modals/KycUserDetailsModal";
+import Pagination from "./Pagination";
+import { formatOnlyTime } from "../utility/utility";
 
-export default function KycCenterTable() {
+export default function KycCenterTable({ data, setPage }) {
   const [open, setOpen] = useState(false);
+  const [text, setText] = useState("");
+  const [kycTable, setKycTable] = useState(data?.agencies);
+  const pagination = data?.pagination;
+
+  const handleFilter = () => {
+    const filteredUsers = kycTable?.filter((kuc) => {
+      return (
+        kuc.name.toLowerCase().includes(text.toLowerCase()) ||
+        kuc.displayId.toString().includes(text)
+      );
+    });
+    setKycTable(filteredUsers);
+  };
+
+  useEffect(() => {
+    if (text === "") {
+      setKycTable(data?.agencies);
+    }
+  }, [text, data]);
+
   return (
     <>
       {/* table area */}
@@ -12,11 +33,16 @@ export default function KycCenterTable() {
         <div className="mb-4 px-2 flex gap-10">
           <input
             type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
             className="border border-[#BBBBBB] outline-[#BBBBBB] w-full px-4 py-1.5 rounded-md"
-            placeholder="Search withdrawals"
+            placeholder="Search by agency name or ID"
           />
 
-          <button className="sm:px-5 px-2 py-2 bg-[#FFFFFF] rounded-md font-medium border border-[#CCCCCC] flex items-center gap-2 text-sm sm:text-md">
+          <button
+            onClick={handleFilter}
+            className="sm:px-5 px-2 py-2 bg-[#FFFFFF] rounded-md font-medium border border-[#CCCCCC] flex items-center gap-2 text-sm sm:text-md"
+          >
             <Funnel size={18} /> Filter
           </button>
         </div>
@@ -36,46 +62,62 @@ export default function KycCenterTable() {
           </thead>
 
           <tbody>
-            {kycTable.map((kyc, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 pl-6">{kyc.userId}</td>
-                <td className="p-3 font-medium">{kyc.userName}</td>
-                <td className="p-3">{kyc.agencyId}</td>
-                <td className="p-3">{kyc.agencyName}</td>
-                <td className="p-3">{kyc.categories}</td>
-                <td className="p-3">{kyc.approveIn}</td>
-                <td className="p-3">
-                  <span
-                    className={` py-1 rounded-full ${
-                      kyc.status === "Pending"
-                        ? "bg-[#95C3FF] text-[#1F80FF] px-4"
-                        : kyc.status === "Approved"
-                        ? "bg-[#79D49B] text-[#005D23] px-3"
-                        : "bg-[#FF929296] text-[#D21B20] px-2"
-                    }`}
-                  >
-                    {kyc.status}
-                  </span>
-                </td>
-                <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
-                  <span className="flex items-center gap-4">
-                    <button onClick={() => setOpen(true)}>
+            {kycTable?.length > 0 ? (
+              kycTable?.map((kyc, index) => (
+                <tr
+                  key={index}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 pl-6">
+                    {kyc?.parent ? `AGT-${kyc?.parent?.displayId}` : "N/A"}
+                  </td>
+                  <td className="p-3 font-medium">
+                    {kyc?.parent?.name || "N/A"}
+                  </td>
+                  <td className="p-3">{kyc.displayId}</td>
+                  <td className="p-3">{kyc.name}</td>
+                  <td className="p-3">{kyc.type} agency</td>
+                  <td className="p-3">{formatOnlyTime(kyc.createdAt)}</td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-xs text-center block w-23 ${
+                        kyc.status === "active"
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-[#FF929296] text-[#D21B20]"
+                      } text-[#005D23] rounded-full font-semibold`}
+                    >
+                      {kyc.status}
+                    </span>
+                  </td>
+                  <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
+                    <span className="flex items-center gap-4">
+                      {/* <button onClick={() => setOpen(true)}>
                       <CircleCheckBig size={17} className="text-[#11B324]" />
                     </button>
-                    <CircleX size={18} className="text-[#FF0037]" />
-                    <Ellipsis size={17} />
-                  </span>
+                    <CircleX size={18} className="text-[#FF0037]" /> */}
+                      <Ellipsis size={17} />
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
+                <td colSpan={9} className="p-3 text-center">
+                  No data found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
         {open && (
           <UserDetailsModal open={open} onClose={() => setOpen(false)} />
         )}
+        <Pagination
+          page={pagination?.page}
+          limit={pagination?.limit}
+          total={pagination?.total}
+          onPageChange={setPage}
+        />
       </div>
     </>
   );

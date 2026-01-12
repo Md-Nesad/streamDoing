@@ -1,10 +1,10 @@
 import { Funnel } from "lucide-react";
-import { useState } from "react";
-import UserDetailsModal from "../../modals/UserDetailsModal";
+import { useStream } from "../../context/streamContext";
+import { formatNumber } from "../../utility/utility";
 
-export default function AnalyticsHostTable({ data }) {
-  const topHosts = data?.data?.data;
-  const [open, setIsOpen] = useState(false);
+export default function TopPerformanceAgency({ data, setPage }) {
+  const topAgencies = data?.data?.agencies;
+  const { countriesName } = useStream();
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-4 mt-5">
@@ -12,7 +12,7 @@ export default function AnalyticsHostTable({ data }) {
         <input
           type="text"
           className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
-          placeholder="Search by host ID or name"
+          placeholder="Search by agency ID or name"
         />
 
         {/* Buttons */}
@@ -28,11 +28,11 @@ export default function AnalyticsHostTable({ data }) {
 
       {/* table area */}
       <div className="bg-white p-3 sm:p-6 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)] border border-gray-200">
-        <h2 className="text-xl font-semibold mb-5">Top Performing Hosts</h2>
+        <h2 className="text-xl font-semibold mb-5">Top Performing Agency</h2>
 
         <div className="space-y-4">
-          {topHosts?.length > 0 ? (
-            topHosts?.map((host, index) => (
+          {topAgencies?.length > 0 ? (
+            topAgencies?.map((agency, index) => (
               <div
                 key={index}
                 className="flex flex-col max-sm:gap-5 sm:flex-row sm:items-center sm:justify-between bg-[#F1F3F6] rounded-xl px-3 sm:px-5 py-4 border border-gray-200"
@@ -40,35 +40,26 @@ export default function AnalyticsHostTable({ data }) {
                 {/* Left: Image + Info */}
                 <div className="flex items-center gap-4">
                   <img
-                    src={host.img}
-                    alt={host.name}
+                    src={agency.profilePic}
+                    alt={agency.name}
                     className="w-14 h-14 rounded-full object-cover border"
                     loading="lazy"
                   />
-                  <div
-                    role="button"
-                    onClick={() => setIsOpen(true)}
-                    className="cursor-pointer"
-                  >
-                    <h3 className="font-semibold text-gray-800">{host.name}</h3>
-                    <p className="text-sm text-gray-600">ID : {host.id}</p>
-                    <p className="text-sm text-gray-500">{host.agency}</p>
+                  <div>
+                    <h3 className="font-semibold text-gray-800">
+                      {agency.name}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      ID : {agency.displayId}
+                    </p>
                   </div>
                 </div>
 
                 {/* Right: Stats */}
-                <div className="flex items-start gap-3 sm:gap-10 font-medium text-[#181717]">
-                  <div
-                    className={`text-white text-xs px-3 py-1 sm:mt-1 rounded-full ${host.badge.color}`}
-                  >
-                    {host.badge.level}
-                  </div>
-
-                  <div
-                    className={`${host.country === "Pakistan" ? "pl-4" : ""}`}
-                  >
-                    <p className="text-xs sm:text-sm text-gray-600 mt-1 text-start">
-                      {host.country}
+                <div className="flex gap-3 sm:gap-10 font-medium text-[#181717]">
+                  <div>
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1 text-left">
+                      {countriesName(agency.country)}
                     </p>
                   </div>
 
@@ -77,26 +68,23 @@ export default function AnalyticsHostTable({ data }) {
                       Streaming
                     </p>
                     <p className="text-blue-600 max-sm:text-xs max-sm:text-left font-semibold">
-                      {host.hours}
+                      {agency.hours || "N/A"}
                     </p>
                   </div>
 
                   <div className="text-right mt-1">
                     <p className="text-xs sm:text-sm text-gray-500">Diamonds</p>
                     <p className="text-pink-600 max-sm:text-xs max-sm:text-left font-semibold">
-                      {host.diamonds}
+                      {formatNumber(agency.diamonds)}
                     </p>
                   </div>
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-center text-gray-600">No hosts found</p>
+            <p className="text-center text-gray-600">No agency found</p>
           )}
         </div>
-        {open && (
-          <UserDetailsModal open={open} onClose={() => setIsOpen(false)} />
-        )}
       </div>
     </>
   );

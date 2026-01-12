@@ -8,14 +8,24 @@ import { BASE_URL, formatNumber } from "../utility/utility";
 import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import TopPerformanceAgency from "../components/analytics/TopPerformanceAgency";
+import { useState } from "react";
 
 export default function Analytics() {
+  const [page, setPage] = useState(1);
   //analytics stats
   const analyticsStats = useFetch(
     `${BASE_URL}/admin/analytics/stats?timeRange=custom&startDate=2025-10-10&endDate=2025-12-30`
   );
   //top hosts
   const topHosts = useFetch(`${BASE_URL}/admin/analytics/top-performing-hosts`);
+
+  //top performing agency
+  const topPerformanceAgency = useFetch(
+    `${BASE_URL}/admin/analytics/top-agencies?limit=10&page=${page}`
+  );
+
   //coin sales overview
   const coinSalesOverview = useFetch(
     `${BASE_URL}/admin/analytics/coin-sales-overview`
@@ -69,13 +79,40 @@ export default function Analytics() {
     <div>
       {/* <DayMonth /> */}
       <StatsSection data={stats} />
-      <AnalyticsHostTable data={topHosts} />
+
+      {/* top performance host and agency tab */}
+      <Tabs className="mt-5">
+        <TabList className="flex items-center gap-4 bg-[#F4F4F4] w-full sm:w-fit overflow-x-auto px-2 py-1 rounded mb-5 text-nowrap hide_scrollbar">
+          <Tab
+            className="font-sans cursor-pointer"
+            selectedClassName="active-tab"
+          >
+            Hosts
+          </Tab>
+          <Tab
+            className="font-sans cursor-pointer"
+            selectedClassName="active-tab"
+          >
+            Agency
+          </Tab>
+        </TabList>
+
+        <TabPanel>
+          <AnalyticsHostTable data={topHosts} />
+        </TabPanel>
+
+        <TabPanel>
+          <TopPerformanceAgency data={topPerformanceAgency} setPage={setPage} />
+        </TabPanel>
+      </Tabs>
+
       <section className="bg-[#FFFFFF] shadow-[0_2px_10px_rgba(0,0,0,0.06)] pb-10 pt-1 mt-5 pl-3 sm:pl-5 sm:pr-7 pr-3 rounded-md">
         <h3 className="mt-5 mb-6 font-semibold text-[#181717] text-xl">
           Coin Sales Overview
         </h3>
         <CoinSalesOverview data={coinSalesOverview} />
       </section>
+
       <MetricsCard data={usersMetrics} />
     </div>
   );
