@@ -20,7 +20,7 @@ export default function MasterAgenciesTabs() {
   const { data, loading, error } = useFetch(
     `${BASE_URL}/agency/master/agencies?page=1&limit=50&search=&status=`
   );
-  console.log(data);
+
   const agencies = [
     {
       title: "Balance",

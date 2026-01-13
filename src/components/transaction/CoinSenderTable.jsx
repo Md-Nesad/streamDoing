@@ -9,7 +9,6 @@ export default function CoinSenderTable({ tableData, setPage }) {
   const [coinsSend, setCoinsSend] = useState(tableData?.transactions);
   const pagination = tableData?.pagination;
   const navigate = useNavigate();
-  console.log(coinsSend);
 
   //handle filter
   const handleFilter = () => {

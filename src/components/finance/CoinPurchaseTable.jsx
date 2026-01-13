@@ -8,7 +8,6 @@ export default function CoinPurchaseTable({ data, setPage, loading }) {
   const [text, setText] = useState("");
   const [coinPurchaseList, setCoinPurchaseList] = useState(data?.topUps);
   const pagination = data?.pagination;
-  console.log(coinPurchaseList);
 
   //handle filter
   const handleFilter = () => {

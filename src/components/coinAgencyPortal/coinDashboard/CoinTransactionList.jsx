@@ -2,7 +2,6 @@ import { timeAgo } from "../../../utility/utility";
 
 export default function CoinTransactionList({ data }) {
   const transactionHistory = data?.data;
-  console.log(transactionHistory);
   return (
     <>
       {/* table area */}

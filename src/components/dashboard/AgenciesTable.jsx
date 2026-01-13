@@ -58,7 +58,6 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                       // const country = countries?.find(
                       //   (country) => country._id === agency.country
                       // )?.name;
-                      console.log(agency);
                       return (
                         <tr
                           key={index}

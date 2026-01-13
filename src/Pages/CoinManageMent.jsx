@@ -10,7 +10,6 @@ import Error from "../components/Error";
 
 export default function CoinManageMent() {
   const { data, loading, error } = useFetch(`${BASE_URL}/coins/stats`);
-  console.log(data);
   const coinsAgencies = [
     {
       title: "Total Agencies",

@@ -12,7 +12,6 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
   const navigate = useNavigate();
   const { countriesName } = useStream();
   const [text, setText] = useState("");
-  console.log(countriesName("69550bee6f66520b824f4696"));
 
   const handleFilter = () => {
     const filteredUsers = hostList?.filter((agency) => {

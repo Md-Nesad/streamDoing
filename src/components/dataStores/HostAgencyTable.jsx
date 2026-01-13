@@ -20,7 +20,6 @@ export default function HostAgnecyTable() {
     `${BASE_URL}/admin/agencies?page=${page}&limit=30&search=`
   );
   const hostAgencies = data?.agencies?.filter((item) => item.type === "host");
-  console.log(hostAgencies);
   const pagination = data?.pagination;
   const [hosts, setHosts] = useState(hostAgencies);
 
