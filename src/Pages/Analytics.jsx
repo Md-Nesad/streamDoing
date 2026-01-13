@@ -23,7 +23,7 @@ export default function Analytics() {
 
   //top performing agency
   const topPerformanceAgency = useFetch(
-    `${BASE_URL}/admin/analytics/top-agencies?limit=10&page=${page}`
+    `${BASE_URL}/admin/analytics/top-agencies?limit=15&page=${page}`
   );
 
   //coin sales overview
@@ -48,7 +48,7 @@ export default function Analytics() {
   const stats = [
     {
       title: "Total Revenue",
-      value: analyticsStats?.data?.totalRevenue?.totalRevenue,
+      value: formatNumber(analyticsStats?.data?.totalRevenue?.totalRevenue),
       change: "",
       icon: Users,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
@@ -62,7 +62,7 @@ export default function Analytics() {
     },
     {
       title: "Striming Hours",
-      value: analyticsStats?.data?.totalStrimingHours.toFixed(4),
+      value: analyticsStats?.data?.totalStrimingHours.toFixed(3),
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",

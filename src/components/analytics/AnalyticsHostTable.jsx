@@ -1,10 +1,12 @@
 import { Funnel } from "lucide-react";
 import { useState } from "react";
 import UserDetailsModal from "../../modals/UserDetailsModal";
+import { useStream } from "../../context/streamContext";
 
 export default function AnalyticsHostTable({ data }) {
   const topHosts = data?.data?.data;
   const [open, setIsOpen] = useState(false);
+  const { countriesName } = useStream();
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-4 mt-5">
@@ -40,7 +42,7 @@ export default function AnalyticsHostTable({ data }) {
                 {/* Left: Image + Info */}
                 <div className="flex items-center gap-4">
                   <img
-                    src={host.img}
+                    src={host.profilePic}
                     alt={host.name}
                     className="w-14 h-14 rounded-full object-cover border"
                     loading="lazy"
@@ -51,7 +53,9 @@ export default function AnalyticsHostTable({ data }) {
                     className="cursor-pointer"
                   >
                     <h3 className="font-semibold text-gray-800">{host.name}</h3>
-                    <p className="text-sm text-gray-600">ID : {host.id}</p>
+                    <p className="text-sm text-gray-600">
+                      ID : {host.displayId}
+                    </p>
                     <p className="text-sm text-gray-500">{host.agency}</p>
                   </div>
                 </div>
@@ -61,14 +65,14 @@ export default function AnalyticsHostTable({ data }) {
                   <div
                     className={`text-white text-xs px-3 py-1 sm:mt-1 rounded-full ${host.badge.color}`}
                   >
-                    {host.badge.level}
+                    {host.level}
                   </div>
 
                   <div
                     className={`${host.country === "Pakistan" ? "pl-4" : ""}`}
                   >
                     <p className="text-xs sm:text-sm text-gray-600 mt-1 text-start">
-                      {host.country}
+                      {countriesName(host.country)}
                     </p>
                   </div>
 
@@ -77,7 +81,7 @@ export default function AnalyticsHostTable({ data }) {
                       Streaming
                     </p>
                     <p className="text-blue-600 max-sm:text-xs max-sm:text-left font-semibold">
-                      {host.hours}
+                      {host.streamHour || "0"}
                     </p>
                   </div>
 

@@ -1,23 +1,49 @@
 import { Funnel } from "lucide-react";
 import { useStream } from "../../context/streamContext";
 import { formatNumber } from "../../utility/utility";
+import Pagination from "../Pagination";
+import { useEffect, useState } from "react";
 
 export default function TopPerformanceAgency({ data, setPage }) {
-  const topAgencies = data?.data?.agencies;
+  const [text, setText] = useState("");
+  const [topAgencies, setTopAgencies] = useState(data?.data?.agencies);
   const { countriesName } = useStream();
+  const pagination = data?.data?.pagination;
+
+  const handleFilter = () => {
+    const filteredUsers = topAgencies?.filter((agency) => {
+      return (
+        agency.name.toLowerCase().includes(text.toLowerCase()) ||
+        agency.displayId.toString().includes(text)
+      );
+    });
+    setTopAgencies(filteredUsers);
+  };
+
+  useEffect(() => {
+    if (text === "") {
+      setTopAgencies(data?.data?.agencies);
+    }
+  }, [text]);
+
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-4 mt-5">
         {/* Search Input */}
         <input
           type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
           placeholder="Search by agency ID or name"
         />
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto">
+          <button
+            onClick={handleFilter}
+            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+          >
             <Funnel size={18} /> Filter
           </button>
           <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-white border border-[#CCCCCC]  rounded-md font-medium w-full sm:w-auto text-nowrap">
@@ -85,6 +111,12 @@ export default function TopPerformanceAgency({ data, setPage }) {
             <p className="text-center text-gray-600">No agency found</p>
           )}
         </div>
+        <Pagination
+          page={pagination?.page}
+          limit={pagination?.limit}
+          total={pagination?.total}
+          onPageChange={setPage}
+        />
       </div>
     </>
   );
