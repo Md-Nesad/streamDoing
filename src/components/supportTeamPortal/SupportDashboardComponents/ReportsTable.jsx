@@ -3,12 +3,30 @@ import useFetch from "../../../hooks/useFetch";
 import { BASE_URL, formatOnlyDate } from "../../../utility/utility";
 import Error from "../../Error";
 import Loading from "../../Loading";
+import { useEffect, useState } from "react";
 
 export default function ReportsTable() {
   const { data, loading, error } = useFetch(
     `${BASE_URL}/support-agency/reports?status=&page=1&limit=10`
   );
-  const reports = data?.reports;
+  const [text, setText] = useState("");
+  const [reports, setReports] = useState(data?.reports);
+
+  const handleFilter = () => {
+    const filteredUsers = reports?.filter((report) => {
+      return (
+        report?.targetId?.name.toLowerCase().includes(text.toLowerCase()) ||
+        report?.reporterId?.name.toLowerCase().includes(text.toLowerCase())
+      );
+    });
+    setReports(filteredUsers);
+  };
+
+  useEffect(() => {
+    if (text === "") {
+      setReports(data?.reports);
+    }
+  }, [text, data]);
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
@@ -18,11 +36,16 @@ export default function ReportsTable() {
       <div className="mb-4 flex gap-10">
         <input
           type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           className="border border-[#BBBBBB] outline-[#BBBBBB] w-full px-4 py-1.5 rounded-md"
           placeholder="Search by Id or name"
         />
 
-        <button className="sm:px-5 px-2 py-2 bg-[#FFFFFF] rounded-md font-medium border border-[#CCCCCC] flex items-center gap-2 text-sm sm:text-md">
+        <button
+          onClick={handleFilter}
+          className="sm:px-5 px-2 py-2 bg-[#FFFFFF] rounded-md font-medium border border-[#CCCCCC] flex items-center gap-2 text-sm sm:text-md"
+        >
           <Funnel size={18} /> Filter
         </button>
       </div>
@@ -43,49 +66,58 @@ export default function ReportsTable() {
           </thead>
 
           <tbody>
-            {reports?.map((report, index) => (
-              <tr
-                key={index}
-                className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-              >
-                <td className="p-3 pl-6 font-medium">
-                  {report?.displayId || "N/A"}
-                </td>
-                <td className="p-3 ">{report?.targetId?.name || "N/A"}</td>
-                <td className="p-3 ">{report?.reporterId?.name || "N/A"}</td>
-                <td className="p-3">
-                  <span className="px-3 py-1.5 text-sm bg-[#FF7A7A] text-[#ffffff] rounded-full font-medium">
-                    {report?.category || "N/A"}
-                  </span>
-                </td>
-                <td className="p-3">
-                  <img
-                    src={report.evidence}
-                    alt="Evidence for report"
-                    className="w-8 h-8 rounded-full object-cover"
-                  />
-                </td>
-                <td className="p-3">
-                  <span
-                    className={`px-4 py-1 text-xs text-center block w-23 ${
-                      report.status === "resolved"
-                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                        : "bg-[#FF929296] text-[#D21B20]"
-                    } text-[#005D23] rounded-full font-semibold`}
-                  >
-                    {report.status}
-                  </span>
-                </td>
-                <td className="p-3">
-                  {formatOnlyDate(report?.createdAt) || "N/A"}
-                </td>
-                <td className="p-3 pl-5 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
-                  <button>
-                    <Ellipsis size={17} />
-                  </button>
+            {reports?.length > 0 ? (
+              reports?.map((report, index) => (
+                <tr
+                  key={index}
+                  className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                >
+                  <td className="p-3 pl-6 font-medium">
+                    {report?.displayId || "N/A"}
+                  </td>
+                  <td className="p-3 ">{report?.targetId?.name || "N/A"}</td>
+                  <td className="p-3 ">{report?.reporterId?.name || "N/A"}</td>
+                  <td className="p-3">
+                    <span className="px-3 py-1.5 text-sm bg-[#FF7A7A] text-[#ffffff] rounded-full font-medium">
+                      {report?.category || "N/A"}
+                    </span>
+                  </td>
+                  <td className="p-3">
+                    <img
+                      src={report.evidence}
+                      alt="Evidence for report"
+                      className="w-8 h-8 rounded-full object-cover"
+                      fetchPriority="true"
+                    />
+                  </td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-xs text-center block w-23 ${
+                        report.status === "resolved"
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-[#FF929296] text-[#D21B20]"
+                      } text-[#005D23] rounded-full font-semibold`}
+                    >
+                      {report.status}
+                    </span>
+                  </td>
+                  <td className="p-3">
+                    {formatOnlyDate(report?.createdAt) || "N/A"}
+                  </td>
+                  <td className="p-3 pl-5 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
+                    <button>
+                      <Ellipsis size={17} />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
+                <td colSpan={9} className="p-3 text-center">
+                  No reports found.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

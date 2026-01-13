@@ -931,7 +931,7 @@ export const pkBattles = [
 
 export const chatUsers = [
   {
-    id: 1,
+    id: 0,
     name: "Emily Davis",
     username: "emily.davis",
     issue: "Can't Access my account",
@@ -955,7 +955,7 @@ export const chatUsers = [
     ],
   },
   {
-    id: 2,
+    id: 1,
     name: "Sarah Kim",
     username: "sarah.kim",
     issue: "Forgot my password",
@@ -969,7 +969,7 @@ export const chatUsers = [
     ],
   },
   {
-    id: 3,
+    id: 2,
     name: "Alex Martinez",
     username: "sarah.kim",
     issue: "Forgot my password",

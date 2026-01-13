@@ -17,9 +17,15 @@ export default function ChatHeader({
             JD
           </div>
           <div>
-            <p className="font-semibold text-sm">{user.name}</p>
+            <p className="font-semibold text-sm">{user?.name}</p>
             <p className="text-xs text-[#3E78ED]">
-              UID-{user.id} • {user.issue}
+              {user ? (
+                `UID-${user?.id} • ${user?.issue}`
+              ) : (
+                <span className="text-gray-800 text-[15px]">
+                  No User Selected
+                </span>
+              )}
             </p>
           </div>
         </div>

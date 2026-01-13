@@ -3,14 +3,25 @@ import ChatHeader from "../components/inboxAssests/ChatHeader";
 import ChatMessages from "../components/inboxAssests/ChatMessage";
 import ChatInput from "../components/inboxAssests/ChatInput";
 import UserDetails from "../components/inboxAssests/UserDetails";
-import { chatUsers } from "../data/data";
+// import { chatUsers } from "../data/data";
 import InBoxSidebar from "../components/inboxAssests/InboxSidebar";
+import useFetch from "../hooks/useFetch";
+import { BASE_URL } from "../utility/utility";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 export default function InboxPage() {
-  const [selectedUser, setSelectedUser] = useState(chatUsers[0]);
+  const { data, loading, error } = useFetch(
+    `${BASE_URL}/support-agency/conversations`
+  );
+  const conversations = data?.conversations;
+  const [selectedUser, setSelectedUser] = useState(conversations?.[0]);
   const [accessStatus, setAccessStatus] = useState("NONE");
   const [showSidebar, setShowSidebar] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
 
   return (
     <div className="flex h-[80vh]">
@@ -22,7 +33,7 @@ export default function InboxPage() {
         lg:translate-x-0`}
       >
         <InBoxSidebar
-          users={chatUsers}
+          users={conversations}
           selectedUser={selectedUser}
           onSelect={(user) => {
             setSelectedUser(user);
@@ -44,7 +55,7 @@ export default function InboxPage() {
           onLeaveAccess={() => setAccessStatus("LEFT")}
         />
 
-        <ChatMessages messages={selectedUser.messages} />
+        <ChatMessages messages={selectedUser?.messages} />
 
         <ChatInput canReply={accessStatus === "TAKEN"} />
       </div>
