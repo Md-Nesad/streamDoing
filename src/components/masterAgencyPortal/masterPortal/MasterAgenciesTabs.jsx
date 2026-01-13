@@ -16,11 +16,11 @@ export default function MasterAgenciesTabs() {
     loading: statLoading,
     error: statError,
   } = useFetch(`${BASE_URL}/agency/master/dashboard/stats`);
-  console.log(stat);
 
   const { data, loading, error } = useFetch(
     `${BASE_URL}/agency/master/agencies?page=1&limit=50&search=&status=`
   );
+  console.log(data);
   const agencies = [
     {
       title: "Balance",

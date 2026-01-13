@@ -1,13 +1,18 @@
 import { Ellipsis, Funnel } from "lucide-react";
-import { kycTable } from "../../../data/data";
-// import useFetch from "../../../hooks/useFetch";
-// import { BASE_URL } from "../../../utility/utility";
+import useFetch from "../../../hooks/useFetch";
+import { BASE_URL, formatOnlyDate } from "../../../utility/utility";
+import Error from "../../Error";
+import Loading from "../../Loading";
 
 export default function ReportsTable() {
-  // const { data, loading, error } = useFetch(
-  //   `${BASE_URL}/support-agency/reports?status=&page=1&limit=10`
-  // );
-  // console.log(data);
+  const { data, loading, error } = useFetch(
+    `${BASE_URL}/support-agency/reports?status=&page=1&limit=10`
+  );
+  const reports = data?.reports;
+
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
+
   return (
     <>
       <div className="mb-4 flex gap-10">
@@ -38,26 +43,42 @@ export default function ReportsTable() {
           </thead>
 
           <tbody>
-            {kycTable.map((kyc, index) => (
+            {reports?.map((report, index) => (
               <tr
                 key={index}
                 className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
               >
-                <td className="p-3 pl-6 font-medium">TKT-042</td>
-                <td className="p-3 ">StartHost Agency</td>
-                <td className="p-3 ">StartHost Agency</td>
+                <td className="p-3 pl-6 font-medium">
+                  {report?.displayId || "N/A"}
+                </td>
+                <td className="p-3 ">{report?.targetId?.name || "N/A"}</td>
+                <td className="p-3 ">{report?.reporterId?.name || "N/A"}</td>
                 <td className="p-3">
                   <span className="px-3 py-1.5 text-sm bg-[#FF7A7A] text-[#ffffff] rounded-full font-medium">
-                    abuse
+                    {report?.category || "N/A"}
                   </span>
                 </td>
-                <td className="p-3">Account</td>
                 <td className="p-3">
-                  <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
-                    action taken
+                  <img
+                    src={report.evidence}
+                    alt="Evidence for report"
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+                </td>
+                <td className="p-3">
+                  <span
+                    className={`px-4 py-1 text-xs text-center block w-23 ${
+                      report.status === "resolved"
+                        ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                        : "bg-[#FF929296] text-[#D21B20]"
+                    } text-[#005D23] rounded-full font-semibold`}
+                  >
+                    {report.status}
                   </span>
                 </td>
-                <td className="p-3">2024-01-15</td>
+                <td className="p-3">
+                  {formatOnlyDate(report?.createdAt) || "N/A"}
+                </td>
                 <td className="p-3 pl-5 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
                   <button>
                     <Ellipsis size={17} />

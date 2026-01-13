@@ -19,6 +19,7 @@ export default function HostPerformanceList() {
   const { data, loading, error } = useFetch(
     `${BASE_URL}/agency/host/analytics/host-performance?startDate=${query.startDate}&endDate=${query.endDate}`
   );
+
   // sync API data to table
   useEffect(() => {
     if (data?.report) {
