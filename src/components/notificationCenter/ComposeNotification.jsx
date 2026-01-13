@@ -1,8 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
 import Notification from "../../assests/Notification";
 import { ChevronDown, Eye, RotateCw, Send } from "lucide-react";
+import useFetch from "../../hooks/useFetch";
+import { BASE_URL } from "../../utility/utility";
+import useJsonPost from "../../hooks/useJsonPost";
 
 export default function ComposeNotification() {
+  const [targetType, setTargetType] = useState("");
+  const [targetIds, setTargetIds] = useState([]);
+  const [category, setCategory] = useState("");
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const handleSubmit = useJsonPost(
+    `${BASE_URL}/support-agency/notification-center`
+  );
+
+  const data = {
+    targetType,
+    targetIds,
+    category,
+    title,
+    message,
+  };
+
+  const reset = () => {
+    setTargetType("");
+    setTargetIds([]);
+    setCategory("");
+    setTitle("");
+    setMessage("");
+  };
+
+  //get users list
+  const { data: userList } = useFetch(
+    `${BASE_URL}/support-agency/user?page=1&limit=100&type=&search=`
+  );
+  const users = userList?.users || [];
+
+  //get agencies list
+  const { data: agencyList } = useFetch(
+    `${BASE_URL}/support-agency/agency?page=1&limit=100&type=&search=`
+  );
+  const agencies = agencyList?.agencies || [];
+
+  const handleRadioChange = (type) => {
+    setTargetType(type);
+    setTargetIds([]); // radio change হলে previous selection clear
+  };
+
+  const handleCheckboxChange = (id, checked) => {
+    if (checked) {
+      setTargetIds((prev) => [...prev, id]);
+    } else {
+      setTargetIds((prev) => prev.filter((item) => item !== id));
+    }
+  };
+
+  //handle submit
+  const handleNotificationSend = async () => {
+    if (!targetType || !category || !title || !message) {
+      return alert("Recipient type, category, title and message are required");
+    }
+    setLoading(true);
+    const result = await handleSubmit(data);
+    setLoading(false);
+    console.log(result);
+    alert(result.message);
+    reset();
+  };
+
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-7">
@@ -14,43 +81,106 @@ export default function ComposeNotification() {
           </p>
 
           <div className="space-y-5">
+            {/* Recipient Type */}
             <div>
               <p className="text-lg font-medium mb-3">Recipient Type</p>
+
               <div className="space-y-2">
-                {["Individual User", "Individual Agency", "Master Agency"].map(
-                  (item, i) => (
-                    <label
-                      key={i}
-                      className="flex items-center gap-2 text-sm font-medium cursor-pointer"
-                    >
-                      <input type="radio" name="recipient" />
-                      {item}
-                    </label>
-                  )
-                )}
+                {[
+                  { label: "Individual User", value: "user" },
+                  { label: "Individual Agency", value: "agency" },
+                  { label: "Master Agency", value: "master_agency" },
+                ].map((item) => (
+                  <label
+                    key={item.value}
+                    className="flex items-center gap-2 text-sm font-medium cursor-pointer"
+                  >
+                    <input
+                      type="radio"
+                      name="recipient"
+                      checked={targetType === item.value}
+                      onChange={() => handleRadioChange(item.value)}
+                    />
+                    {item.label}
+                  </label>
+                ))}
               </div>
             </div>
 
             <hr className="text-[#0000001C]" />
 
+            {/* Broadcast Options */}
             <div className="space-y-2">
-              {["All Users", "All Agencies", "Broadcast to Entire App"].map(
-                (item, i) => (
-                  <label
-                    key={i}
-                    className="flex items-center gap-2 font-medium text-sm cursor-pointer"
-                  >
-                    <input type="radio" name="recipient" />
-                    {item}
-                  </label>
-                )
-              )}
+              {[
+                { label: "All Users", value: "all_users" },
+                { label: "All Agencies", value: "all_agencies" },
+                { label: "Broadcast to Entire App", value: "broadcast" },
+              ].map((item) => (
+                <label
+                  key={item.value}
+                  className="flex items-center gap-2 font-medium text-sm cursor-pointer"
+                >
+                  <input
+                    type="radio"
+                    name="recipient"
+                    checked={targetType === item.value}
+                    onChange={() => handleRadioChange(item.value)}
+                  />
+                  {item.label}
+                </label>
+              ))}
             </div>
 
-            <div className="bg-[#E6E6E6] text-center text-sm py-3 mt-2 rounded-md font-medium">
-              This notification will be{" "}
-              <span className="font-semibold">BROADCAST TO ENTIRE APP</span>
-            </div>
+            {/* Individual User List */}
+            {targetType === "user" && (
+              <div className="border rounded-md py-2 px-3 space-y-1.5 h-35 overflow-y-scroll">
+                {users.map((user) => (
+                  <label
+                    key={user._id}
+                    className="flex items-center gap-2 text-sm"
+                  >
+                    <input
+                      className="cursor-pointer"
+                      type="checkbox"
+                      checked={targetIds.includes(user._id)}
+                      onChange={(e) =>
+                        handleCheckboxChange(user._id, e.target.checked)
+                      }
+                    />
+                    {user.name}
+                  </label>
+                ))}
+              </div>
+            )}
+
+            {/* Individual / Master Agency List */}
+            {targetType === "agency" && (
+              <div className="border rounded-md py-2 px-3 space-y-1.5  h-35 overflow-y-scroll">
+                {agencies.map((agency) => (
+                  <label
+                    key={agency._id}
+                    className="flex items-center gap-2 text-sm"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={targetIds.includes(agency._id)}
+                      onChange={(e) =>
+                        handleCheckboxChange(agency._id, e.target.checked)
+                      }
+                    />
+                    {agency.name}
+                  </label>
+                ))}
+              </div>
+            )}
+
+            {/* Broadcast Info */}
+            {targetType === "broadcast" && (
+              <div className="bg-[#E6E6E6] text-center text-sm py-3 mt-10 rounded-md font-medium">
+                This notification will be{" "}
+                <span className="font-semibold">BROADCAST TO ENTIRE APP</span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -74,8 +204,17 @@ export default function ComposeNotification() {
                 Notification Category
               </label>
               <div className="relative">
-                <select className="mt-1 text-gray-800 font-medium">
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="mt-1 text-gray-800 font-medium"
+                >
                   <option>Select Notification Category</option>
+                  <option value="warning">Warning</option>
+                  <option value="system">System</option>
+                  <option value="promotion">Promotion</option>
+                  <option value="update">Update</option>
+                  <option value="security">Security</option>
                 </select>
                 <ChevronDown className="absolute top-3 right-4 pointer-events-none" />
               </div>
@@ -85,6 +224,8 @@ export default function ComposeNotification() {
               <label className="text-sm font-medium">Title</label>
               <input
                 type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 placeholder="Enter notification title..."
                 className="mt-1 w-full border border-[#D6D6D6] rounded-md px-3 py-2 text-sm"
               />
@@ -93,13 +234,15 @@ export default function ComposeNotification() {
             <div>
               <label className="text-sm font-medium">Message</label>
               <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 placeholder="Enter notification message"
                 rows={5}
                 className="mt-1 w-full border border-[#D6D6D6] rounded-md px-3 py-2 text-sm"
               />
             </div>
 
-            <div>
+            {/* <div>
               <label className="text-sm font-medium">
                 Attachment (Optional)
               </label>
@@ -111,16 +254,25 @@ export default function ComposeNotification() {
                   No chosen file
                 </span>
               </div>
-            </div>
+            </div> */}
 
-            <div className="flex items-center gap-3 pt-2">
-              <button className="flex items-center gap-3 px-4 py-2 btn_gradient">
-                <Send size={18} /> Send Notification
+            <div className="flex items-center gap-5 pt-2">
+              <button
+                type="button"
+                onClick={handleNotificationSend}
+                className="flex items-center gap-3 px-4 py-2 btn_gradient"
+              >
+                <Send size={18} />{" "}
+                {loading ? "Sending..." : "Send Notification"}
               </button>
-              <button className="flex items-center gap-2 text-[#FFFFFF] bg-[#CFCFCF] px-4 py-2 border rounded border-[#8D8D8D]">
+              {/* <button className="flex items-center gap-2 text-[#FFFFFF] bg-[#CFCFCF] px-4 py-2 border rounded border-[#8D8D8D]">
                 <Eye size={20} /> Preview
-              </button>
-              <button className="flex items-center gap-2 text-md font-semibold text-gray-800">
+              </button> */}
+              <button
+                type="button"
+                onClick={reset}
+                className="flex items-center btn_white py-2 px-6 rounded-md gap-2 text-md font-semibold text-gray-800"
+              >
                 <RotateCw size={20} /> Reset
               </button>
             </div>
