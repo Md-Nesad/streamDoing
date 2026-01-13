@@ -6,70 +6,47 @@ import MasterCoinAgenciesTable from "./MasterCoinAgenciesTable";
 import MasterHostAgenciesTable from "./MasterHostAgenciesTable";
 import MasterAdminAgenciesTable from "./MasterAdminAgenciesTable";
 import useFetch from "../../../hooks/useFetch";
-import { BASE_URL } from "../../../utility/utility";
+import { BASE_URL, formatNumber } from "../../../utility/utility";
 import Loading from "../../Loading";
 import Error from "../../Error";
 
 export default function MasterAgenciesTabs() {
+  const {
+    data: stat,
+    loading: statLoading,
+    error: statError,
+  } = useFetch(`${BASE_URL}/agency/master/dashboard/stats`);
+  console.log(stat);
+
   const { data, loading, error } = useFetch(
     `${BASE_URL}/agency/master/agencies?page=1&limit=50&search=&status=`
   );
   const agencies = [
     {
-      title: "Today Sell",
-      value: "12",
-      change: "+245 today",
+      title: "Balance",
+      value: stat?.balance?.totalCoins,
+      change: `+${stat?.balance?.todayBuyCoins} today`,
       icon: Users,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
     },
     {
       title: "Total Coin Agency",
-      value: "34",
+      value: stat?.totalCoinAgencies,
       change: "",
       icon: RadioTower,
       iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
     },
     {
       title: "Total Sell",
-      value: "12M",
+      value: formatNumber(stat?.totalSale),
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
     },
     // {
     //   title: "Avg Sell",
-    //   value: "৳2.4M",
-    //   change: "+18%",
-    //   icon: TrendingUp,
-    //   iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
-    // },
-  ];
-  const adminAgencies = [
-    {
-      title: "Today Sell",
-      value: "12",
-      change: "+245 today",
-      icon: Users,
-      iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
-    },
-    {
-      title: "Total Admin",
-      value: "34",
-      change: "",
-      icon: RadioTower,
-      iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
-    },
-    // {
-    //   title: "Total Sell",
-    //   value: "12M",
-    //   change: "",
-    //   icon: Wallet,
-    //   iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
-    // },
-    // {
-    //   title: "Avg Sell",
-    //   value: "৳2.4M",
-    //   change: "+18%",
+    //   value: "৳" + formatNumber(stat?.averageSale),
+    //   change: formatPercent(stat?.saleGrowth),
     //   icon: TrendingUp,
     //   iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
     // },
@@ -113,7 +90,7 @@ export default function MasterAgenciesTabs() {
         </TabPanel>
 
         <TabPanel>
-          <StatsSection data={adminAgencies} />
+          <StatsSection data={agencies} />
           <MasterAdminAgenciesTable data={data} />
         </TabPanel>
       </Tabs>

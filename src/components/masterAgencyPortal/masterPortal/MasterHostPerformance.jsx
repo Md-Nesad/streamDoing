@@ -1,5 +1,6 @@
 export default function MasterHostPerformance({ data }) {
   const coinAgencyPerformance = data?.data;
+  console.log(coinAgencyPerformance);
   return (
     <>
       {/* table area */}

@@ -3,12 +3,14 @@ import { useStream } from "../../context/streamContext";
 import { formatNumber } from "../../utility/utility";
 import Pagination from "../Pagination";
 import { useEffect, useState } from "react";
+import Error from "../Error";
+import TopPerformanceLoading from "../TopPerformanceLoading";
 
 export default function TopPerformanceAgency({ data, setPage }) {
   const [text, setText] = useState("");
   const [topAgencies, setTopAgencies] = useState(data?.data?.agencies);
   const { countriesName } = useStream();
-  const pagination = data?.data?.pagination;
+  const pagination = data?.data.pagination;
 
   const handleFilter = () => {
     const filteredUsers = topAgencies?.filter((agency) => {
@@ -24,7 +26,15 @@ export default function TopPerformanceAgency({ data, setPage }) {
     if (text === "") {
       setTopAgencies(data?.data?.agencies);
     }
-  }, [text]);
+  }, [text, data?.data?.agencies]);
+
+  if (data?.loading) {
+    return <TopPerformanceLoading />;
+  }
+
+  if (data?.error) {
+    return <Error error={data?.error} />;
+  }
 
   return (
     <>
@@ -113,8 +123,8 @@ export default function TopPerformanceAgency({ data, setPage }) {
         </div>
         <Pagination
           page={pagination?.page}
-          limit={pagination?.limit}
           total={pagination?.total}
+          limit={pagination?.limit}
           onPageChange={setPage}
         />
       </div>

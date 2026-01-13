@@ -1,5 +1,8 @@
+import { timeAgo } from "../../../utility/utility";
+
 export default function CoinTransactionList({ data }) {
   const transactionHistory = data?.data;
+  console.log(transactionHistory);
   return (
     <>
       {/* table area */}
@@ -12,25 +15,54 @@ export default function CoinTransactionList({ data }) {
               <th className="p-3">Type</th>
               <th className="p-3">Amount</th>
               <th className="p-3">Time</th>
+              <th className="p-3">Status</th>
             </tr>
           </thead>
 
           <tbody>
             {transactionHistory?.length > 0 ? (
-              transactionHistory.map((transaction) => (
+              transactionHistory.map((transaction, index) => (
                 <tr
-                  key={transaction._id}
+                  key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
-                  <td title={transaction.transactionId} className="p-3 pl-10">
-                    TNX012KAD
+                  <td className="p-3 pl-10">
+                    {transaction?.transactioniId || transaction.transactionId}
                   </td>
-                  <td className="p-3">User29034245</td>
-                  <td className="p-3">buy</td>
-                  <td title={transaction?.to?.id} className="p-3">
-                    457851
+                  <td className="p-3">
+                    {transaction?.toAgency
+                      ? `${transaction.toAgency.name}-${transaction.toAgency.displayId}`
+                      : `${transaction?.name}-${transaction?.displayId}`}
                   </td>
-                  <td className="p-3">12 min age</td>
+                  <td className="p-3">
+                    <span
+                      className={`px-4 py-1 text-sm ${
+                        transaction.type === "sale"
+                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                          : "bg-linear-to-r from-[#79BAD4] to-[#2577C9] text-[#00215D]"
+                      } text-[#005D23] rounded-full font-semibold opacity-90`}
+                    >
+                      {transaction.type}
+                    </span>
+                  </td>
+                  <td className="p-3">{transaction.amount}</td>
+                  <td className="p-3">{timeAgo(transaction.createdAt)}</td>
+
+                  {transaction.status ? (
+                    <td className="p-3">
+                      <span
+                        className={`px-4 py-1.5 text-sm ${
+                          transaction.status === "completed"
+                            ? "bg-[#E1F7E4] text-[#077414]"
+                            : "bg-[#9DC4F891] text-[#344031]"
+                        } text-[#005D23] rounded-md font-semibold`}
+                      >
+                        {transaction.status}
+                      </span>
+                    </td>
+                  ) : (
+                    ""
+                  )}
                 </tr>
               ))
             ) : (
