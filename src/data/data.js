@@ -25,6 +25,9 @@ import {
   Check,
   Bell,
   MessageCircleMore,
+  ArrowUpCircle,
+  Sparkles,
+  Wallet2,
 } from "lucide-react";
 import mayaPatel from "/mayaPatel.png";
 import { Coin } from "../../public/icons/Coin";
@@ -96,6 +99,13 @@ export const menuItems = [
     link: "/dashboard/coin-agency",
   },
   { title: "Delete/Ban", icon: Gift, link: "/dashboard/delete-ban" },
+  {
+    title: "Level Up Config",
+    icon: ArrowUpCircle,
+    link: "/dashboard/level-up",
+  },
+  { title: "Charm Up Config", icon: Sparkles, link: "/dashboard/charm-up" },
+  { title: "Top Up Packages", icon: Wallet2, link: "/dashboard/top-up" },
   { title: "Settings", icon: Settings, link: "/dashboard/settings" },
 ];
 export const stats = [
