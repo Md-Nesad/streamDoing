@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TitleAndSubTitle from "../../components/TitleAndSubTitle";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
@@ -7,7 +7,10 @@ import Loading from "../../components/Loading";
 import Error from "../../components/Error";
 
 export default function LevelUp() {
-  const { data, loading, error } = useFetch(`${BASE_URL}/admin/level-configs`);
+  const [page, setPage] = useState(1);
+  const { data, loading, error } = useFetch(
+    `${BASE_URL}/admin/level-configs?page=${page}&limit=30`
+  );
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
@@ -17,7 +20,7 @@ export default function LevelUp() {
         title="Level Up Config"
         subtitle="Manage level up packages and rewards"
       />
-      <LevelUpTable data={data} />
+      <LevelUpTable data={data} setPage={setPage} />
     </div>
   );
 }

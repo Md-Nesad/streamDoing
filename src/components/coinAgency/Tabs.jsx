@@ -42,7 +42,7 @@ export default function TabsSection() {
       </div> */}
 
       <Tabs>
-        <div className="flex sm:flex-row flex-col max-sm:gap-3 items-center justify-between w-full bg-white mt-5 rounded-lg">
+        <div className="flex sm:flex-row flex-col max-sm:gap-3 items-center justify-between w-full bg-white mt-5 rounded-lg gap-12">
           <TabList className="flex items-center gap-6 mt-2 bg-[#F4F4F4] w-full sm:w-fit overflow-x-auto px-2 py-1 rounded mb-3 text-nowrap hide_scrollbar">
             <Tab
               className="font-sans cursor-pointer"

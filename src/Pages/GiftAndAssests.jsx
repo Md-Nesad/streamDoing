@@ -34,7 +34,7 @@ export default function GiftAndAssests() {
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1] opacity-80",
     },
     {
-      title: "Total Users",
+      title: "Total Uses",
       value: formatNumber(state?.totalUsers),
       change: "",
       icon: Gem,

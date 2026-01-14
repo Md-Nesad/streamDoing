@@ -4,13 +4,15 @@ import { BASE_URL, formatNumber } from "../../utility/utility";
 import useDelete from "../../hooks/useDelete";
 import AddTopUpPackages from "../../modals/dataSroreModals/AddTopUpPackages";
 import UpdateTopUpPackage from "../../modals/dataSroreModals/UpdateTopUpPackage";
+import Pagination from "../Pagination";
 
-export default function TopUpPackagesTable({ data }) {
+export default function TopUpPackagesTable({ data, setPage }) {
   const [open, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [salaries, setSalaries] = useState(data?.packages);
   const [selectedSalary, setSelectedSalary] = useState(null);
   const deleteUser = useDelete(`${BASE_URL}/admin/top-up-packages`);
+  const pagination = data?.pagination;
 
   const handleEdit = (top) => {
     setSelectedSalary(top);
@@ -107,6 +109,12 @@ export default function TopUpPackagesTable({ data }) {
             )}
           </tbody>
         </table>
+        <Pagination
+          page={pagination?.page}
+          total={pagination?.total}
+          limit={pagination?.limit}
+          onPageChange={setPage}
+        />
         {open && (
           <AddTopUpPackages open={open} onClose={() => setIsOpen(false)} />
         )}

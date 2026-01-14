@@ -4,13 +4,15 @@ import { BASE_URL } from "../../utility/utility";
 import useDelete from "../../hooks/useDelete";
 import AddLevelTarget from "../../modals/dataSroreModals/AddLevelTarget";
 import UpdateLevelConfig from "../../modals/dataSroreModals/UpdateLevelConfig";
+import Pagination from "../Pagination";
 
-export default function LevelUpTable({ data }) {
+export default function LevelUpTable({ data, setPage }) {
   const [open, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [salaries, setSalaries] = useState(data?.levelConfigs);
   const [selectedSalary, setSelectedSalary] = useState(null);
   const deleteUser = useDelete(`${BASE_URL}/admin/level-configs`);
+  const pagination = data?.pagination;
 
   const handleEdit = (level) => {
     setSelectedSalary(level);
@@ -107,6 +109,12 @@ export default function LevelUpTable({ data }) {
             )}
           </tbody>
         </table>
+        <Pagination
+          page={pagination?.page}
+          total={pagination?.total}
+          limit={pagination?.limit}
+          onPageChange={setPage}
+        />
         {open && (
           <AddLevelTarget open={open} onClose={() => setIsOpen(false)} />
         )}

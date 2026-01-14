@@ -4,13 +4,15 @@ import { BASE_URL } from "../../utility/utility";
 import useDelete from "../../hooks/useDelete";
 import AddCharmConfig from "../../modals/dataSroreModals/AddCharmConfig";
 import UpdateCharmConfig from "../../modals/dataSroreModals/UpdateCharmConfig";
+import Pagination from "../Pagination";
 
-export default function CharmUpTable({ data }) {
+export default function CharmUpTable({ data, setPage }) {
   const [open, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [salaries, setSalaries] = useState(data?.charmConfigs);
   const [selectedSalary, setSelectedSalary] = useState(null);
   const deleteUser = useDelete(`${BASE_URL}/admin/charm-configs`);
+  const pagination = data?.pagination;
 
   const handleEdit = (level) => {
     setSelectedSalary(level);
@@ -107,6 +109,12 @@ export default function CharmUpTable({ data }) {
             )}
           </tbody>
         </table>
+        <Pagination
+          page={pagination?.page}
+          total={pagination?.total}
+          limit={pagination?.limit}
+          onPageChange={setPage}
+        />
         {open && (
           <AddCharmConfig open={open} onClose={() => setIsOpen(false)} />
         )}
