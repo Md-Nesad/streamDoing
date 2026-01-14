@@ -26,6 +26,10 @@ export default function AddLevelTarget({ open, onClose }) {
       description,
     });
     alert(result.message || "Level config added.");
+    setLevel("");
+    setRequiredExperience("");
+    setBadgeId("");
+    setDescription("");
     setLoading(false);
   };
 

@@ -26,6 +26,10 @@ export default function AddCharmConfig({ open, onClose }) {
       description,
     });
     alert(result.message || "Charm config added.");
+    setLevel("");
+    setRequiredExperience("");
+    setBadgeId("");
+    setDescription("");
     setLoading(false);
   };
 
