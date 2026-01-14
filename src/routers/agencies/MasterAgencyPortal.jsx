@@ -6,6 +6,7 @@ import MasterAgencyLogin from "../../Pages/MasterAgencies/MasterAgencyLogin";
 import MasterTransactionHistory from "../../Pages/MasterAgencies/MasterTransactionHistory";
 import MasterPortalAgencies from "../../Pages/MasterAgencies/MasterPortalAgencies";
 import MasterPortalAnalytics from "../../Pages/MasterAgencies/MasterPortalAnalytics";
+import { MasterProtectedRoute } from "../ProtectedRoutes";
 
 export default function MasterAgencyPortal() {
   return (
@@ -18,14 +19,19 @@ export default function MasterAgencyPortal() {
           />
           <Route path="/master-portal-login" element={<MasterAgencyLogin />} />
 
-          <Route path="/master-agency-portal" element={<MasterPortalLayout />}>
-            <Route index element={<MasterDashboard />} />
+          <Route element={<MasterProtectedRoute />}>
             <Route
-              path="transaction-history"
-              element={<MasterTransactionHistory />}
-            />
-            <Route path="agencies" element={<MasterPortalAgencies />} />
-            <Route path="analytics" element={<MasterPortalAnalytics />} />
+              path="/master-agency-portal"
+              element={<MasterPortalLayout />}
+            >
+              <Route index element={<MasterDashboard />} />
+              <Route
+                path="transaction-history"
+                element={<MasterTransactionHistory />}
+              />
+              <Route path="agencies" element={<MasterPortalAgencies />} />
+              <Route path="analytics" element={<MasterPortalAnalytics />} />
+            </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

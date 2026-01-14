@@ -11,6 +11,7 @@ import Reports from "../../Pages/supportDashboard/Reports";
 import FAQs from "../../Pages/supportDashboard/FAQs";
 import SupportNotificationCenter from "../../Pages/supportDashboard/SupportNotificationCenter";
 import SupportNotificationHistory from "../../Pages/supportDashboard/SupportNotificationHistory";
+import { SupportProtectedRoute } from "../ProtectedRoutes";
 
 export default function SupportDashboardPortal() {
   return (
@@ -26,22 +27,24 @@ export default function SupportDashboardPortal() {
             element={<SupportDashboardLogin />}
           />
 
-          <Route path="/support-dashboard" element={<SupportPortalLayout />}>
-            <Route index element={<SupportDashboard />} />
-            <Route path="live-chat" element={<LiveChat />} />
-            <Route path="tickets" element={<Tickets />} />
-            <Route path="delete-ban" element={<SupportDeleteBan />} />
-            <Route path="refund-coins" element={<SupportRefundCoins />} />
-            <Route path="reports" element={<Reports />} />
-            <Route
-              path="notification-center"
-              element={<SupportNotificationCenter />}
-            />
-            <Route
-              path="notification-history"
-              element={<SupportNotificationHistory />}
-            />
-            <Route path="faqs" element={<FAQs />} />
+          <Route element={<SupportProtectedRoute />}>
+            <Route path="/support-dashboard" element={<SupportPortalLayout />}>
+              <Route index element={<SupportDashboard />} />
+              <Route path="live-chat" element={<LiveChat />} />
+              <Route path="tickets" element={<Tickets />} />
+              <Route path="delete-ban" element={<SupportDeleteBan />} />
+              <Route path="refund-coins" element={<SupportRefundCoins />} />
+              <Route path="reports" element={<Reports />} />
+              <Route
+                path="notification-center"
+                element={<SupportNotificationCenter />}
+              />
+              <Route
+                path="notification-history"
+                element={<SupportNotificationHistory />}
+              />
+              <Route path="faqs" element={<FAQs />} />
+            </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

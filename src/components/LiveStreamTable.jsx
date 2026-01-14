@@ -93,7 +93,7 @@ export default function LiveStreamTable({
                       <td className="p-3">{stream?.host?.name}</td>
                       <td className="p-3">{stream.type}</td>
                       <td className="p-3">
-                        <span className="p-1 text-xs bg-linear-to-b from-[#FA77BD] to-[#940C44] rounded-lg font-semibold text-white flex items-center gap-2 w-13">
+                        <span className="p-1 text-xs bg-linear-to-b from-[#FA77BD] to-[#940C44] rounded-lg font-semibold text-white flex items-center gap-2 w-14">
                           <img src={star} alt="" className="w-4 h-4" /> Lv
                           {stream?.host?.level}
                         </span>
@@ -113,7 +113,7 @@ export default function LiveStreamTable({
                       </td>
                       <td className="p-3">
                         <span
-                          className={`px-4 py-1 text-sm bg-linear-to-r from-[#2FB6FF] to-[#447FFF] rounded-full text-white opacity-70 flex gap-3 items-center w-25`}
+                          className={`px-4 py-1 text-sm bg-linear-to-r from-[#2FB6FF] to-[#447FFF] rounded-full text-white opacity-70 flex gap-3 items-center w-20`}
                         >
                           <Activity size={15} /> {stream.status || "N/A"}
                         </span>
@@ -124,7 +124,7 @@ export default function LiveStreamTable({
                           <Mic size={20} className="text-[#181717]" />
                           <Ban size={17} className="text-[#FF0037]" />
                           <button title="View">
-                            <Eye size={19} onClick={() => setIsOpen(true)} />
+                            <Eye size={19} />
                           </button>
                         </span>
                       </td>

@@ -37,7 +37,7 @@ import NotFound from "../../Pages/NotFound";
 import AddSupportAgency from "../../components/dataStores/AddSupportAgency";
 import UpdateAgenciesDetails from "../../Pages/agencies/UpdateAgenciesDetails";
 import UpdateSupportAgency from "../../components/dataStores/UpdateSupportAgency";
-import ProtectedRoute from "../ProtectedRoutes";
+import { ProtectedRoute } from "../ProtectedRoutes";
 
 export default function DashboardRouter() {
   return (

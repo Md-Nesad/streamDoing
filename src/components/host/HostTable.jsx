@@ -1,6 +1,6 @@
 import { Ellipsis, Eye, Funnel } from "lucide-react";
 import { useEffect, useState } from "react";
-import { formatNumber } from "../../utility/utility";
+import { BASE_URL, formatNumber } from "../../utility/utility";
 
 export default function HostTable({ hostListData }) {
   const [hostList, setHostList] = useState(hostListData?.hosts);
@@ -15,6 +15,38 @@ export default function HostTable({ hostListData }) {
       );
     });
     setHostList(filteredUsers);
+  };
+
+  //handle export
+  const handleExport = async () => {
+    try {
+      const res = await fetch(
+        `${BASE_URL}/dashboard/hosts/export?search=&startDate=&endDate=`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("admin_token")}`,
+          },
+        }
+      );
+
+      if (!res.ok) throw new Error("Export failed");
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "hosts.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      alert("Export failed");
+    }
   };
 
   //update list when text empty
@@ -39,7 +71,10 @@ export default function HostTable({ hostListData }) {
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button className="px-3 sm:px-6 py-2 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
+          <button
+            onClick={handleExport}
+            className="px-3 sm:px-6 py-2 text-sm sm:text-base btn_gradient text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
+          >
             Export Data
           </button>
 

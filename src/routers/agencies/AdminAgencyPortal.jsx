@@ -5,6 +5,7 @@ import AddAgency from "../../Pages/AdminAgencies/AddAgency";
 import AdminModerator from "../../Pages/AdminAgencies/AdminModerator";
 import AdminAgencyLogin from "../../Pages/AdminAgencies/AdminAgencyLogin";
 import NotFound from "../../Pages/NotFound";
+import { AdminProtectedRoute } from "../ProtectedRoutes";
 
 export default function AdminAgencyPortal() {
   return (
@@ -18,10 +19,12 @@ export default function AdminAgencyPortal() {
           <Route path="/admin-portal-login" element={<AdminAgencyLogin />} />
 
           {/* Admin agency nested routes */}
-          <Route path="/admin-agency-portal" element={<AdminAgencyLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="add-agency" element={<AddAgency />} />
-            <Route path="moderator" element={<AdminModerator />} />
+          <Route element={<AdminProtectedRoute />}>
+            <Route path="/admin-agency-portal" element={<AdminAgencyLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="add-agency" element={<AddAgency />} />
+              <Route path="moderator" element={<AdminModerator />} />
+            </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
