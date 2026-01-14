@@ -77,14 +77,10 @@ export default function LiveStreams() {
     // Viewers count update
     socket.on("admin:total-live-viewers", ({ roomId, viewers }) => {
       setLives((prev) =>
-        prev.map((live) =>
-          live.roomId === roomId ? { ...live, viewers } : live
-        )
+        prev.map((live) => (live._id === roomId ? { ...live, viewers } : live))
       );
       setStreamList((prev) =>
-        prev.map((live) =>
-          live.roomId === roomId ? { ...live, viewers } : live
-        )
+        prev.map((live) => (live._id === roomId ? { ...live, viewers } : live))
       );
     });
 
