@@ -37,6 +37,7 @@ import NotFound from "../../Pages/NotFound";
 import AddSupportAgency from "../../components/dataStores/AddSupportAgency";
 import UpdateAgenciesDetails from "../../Pages/agencies/UpdateAgenciesDetails";
 import UpdateSupportAgency from "../../components/dataStores/UpdateSupportAgency";
+import ProtectedRoute from "../ProtectedRoutes";
 
 export default function DashboardRouter() {
   return (
@@ -46,71 +47,73 @@ export default function DashboardRouter() {
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<AdminLogin />} />
           {/* dashboard nested routes here */}
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="host" element={<Host />} />
-            <Route path="coins" element={<CoinManageMent />} />
-            <Route
-              path="coins/rate-transaction"
-              element={<RateTransaction />}
-            />
-            <Route path="coins/exchange-rate" element={<ExchangeRate />} />
-            <Route path="coins/master-ledger" element={<MasterLedger />} />
-            <Route path="agencies" element={<Agencies />} />
-            <Route
-              path="agencies/add-host-agency"
-              element={<AddHostAgency />}
-            />
-            <Route
-              path="agencies/add-coin-agency"
-              element={<AddCoinAgency />}
-            />
-            <Route
-              path="agencies/add-master-agency"
-              element={<AddMasterAgency />}
-            />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="host" element={<Host />} />
+              <Route path="coins" element={<CoinManageMent />} />
+              <Route
+                path="coins/rate-transaction"
+                element={<RateTransaction />}
+              />
+              <Route path="coins/exchange-rate" element={<ExchangeRate />} />
+              <Route path="coins/master-ledger" element={<MasterLedger />} />
+              <Route path="agencies" element={<Agencies />} />
+              <Route
+                path="agencies/add-host-agency"
+                element={<AddHostAgency />}
+              />
+              <Route
+                path="agencies/add-coin-agency"
+                element={<AddCoinAgency />}
+              />
+              <Route
+                path="agencies/add-master-agency"
+                element={<AddMasterAgency />}
+              />
 
-            <Route
-              path="agencies/add-admin-agency"
-              element={<AddAdminAgency />}
-            />
-            <Route
-              path="agencies/:agencyId"
-              element={<UpdateAgenciesDetails />}
-            />
-            <Route path="users" element={<DashboardUsers />} />
-            <Route path="transaction-history" element={<Transaction />} />
-            <Route path="live-streams" element={<LiveStreams />} />
-            <Route path="moderation" element={<Moderation />} />
-            <Route path="analytics" element={<Analytics />} />
-            <Route path="finance" element={<Finance />} />
-            <Route path="pk-masters" element={<PkMaster />} />
-            <Route path="kyc-centre" element={<KycCenter />} />
-            <Route path="salary-target" element={<SalaryTarget />} />
-            <Route path="gifts-assets" element={<GiftAndAssests />} />
-            {/* <Route
+              <Route
+                path="agencies/add-admin-agency"
+                element={<AddAdminAgency />}
+              />
+              <Route
+                path="agencies/:agencyId"
+                element={<UpdateAgenciesDetails />}
+              />
+              <Route path="users" element={<DashboardUsers />} />
+              <Route path="transaction-history" element={<Transaction />} />
+              <Route path="live-streams" element={<LiveStreams />} />
+              <Route path="moderation" element={<Moderation />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="finance" element={<Finance />} />
+              <Route path="pk-masters" element={<PkMaster />} />
+              <Route path="kyc-centre" element={<KycCenter />} />
+              <Route path="salary-target" element={<SalaryTarget />} />
+              <Route path="gifts-assets" element={<GiftAndAssests />} />
+              {/* <Route
               path="notification-center"
               element={<NotificationCenter />}
             />
             <Route path="inbox" element={<InboxPage />} /> */}
-            <Route path="settings" element={<Setting />} />
-            {/* data store routes */}
-            <Route path="host-management" element={<HostManagement />} />
-            <Route path="host-agency" element={<HostAgency />} />
-            <Route path="master-agency" element={<MasterAgency />} />
-            <Route path="user-management" element={<UserManagement />} />
-            <Route path="admin-agency" element={<AdminAgency />} />
-            <Route path="coin-agency" element={<CoinAgency />} />
-            <Route path="support" element={<SupportAgency />} />
-            <Route
-              path="support/add-support-agency"
-              element={<AddSupportAgency />}
-            />
-            <Route
-              path="support/update-support-agency/:supportId"
-              element={<UpdateSupportAgency />}
-            />
-            <Route path="delete-ban" element={<DeleteBan />} />
+              <Route path="settings" element={<Setting />} />
+              {/* data store routes */}
+              <Route path="host-management" element={<HostManagement />} />
+              <Route path="host-agency" element={<HostAgency />} />
+              <Route path="master-agency" element={<MasterAgency />} />
+              <Route path="user-management" element={<UserManagement />} />
+              <Route path="admin-agency" element={<AdminAgency />} />
+              <Route path="coin-agency" element={<CoinAgency />} />
+              <Route path="support" element={<SupportAgency />} />
+              <Route
+                path="support/add-support-agency"
+                element={<AddSupportAgency />}
+              />
+              <Route
+                path="support/update-support-agency/:supportId"
+                element={<UpdateSupportAgency />}
+              />
+              <Route path="delete-ban" element={<DeleteBan />} />
+            </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
