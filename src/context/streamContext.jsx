@@ -16,8 +16,17 @@ export default function StreamProvider({ children }) {
     `${BASE_URL}/admin/agencies?page=1&limit=100&search=&status=&type=`
   );
 
+  //badge
+  const { data: badges } = useFetch(
+    `${BASE_URL}/badges?page=1&limit=100&search=ba`
+  );
+
+  const badgeList = badges?.badges;
+
   return (
-    <StreamContext.Provider value={{ countriesName, countries, agencies }}>
+    <StreamContext.Provider
+      value={{ countriesName, countries, agencies, badgeList }}
+    >
       {children}
     </StreamContext.Provider>
   );

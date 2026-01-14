@@ -6,7 +6,7 @@ export default function TopUp() {
     <div>
       <TitleAndSubTitle
         title="Top Up Config"
-        subtitle="Manage top up packages"
+        subtitle="Manage top up packages and rewards"
       />
     </div>
   );
