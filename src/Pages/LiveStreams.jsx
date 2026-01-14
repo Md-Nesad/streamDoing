@@ -49,14 +49,13 @@ export default function LiveStreams() {
 
   // Fetch live streams every 1 min if live exits
   useEffect(() => {
-    if (!lives || lives.length === 0) return;
-
+    if (!data?.liveStreams || data?.liveStreams?.length === 0) return;
     const intervalId = setInterval(() => {
       fetchLiveStreams();
     }, 60000);
 
     return () => clearInterval(intervalId);
-  }, [lives]);
+  }, [data?.liveStreams]);
 
   // Socket listeners
   useEffect(() => {
@@ -77,7 +76,6 @@ export default function LiveStreams() {
 
     // Viewers count update
     socket.on("admin:total-live-viewers", ({ roomId, viewers }) => {
-      console.log(roomId, viewers);
       setLives((prev) =>
         prev.map((live) =>
           live.roomId === roomId ? { ...live, viewers } : live

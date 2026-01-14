@@ -4,7 +4,11 @@ import Error from "../components/Error";
 import KycCenterTable from "../components/KycCenterTable";
 import Loading from "../components/Loading";
 import useFetch from "../hooks/useFetch";
-import { BASE_URL, formatNumber } from "../utility/utility";
+import {
+  BASE_URL,
+  formatNumber,
+  formatStreamingHours,
+} from "../utility/utility";
 import { Coin } from "../../public/icons/Coin";
 import { useState } from "react";
 export default function KycCenter() {
@@ -34,7 +38,7 @@ export default function KycCenter() {
     },
     {
       title: "Stream Hours",
-      value: state?.totalStreamHours.toFixed(2),
+      value: formatStreamingHours(state?.totalStreamHours),
       change: `+${state?.todayStreamHours.toFixed(2)} today`,
       icon: Video,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",

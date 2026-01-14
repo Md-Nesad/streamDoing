@@ -4,7 +4,11 @@ import AnalyticsHostTable from "../components/analytics/AnalyticsHostTable";
 import CoinSalesOverview from "../components/analytics/CoinSalesOverview";
 import MetricsCard from "../components/analytics/MetricsCard";
 import useFetch from "../hooks/useFetch";
-import { BASE_URL, formatNumber } from "../utility/utility";
+import {
+  BASE_URL,
+  formatNumber,
+  formatStreamingHours,
+} from "../utility/utility";
 import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
@@ -63,7 +67,7 @@ export default function Analytics() {
     },
     {
       title: "Striming Hours",
-      value: analyticsStats?.data?.totalStrimingHours.toFixed(4),
+      value: formatStreamingHours(analyticsStats?.data?.totalStrimingHours),
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",

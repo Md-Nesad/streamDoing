@@ -139,3 +139,9 @@ export function getDurationFromStartDate(startDate) {
   const seconds = Math.floor((durationMs % (1000 * 60)) / 1000);
   return `${hours}h ${minutes}m ${seconds}s`;
 }
+
+export function formatStreamingHours(hours) {
+  const h = Math.floor(hours);
+  const m = Math.floor((hours - h) * 60);
+  return `${h}h ${m}m`;
+}
