@@ -10,6 +10,7 @@ import { BASE_URL, formatNumber } from "../../utility/utility";
 export default function CoinsTable({ tableData, setPage, loading }) {
   const coinList = tableData?.agencies?.filter((item) => item.type === "coin");
   const [coins, setCoins] = useState(coinList);
+  console.log("coins", coins);
   const coinPagination = tableData?.pagination;
   const navigate = useNavigate();
   const { countriesName } = useStream();
@@ -17,6 +18,7 @@ export default function CoinsTable({ tableData, setPage, loading }) {
     `${BASE_URL}/admin/agencies/coin-agencies?search=`
   );
   const coinlists = data?.data;
+  console.log("coinlists", coinlists);
 
   const [text, setText] = useState("");
 
@@ -94,6 +96,7 @@ export default function CoinsTable({ tableData, setPage, loading }) {
                 const saleBye = coinlists?.find(
                   (item) => item?._id === coin._id
                 );
+
                 return (
                   <tr
                     key={index}

@@ -26,7 +26,7 @@ export default function MasterTransactionHistory() {
   const stats = [
     {
       title: "Balance",
-      value: stat?.balance?.totalCoins,
+      value: formatNumber(stat?.balance?.totalCoins),
       change: `+${stat?.balance?.todayBuyCoins} today`,
       icon: Users,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",

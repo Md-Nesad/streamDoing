@@ -10,7 +10,6 @@ export default function MasterCoinAgenciesTable({ data }) {
   const [selectedAgencies, setSelectedAgencies] = useState(null);
   //filtered coin agencies
   const coinAgencies = agencies?.filter((item) => item.type === "coin");
-
   //hadle filter functionallity
   const handleFilter = () => {
     const filteredUsers = agencies?.filter((agency) => {

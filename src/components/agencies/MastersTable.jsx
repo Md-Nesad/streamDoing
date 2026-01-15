@@ -20,7 +20,6 @@ export default function MastersTable({ tableData, setPage, loading }) {
     `${BASE_URL}/admin/agencies/master-agencies?search=`
   );
   const coinlists = data?.data;
-  console.log("coinlists", coinlists);
 
   //handle filter
   const handleFilter = () => {
@@ -96,7 +95,7 @@ export default function MastersTable({ tableData, setPage, loading }) {
                 const saleBye = coinlists?.find(
                   (item) => item?._id === master._id
                 );
-                console.log(saleBye);
+
                 return (
                   <tr
                     key={index}
