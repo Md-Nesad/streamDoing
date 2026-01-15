@@ -201,37 +201,6 @@ export const streams = [
   },
 ];
 
-export const hosts = [
-  {
-    title: "Total Host",
-    value: "120,458",
-    change: "+245 today",
-    icon: Users,
-    iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
-  },
-  {
-    title: "Total Diamonds",
-    value: "3.4M",
-    change: "",
-    icon: RadioTower,
-    iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
-  },
-  {
-    title: "Total Beans",
-    value: "12K",
-    change: "",
-    icon: Wallet,
-    iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
-  },
-  {
-    title: "Platform Revenue",
-    value: "৳2.4M",
-    change: "+18%",
-    icon: TrendingUp,
-    iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
-  },
-];
-
 export const agencies = [
   {
     title: "Total Agencies",
