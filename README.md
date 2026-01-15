@@ -1,6 +1,6 @@
-# React + Vite
+# Admin Dashboard to manage stream app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+I have contributed on this project as a frontend developer where my role was developing pixel perfect ui and integrating API's to manage the whole mobile app.
 
 Currently, two official plugins are available:
 
