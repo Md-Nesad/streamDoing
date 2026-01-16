@@ -18,7 +18,7 @@ export default function StreamProvider({ children }) {
 
   //badge
   const { data: badges } = useFetch(
-    `${BASE_URL}/badges?page=1&limit=100&search=ba`
+    `${BASE_URL}/badges?page=1&limit=100&search=`
   );
 
   const badgeList = badges?.badges;
