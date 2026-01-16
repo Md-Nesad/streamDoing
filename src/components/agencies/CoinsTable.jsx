@@ -18,7 +18,6 @@ export default function CoinsTable({ tableData, setPage, loading }) {
     `${BASE_URL}/admin/agencies/coin-agencies?search=`
   );
   const coinlists = data?.data;
-  console.log("coinlists", coinlists);
 
   const [text, setText] = useState("");
 
