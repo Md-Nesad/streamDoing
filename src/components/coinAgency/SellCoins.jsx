@@ -68,7 +68,7 @@ export default function SellCoins() {
               disabled
               className="border border-[#626060] rounded-md px-3 pl-4 py-2 w-full outline-none appearance-none focus:ring-2 text-[15px] text-[#636363] focus:ring-blue-400"
             >
-              <option>Category</option>
+              <option>Master</option>
               <option>Coin</option>
               <option>Master</option>
               <option>Host</option>

@@ -7,6 +7,7 @@ import { BASE_URL } from "../../utility/utility";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
 import useDelete from "../../hooks/useDelete";
+import star from "../../assests/star.png";
 
 export default function UserManagementTable() {
   const navigate = useNavigate();
@@ -119,9 +120,9 @@ export default function UserManagementTable() {
                   <td className="p-3">{user.gender || "N/A"}</td>
                   <td className="p-3">{user.email}</td>
                   <td className="p-3">
-                    <span className="px-1.5 py-1 text-xs bg-linear-to-b from-[#5DB90A] to-[#175111] rounded-lg font-semibold text-white flex items-center gap-1.5 w-10 pl-3">
-                      {/* <img src={star} alt="" className="w-4 h-4" /> Lv */}
-                      LV{user.level || "N/A"}
+                    <span className="px-1.5 py-1 text-xs bg-linear-to-b from-[#5DB90A] to-[#175111] rounded-lg font-semibold text-white flex items-center gap-1.5 w-14.5">
+                      <img src={star} alt="" className="w-4 h-4" /> Lv
+                      {user.level || "N/A"}
                     </span>
                   </td>
                   <td className="p-3">{user.phone}</td>
