@@ -6,9 +6,11 @@ import {
 } from "../../utility/utility";
 
 export default function LiveStat({ data }) {
-  const { data: live, error } = useFetch(
-    `${BASE_URL}/admin/live-streams?page=1&limit=200`
-  );
+  const {
+    data: live,
+    error,
+    loading,
+  } = useFetch(`${BASE_URL}/admin/live-streams?page=1&limit=200`);
   const liveStreams = live?.liveStreams;
   const { totalViewers } = totalViewersWithAvgDuration(liveStreams);
 
@@ -21,7 +23,7 @@ export default function LiveStat({ data }) {
           Active Streams
         </p>
         <h3 className="text-xl font-bold text-[#0C00E6]">
-          {liveStreams?.length}
+          {loading ? "..." : liveStreams?.length}
         </h3>
       </div>
 

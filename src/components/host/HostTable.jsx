@@ -27,7 +27,7 @@ export default function HostTable({ hostListData }) {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("admin_token")}`,
           },
-        }
+        },
       );
 
       if (!res.ok) throw new Error("Export failed");

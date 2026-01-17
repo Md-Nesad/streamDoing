@@ -1,5 +1,6 @@
 export default function PendingJoinRequest({ data }) {
   const hostRequest = data?.hostRequests;
+  console.log(hostRequest);
   return (
     <>
       {/* table area */}

@@ -29,7 +29,7 @@ export default function AllGiftTable({ data, loading, error }) {
   // filtered gift
   const filteredGifts = allGifts
     ? allGifts.filter((item) =>
-        item.name.toLowerCase().includes(text.toLowerCase())
+        item.name.toLowerCase().includes(text.toLowerCase()),
       )
     : allGifts;
 
@@ -37,7 +37,7 @@ export default function AllGiftTable({ data, loading, error }) {
   const handleDelete = async (id) => {
     try {
       const confirmDelete = window.confirm(
-        "Are you sure you want to delete this gift?"
+        "Are you sure you want to delete this gift?",
       );
       if (!confirmDelete) return;
       setDLoading(id);
@@ -64,7 +64,7 @@ export default function AllGiftTable({ data, loading, error }) {
 
   useEffect(() => {
     setAllGifts(
-      data?.gifts.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+      data?.gifts.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)),
     );
   }, [data]);
 
@@ -125,11 +125,11 @@ export default function AllGiftTable({ data, loading, error }) {
               filteredGifts?.map((gift) => {
                 //get category name
                 const categoryName = categories?.find(
-                  (category) => category._id === gift.category
+                  (category) => category._id === gift.category,
                 )?.name;
                 //get subcategory name
                 const subCategoryName = subCategories?.find(
-                  (category) => category._id === gift.subCategory
+                  (category) => category._id === gift.subCategory,
                 )?.name;
                 return (
                   <tr

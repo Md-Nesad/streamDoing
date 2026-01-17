@@ -5,9 +5,10 @@ import RecentGiftActivity from "./RecentGiftActivity";
 import RevenueDistribution from "./RevenueDistribution";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
+import GiftChildTabs from "./GiftChildTabs";
 
 export default function GiftTabs() {
-  const { data, loading, error } = useFetch(`${BASE_URL}/gifts/list`);
+  const { data } = useFetch(`${BASE_URL}/gifts/list`);
 
   return (
     <Tabs>
@@ -33,7 +34,7 @@ export default function GiftTabs() {
       </TabList>
 
       <TabPanel>
-        <AllGiftTable data={data} loading={loading} error={error} />
+        <GiftChildTabs />
       </TabPanel>
 
       <TabPanel>
