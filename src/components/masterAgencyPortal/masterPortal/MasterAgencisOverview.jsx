@@ -1,7 +1,16 @@
+import { useState } from "react";
 import { formatNumber } from "../../../utility/utility";
+import MasterModal from "./MasterModal";
 
 export default function MasterAgencisOverview({ data }) {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
   const agencies = data?.agencies;
+
+  const handleView = (agency) => {
+    setSelected(agency);
+    setOpen(true);
+  };
   return (
     <>
       <div className="w-full mt-7 mb-10">
@@ -52,7 +61,11 @@ export default function MasterAgencisOverview({ data }) {
                         </span>
                       </td>
                       <td className="p-3">
-                        <span className="font-semibold">View</span>
+                        <span className="font-semibold">
+                          <button onClick={() => handleView(agency)}>
+                            View
+                          </button>
+                        </span>
                       </td>
                     </tr>
                   );
@@ -71,6 +84,13 @@ export default function MasterAgencisOverview({ data }) {
           </table>
         </div>
       </div>
+      {open && (
+        <MasterModal
+          open={open}
+          onClose={() => setOpen(false)}
+          agency={selected}
+        />
+      )}
     </>
   );
 }

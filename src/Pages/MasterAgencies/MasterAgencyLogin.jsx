@@ -40,6 +40,8 @@ export default function MasterAgencyLogin() {
 
       const data = await res.json();
 
+      console.log(data);
+
       if (!res.ok) {
         setError(data.error || "Login failed");
         return;
@@ -47,6 +49,7 @@ export default function MasterAgencyLogin() {
 
       // Save the token to local storage
       localStorage.setItem("admin_token", data.token);
+      localStorage.setItem("data", JSON.stringify(data));
 
       if (!data.token) {
         navigate("/master-portal-login");

@@ -7,6 +7,7 @@ import MasterTransactionHistory from "../../Pages/MasterAgencies/MasterTransacti
 import MasterPortalAgencies from "../../Pages/MasterAgencies/MasterPortalAgencies";
 import MasterPortalAnalytics from "../../Pages/MasterAgencies/MasterPortalAnalytics";
 import { MasterProtectedRoute } from "../ProtectedRoutes";
+import AddCoinAgency from "../../components/masterAgencyPortal/masterPortal/MasAddCoinAgency";
 
 export default function MasterAgencyPortal() {
   return (
@@ -30,6 +31,10 @@ export default function MasterAgencyPortal() {
                 element={<MasterTransactionHistory />}
               />
               <Route path="agencies" element={<MasterPortalAgencies />} />
+              <Route
+                path="agencies/add-coin-agency"
+                element={<AddCoinAgency />}
+              />
               <Route path="analytics" element={<MasterPortalAnalytics />} />
             </Route>
           </Route>

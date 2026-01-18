@@ -2,8 +2,10 @@ import { Funnel } from "lucide-react";
 import { useEffect, useState } from "react";
 import MasterCoinAgencyDetailsModal from "./MasterCoinAgencyDetailsModal";
 import { formatNumber } from "../../../utility/utility";
+import { useNavigate } from "react-router-dom";
 
 export default function MasterCoinAgenciesTable({ data }) {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const [agencies, setAgencies] = useState(data?.agencies || []);
@@ -47,7 +49,12 @@ export default function MasterCoinAgenciesTable({ data }) {
           >
             <Funnel size={18} /> Filter
           </button>
-          <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
+          <button
+            onClick={() =>
+              navigate("/master-agency-portal/agencies/add-coin-agency")
+            }
+            className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
+          >
             Add Agency
           </button>
         </div>

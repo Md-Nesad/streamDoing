@@ -83,6 +83,7 @@ export const masterMenuItems = [
     title: "Agencies",
     icon: Building2,
     link: "/master-agency-portal/agencies",
+    hasChildren: true,
   },
   {
     title: "Analytics",
