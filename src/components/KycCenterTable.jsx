@@ -56,8 +56,8 @@ export default function KycCenterTable({ data, setPage }) {
               <th className="p-3">Agency Name</th>
               <th className="p-3">Categories</th>
               <th className="p-3">Approve in</th>
-              <th className="p-3">Status</th>
-              <th className="p-3">Action</th>
+              <th className="p-3 pl-7">Status</th>
+              {/* <th className="p-3">Action</th> */}
             </tr>
           </thead>
 
@@ -89,15 +89,15 @@ export default function KycCenterTable({ data, setPage }) {
                       {kyc.status}
                     </span>
                   </td>
-                  <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
+                  {/* <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
                     <span className="flex items-center gap-4">
-                      {/* <button onClick={() => setOpen(true)}>
+                      <button onClick={() => setOpen(true)}>
                       <CircleCheckBig size={17} className="text-[#11B324]" />
                     </button>
-                    <CircleX size={18} className="text-[#FF0037]" /> */}
+                    <CircleX size={18} className="text-[#FF0037]" />
                       <Ellipsis size={17} />
                     </span>
-                  </td>
+                  </td> */}
                 </tr>
               ))
             ) : (

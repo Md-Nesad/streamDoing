@@ -5,10 +5,13 @@ import Loading from "../Loading";
 import { useStream } from "../../context/streamContext";
 import { useEffect, useState } from "react";
 import { formatNumber } from "../../utility/utility";
+import AgencyDetailsModal from "../../modals/AgencyDetailsModal";
 
 export default function AdminAgencyTable({ tableData, setPage, loading }) {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
   const adminList = tableData?.agencies?.filter(
-    (item) => item.type === "admin"
+    (item) => item.type === "admin",
   );
   const [admins, setAdmins] = useState(adminList);
   const adminPagination = tableData?.pagination;
@@ -26,15 +29,17 @@ export default function AdminAgencyTable({ tableData, setPage, loading }) {
     setAdmins(filteredUsers);
   };
 
-  useEffect(() => {
-    setAdmins(adminList);
-  }, [tableData]);
+  //handle edit
+  const handleEdit = (agency) => {
+    setSelected(agency);
+    setOpen(true);
+  };
 
   useEffect(() => {
     if (text === "") {
-      handleFilter();
+      setAdmins(adminList);
     }
-  }, [text]);
+  }, [text, tableData]);
 
   if (loading) return <Loading />;
   return (
@@ -79,7 +84,7 @@ export default function AdminAgencyTable({ tableData, setPage, loading }) {
               <th className="p-3">Com 10.0%</th>
               <th className="p-3">Country</th>
               <th className="p-3">Status</th>
-              <th className="p-3 sm:pl-4">Action</th>
+              <th className="p-3">Action</th>
             </tr>
           </thead>
 
@@ -114,10 +119,10 @@ export default function AdminAgencyTable({ tableData, setPage, loading }) {
                     </span>
                   </td>
                   <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                    View
-                    <span role="button">
-                      <Ellipsis size={17} />
-                    </span>
+                    <button type="button" onClick={() => handleEdit(admin)}>
+                      <span className="font-semibold">View</span>
+                    </button>
+                    {/* <Ellipsis size={17} /> */}
                   </td>
                 </tr>
               ))
@@ -137,6 +142,13 @@ export default function AdminAgencyTable({ tableData, setPage, loading }) {
           onPageChange={setPage}
         />
       </div>
+      {open && (
+        <AgencyDetailsModal
+          agency={selected}
+          open={open}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </>
   );
 }

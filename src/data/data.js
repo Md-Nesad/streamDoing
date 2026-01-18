@@ -28,6 +28,7 @@ import {
   ArrowUpCircle,
   Sparkles,
   Wallet2,
+  HandFist,
 } from "lucide-react";
 import mayaPatel from "/mayaPatel.png";
 import { Coin } from "../../public/icons/Coin";
@@ -71,7 +72,7 @@ export const menuItems = [
   // { title: "Inbox Assets", icon: MessageCircleMore, link: "/dashboard/inbox" },
   {
     title: "Support Agency",
-    icon: Gift,
+    icon: HandFist,
     link: "/dashboard/support",
     hasChildren: true,
   },

@@ -6,16 +6,24 @@ import Error from "../Error";
 import Pagination from "../Pagination";
 import { useState } from "react";
 import { useStream } from "../../context/streamContext";
+import CoinTransactionModal from "../../modals/ConiTransactionModal";
 
 export default function RateTransactionTable() {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
   const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/coins/rates/transactions?page=${page}&limit=20`
+    `${BASE_URL}/coins/rates/transactions?page=${page}&limit=20`,
   );
 
   const transactions = data?.transactions;
   const pagination = data?.pagination;
   const { agencies } = useStream();
+
+  const handleOpen = (item) => {
+    setOpen(true);
+    setSelected(item);
+  };
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
@@ -40,7 +48,7 @@ export default function RateTransactionTable() {
             {transactions?.length > 0 ? (
               transactions?.map((item, index) => {
                 const findAgency = agencies?.agencies?.find(
-                  (agency) => agency._id === item?.to?._id
+                  (agency) => agency._id === item?.to?._id,
                 );
 
                 return (
@@ -75,7 +83,9 @@ export default function RateTransactionTable() {
                     <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                       {item.status === "completed" ? (
                         <span className="flex items-center gap-3">
-                          <Eye size={19} />
+                          <button onClick={() => handleOpen(item)}>
+                            <Eye size={19} />
+                          </button>
                           <RotateCw size={17} className="text-[#F5AD7C]" />
                         </span>
                       ) : (
@@ -108,6 +118,13 @@ export default function RateTransactionTable() {
           onPageChange={setPage}
         />
       </div>
+      {open && (
+        <CoinTransactionModal
+          open={open}
+          onClose={() => setOpen(false)}
+          item={selected}
+        />
+      )}
     </>
   );
 }

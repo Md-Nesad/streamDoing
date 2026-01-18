@@ -1,10 +1,14 @@
 import { Ellipsis, Eye, Funnel } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
+import HostDetailsModal from "../../modals/HostDetailsModal";
 
 export default function HostTable({ hostListData }) {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
   const [hostList, setHostList] = useState(hostListData?.hosts);
   const [text, setText] = useState("");
+  console.log(selected);
 
   //handle filter
   const handleFilter = () => {
@@ -47,6 +51,12 @@ export default function HostTable({ hostListData }) {
       console.error(err);
       alert("Export failed");
     }
+  };
+
+  //handle view
+  const handleView = (host) => {
+    setSelected(host);
+    setOpen(true);
   };
 
   //update list when text empty
@@ -100,7 +110,7 @@ export default function HostTable({ hostListData }) {
               <th className="p-3">Beans</th>
               <th className="p-3">Location</th>
               <th className="p-3">Status</th>
-              <th className="p-3 sm:pl-4">Action</th>
+              <th className="p-3">Action</th>
             </tr>
           </thead>
 
@@ -138,10 +148,12 @@ export default function HostTable({ hostListData }) {
                     </span>
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                    <Eye size={17} />
-                    <span>
+                    <button onClick={() => handleView(host)}>
+                      <Eye size={17} />
+                    </button>
+                    {/* <span>
                       <Ellipsis size={17} />
-                    </span>
+                    </span> */}
                   </td>
                 </tr>
               ))
@@ -158,6 +170,13 @@ export default function HostTable({ hostListData }) {
           </tbody>
         </table>
       </div>
+      {open && (
+        <HostDetailsModal
+          agency={selected}
+          open={open}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </>
   );
 }

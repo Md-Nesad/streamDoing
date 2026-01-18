@@ -6,10 +6,13 @@ import { useStream } from "../../context/streamContext";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatNumber } from "../../utility/utility";
+import AgencyDetailsModal from "../../modals/AgencyDetailsModal";
 
 export default function MastersTable({ tableData, setPage, loading }) {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
   const masterList = tableData?.agencies?.filter(
-    (item) => item.type === "master"
+    (item) => item.type === "master",
   );
   const [masters, setMasters] = useState(masterList);
   const masterPagination = tableData?.pagination;
@@ -17,7 +20,7 @@ export default function MastersTable({ tableData, setPage, loading }) {
   const { countriesName } = useStream();
   const [text, setText] = useState("");
   const { data, loading: masterLoading } = useFetch(
-    `${BASE_URL}/admin/agencies/master-agencies?search=`
+    `${BASE_URL}/admin/agencies/master-agencies?search=`,
   );
   const coinlists = data?.data;
 
@@ -32,15 +35,17 @@ export default function MastersTable({ tableData, setPage, loading }) {
     setMasters(filteredUsers);
   };
 
-  useEffect(() => {
-    setMasters(masterList);
-  }, [tableData]);
+  //handle edit
+  const handleEdit = (agency) => {
+    setSelected(agency);
+    setOpen(true);
+  };
 
   useEffect(() => {
     if (text === "") {
-      handleFilter();
+      setMasters(masterList);
     }
-  }, [text]);
+  }, [text, tableData]);
 
   if (loading || masterLoading) return <Loading />;
   return (
@@ -85,7 +90,7 @@ export default function MastersTable({ tableData, setPage, loading }) {
               <th className="p-3">Revenue</th>
               <th className="p-3">Country</th>
               <th className="p-3">Status</th>
-              <th className="p-3 sm:pl-4">Action</th>
+              <th className="p-3">Action</th>
             </tr>
           </thead>
 
@@ -93,7 +98,7 @@ export default function MastersTable({ tableData, setPage, loading }) {
             {masters?.length > 0 ? (
               masters.map((master, index) => {
                 const saleBye = coinlists?.find(
-                  (item) => item?._id === master._id
+                  (item) => item?._id === master._id,
                 );
 
                 return (
@@ -127,10 +132,10 @@ export default function MastersTable({ tableData, setPage, loading }) {
                       </span>
                     </td>
                     <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                      View
-                      <span role="button">
-                        <Ellipsis size={17} />
-                      </span>
+                      <button type="button" onClick={() => handleEdit(master)}>
+                        <span className="font-semibold">View</span>
+                      </button>
+                      {/* <Ellipsis size={17} /> */}
                     </td>
                   </tr>
                 );
@@ -151,6 +156,13 @@ export default function MastersTable({ tableData, setPage, loading }) {
           onPageChange={setPage}
         />
       </div>
+      {open && (
+        <AgencyDetailsModal
+          agency={selected}
+          open={open}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </>
   );
 }

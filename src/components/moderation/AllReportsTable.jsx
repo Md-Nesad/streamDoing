@@ -106,7 +106,7 @@ export default function AllReportsTable({ reports, setPage }) {
                     </span>
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
-                    <button title="View">
+                    <button title="View" className="pl-4">
                       <Eye
                         size={19}
                         onClick={() => {

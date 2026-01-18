@@ -4,8 +4,11 @@ import Pagination from "../Pagination";
 import Loading from "../Loading";
 import { useEffect, useState } from "react";
 import { useStream } from "../../context/streamContext";
+import AgencyDetailsModal from "../../modals/AgencyDetailsModal";
 
 export default function HostAgencyTable({ tableData, setPage, loading }) {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
   const hostList = tableData?.agencies?.filter((item) => item.type === "host");
   const [hosts, setHosts] = useState(hostList);
   const hostPagination = tableData?.pagination;
@@ -23,15 +26,17 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
     setHosts(filteredUsers);
   };
 
-  useEffect(() => {
-    setHosts(hostList);
-  }, [tableData]);
+  //handle edit
+  const handleEdit = (agency) => {
+    setSelected(agency);
+    setOpen(true);
+  };
 
   useEffect(() => {
     if (text === "") {
-      handleFilter();
+      setHosts(hostList);
     }
-  }, [text]);
+  }, [text, tableData]);
 
   if (loading) return <Loading />;
   return (
@@ -77,7 +82,7 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
               <th className="p-3">Revenue</th>
               <th className="p-3">Country</th>
               <th className="p-3">Status</th>
-              <th className="p-3 sm:pl-4">Action</th>
+              <th className="p-3">Action</th>
             </tr>
           </thead>
 
@@ -113,10 +118,10 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
                     </span>
                   </td>
                   <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                    View
-                    <span role="button">
-                      <Ellipsis size={17} />
-                    </span>
+                    <button type="button" onClick={() => handleEdit(host)}>
+                      <span className="font-semibold">View</span>
+                    </button>
+                    {/* <Ellipsis size={17} /> */}
                   </td>
                 </tr>
               ))
@@ -136,6 +141,13 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
           onPageChange={setPage}
         />
       </div>
+      {open && (
+        <AgencyDetailsModal
+          agency={selected}
+          open={open}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </>
   );
 }

@@ -3,12 +3,20 @@ import star from "../../assests/star.png";
 import Pagination from "../Pagination";
 import Loading from "../Loading";
 import { formatNumber } from "../../utility/utility";
+import { useState } from "react";
+import AgencyDetailsModal from "../../modals/AgencyDetailsModal";
 
 export default function AgenciesTable({ agenciesData, setPage, loading }) {
+  const [selected, setSelected] = useState(null);
+  const [open, setOpen] = useState(false);
   const agenciesList = agenciesData?.agencies;
   const agenciesPagination = agenciesData?.pagination;
 
   // if (loading) return <Loading />;
+  const handleEdit = (agency) => {
+    setSelected(agency);
+    setOpen(true);
+  };
 
   return (
     <>
@@ -48,7 +56,7 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                     <th className="p-3">Coin Buy</th>
                     <th className="p-3">Location</th>
                     <th className="p-3">Status</th>
-                    <th className="p-3 pl-5">Action</th>
+                    <th className="p-3">Action</th>
                   </tr>
                 </thead>
 
@@ -104,8 +112,13 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                             </span>
                           </td>
                           <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                            <span className="font-semibold">View</span>{" "}
-                            <Ellipsis size={17} />
+                            <button
+                              type="button"
+                              onClick={() => handleEdit(agency)}
+                            >
+                              <span className="font-semibold">View</span>
+                            </button>
+                            {/* <Ellipsis size={17} /> */}
                           </td>
                         </tr>
                       );
@@ -129,6 +142,13 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                 onPageChange={setPage}
               />
             </div>
+            {open && (
+              <AgencyDetailsModal
+                agency={selected}
+                open={open}
+                onClose={() => setOpen(false)}
+              />
+            )}
           </div>
         </div>
       )}

@@ -6,20 +6,21 @@ import { useStream } from "../../context/streamContext";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatNumber } from "../../utility/utility";
+import AgencyDetailsModal from "../../modals/AgencyDetailsModal";
 
 export default function CoinsTable({ tableData, setPage, loading }) {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [text, setText] = useState("");
   const coinList = tableData?.agencies?.filter((item) => item.type === "coin");
   const [coins, setCoins] = useState(coinList);
-  console.log("coins", coins);
   const coinPagination = tableData?.pagination;
   const navigate = useNavigate();
   const { countriesName } = useStream();
   const { data, loading: coinLoading } = useFetch(
-    `${BASE_URL}/admin/agencies/coin-agencies?search=`
+    `${BASE_URL}/admin/agencies/coin-agencies?search=`,
   );
   const coinlists = data?.data;
-
-  const [text, setText] = useState("");
 
   const handleFilter = () => {
     const filteredUsers = coinList?.filter((agency) => {
@@ -31,15 +32,17 @@ export default function CoinsTable({ tableData, setPage, loading }) {
     setCoins(filteredUsers);
   };
 
-  useEffect(() => {
-    setCoins(coinList);
-  }, [tableData]);
+  //handle edit
+  const handleEdit = (agency) => {
+    setSelected(agency);
+    setOpen(true);
+  };
 
   useEffect(() => {
     if (text === "") {
-      handleFilter();
+      setCoins(coinList);
     }
-  }, [text]);
+  }, [text, tableData]);
 
   if (loading || coinLoading) return <Loading />;
   return (
@@ -85,7 +88,7 @@ export default function CoinsTable({ tableData, setPage, loading }) {
               <th className="p-3">Revenue</th>
               <th className="p-3">Country</th>
               <th className="p-3">Status</th>
-              <th className="p-3 sm:pl-4">Action</th>
+              <th className="p-3">Action</th>
             </tr>
           </thead>
 
@@ -93,7 +96,7 @@ export default function CoinsTable({ tableData, setPage, loading }) {
             {coins?.length > 0 ? (
               coins?.map((coin, index) => {
                 const saleBye = coinlists?.find(
-                  (item) => item?._id === coin._id
+                  (item) => item?._id === coin._id,
                 );
 
                 return (
@@ -130,10 +133,10 @@ export default function CoinsTable({ tableData, setPage, loading }) {
                       </span>
                     </td>
                     <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                      View
-                      <span role="button">
-                        <Ellipsis size={17} />
-                      </span>
+                      <button type="button" onClick={() => handleEdit(coin)}>
+                        <span className="font-semibold">View</span>
+                      </button>
+                      {/* <Ellipsis size={17} /> */}
                     </td>
                   </tr>
                 );
@@ -154,6 +157,14 @@ export default function CoinsTable({ tableData, setPage, loading }) {
           onPageChange={setPage}
         />
       </div>
+
+      {open && (
+        <AgencyDetailsModal
+          agency={selected}
+          open={open}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </>
   );
 }

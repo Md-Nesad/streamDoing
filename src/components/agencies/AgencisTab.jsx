@@ -18,7 +18,7 @@ export default function AgencisTabs() {
   const masterAgencies = useFetch(`${BASE_URL}/admin/agencies/master-stats`);
   const adminAgencies = useFetch(`${BASE_URL}/admin/agencies/admin-stats`);
   const agenciesList = useFetch(
-    `${BASE_URL}/admin/agencies?page=${page}&limit=30&search=`
+    `${BASE_URL}/admin/agencies?page=${page}&limit=50&search=`,
   );
 
   const agenciesData = agenciesList?.data;
