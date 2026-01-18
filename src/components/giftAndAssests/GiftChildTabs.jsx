@@ -23,7 +23,7 @@ export default function GiftChildTabs() {
 
   return (
     <Tabs>
-      <TabList className="flex items-center gap-3 bg-[#F4F4F4] w-full overflow-x-auto hide_scrollbar text-nowrap sm:w-fit px-2 py-1 rounded ml-4">
+      <TabList className="flex items-center gap-3 bg-[#F4F4F4] w-full overflow-x-auto hide_scrollbar text-nowrap sm:w-fit px-2 py-1 rounded ml-5">
         <Tab
           className="font-sans cursor-pointer text-sm"
           selectedClassName="active-tab"

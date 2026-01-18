@@ -1,7 +1,7 @@
 import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import AddGiftModal from "../../modals/AddGiftModal";
-import { BASE_URL } from "../../utility/utility";
+import { BASE_URL, formatNumber } from "../../utility/utility";
 import Loading from "../Loading";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
@@ -130,7 +130,7 @@ export default function VIPLists({ data, loading, error }) {
                     </td>
                     <td className="p-3 font-medium">{gift.name}</td>
                     <td className="p-3">{gift.category?.name}</td>
-                    <td className="p-3">{gift.price}</td>
+                    <td className="p-3">{formatNumber(gift.price)}</td>
 
                     <td className="p-3">
                       <span

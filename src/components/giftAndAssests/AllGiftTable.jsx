@@ -1,7 +1,6 @@
-import { ChevronDown, ChevronUp, Funnel, LoaderCircle } from "lucide-react";
+import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import AddGiftModal from "../../modals/AddGiftModal";
-import AssestsDropdown from "./AssestsDropdown";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import Loading from "../Loading";
@@ -14,7 +13,6 @@ export default function AllGiftTable({ data, loading, error }) {
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
   const [update, setUpdate] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const deleteUser = useDelete(`${BASE_URL}/gifts/delete`);
   const [allGifts, setAllGifts] = useState(data?.gifts);
   const [dloading, setDLoading] = useState(null);
@@ -74,7 +72,7 @@ export default function AllGiftTable({ data, loading, error }) {
     }
   }, [text, data]);
 
-  if (loading || category.loading || subCategory.loading) return <Loading />;
+  if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 
   return (
@@ -143,8 +141,14 @@ export default function AllGiftTable({ data, loading, error }) {
                       />
                     </td>
                     <td className="p-3 font-medium">{gift.name}</td>
-                    <td className="p-3">{categoryName || "N/A"}</td>
-                    <td className="p-3">{subCategoryName || "N/A"}</td>
+                    <td className="p-3">
+                      {category?.loading ? "Loading..." : categoryName || "N/A"}
+                    </td>
+                    <td className="p-3">
+                      {subCategory?.loading
+                        ? "Loading..."
+                        : subCategoryName || "N/A"}
+                    </td>
                     <td className="p-3">{formatNumber(gift.cost)}</td>
                     <td className="p-3">
                       <span

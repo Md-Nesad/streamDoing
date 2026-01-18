@@ -5,6 +5,7 @@ import Loading from "../Loading";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import AddNewEntryModal from "../../modals/assests/AddNewEntry";
+import useFetch from "../../hooks/useFetch";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
@@ -15,9 +16,10 @@ export default function EntryLists({ data, loading, error }) {
   //   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const deleteUser = useDelete(`${BASE_URL}/entries`);
   const [allGifts, setAllGifts] = useState(data?.entries);
-  console.log(allGifts);
-
   const [dloading, setDLoading] = useState(null);
+  const { data: categories, loading: catLoading } = useFetch(
+    `${BASE_URL}/entries/categories`,
+  );
   //   const [selectedGift, setSelectedGift] = useState(null);
 
   const handleFilter = () => {
@@ -115,6 +117,9 @@ export default function EntryLists({ data, loading, error }) {
           <tbody>
             {allGifts?.length > 0 ? (
               allGifts?.map((gift) => {
+                const categoryName = categories?.categories?.find(
+                  (category) => category._id === gift.category,
+                )?.name;
                 return (
                   <tr
                     key={gift._id}
@@ -128,8 +133,10 @@ export default function EntryLists({ data, loading, error }) {
                       />
                     </td>
                     <td className="p-3 font-medium">{gift.name}</td>
-                    <td className="p-3">{gift.category}</td>
-                    <td className="p-3">{gift.price}</td>
+                    <td className="p-3">
+                      {catLoading ? "Loading..." : categoryName}
+                    </td>
+                    <td className="p-3">{formatNumber(gift.price)}</td>
 
                     <td className="p-3">
                       <span
