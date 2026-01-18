@@ -36,7 +36,7 @@ export default function CoinSenderTable({ tableData, setPage }) {
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
+          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[87%] px-4 py-1.5 rounded-md"
           placeholder="Search by transaction ID or receiver Id"
         />
 
@@ -48,12 +48,12 @@ export default function CoinSenderTable({ tableData, setPage }) {
           >
             <Funnel size={18} /> Filter
           </button>
-          <button
+          {/* <button
             onClick={() => navigate("/dashboard/agencies/add-host-agency")}
             className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
           >
             Add Agency
-          </button>
+          </button> */}
         </div>
       </div>
 

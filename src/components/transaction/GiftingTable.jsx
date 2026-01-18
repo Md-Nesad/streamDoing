@@ -14,7 +14,7 @@ export default function GiftingTable() {
   const [text, setText] = useState("");
   const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/transactions/gift-history?page=${page}&limit=30`
+    `${BASE_URL}/admin/transactions/gift-history?page=${page}&limit=30`,
   );
   const [giftList, setGiftList] = useState(data?.giftTransactions);
   const pagination = data?.pagination;
@@ -45,7 +45,7 @@ export default function GiftingTable() {
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
+          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[87%] px-4 py-1.5 rounded-md"
           placeholder="Search by Agency ID or name"
         />
 
@@ -57,9 +57,9 @@ export default function GiftingTable() {
           >
             <Funnel size={18} /> Filter
           </button>
-          <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
+          {/* <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
             Add Agency
-          </button>
+          </button> */}
         </div>
       </div>
 

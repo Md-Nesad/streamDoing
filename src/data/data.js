@@ -71,11 +71,12 @@ export const menuItems = [
   // },
   // { title: "Inbox Assets", icon: MessageCircleMore, link: "/dashboard/inbox" },
   {
-    title: "Support Agency",
-    icon: HandFist,
-    link: "/dashboard/support",
-    hasChildren: true,
+    title: "Level Up Config",
+    icon: ArrowUpCircle,
+    link: "/dashboard/level-up",
   },
+  { title: "Charm Up Config", icon: Sparkles, link: "/dashboard/charm-up" },
+
   // data store links
   { title: "Host", icon: ShieldCheck, link: "/dashboard/host-management" },
   {
@@ -99,14 +100,15 @@ export const menuItems = [
     icon: Target,
     link: "/dashboard/coin-agency",
   },
-  { title: "Delete/Ban", icon: Gift, link: "/dashboard/delete-ban" },
   {
-    title: "Level Up Config",
-    icon: ArrowUpCircle,
-    link: "/dashboard/level-up",
+    title: "Support Agency",
+    icon: HandFist,
+    link: "/dashboard/support",
+    hasChildren: true,
   },
-  { title: "Charm Up Config", icon: Sparkles, link: "/dashboard/charm-up" },
-  { title: "Top Up Packages", icon: Wallet2, link: "/dashboard/top-up" },
+  { title: "Delete/Ban", icon: Gift, link: "/dashboard/delete-ban" },
+
+  // { title: "Top Up Packages", icon: Wallet2, link: "/dashboard/top-up" },
   { title: "Settings", icon: Settings, link: "/dashboard/settings" },
 ];
 export const stats = [
