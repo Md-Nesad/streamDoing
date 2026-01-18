@@ -12,6 +12,7 @@ import { getDurationFromStartDate } from "../utility/utility";
 // import Pagination from "./Pagination";
 import Loading from "./Loading";
 import { useEffect, useState } from "react";
+// import { useZegoVideoAdmin } from "../hooks/useZegoAdmin";
 
 export default function LiveStreamTable({
   lives,
@@ -19,8 +20,10 @@ export default function LiveStreamTable({
   setPage,
   loading,
   streamList,
+  onView,
 }) {
   const [text, setText] = useState("");
+  // const { muteHost, unmuteHost, banHost } = useZegoVideoAdmin();
 
   const handleFilter = () => {
     if (text === "") {
@@ -29,7 +32,7 @@ export default function LiveStreamTable({
       const filtered = streamList.filter(
         (stream) =>
           stream?.host?.name.toLowerCase().includes(text.toLowerCase()) ||
-          stream?.host?.displayId.toString().includes(text)
+          stream?.host?.displayId.toString().includes(text),
       );
       setLives(filtered);
     }
@@ -120,7 +123,9 @@ export default function LiveStreamTable({
                       </td>
                       <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                         <span className="flex items-center gap-4">
-                          <Video size={19} className="text-[#181717]" />
+                          <button onClick={() => onView(stream)}>
+                            <Video size={19} className="text-[#181717]" />
+                          </button>
                           <Mic size={20} className="text-[#181717]" />
                           <Ban size={17} className="text-[#FF0037]" />
                           <button title="View">

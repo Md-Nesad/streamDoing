@@ -7,6 +7,7 @@ import Error from "../components/Error";
 import { Clock, Eye, TrendingUp, Video } from "lucide-react";
 import { socket } from "../socket/socket";
 import Loading from "../components/Loading";
+import LiveViewerModal from "../modals/LiveViewerModal";
 
 export default function LiveStreams() {
   const [loading, setLoading] = useState(false);
@@ -15,6 +16,7 @@ export default function LiveStreams() {
   const [data, setData] = useState([]);
   const [lives, setLives] = useState([]);
   const [streamList, setStreamList] = useState([]);
+  const [selectedStream, setSelectedStream] = useState(null);
   const state = totalViewersWithAvgDuration(streamList);
 
   const fetchLiveStreams = async () => {
@@ -26,7 +28,7 @@ export default function LiveStreams() {
           headers: {
             authorization: `Bearer ${localStorage.getItem("admin_token")}`,
           },
-        }
+        },
       );
       const data = await res.json();
       setData(data);
@@ -59,9 +61,6 @@ export default function LiveStreams() {
 
   // Socket listeners
   useEffect(() => {
-    // socket.on("connect", () => {
-    //   console.log("Connected to socket");
-    // });
     // New live created
     socket.on("admin:new-live-created", (data) => {
       console.log("create event", data);
@@ -77,10 +76,10 @@ export default function LiveStreams() {
     // Viewers count update
     socket.on("admin:total-live-viewers", ({ roomId, viewers }) => {
       setLives((prev) =>
-        prev.map((live) => (live._id === roomId ? { ...live, viewers } : live))
+        prev.map((live) => (live._id === roomId ? { ...live, viewers } : live)),
       );
       setStreamList((prev) =>
-        prev.map((live) => (live._id === roomId ? { ...live, viewers } : live))
+        prev.map((live) => (live._id === roomId ? { ...live, viewers } : live)),
       );
     });
 
@@ -132,12 +131,20 @@ export default function LiveStreams() {
       />
 
       <StatsSection data={streamSummary} />
+
       <LiveStreamTable
         lives={lives}
         setLives={setLives}
         streamList={streamList}
         setPage={setPage}
         loading={loading}
+        onView={(stream) => setSelectedStream(stream)}
+      />
+
+      <LiveViewerModal
+        open={!!selectedStream}
+        stream={selectedStream}
+        onClose={() => setSelectedStream(null)}
       />
     </div>
   );

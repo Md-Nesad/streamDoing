@@ -2,6 +2,12 @@ export const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 //socket url
 export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
+//zego config
+export const ZEGO_VIDEO_APP_ID = 636301048;
+
+export const ZEGO_VIDEO_APP_SIGN =
+  "d4c25b0334d0d9eabd590fd2534e6448a203eb5ba51a8c97021101239aef1d2c";
+
 // stream duration format
 export default function duration(startTime, endTime) {
   const start = new Date(startTime);
@@ -100,7 +106,7 @@ export const totalViewersWithAvgDuration = (streams = []) => {
   // Total viewers
   const totalViewers = streams.reduce(
     (sum, stream) => sum + (stream.viewers || 0),
-    0
+    0,
   );
 
   // Total duration from startTime → now
@@ -119,7 +125,7 @@ export const totalViewersWithAvgDuration = (streams = []) => {
   // Convert ms → h m s
   const hours = Math.floor(averageDurationMs / (1000 * 60 * 60));
   const minutes = Math.floor(
-    (averageDurationMs % (1000 * 60 * 60)) / (1000 * 60)
+    (averageDurationMs % (1000 * 60 * 60)) / (1000 * 60),
   );
   const seconds = Math.floor((averageDurationMs % (1000 * 60)) / 1000);
 
