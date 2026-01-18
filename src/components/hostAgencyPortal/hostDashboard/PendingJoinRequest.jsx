@@ -9,6 +9,12 @@ export default function PendingJoinRequest({ data }) {
           <h2 className="sm:text-xl text-sm font-semibold">
             Pending Join Requests
           </h2>
+
+          <div>
+            <span className="bg-[#EFEDED] rounded-full px-3 py-1">
+              {hostRequest?.length} New
+            </span>
+          </div>
         </div>
 
         <table className="w-full text-left border-collapse text-nowrap">
@@ -30,10 +36,10 @@ export default function PendingJoinRequest({ data }) {
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
-                  <td className="p-3 font-medium pl-10">{request.requestId}</td>
+                  <td className="p-3 font-medium pl-10">{request.displayId}</td>
                   <td className="p-3">{request.name}</td>
-                  <td className="p-3">{request.beans}</td>
-                  <td className="p-3">{request.location}</td>
+                  <td className="p-3">{request.level}</td>
+                  <td className="p-3">{request.applied}</td>
                   <td className="p-3">
                     <span
                       className={`px-4 py-1 text-xs ${

@@ -43,7 +43,11 @@ export const coinMenuItems = [
 
 // host agency
 export const hostMenuItems = [
-  { title: "Dashboard", icon: Home, link: "/host-agency-portal" },
+  {
+    title: "Dashboard",
+    icon: Home,
+    link: "/host-agency-portal",
+  },
   {
     title: "Join Requests",
     icon: Users,

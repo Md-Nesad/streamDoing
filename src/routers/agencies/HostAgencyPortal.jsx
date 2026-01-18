@@ -9,6 +9,7 @@ import HostSalaryTarget from "../../Pages/hostAgencies/SalaryTarget";
 import OfficialPk from "../../Pages/hostAgencies/OfficialPk";
 import HostAnalytics from "../../Pages/hostAgencies/HostAnalytics";
 import { HostProtectedRoute } from "../ProtectedRoutes";
+import AddHost from "../../Pages/hostAgencies/AddHost";
 
 export default function HostAgencyPortal() {
   return (
@@ -29,6 +30,7 @@ export default function HostAgencyPortal() {
               <Route path="salary-target" element={<HostSalaryTarget />} />
               <Route path="official-pk" element={<OfficialPk />} />
               <Route path="analytics" element={<HostAnalytics />} />
+              <Route path="add-host" element={<AddHost />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

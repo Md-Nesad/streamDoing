@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { date, z } from "zod";
 
 export const agencySchema = z.object({
   agencyType: z.string().min(1, "Agency type is required"),
@@ -35,7 +35,7 @@ export const bannerSchema = z.object({
     .refine(
       (files) =>
         ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed"
+      "Only SVG, PNG or MP4 allowed",
     ),
 });
 
@@ -50,7 +50,7 @@ export const badgeSchema = z.object({
     .refine(
       (files) =>
         ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed"
+      "Only SVG, PNG or MP4 allowed",
     ),
 });
 
@@ -63,7 +63,7 @@ export const tempSchema = z.object({
     .refine(
       (files) =>
         ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed"
+      "Only SVG, PNG or MP4 allowed",
     ),
 });
 
@@ -76,7 +76,7 @@ export const levelSchema = z.object({
     .refine(
       (files) =>
         ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed"
+      "Only SVG, PNG or MP4 allowed",
     ),
 });
 
@@ -89,7 +89,7 @@ export const crownSchema = z.object({
     .refine(
       (files) =>
         ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed"
+      "Only SVG, PNG or MP4 allowed",
     ),
 });
 
@@ -103,7 +103,7 @@ export const entrySchema = z.object({
     .refine(
       (files) =>
         ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed"
+      "Only SVG, PNG or MP4 allowed",
     ),
 });
 
@@ -117,7 +117,7 @@ export const eventSchema = z.object({
     .refine(
       (files) =>
         ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed"
+      "Only SVG, PNG or MP4 allowed",
     ),
 });
 
@@ -131,7 +131,7 @@ export const vipSchema = z.object({
     .refine(
       (files) =>
         ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed"
+      "Only SVG, PNG or MP4 allowed",
     ),
 });
 //add gift schema
@@ -146,7 +146,7 @@ export const addGiftSchema = z.object({
     .refine(
       (files) =>
         ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed"
+      "Only SVG, PNG or MP4 allowed",
     ),
   giftSound: z
     .any()
@@ -154,7 +154,7 @@ export const addGiftSchema = z.object({
     .refine(
       (files) =>
         ["audio/mpeg", "audio/wav", "audio/ogg"].includes(files?.[0]?.type),
-      "Only MP3, WAV or OGG audio files are allowed"
+      "Only MP3, WAV or OGG audio files are allowed",
     ),
 });
 
@@ -203,4 +203,14 @@ export const adminHostAgencySchema = z.object({
     .any()
     .optional()
     .refine((files) => files?.length > 0, "Document back is required"),
+});
+
+//host add
+export const hostAdd = z.object({
+  hostName: z.string().min(2, "Host name is required"),
+  email: z.string().email("Invalid email"),
+  password: z.string().min(6, "Minimum 6 characters"),
+  phoneNumber: z.string().min(4, "Phone number required"),
+  gender: z.string().min(1, "Gender is required"),
+  dateOfBirth: z.string().min(1, "Date of birth is required"),
 });

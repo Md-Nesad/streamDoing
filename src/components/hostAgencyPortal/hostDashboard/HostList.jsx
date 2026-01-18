@@ -1,8 +1,13 @@
 import { Funnel } from "lucide-react";
 import { useEffect, useState } from "react";
 import { formatNumber } from "../../../utility/utility";
+import { useNavigate } from "react-router-dom";
+import HostDetailsModalPortal from "./HostDetailsModal";
 
 export default function HostList({ data }) {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
   const [hosts, setHosts] = useState(data?.hosts);
   const [text, setText] = useState("");
 
@@ -15,6 +20,12 @@ export default function HostList({ data }) {
       );
     });
     setHosts(filteredUsers);
+  };
+
+  //handle edit
+  const handleView = (host) => {
+    setSelected(host);
+    setOpen(true);
   };
 
   useEffect(() => {
@@ -44,7 +55,10 @@ export default function HostList({ data }) {
           >
             <Funnel size={18} /> Filter
           </button>
-          <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
+          <button
+            onClick={() => navigate("/host-agency-portal/add-host")}
+            className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
+          >
             Add Host
           </button>
         </div>
@@ -89,7 +103,9 @@ export default function HostList({ data }) {
                     </span>
                   </td>
 
-                  <td className="p-3">View </td>
+                  <td className="p-3">
+                    <button onClick={() => handleView(host)}>View</button>
+                  </td>
                 </tr>
               ))
             ) : (
@@ -102,6 +118,13 @@ export default function HostList({ data }) {
           </tbody>
         </table>
       </div>
+      {open && (
+        <HostDetailsModalPortal
+          open={open}
+          onClose={() => setOpen(false)}
+          host={selected}
+        />
+      )}
     </>
   );
 }

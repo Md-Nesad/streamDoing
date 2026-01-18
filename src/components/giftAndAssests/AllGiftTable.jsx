@@ -86,7 +86,7 @@ export default function AllGiftTable({ data, loading, error }) {
           value={text}
           onChange={(e) => setText(e.target.value)}
           className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
-          placeholder="Search by gift name"
+          placeholder="Search by gift name or category"
         />
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
           <button
