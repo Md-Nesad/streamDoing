@@ -31,7 +31,7 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
   // Delete user by ID
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this user?"
+      "Are you sure you want to delete this user?",
     );
     if (!confirmDelete) return;
 
@@ -69,7 +69,7 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
+          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[88%] px-4 py-1.5 rounded-md"
           placeholder="Search by ID or name"
         />
 
@@ -79,9 +79,6 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
             className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
           >
             <Funnel size={18} /> Filter
-          </button>
-          <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
-            Add User
           </button>
         </div>
       </div>
