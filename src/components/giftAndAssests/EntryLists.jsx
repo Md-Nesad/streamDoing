@@ -1,10 +1,10 @@
 import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import AddGiftModal from "../../modals/AddGiftModal";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import Loading from "../Loading";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
+import AddNewEntryModal from "../../modals/assests/AddNewEntry";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
@@ -15,6 +15,7 @@ export default function EntryLists({ data, loading, error }) {
   //   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const deleteUser = useDelete(`${BASE_URL}/entries`);
   const [allGifts, setAllGifts] = useState(data?.entries);
+  console.log(allGifts);
 
   const [dloading, setDLoading] = useState(null);
   //   const [selectedGift, setSelectedGift] = useState(null);
@@ -92,7 +93,7 @@ export default function EntryLists({ data, loading, error }) {
             onClick={() => setIsOpen(true)}
             className="sm:px-6 py-1.5 max-sm:py-2 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
           >
-            + Add Gift
+            + Add Entry
           </button>
         </div>
       </div>
@@ -123,7 +124,7 @@ export default function EntryLists({ data, loading, error }) {
                       <img
                         src={gift?.imageUrl}
                         alt="Gift Image"
-                        className="w-13 h-8 ml-4.5 object-cover rounded-sm"
+                        className="w-8 h-8 ml-4.5 object-cover rounded-full"
                       />
                     </td>
                     <td className="p-3 font-medium">{gift.name}</td>
@@ -176,7 +177,9 @@ export default function EntryLists({ data, loading, error }) {
             )}
           </tbody>
         </table>
-        {open && <AddGiftModal open={open} onClose={() => setIsOpen(false)} />}
+        {open && (
+          <AddNewEntryModal open={open} onClose={() => setIsOpen(false)} />
+        )}
         {/* {update && (
           <UpdateGiftModal
             open={update}

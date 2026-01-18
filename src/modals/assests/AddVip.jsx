@@ -38,7 +38,7 @@ export default function AddVip({ open, onClose }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-    console.log(result);
+    window.location.reload();
     if (result.message) {
       alert("Failed to create VIP");
     } else {

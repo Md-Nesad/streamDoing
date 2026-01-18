@@ -34,6 +34,8 @@ export default function AddNewCrown({ open, onClose }) {
 
     setLoading(true);
     await handleFormData(formData);
+    window.location.reload();
+
     alert("Crown created");
 
     setLoading(false);

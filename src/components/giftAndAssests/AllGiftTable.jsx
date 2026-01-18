@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp, LoaderCircle } from "lucide-react";
+import { ChevronDown, ChevronUp, Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import AddGiftModal from "../../modals/AddGiftModal";
 import AssestsDropdown from "./AssestsDropdown";
@@ -26,12 +26,12 @@ export default function AllGiftTable({ data, loading, error }) {
   const categories = category?.data?.categories;
   const subCategories = subCategory?.data?.subcategories;
 
-  // filtered gift
-  const filteredGifts = allGifts
-    ? allGifts.filter((item) =>
-        item.name.toLowerCase().includes(text.toLowerCase()),
-      )
-    : allGifts;
+  const handleFilter = () => {
+    const filteredUsers = allGifts?.filter((item) => {
+      return item.name.toLowerCase().includes(text.toLowerCase());
+    });
+    setAllGifts(filteredUsers);
+  };
 
   //handle gift delete
   const handleDelete = async (id) => {
@@ -68,6 +68,12 @@ export default function AllGiftTable({ data, loading, error }) {
     );
   }, [data]);
 
+  useEffect(() => {
+    if (text === "") {
+      setAllGifts(data?.gifts);
+    }
+  }, [text, data]);
+
   if (loading || category.loading || subCategory.loading) return <Loading />;
   if (error) return <Error error={error} />;
 
@@ -83,19 +89,12 @@ export default function AllGiftTable({ data, loading, error }) {
           placeholder="Search by gift name"
         />
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <div className="relative">
-            <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="px-3 sm:px-4 py-1.5 rounded-md bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-            >
-              {isDropdownOpen ? <ChevronUp /> : <ChevronDown />} Assests
-            </button>
-            {isDropdownOpen && (
-              <div className="absolute top-12 sm:right-0 left-0 rounded-md z-10">
-                <AssestsDropdown />
-              </div>
-            )}
-          </div>
+          <button
+            onClick={handleFilter}
+            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+          >
+            <Funnel size={18} /> Filter
+          </button>
           <button
             onClick={() => setIsOpen(true)}
             className="sm:px-6 py-1.5 max-sm:py-2 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
@@ -121,8 +120,8 @@ export default function AllGiftTable({ data, loading, error }) {
           </thead>
 
           <tbody>
-            {filteredGifts?.length > 0 ? (
-              filteredGifts?.map((gift) => {
+            {allGifts?.length > 0 ? (
+              allGifts?.map((gift) => {
                 //get category name
                 const categoryName = categories?.find(
                   (category) => category._id === gift.category,

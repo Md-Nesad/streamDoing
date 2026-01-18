@@ -35,7 +35,7 @@ export default function AddNewTemplateModal({ open, onClose }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-
+    window.location.reload();
     if (!result.message) {
       alert("Failed to create template");
     } else {

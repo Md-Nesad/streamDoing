@@ -37,6 +37,8 @@ export default function AddNewBadgeModal({ open, onClose }) {
     setLoading(true);
     const result = await handleFormData(formData);
 
+    window.location.reload();
+
     if (!result.message) {
       alert("Failed to create badge");
     } else {

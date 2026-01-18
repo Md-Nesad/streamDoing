@@ -5,6 +5,7 @@ import { BASE_URL } from "../../utility/utility";
 import Loading from "../Loading";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
+import AddNewBannerModal from "../../modals/assests/AddNewBanner";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
@@ -91,7 +92,7 @@ export default function BannerList({ data, loading, error }) {
             onClick={() => setIsOpen(true)}
             className="sm:px-6 py-1.5 max-sm:py-2 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
           >
-            + Add Gift
+            + Add Banner
           </button>
         </div>
       </div>
@@ -175,7 +176,9 @@ export default function BannerList({ data, loading, error }) {
             )}
           </tbody>
         </table>
-        {open && <AddGiftModal open={open} onClose={() => setIsOpen(false)} />}
+        {open && (
+          <AddNewBannerModal open={open} onClose={() => setIsOpen(false)} />
+        )}
         {/* {update && (
           <UpdateGiftModal
             open={update}

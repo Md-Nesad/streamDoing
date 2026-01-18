@@ -39,6 +39,8 @@ export default function AddNewEntryModal({ open, onClose }) {
     setLoading(true);
     const result = await handleFormData(formData);
 
+    window.location.reload();
+
     if (!result.message) {
       alert("Failed to create entry");
     } else {

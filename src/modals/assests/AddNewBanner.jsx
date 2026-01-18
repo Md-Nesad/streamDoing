@@ -38,6 +38,9 @@ export default function AddNewBannerModal({ open, onClose }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
+
+    window.location.reload();
+
     if (!result == {}) {
       alert("Failed to create banner");
     } else {
@@ -62,7 +65,7 @@ export default function AddNewBannerModal({ open, onClose }) {
         </p>
 
         {/* Gift Name */}
-        <div className="mb-3">
+        <div className="mb-3.5">
           <label className="text-gray-700 text-[14px] font-medium">
             Banner Name
           </label>
@@ -79,7 +82,7 @@ export default function AddNewBannerModal({ open, onClose }) {
           )}
         </div>
 
-        <div className="mb-3">
+        <div className="mb-3.5">
           <label className="text-gray-700 text-[14px] font-medium">
             Banner Link
           </label>
@@ -97,7 +100,7 @@ export default function AddNewBannerModal({ open, onClose }) {
         </div>
 
         {/* Category */}
-        <div className="mb-3">
+        <div className="mb-3.5">
           <label className="text-gray-700 text-[14px] font-medium">
             Web Link
           </label>
@@ -114,7 +117,7 @@ export default function AddNewBannerModal({ open, onClose }) {
           )}
         </div>
 
-        <div className="mb-3">
+        <div className="mb-3.5">
           <label className="text-gray-700 text-[14px] font-medium">
             Description
           </label>
@@ -132,7 +135,7 @@ export default function AddNewBannerModal({ open, onClose }) {
         </div>
 
         {/* Price */}
-        <div className="mb-2">
+        <div className="mb-3.5">
           <label className="text-gray-700 text-[14px] font-medium">Price</label>
           <input
             type="number"
@@ -187,7 +190,7 @@ export default function AddNewBannerModal({ open, onClose }) {
         </div>
 
         {/* Buttons */}
-        <div className="mt-10 flex justify-center sm:justify-end gap-4">
+        <div className="mt-11 flex justify-center sm:justify-end gap-4">
           <button
             type="button"
             onClick={onClose}
