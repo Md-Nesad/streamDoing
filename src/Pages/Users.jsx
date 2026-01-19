@@ -9,8 +9,12 @@ import useFetch from "../hooks/useFetch";
 
 export default function DashboardUsers() {
   const [page, setPage] = useState(1);
+  const [refresh, setRefresh] = useState(false);
   const usersStats = useFetch(`${BASE_URL}/admin/users/stats`);
-  const usersList = useFetch(`${BASE_URL}/admin/users?page=${page}&limit=20`);
+  const usersList = useFetch(
+    `${BASE_URL}/admin/users?page=${page}&limit=20`,
+    refresh,
+  );
 
   const loading = usersStats.loading;
   const error = usersStats.error || usersList.error;
@@ -57,7 +61,7 @@ export default function DashboardUsers() {
 
       <UsersTable
         usersList={usersListData}
-        // page={page}
+        setRefresh={setRefresh}
         setPage={setPage}
         loading={usersList.loading}
       />

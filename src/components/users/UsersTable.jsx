@@ -1,4 +1,11 @@
-import { Ban, Eye, Trash2, Funnel } from "lucide-react";
+import {
+  Ban,
+  Eye,
+  Trash2,
+  Funnel,
+  CheckCircle,
+  LoaderCircle,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import UserDetailsModal from "../../modals/UserDetailsModal";
 import Pagination from "../Pagination";
@@ -8,13 +15,21 @@ import { BASE_URL, formatNumber } from "../../utility/utility";
 import star from "../../assests/star.png";
 import { toast } from "react-toastify";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
+import BanUserModal from "../../modals/BanUserModal";
 
-export default function HostAgencyTable({ usersList, setPage, loading }) {
+export default function HostAgencyTable({
+  usersList,
+  setPage,
+  loading,
+  setRefresh,
+}) {
   const [text, setText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [banOpen, setBanOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [users, setUsers] = useState(usersList?.users || []);
   const pagination = usersList?.pagination;
+  const [isloading, setIsLoading] = useState(null);
   const { confirm } = useGlobalConfirm();
 
   // custom hook for delete that return a function
@@ -45,6 +60,29 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
     }
     //fetching data after delete
     setUsers((prev) => prev.filter((user) => user._id !== id));
+  };
+
+  //handle unban
+  const handleUnBan = async (id) => {
+    try {
+      setIsLoading(id);
+      const res = await fetch(`${BASE_URL}/admin/users/unban/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("admin_token")}`,
+        },
+        body: JSON.stringify({}),
+      });
+
+      const result = await res.json();
+      toast.success(result.message);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(null);
+      setRefresh((prev) => !prev);
+    }
   };
 
   useEffect(() => {
@@ -152,7 +190,47 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
                       >
                         <Eye size={19} />
                       </button>
-                      <Ban size={17} className="text-[#FF0037]" />
+                      {/* ban modal */}
+                      {user.status === "active" ? (
+                        <div className="relative">
+                          <button
+                            title="Ban"
+                            onClick={() => {
+                              setBanOpen(true);
+                              setSelectedUser(user);
+                            }}
+                          >
+                            <Ban size={17} className="text-[#FF0037] mt-0.5" />
+                          </button>
+
+                          {banOpen && (
+                            <BanUserModal
+                              isOpen={banOpen}
+                              onClose={() => setBanOpen(false)}
+                              user={selectedUser}
+                              onSuccess={() => {
+                                setRefresh((prev) => !prev);
+                                setBanOpen(false);
+                              }}
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <button
+                          title="Unban"
+                          onClick={() => handleUnBan(user._id)}
+                        >
+                          {isloading === user._id ? (
+                            <LoaderCircle size={17} className="animate-spin" />
+                          ) : (
+                            <CheckCircle
+                              size={17}
+                              className="text-green-600 mt-0.5"
+                            />
+                          )}
+                        </button>
+                      )}
+
                       <button
                         title="Delete"
                         onClick={() => handleDelete(user._id)}
