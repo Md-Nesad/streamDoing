@@ -11,6 +11,7 @@ import EntryLists from "./EntryLists";
 import EventLists from "./EventLists";
 import VIPLists from "./VIPLists";
 import { useState } from "react";
+import TemplateLists from "./TemplateLists";
 
 export default function GiftChildTabs() {
   const [refresh, setRefresh] = useState(false);
@@ -49,6 +50,13 @@ export default function GiftChildTabs() {
           selectedClassName="active-tab"
         >
           Badges
+        </Tab>
+
+        <Tab
+          className="font-sans cursor-pointer text-sm"
+          selectedClassName="active-tab"
+        >
+          Template
         </Tab>
 
         <Tab
@@ -96,6 +104,10 @@ export default function GiftChildTabs() {
 
       <TabPanel>
         <BadgesLists />
+      </TabPanel>
+
+      <TabPanel>
+        <TemplateLists />
       </TabPanel>
 
       <TabPanel>

@@ -81,13 +81,17 @@ export default function SellCoins() {
     });
     console.log(result);
 
-    toast.success(result.message);
-
-    setMasterId("");
-    setCoins("");
-    setReferenceType("");
-    setReferenceName("");
-    setLoading(false);
+    if (result.success === false) {
+      setLoading(false);
+      return toast.error(result.message);
+    } else {
+      setMasterId("");
+      setCoins("");
+      setReferenceType("");
+      setReferenceName("");
+      setLoading(false);
+      return toast.success(result.message);
+    }
   };
 
   return (

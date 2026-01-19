@@ -3,25 +3,27 @@ import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
-import AddNewBadgeModal from "../../modals/assests/AddNewBadge";
+import AddNewCrown from "../../modals/assests/AddNewCrown";
+import useFetch from "../../hooks/useFetch";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
-import useFetch from "../../hooks/useFetch";
 import TopPerformanceLoading from "../TopPerformanceLoading";
+import AddNewTemplateModal from "../../modals/assests/AddNewTemplate";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
-export default function BadgesLists() {
+export default function TemplateLists() {
+  const [refresh, setRefresh] = useState(false);
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const { data, loading, error } = useFetch(`${BASE_URL}/badges`, refresh);
-  const deleteUser = useDelete(`${BASE_URL}/badges`);
-  const [allGifts, setAllGifts] = useState(data?.badges);
-  const { confirm } = useGlobalConfirm();
-
+  const { data, loading, error } = useFetch(
+    `${BASE_URL}/template?search=&page=1&limit=20`,
+    refresh,
+  );
+  const deleteUser = useDelete(`${BASE_URL}/template`);
+  const [allGifts, setAllGifts] = useState(data?.templates);
   const [dloading, setDLoading] = useState(null);
-  //   const [selectedGift, setSelectedGift] = useState(null);
+  const { confirm } = useGlobalConfirm();
 
   const handleFilter = () => {
     const filteredUsers = allGifts?.filter((item) => {
@@ -35,13 +37,14 @@ export default function BadgesLists() {
     try {
       const ok = await confirm("Are you sure to delete?");
       if (!ok) return;
+
       setDLoading(id);
       const result = await deleteUser(id);
 
       if (!result) {
-        toast.error("Failed to delete badge");
+        toast.error("Failed to delete template");
       } else {
-        toast.success(result.message || "Badge deleted successfully");
+        toast.success(result.message || "Template deleted successfully");
       }
 
       setAllGifts(allGifts?.filter((gift) => gift._id !== id));
@@ -65,9 +68,9 @@ export default function BadgesLists() {
 
   useEffect(() => {
     if (text === "") {
-      setAllGifts(data?.badges);
+      setAllGifts(data?.templates);
     }
-  }, [text, data?.badges]);
+  }, [text, data?.templates]);
 
   if (loading) return <TopPerformanceLoading length={5} />;
   if (error) return <Error error={error} />;
@@ -94,7 +97,7 @@ export default function BadgesLists() {
             onClick={() => setIsOpen(true)}
             className="sm:px-6 py-1.5 max-sm:py-2 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
           >
-            + Add Badge
+            + Add Template
           </button>
         </div>
       </div>
@@ -104,10 +107,9 @@ export default function BadgesLists() {
         <table className="w-full text-left border-collapse text-nowrap">
           <thead>
             <tr className="text-[#535353] text-md font-medium">
-              <th className="pl-7 p-3">Badges Image</th>
+              <th className="pl-7 p-3">Template Image</th>
               <th className="p-3"> Name</th>
-              <th className="p-3">Description</th>
-              <th className="p-3">Recharge</th>
+              <th className="p-3">Price (Coins)</th>
               <th className="p-3">Status</th>
               <th className="p-3 sm:pl-4">Action</th>
             </tr>
@@ -130,7 +132,6 @@ export default function BadgesLists() {
                     </td>
                     <td className="p-3 font-medium">{gift.name}</td>
 
-                    <td className="p-3">{gift.description || "-"}</td>
                     <td className="p-3">{formatNumber(gift.price)}</td>
                     <td className="p-3">
                       <span
@@ -172,14 +173,14 @@ export default function BadgesLists() {
             ) : (
               <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
                 <td colSpan={9} className="p-3 text-center">
-                  No banner found
+                  No level found
                 </td>
               </tr>
             )}
           </tbody>
         </table>
         {open && (
-          <AddNewBadgeModal
+          <AddNewTemplateModal
             open={open}
             onClose={() => setIsOpen(false)}
             onSuccess={() => {
