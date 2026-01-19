@@ -4,6 +4,7 @@ import { BASE_URL, formatNumber } from "../utility/utility";
 import { SquarePen, Trash2 } from "lucide-react";
 import UpdateSalaryModal from "../modals/UpdateSalaryModal";
 import useDelete from "../hooks/useDelete";
+import { toast } from "react-toastify";
 
 export default function SalaryTable({ data }) {
   const [open, setIsOpen] = useState(false);
@@ -20,14 +21,14 @@ export default function SalaryTable({ data }) {
   const handleDelete = async (id) => {
     try {
       const confirmDelete = window.confirm(
-        "Are you sure you want to delete this target?"
+        "Are you sure you want to delete this target?",
       );
       if (!confirmDelete) return;
       const result = await deleteUser(id);
       if (!result) {
-        alert("Failed to delete target");
+        toast.error("Failed to delete target");
       } else {
-        alert(result.message);
+        toast.success(result.message);
       }
       setSalaries(salaries?.filter((salary) => salary._id !== id));
     } catch (error) {

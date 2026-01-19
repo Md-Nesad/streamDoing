@@ -9,6 +9,7 @@ import Error from "../Error";
 import { useStream } from "../../context/streamContext";
 import Pagination from "../Pagination";
 import useDelete from "../../hooks/useDelete";
+import { toast } from "react-toastify";
 
 export default function SupportAgencyTable() {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export default function SupportAgencyTable() {
   const [page, setPage] = useState(1);
   const { countriesName } = useStream();
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/support-agencies?page=${page}&limit=20`
+    `${BASE_URL}/admin/support-agencies?page=${page}&limit=20`,
   );
   const deleteUser = useDelete(`${BASE_URL}/admin/support-agencies`);
   const [supportAgencies, setSupportAgencies] = useState(data?.supportAgencies);
@@ -37,18 +38,18 @@ export default function SupportAgencyTable() {
   const handleDelete = async (id) => {
     try {
       const confirmDelete = window.confirm(
-        "Are you sure you want to delete this support agency?"
+        "Are you sure you want to delete this support agency?",
       );
       if (!confirmDelete) return;
       const result = await deleteUser(id);
       console.log(result);
       if (!result) {
-        alert("Failed to delete support agency");
+        toast.error("Failed to delete support agency");
       } else {
-        alert(result.message);
+        toast.success("Deleted successfully");
       }
       setSupportAgencies(
-        supportAgencies?.filter((support) => support._id !== id)
+        supportAgencies?.filter((support) => support._id !== id),
       );
     } catch (error) {
       console.log(error);
@@ -138,8 +139,8 @@ export default function SupportAgencyTable() {
                       {support.ban.isPermanent
                         ? "Perm. Ban"
                         : support.ban.isTemporary
-                        ? "Temp. Ban"
-                        : "Active"}
+                          ? "Temp. Ban"
+                          : "Active"}
                     </span>
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
@@ -148,7 +149,7 @@ export default function SupportAgencyTable() {
                         title="Edit"
                         onClick={() =>
                           navigate(
-                            `/dashboard/support/update-support-agency/${support._id}`
+                            `/dashboard/support/update-support-agency/${support._id}`,
                           )
                         }
                       >

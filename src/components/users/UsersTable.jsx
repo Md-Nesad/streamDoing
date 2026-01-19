@@ -6,6 +6,7 @@ import Loading from "../Loading";
 import useDelete from "../../hooks/useDelete";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import star from "../../assests/star.png";
+import { toast } from "react-toastify";
 
 export default function HostAgencyTable({ usersList, setPage, loading }) {
   const [text, setText] = useState("");
@@ -38,9 +39,9 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
     const result = await deleteUser(id);
 
     if (!result) {
-      alert("Failed to delete user");
+      toast.error("Failed to delete user");
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
     //fetching data after delete
     setUsers((prev) => prev.filter((user) => user._id !== id));

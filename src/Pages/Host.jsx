@@ -42,7 +42,7 @@ export default function Host() {
     },
     {
       title: "Platform Revenue",
-      value: "৳" + formatNumber(data?.platFormRevenue),
+      value: "$" + formatNumber(data?.platFormRevenue),
       change: formatPercent(data?.revenueGrowth),
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",

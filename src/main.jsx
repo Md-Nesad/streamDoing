@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import StreamProvider from "./context/streamContext.jsx";
+import { ToastContainer } from "react-toastify";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -10,5 +10,16 @@ createRoot(document.getElementById("root")).render(
       <App />
     </StreamProvider> */}
     <App />
-  </StrictMode>
+    <ToastContainer
+      position="top-center"
+      autoClose={3000}
+      hideProgressBar
+      theme="light"
+      toastStyle={{
+        background: "#1F2937",
+        color: "#F9FAFB",
+        border: "1px solid #e5e7eb",
+      }}
+    />
+  </StrictMode>,
 );

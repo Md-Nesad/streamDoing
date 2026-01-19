@@ -13,7 +13,7 @@ export default function Dashboard() {
   const summary = useFetch(`${BASE_URL}/dashboard/summary`);
   const liveStats = useFetch(`${BASE_URL}/dashboard/live-stats`);
   const agenciesOverview = useFetch(
-    `${BASE_URL}/dashboard/agencies-overview?page=${page}&limit=20`
+    `${BASE_URL}/dashboard/agencies-overview?page=${page}&limit=20`,
   );
 
   const loading = summary.loading || liveStats.loading;
@@ -52,7 +52,7 @@ export default function Dashboard() {
     },
     {
       title: "Platform Revenue",
-      value: "৳" + formatNumber(data?.platformRevenue),
+      value: "$" + formatNumber(data?.platformRevenue),
       change: `+${formatPercent(data?.revenueGrowth)}`,
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",

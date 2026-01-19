@@ -58,7 +58,7 @@ export default function AgencisTabs() {
     },
     {
       title: "Platform Revenue",
-      value: `৳${formatNumber(hostAgencies?.data?.totalRevenue)}`,
+      value: `$${formatNumber(hostAgencies?.data?.totalRevenue)}`,
       change: "",
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",

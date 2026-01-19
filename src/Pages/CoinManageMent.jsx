@@ -34,7 +34,7 @@ export default function CoinManageMent() {
     },
     {
       title: "Total Revenue",
-      value: "৳" + formatNumber(data?.revenue?.total),
+      value: "$" + formatNumber(data?.revenue?.total),
       change: "",
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",

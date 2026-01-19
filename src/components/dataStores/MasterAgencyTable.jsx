@@ -8,6 +8,7 @@ import Loading from "../Loading";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import Pagination from "../Pagination";
+import { toast } from "react-toastify";
 
 export default function MasterAgencyTable() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function MasterAgencyTable() {
   const { countriesName } = useStream();
   const deleteUser = useDelete(`${BASE_URL}/admin/agencies`);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/agencies?page=${page}&limit=30&search=`
+    `${BASE_URL}/admin/agencies?page=${page}&limit=30&search=`,
   );
   const hostAgencies = data?.agencies?.filter((item) => item.type === "master");
   const pagination = data?.pagination;
@@ -37,17 +38,13 @@ export default function MasterAgencyTable() {
   //handle delete
   const handleDelete = async (id) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this agency?"
-      );
-      if (!confirmDelete) return;
       setDeleteLoading(id);
       const result = await deleteUser(id);
 
       if (!result) {
-        alert("Failed to delete agency");
+        toast.error("Failed to delete agency");
       } else {
-        alert(result.message);
+        toast.success(result.message);
       }
       setHosts(hosts?.filter((host) => host._id !== id));
     } catch (error) {

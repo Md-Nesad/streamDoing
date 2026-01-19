@@ -20,23 +20,23 @@ export default function Analytics() {
   const [page, setPage] = useState(1);
   //analytics stats
   const analyticsStats = useFetch(
-    `${BASE_URL}/admin/analytics/stats?timeRange=custom&startDate=2025-10-10&endDate=2025-12-30`
+    `${BASE_URL}/admin/analytics/stats?timeRange=custom&startDate=2025-10-10&endDate=2025-12-30`,
   );
   //top hosts
   const topHosts = useFetch(`${BASE_URL}/admin/analytics/top-performing-hosts`);
 
   //top performing agency
   const topPerformanceAgency = useFetch(
-    `${BASE_URL}/admin/analytics/top-agencies?limit=15&page=${page}`
+    `${BASE_URL}/admin/analytics/top-agencies?limit=15&page=${page}`,
   );
 
   //coin sales overview
   const coinSalesOverview = useFetch(
-    `${BASE_URL}/admin/analytics/coin-sales-overview`
+    `${BASE_URL}/admin/analytics/coin-sales-overview`,
   );
   //users metrics
   const usersMetrics = useFetch(
-    `${BASE_URL}/admin/analytics/user-engagement-matrix`
+    `${BASE_URL}/admin/analytics/user-engagement-matrix`,
   );
   //handling loading and error
   const loading = analyticsStats.loading;
@@ -53,7 +53,7 @@ export default function Analytics() {
     {
       title: "Total Revenue",
       value:
-        "৳" + formatNumber(analyticsStats?.data?.totalRevenue?.totalRevenue),
+        "$" + formatNumber(analyticsStats?.data?.totalRevenue?.totalRevenue),
       change: "",
       icon: Users,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",

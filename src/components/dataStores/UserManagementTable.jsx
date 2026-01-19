@@ -8,13 +8,14 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
 import useDelete from "../../hooks/useDelete";
 import star from "../../assests/star.png";
+import { toast } from "react-toastify";
 
 export default function UserManagementTable() {
   const navigate = useNavigate();
   const [text, setText] = useState("");
   const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/users?page=${page}&limit=30`
+    `${BASE_URL}/admin/users?page=${page}&limit=30`,
   );
   const [users, setUsers] = useState(data?.users || []);
   const pagination = data?.pagination;
@@ -34,16 +35,16 @@ export default function UserManagementTable() {
   //handle delete
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this user?"
+      "Are you sure you want to delete this user?",
     );
     if (!confirmDelete) return;
 
     const result = await deleteUser(id);
 
     if (!result) {
-      alert("Failed to delete user");
+      toast.error("Failed to delete user");
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
     //fetching data after delete
     setUsers((prev) => prev.filter((user) => user._id !== id));
