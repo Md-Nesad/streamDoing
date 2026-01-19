@@ -9,9 +9,11 @@ import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import Pagination from "../Pagination";
 import { toast } from "react-toastify";
+import { useGlobalConfirm } from "../../context/ConfirmProvider";
 
 export default function AdminAgencyTable() {
   const navigate = useNavigate();
+  const { confirm } = useGlobalConfirm();
   const [deleteLoading, setDeleteLoading] = useState(null);
   const [page, setPage] = useState(1);
   const [text, setText] = useState("");
@@ -38,10 +40,9 @@ export default function AdminAgencyTable() {
   //handle delete
   const handleDelete = async (id) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this agency?",
-      );
-      if (!confirmDelete) return;
+      const ok = await confirm("Are you sure to delete?");
+      if (!ok) return;
+
       setDeleteLoading(id);
       const result = await deleteUser(id);
 

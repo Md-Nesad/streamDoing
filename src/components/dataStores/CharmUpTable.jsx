@@ -6,6 +6,7 @@ import AddCharmConfig from "../../modals/dataSroreModals/AddCharmConfig";
 import UpdateCharmConfig from "../../modals/dataSroreModals/UpdateCharmConfig";
 import Pagination from "../Pagination";
 import { toast } from "react-toastify";
+import { useGlobalConfirm } from "../../context/ConfirmProvider";
 
 export default function CharmUpTable({ data, setPage }) {
   const [open, setIsOpen] = useState(false);
@@ -13,6 +14,7 @@ export default function CharmUpTable({ data, setPage }) {
   const [salaries, setSalaries] = useState(data?.charmConfigs);
   const [selectedSalary, setSelectedSalary] = useState(null);
   const deleteUser = useDelete(`${BASE_URL}/admin/charm-configs`);
+  const { confirm } = useGlobalConfirm();
   const pagination = data?.pagination;
 
   const handleEdit = (level) => {
@@ -23,10 +25,8 @@ export default function CharmUpTable({ data, setPage }) {
   //handle delete
   const handleDelete = async (id) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this target?",
-      );
-      if (!confirmDelete) return;
+      const ok = await confirm("Are you sure to delete?");
+      if (!ok) return;
       const result = await deleteUser(id);
       if (!result) {
         toast.error("Failed to delete target");

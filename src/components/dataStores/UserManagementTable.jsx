@@ -9,6 +9,7 @@ import Pagination from "../Pagination";
 import useDelete from "../../hooks/useDelete";
 import star from "../../assests/star.png";
 import { toast } from "react-toastify";
+import { useGlobalConfirm } from "../../context/ConfirmProvider";
 
 export default function UserManagementTable() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function UserManagementTable() {
   const [users, setUsers] = useState(data?.users || []);
   const pagination = data?.pagination;
   const deleteUser = useDelete(`${BASE_URL}/admin/users`);
+  const { confirm } = useGlobalConfirm();
 
   //handle filter
   const handleFilter = () => {
@@ -34,10 +36,8 @@ export default function UserManagementTable() {
 
   //handle delete
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this user?",
-    );
-    if (!confirmDelete) return;
+    const ok = await confirm("Are you sure to delete?");
+    if (!ok) return;
 
     const result = await deleteUser(id);
 

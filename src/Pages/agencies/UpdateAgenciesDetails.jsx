@@ -8,6 +8,7 @@ import TitleAndSubTitle from "../../components/TitleAndSubTitle";
 import useFetch from "../../hooks/useFetch";
 import usePutApi from "../../hooks/usePutAPI";
 import Loading from "../../components/Loading";
+import { toast } from "react-toastify";
 
 export default function UpdateAgenciesDetails() {
   const { agencyId } = useParams();
@@ -53,12 +54,11 @@ export default function UpdateAgenciesDetails() {
 
     setIsLoading(true);
     const result = await handleFormData(formData);
-    console.log("Update Result:", result);
 
     if (result.error) {
-      alert(result.error);
+      toast.error(result.error);
     } else {
-      alert(result.message || "Agency updated successfully");
+      toast.success(result.message || "Agency updated successfully");
     }
     setIsLoading(false);
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import { BASE_URL } from "../utility/utility";
+import { toast } from "react-toastify";
 
 export default function ExchangesRateModal({ open, onClose }) {
   if (!open) return null;
@@ -25,7 +26,7 @@ export default function ExchangesRateModal({ open, onClose }) {
         body: JSON.stringify({ masterRate, agencyRate, userRate }),
       });
       const result = await res.json();
-      alert(result.message);
+      toast.success(result.message);
       setLoading(false);
     } catch (error) {
       console.log(error);

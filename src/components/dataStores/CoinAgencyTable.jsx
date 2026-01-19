@@ -9,6 +9,7 @@ import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import Pagination from "../Pagination";
 import { toast } from "react-toastify";
+import { useGlobalConfirm } from "../../context/ConfirmProvider";
 
 export default function CoinAgencyTable() {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ export default function CoinAgencyTable() {
   const hostAgencies = data?.agencies?.filter((item) => item.type === "coin");
   const pagination = data?.pagination;
   const [hosts, setHosts] = useState(hostAgencies);
+  const { confirm } = useGlobalConfirm();
 
   //handle filter
   const handleFilter = () => {
@@ -38,10 +40,8 @@ export default function CoinAgencyTable() {
   //handle delete
   const handleDelete = async (id) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this agency?",
-      );
-      if (!confirmDelete) return;
+      const ok = await confirm("Are you sure to delete?");
+      if (!ok) return;
       setDeleteLoading(id);
       const result = await deleteUser(id);
 

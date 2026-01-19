@@ -8,6 +8,7 @@ import { supportAgencySchema } from "../../utility/validator";
 import { useForm } from "react-hook-form";
 import { useStream } from "../../context/streamContext";
 import TitleAndSubTitle from "../TitleAndSubTitle";
+import { toast } from "react-toastify";
 
 export default function AddSupportAgency() {
   const [loading, setLoading] = useState(false);
@@ -50,12 +51,11 @@ export default function AddSupportAgency() {
 
     setLoading(true);
     const result = await handleFormData(formData);
-    console.log(result);
 
     if (result.success === false) {
-      alert(result.message);
+      toast.error(result.message);
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
     setLoading(false);
 

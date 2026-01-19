@@ -3,12 +3,13 @@ import useFetch from "../../hooks/useFetch";
 import useJsonPost from "../../hooks/useJsonPost";
 import { BASE_URL } from "../../utility/utility";
 import downArrow from "/icons/Vector 151.png";
+import { toast } from "react-toastify";
 
 export default function SellCoins() {
   const { data } = useFetch(`${BASE_URL}/coins/rates/latest`);
   const handleSubmit = useJsonPost(`${BASE_URL}/coins/sales/admin-to-master`);
   const agenciesOverview = useFetch(
-    `${BASE_URL}/dashboard/agencies-overview?limit=100`
+    `${BASE_URL}/dashboard/agencies-overview?limit=100`,
   );
   const masterIds = agenciesOverview?.data?.agencies;
 
@@ -17,17 +18,17 @@ export default function SellCoins() {
   const [loading, setLoading] = useState(false);
 
   const handleCoinSell = async () => {
-    if (!masterId) return alert("Please enter Agency ID");
+    if (!masterId) return toast.error("Please enter research ID");
     const masterExists = masterIds?.some(
-      (item) => String(item?.displayId) === String(masterId)
+      (item) => String(item?.displayId) === String(masterId),
     );
 
-    if (!masterExists) return alert("Invalid ID");
+    if (!masterExists) return toast.error("Invalid research ID");
     if (!coins) return alert("Please enter coin amount");
 
     setLoading(true);
     const result = await handleSubmit({ masterId, coins });
-    alert(result.message);
+    toast.success(result.message);
 
     setMasterId("");
     setCoins("");

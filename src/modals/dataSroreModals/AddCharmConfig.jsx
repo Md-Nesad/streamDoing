@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useStream } from "../../context/streamContext";
 import useJsonPost from "../../hooks/useJsonPost";
 import { BASE_URL } from "../../utility/utility";
+import { toast } from "react-toastify";
 
 export default function AddCharmConfig({ open, onClose }) {
   if (!open) return null;
@@ -16,7 +17,7 @@ export default function AddCharmConfig({ open, onClose }) {
 
   const handleTarget = async () => {
     if ((!level, !requiredExperience, !badgeId, !description)) {
-      return alert("Please fill all the fields");
+      return toast.error("Please fill all the fields");
     }
     setLoading(true);
     const result = await handleSubmit({
@@ -25,7 +26,7 @@ export default function AddCharmConfig({ open, onClose }) {
       badgeId,
       description,
     });
-    alert(result.message || "Charm config added.");
+    toast.success(result.message || "Charm config added.");
     setLevel("");
     setRequiredExperience("");
     setBadgeId("");

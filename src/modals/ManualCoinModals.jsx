@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useJsonPost from "../hooks/useJsonPost";
 import { BASE_URL } from "../utility/utility";
+import { toast } from "react-toastify";
 
 export default function ManualCoinModal({ open, onClose }) {
   if (!open) return null;
@@ -31,7 +32,7 @@ export default function ManualCoinModal({ open, onClose }) {
       action,
     });
 
-    alert(result.message);
+    toast.success(result.message);
   };
 
   return (

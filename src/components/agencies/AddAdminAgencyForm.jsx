@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { agencySchema } from "../../utility/validator";
 import { useForm } from "react-hook-form";
 import { useStream } from "../../context/streamContext";
+import { toast } from "react-toastify";
 
 export default function AddAdminAgencyForm() {
   const [loading, setLoading] = useState(false);
@@ -52,9 +53,9 @@ export default function AddAdminAgencyForm() {
     const result = await handleFormData(formData);
 
     if (result.success === false) {
-      alert(result.message);
+      toast.error(result.message);
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
     setLoading(false);
 

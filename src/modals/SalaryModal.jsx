@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useJsonPost from "../hooks/useJsonPost";
 import { BASE_URL } from "../utility/utility";
+import { toast } from "react-toastify";
 
 const SalaryModal = ({ onClose }) => {
   const [targetCoin, setTargetCoin] = useState("");
@@ -28,6 +29,18 @@ const SalaryModal = ({ onClose }) => {
 
   const handleCreate = async () => {
     try {
+      if (
+        !targetCoin ||
+        !targetDiamond ||
+        !basicSalary ||
+        !totalSalary ||
+        !agencyShare ||
+        !durationDays ||
+        !dailyLiveHour ||
+        !frequency
+      ) {
+        return toast.error("Please fill all the fields.");
+      }
       setLoading(true);
       await handleSubmit({
         targetCoin,
@@ -39,7 +52,7 @@ const SalaryModal = ({ onClose }) => {
         dailyLiveHour,
         frequency,
       });
-      alert("Salary Target Created");
+      toast.success("Salary target created.");
       handleClose();
     } catch (error) {
       console.log(error);

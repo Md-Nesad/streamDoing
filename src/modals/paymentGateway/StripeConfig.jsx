@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BASE_URL } from "../../utility/utility";
+import { toast } from "react-toastify";
 
 export default function StripeConfig({ open, onClose, selected }) {
   if (!open) return null;
@@ -35,12 +36,12 @@ export default function StripeConfig({ open, onClose, selected }) {
             authorization: `Bearer ${localStorage.getItem("admin_token")}`,
           },
           body: JSON.stringify(data),
-        }
+        },
       );
       const result = await res.json();
-      console.log(result);
+
       if (result.success === true) {
-        alert("Updated Successfully");
+        toast.success("Updated successfully.");
       }
     } catch (error) {
       console.log(error);

@@ -8,6 +8,7 @@ import TitleAndSubTitle from "../TitleAndSubTitle";
 import useFetch from "../../hooks/useFetch";
 import usePutApi from "../../hooks/usePutAPI";
 import Loading from "../Loading";
+import { toast } from "react-toastify";
 
 export default function UpdateSupportAgency() {
   const { supportId } = useParams();
@@ -18,10 +19,10 @@ export default function UpdateSupportAgency() {
   const [until, setUntil] = useState("");
   const navigate = useNavigate();
   const { data, loading } = useFetch(
-    `${BASE_URL}/admin/support-agencies/${supportId}`
+    `${BASE_URL}/admin/support-agencies/${supportId}`,
   );
   const handleFormData = usePutApi(
-    `${BASE_URL}/admin/support-agencies/${supportId}`
+    `${BASE_URL}/admin/support-agencies/${supportId}`,
   );
   const { countries } = useStream();
 
@@ -56,12 +57,11 @@ export default function UpdateSupportAgency() {
 
     setIsLoading(true);
     const result = await handleFormData(formData);
-    console.log(result);
 
     if (result.success === false) {
-      alert(result.message);
+      toast.error(result.message);
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
     setIsLoading(false);
 

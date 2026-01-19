@@ -10,6 +10,7 @@ import { useStream } from "../../context/streamContext";
 import Pagination from "../Pagination";
 import useDelete from "../../hooks/useDelete";
 import { toast } from "react-toastify";
+import { useGlobalConfirm } from "../../context/ConfirmProvider";
 
 export default function SupportAgencyTable() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ export default function SupportAgencyTable() {
   const deleteUser = useDelete(`${BASE_URL}/admin/support-agencies`);
   const [supportAgencies, setSupportAgencies] = useState(data?.supportAgencies);
   const pagination = data?.pagination;
+  const { confirm } = useGlobalConfirm();
 
   //handle filter
   const handleFilter = () => {
@@ -37,10 +39,8 @@ export default function SupportAgencyTable() {
   //handle delete
   const handleDelete = async (id) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this support agency?",
-      );
-      if (!confirmDelete) return;
+      const ok = await confirm("Are you sure to delete?");
+      if (!ok) return;
       const result = await deleteUser(id);
       console.log(result);
       if (!result) {

@@ -2,7 +2,6 @@ import { formatNumber, formatOnlyDate } from "../utility/utility";
 
 export default function CoinTransactionModal({ open, onClose, item }) {
   if (!open) return null;
-  console.log(item);
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">

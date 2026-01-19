@@ -5,6 +5,7 @@ import useDelete from "../../hooks/useDelete";
 import AddTopUpPackages from "../../modals/dataSroreModals/AddTopUpPackages";
 import UpdateTopUpPackage from "../../modals/dataSroreModals/UpdateTopUpPackage";
 import Pagination from "../Pagination";
+import { useGlobalConfirm } from "../../context/ConfirmProvider";
 
 export default function TopUpPackagesTable({ data, setPage }) {
   const [open, setIsOpen] = useState(false);
@@ -13,6 +14,7 @@ export default function TopUpPackagesTable({ data, setPage }) {
   const [selectedSalary, setSelectedSalary] = useState(null);
   const deleteUser = useDelete(`${BASE_URL}/admin/top-up-packages`);
   const pagination = data?.pagination;
+  const { confirm } = useGlobalConfirm();
 
   const handleEdit = (top) => {
     setSelectedSalary(top);
@@ -22,10 +24,8 @@ export default function TopUpPackagesTable({ data, setPage }) {
   //handle delete
   const handleDelete = async (id) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this target?"
-      );
-      if (!confirmDelete) return;
+      const ok = await confirm("Are you sure to delete?");
+      if (!ok) return;
       const result = await deleteUser(id);
       if (!result) {
         alert("Failed to delete target");

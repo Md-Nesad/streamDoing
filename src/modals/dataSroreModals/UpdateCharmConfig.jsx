@@ -2,19 +2,20 @@ import { useState } from "react";
 import { useStream } from "../../context/streamContext";
 import { BASE_URL } from "../../utility/utility";
 import useJsonPut from "../../hooks/useJsonPut";
+import { toast } from "react-toastify";
 
 export default function UpdateCharmConfig({ onClose, selected }) {
   if (!open) return null;
   const [level, setLevel] = useState(selected?.level);
   const [requiredExperience, setRequiredExperience] = useState(
-    selected?.requiredExperience
+    selected?.requiredExperience,
   );
   const [badgeId, setBadgeId] = useState(selected?.badge?._id);
   const [description, setDescription] = useState(selected?.description);
   const [loading, setLoading] = useState(false);
   const { badgeList } = useStream();
   const handleSubmit = useJsonPut(
-    `${BASE_URL}/admin/charm-configs/${selected._id}`
+    `${BASE_URL}/admin/charm-configs/${selected._id}`,
   );
   //handle post
 
@@ -26,7 +27,7 @@ export default function UpdateCharmConfig({ onClose, selected }) {
       badgeId,
       description,
     });
-    alert(result.message || "Charm config updated.");
+    toast.success(result.message || "Charm config updated.");
     setLoading(false);
   };
 

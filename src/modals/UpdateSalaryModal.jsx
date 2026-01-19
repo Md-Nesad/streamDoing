@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BASE_URL } from "../utility/utility";
-import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const UpdateSalaryModal = ({ onClose, selected }) => {
   const [targetCoin, setTargetCoin] = useState(selected?.targetCoin);
@@ -35,11 +35,11 @@ const UpdateSalaryModal = ({ onClose, selected }) => {
             authorization: `Bearer ${localStorage.getItem("admin_token")}`,
           },
           body: JSON.stringify(data),
-        }
+        },
       );
       const result = await res.json();
-      console.log(result);
-      alert(result.message);
+
+      toast.success(result.message);
     } catch (error) {
       console.log(error);
     } finally {

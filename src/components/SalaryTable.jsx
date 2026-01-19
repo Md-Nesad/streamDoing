@@ -5,12 +5,14 @@ import { SquarePen, Trash2 } from "lucide-react";
 import UpdateSalaryModal from "../modals/UpdateSalaryModal";
 import useDelete from "../hooks/useDelete";
 import { toast } from "react-toastify";
+import { useGlobalConfirm } from "../context/ConfirmProvider";
 
 export default function SalaryTable({ data }) {
   const [open, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [salaries, setSalaries] = useState(data);
   const [selectedSalary, setSelectedSalary] = useState(null);
+  const { confirm } = useGlobalConfirm();
   const deleteUser = useDelete(`${BASE_URL}/admin/salary-targets`);
   const handleEdit = (salary) => {
     setSelectedSalary(salary);
@@ -20,10 +22,8 @@ export default function SalaryTable({ data }) {
   //handle delete
   const handleDelete = async (id) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this target?",
-      );
-      if (!confirmDelete) return;
+      const ok = await confirm("Are you sure to delete?");
+      if (!ok) return;
       const result = await deleteUser(id);
       if (!result) {
         toast.error("Failed to delete target");

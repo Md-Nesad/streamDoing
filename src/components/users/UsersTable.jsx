@@ -7,6 +7,7 @@ import useDelete from "../../hooks/useDelete";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import star from "../../assests/star.png";
 import { toast } from "react-toastify";
+import { useGlobalConfirm } from "../../context/ConfirmProvider";
 
 export default function HostAgencyTable({ usersList, setPage, loading }) {
   const [text, setText] = useState("");
@@ -14,6 +15,7 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
   const [selectedUser, setSelectedUser] = useState(null);
   const [users, setUsers] = useState(usersList?.users || []);
   const pagination = usersList?.pagination;
+  const { confirm } = useGlobalConfirm();
 
   // custom hook for delete that return a function
   const deleteUser = useDelete(`${BASE_URL}/admin/users`);
@@ -31,10 +33,8 @@ export default function HostAgencyTable({ usersList, setPage, loading }) {
 
   // Delete user by ID
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this user?",
-    );
-    if (!confirmDelete) return;
+    const ok = await confirm("Are you sure to delete?");
+    if (!ok) return;
 
     const result = await deleteUser(id);
 
