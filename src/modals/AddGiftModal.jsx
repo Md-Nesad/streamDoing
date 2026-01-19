@@ -6,13 +6,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addGiftSchema } from "../utility/validator";
 import { BASE_URL } from "../utility/utility";
+import { toast } from "react-toastify";
 
-export default function AddGiftModal({ open, onClose }) {
+export default function AddGiftModal({ open, onClose, onSuccess }) {
   if (!open) return null;
   const [selectedCategory, setSelectedCategory] = useState(null);
   const categories = useFetch(`${BASE_URL}/gift-category/list?limit=20`);
   const subCategories = useFetch(
-    `${BASE_URL}/gift-subcategory/by-category/${selectedCategory || null}`
+    `${BASE_URL}/gift-subcategory/by-category/${selectedCategory || null}`,
   );
   const handleFormData = useFormDataPost(`${BASE_URL}/gifts/create`);
   const [loading, setLoading] = useState(false);
@@ -48,13 +49,14 @@ export default function AddGiftModal({ open, onClose }) {
     const result = await handleFormData(formData);
 
     if (!result.message) {
-      alert("Failed to create entry");
+      toast.error("Failed to create entry");
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
 
     setLoading(false);
     reset();
+    onSuccess();
   };
 
   return (
@@ -99,7 +101,7 @@ export default function AddGiftModal({ open, onClose }) {
                 onChange={(e) => {
                   const selectedId = e.target.value;
                   const selectedCategory = categories?.data?.categories?.find(
-                    (cat) => cat._id === selectedId
+                    (cat) => cat._id === selectedId,
                   );
                   setSelectedCategory(selectedCategory?._id || null);
                 }}

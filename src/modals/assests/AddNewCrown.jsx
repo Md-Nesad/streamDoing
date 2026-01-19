@@ -5,8 +5,9 @@ import { crownSchema } from "../../utility/validator";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-toastify";
 
-export default function AddNewCrown({ open, onClose }) {
+export default function AddNewCrown({ open, onClose, onSuccess }) {
   if (!open) return null;
   const [loading, setLoading] = useState(false);
   const handleFormData = useFormDataPost(`${BASE_URL}/crowns`);
@@ -34,13 +35,14 @@ export default function AddNewCrown({ open, onClose }) {
 
     setLoading(true);
     await handleFormData(formData);
-    window.location.reload();
 
-    alert("Crown created");
+    toast.success("Crown created");
 
     setLoading(false);
 
     reset();
+
+    onSuccess();
   };
 
   return (
@@ -65,7 +67,7 @@ export default function AddNewCrown({ open, onClose }) {
           <input
             type="text"
             {...register("crownName")}
-            placeholder="Enter crown level"
+            placeholder="add crown level here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
           {errors.crownName && (
@@ -97,7 +99,7 @@ export default function AddNewCrown({ open, onClose }) {
           <input
             type="number"
             {...register("crownPrice")}
-            placeholder="Enter banner price"
+            placeholder="add crown price here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
           {errors.crownPrice && (

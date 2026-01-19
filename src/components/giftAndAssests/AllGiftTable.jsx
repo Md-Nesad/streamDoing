@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import AddGiftModal from "../../modals/AddGiftModal";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatNumber } from "../../utility/utility";
-import Loading from "../Loading";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import UpdateGiftModal from "../../modals/UpdateGiftModal";
+import { useGlobalConfirm } from "../../context/ConfirmProvider";
+import { toast } from "react-toastify";
+import TopPerformanceLoading from "../TopPerformanceLoading";
 // import Loading from "../Loading";
 
-export default function AllGiftTable({ data, loading, error }) {
+export default function AllGiftTable({ data, loading, error, setRefresh }) {
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
   const [update, setUpdate] = useState(false);
@@ -17,6 +19,7 @@ export default function AllGiftTable({ data, loading, error }) {
   const [allGifts, setAllGifts] = useState(data?.gifts);
   const [dloading, setDLoading] = useState(null);
   const [selectedGift, setSelectedGift] = useState(null);
+  const { confirm } = useGlobalConfirm();
 
   const category = useFetch(`${BASE_URL}/gift-category/list?page=1&limit=20`);
   const subCategory = useFetch(`${BASE_URL}/gift-subcategory/list?limit=100`);
@@ -34,17 +37,15 @@ export default function AllGiftTable({ data, loading, error }) {
   //handle gift delete
   const handleDelete = async (id) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this gift?",
-      );
-      if (!confirmDelete) return;
+      const ok = await confirm("Are you sure to delete?");
+      if (!ok) return;
       setDLoading(id);
       const result = await deleteUser(id);
 
       if (!result) {
-        alert("Failed to delete gift");
+        toast.error("Failed to delete gift");
       } else {
-        alert(result.message || "Gift deleted successfully");
+        toast.success(result.message || "Gift deleted successfully");
       }
 
       setAllGifts(allGifts?.filter((gift) => gift._id !== id));
@@ -72,7 +73,7 @@ export default function AllGiftTable({ data, loading, error }) {
     }
   }, [text, data]);
 
-  if (loading) return <Loading />;
+  if (loading) return <TopPerformanceLoading length={5} />;
   if (error) return <Error error={error} />;
 
   return (
@@ -196,12 +197,25 @@ export default function AllGiftTable({ data, loading, error }) {
             )}
           </tbody>
         </table>
-        {open && <AddGiftModal open={open} onClose={() => setIsOpen(false)} />}
+        {open && (
+          <AddGiftModal
+            open={open}
+            onClose={() => setIsOpen(false)}
+            onSuccess={() => {
+              setRefresh((prev) => !prev);
+              setIsOpen(false);
+            }}
+          />
+        )}
         {update && (
           <UpdateGiftModal
             open={update}
             onClose={() => setUpdate(false)}
             gift={selectedGift}
+            onSuccess={() => {
+              setRefresh((prev) => !prev);
+              setUpdate(false);
+            }}
           />
         )}
       </div>

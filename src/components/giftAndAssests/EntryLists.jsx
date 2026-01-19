@@ -1,25 +1,28 @@
 import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
-import Loading from "../Loading";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import AddNewEntryModal from "../../modals/assests/AddNewEntry";
 import useFetch from "../../hooks/useFetch";
+import { useGlobalConfirm } from "../../context/ConfirmProvider";
+import { toast } from "react-toastify";
+import TopPerformanceLoading from "../TopPerformanceLoading";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
-export default function EntryLists({ data, loading, error }) {
+export default function EntryLists() {
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
-  //   const [update, setUpdate] = useState(false);
-  //   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const { data, loading, error } = useFetch(`${BASE_URL}/entries`, refresh);
   const deleteUser = useDelete(`${BASE_URL}/entries`);
   const [allGifts, setAllGifts] = useState(data?.entries);
   const [dloading, setDLoading] = useState(null);
   const { data: categories, loading: catLoading } = useFetch(
     `${BASE_URL}/entries/categories`,
   );
+  const { confirm } = useGlobalConfirm();
   //   const [selectedGift, setSelectedGift] = useState(null);
 
   const handleFilter = () => {
@@ -32,17 +35,15 @@ export default function EntryLists({ data, loading, error }) {
   //handle gift delete
   const handleDelete = async (id) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this entry?",
-      );
-      if (!confirmDelete) return;
+      const ok = await confirm("Are you sure to delete?");
+      if (!ok) return;
       setDLoading(id);
       const result = await deleteUser(id);
 
       if (!result) {
-        alert("Failed to delete gift");
+        toast.error("Failed to delete entry");
       } else {
-        alert(result.message || "Gift deleted successfully");
+        toast.success(result.message || "Entry deleted successfully");
       }
 
       setAllGifts(allGifts?.filter((gift) => gift._id !== id));
@@ -68,9 +69,9 @@ export default function EntryLists({ data, loading, error }) {
     if (text === "") {
       setAllGifts(data?.entries);
     }
-  }, [text]);
+  }, [text, data?.entries]);
 
-  if (loading) return <Loading />;
+  if (loading) return <TopPerformanceLoading length={5} />;
   if (error) return <Error error={error} />;
 
   return (
@@ -185,7 +186,14 @@ export default function EntryLists({ data, loading, error }) {
           </tbody>
         </table>
         {open && (
-          <AddNewEntryModal open={open} onClose={() => setIsOpen(false)} />
+          <AddNewEntryModal
+            open={open}
+            onClose={() => setIsOpen(false)}
+            onSuccess={() => {
+              setRefresh((prev) => !prev);
+              setIsOpen(false);
+            }}
+          />
         )}
         {/* {update && (
           <UpdateGiftModal

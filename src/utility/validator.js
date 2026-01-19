@@ -25,10 +25,10 @@ export const agencySchema = z.object({
 
 export const bannerSchema = z.object({
   bannerName: z.string().min(2, "Banner name is required"),
-  bannerLink: z.string().min(2, "Banner link is required"),
-  webLink: z.string().min(2, "Web link is required"),
-  description: z.string().min(5, "at least 5 characters"),
-  price: z.string().min(1, "Price is required"),
+  bannerLink: z.string().optional(),
+  webLink: z.string().optional(),
+  description: z.string().optional(),
+  price: z.string().optional(),
   bannerFile: z
     .any()
     .refine((files) => files?.length > 0, "Banner file is required")

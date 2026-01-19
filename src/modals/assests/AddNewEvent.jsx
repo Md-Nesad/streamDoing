@@ -6,8 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { eventSchema } from "../../utility/validator";
 import { useState } from "react";
 import useFormDataPost from "../../hooks/useFormDataPost";
+import { toast } from "react-toastify";
 
-export default function AddNewEventModal({ open, onClose }) {
+export default function AddNewEventModal({ open, onClose, onSuccess }) {
   if (!open) return null;
   const { data } = useFetch(`${BASE_URL}/events/categories`);
   const handleFormData = useFormDataPost(`${BASE_URL}/events`);
@@ -39,17 +40,17 @@ export default function AddNewEventModal({ open, onClose }) {
     setLoading(true);
     const result = await handleFormData(formData);
 
-    window.location.reload();
-
     if (!result.message) {
-      alert("Failed to create entry");
+      toast.error("Failed to create event");
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
 
     setLoading(false);
 
     reset();
+
+    onSuccess();
   };
 
   return (
@@ -72,7 +73,7 @@ export default function AddNewEventModal({ open, onClose }) {
             <input
               type="text"
               {...register("eventName")}
-              placeholder="Enter event name"
+              placeholder="Add Event Name here"
               className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
             />
             {errors.eventName && (
@@ -114,7 +115,7 @@ export default function AddNewEventModal({ open, onClose }) {
           <input
             type="number"
             {...register("eventPrice")}
-            placeholder="Enter price"
+            placeholder="Add Price here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
           {errors.eventPrice && (

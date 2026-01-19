@@ -4,16 +4,17 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BASE_URL } from "../utility/utility";
 import usePatch from "../hooks/usePatch";
+import { toast } from "react-toastify";
 
-export default function UpdateGiftModal({ open, onClose, gift }) {
+export default function UpdateGiftModal({ open, onClose, gift, onSuccess }) {
   if (!open) return null;
-  console.log(gift);
+
   const [selectedCategory, setSelectedCategory] = useState(null);
   //get gift categories
   const categories = useFetch(`${BASE_URL}/gift-category/list?limit=20`);
   //get gift subcategories
   const subCategories = useFetch(
-    `${BASE_URL}/gift-subcategory/by-category/${selectedCategory || null}`
+    `${BASE_URL}/gift-subcategory/by-category/${selectedCategory || null}`,
   );
 
   const handleFormData = usePatch(`${BASE_URL}/gifts/update/${gift._id}`);
@@ -48,13 +49,14 @@ export default function UpdateGiftModal({ open, onClose, gift }) {
     const result = await handleFormData(formData);
 
     if (!result.message) {
-      alert("Failed to create entry");
+      toast.error("Failed to update entry");
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
 
     setLoading(false);
     reset();
+    onSuccess();
   };
 
   useEffect(() => {
@@ -105,7 +107,7 @@ export default function UpdateGiftModal({ open, onClose, gift }) {
                 onChange={(e) => {
                   const selectedId = e.target.value;
                   const selectedCategory = categories?.data?.categories?.find(
-                    (cat) => cat._id === selectedId
+                    (cat) => cat._id === selectedId,
                   );
                   setSelectedCategory(selectedCategory?._id || null);
                 }}

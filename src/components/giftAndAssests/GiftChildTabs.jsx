@@ -10,16 +10,11 @@ import BadgesLists from "./BadgesLists";
 import EntryLists from "./EntryLists";
 import EventLists from "./EventLists";
 import VIPLists from "./VIPLists";
+import { useState } from "react";
 
 export default function GiftChildTabs() {
-  const { data, loading, error } = useFetch(`${BASE_URL}/gifts/list`);
-  const { data: bannerData } = useFetch(`${BASE_URL}/banner`);
-  const { data: levelData } = useFetch(`${BASE_URL}/level`);
-  const { data: crownData } = useFetch(`${BASE_URL}/crowns`);
-  const { data: badgesData } = useFetch(`${BASE_URL}/badges`);
-  const { data: entryData } = useFetch(`${BASE_URL}/entries`);
-  const { data: eventData } = useFetch(`${BASE_URL}/events`);
-  const { data: vipData } = useFetch(`${BASE_URL}/vips`);
+  const [refresh, setRefresh] = useState(false);
+  const { data, loading, error } = useFetch(`${BASE_URL}/gifts/list`, refresh);
 
   return (
     <Tabs>
@@ -79,35 +74,40 @@ export default function GiftChildTabs() {
       </TabList>
 
       <TabPanel>
-        <AllGiftTable data={data} loading={loading} error={error} />
+        <AllGiftTable
+          data={data}
+          loading={loading}
+          error={error}
+          setRefresh={setRefresh}
+        />
       </TabPanel>
 
       <TabPanel>
-        <BannerList data={bannerData} loading={loading} error={error} />
+        <BannerList />
       </TabPanel>
 
       <TabPanel>
-        <LevelList data={levelData} loading={loading} error={error} />
+        <LevelList />
       </TabPanel>
 
       <TabPanel>
-        <CrownLists data={crownData} loading={loading} error={error} />
+        <CrownLists />
       </TabPanel>
 
       <TabPanel>
-        <BadgesLists data={badgesData} loading={loading} error={error} />
+        <BadgesLists />
       </TabPanel>
 
       <TabPanel>
-        <EntryLists data={entryData} loading={loading} error={error} />
+        <EntryLists />
       </TabPanel>
 
       <TabPanel>
-        <EventLists data={eventData} loading={loading} error={error} />
+        <EventLists />
       </TabPanel>
 
       <TabPanel>
-        <VIPLists data={vipData} loading={loading} error={error} />
+        <VIPLists />
       </TabPanel>
     </Tabs>
   );

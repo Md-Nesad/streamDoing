@@ -5,8 +5,9 @@ import { levelSchema } from "../../utility/validator";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-toastify";
 
-export default function AddNewFrameModal({ open, onClose }) {
+export default function AddNewFrameModal({ open, onClose, onSuccess }) {
   if (!open) return null;
   const [loading, setLoading] = useState(false);
   const handleFormData = useFormDataPost(`${BASE_URL}/level`);
@@ -35,16 +36,15 @@ export default function AddNewFrameModal({ open, onClose }) {
     setLoading(true);
     const result = await handleFormData(formData);
 
-    window.location.reload();
-
     if (!result.message) {
-      alert("Failed to create level");
+      toast.error("Failed to create level");
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
     setLoading(false);
 
     reset();
+    onSuccess();
   };
 
   return (
@@ -69,7 +69,7 @@ export default function AddNewFrameModal({ open, onClose }) {
           <input
             type="text"
             {...register("levelName")}
-            placeholder="Enter level name"
+            placeholder="add level name here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
           {errors.levelName && (
@@ -101,7 +101,7 @@ export default function AddNewFrameModal({ open, onClose }) {
           <input
             type="number"
             {...register("levelPrice")}
-            placeholder="Enter price"
+            placeholder="add level price here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
           {errors.levelPrice && (

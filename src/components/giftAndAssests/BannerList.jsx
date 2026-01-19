@@ -1,22 +1,26 @@
 import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import AddGiftModal from "../../modals/AddGiftModal";
 import { BASE_URL } from "../../utility/utility";
-import Loading from "../Loading";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import AddNewBannerModal from "../../modals/assests/AddNewBanner";
+import { useGlobalConfirm } from "../../context/ConfirmProvider";
+import { toast } from "react-toastify";
+import useFetch from "../../hooks/useFetch";
+import TopPerformanceLoading from "../TopPerformanceLoading";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
-export default function BannerList({ data, loading, error }) {
+export default function BannerList() {
+  const [refresh, setRefresh] = useState(false);
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
-  //   const [update, setUpdate] = useState(false);
-  //   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { data, loading, error } = useFetch(`${BASE_URL}/banner`, refresh);
+
   const deleteUser = useDelete(`${BASE_URL}/banner`);
   const [allGifts, setAllGifts] = useState(data?.banners);
   const [dloading, setDLoading] = useState(null);
+  const { confirm } = useGlobalConfirm();
   //   const [selectedGift, setSelectedGift] = useState(null);
 
   const handleFilter = () => {
@@ -29,17 +33,15 @@ export default function BannerList({ data, loading, error }) {
   //handle gift delete
   const handleDelete = async (id) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this banner?",
-      );
-      if (!confirmDelete) return;
+      const ok = await confirm("Are you sure to delete?");
+      if (!ok) return;
       setDLoading(id);
       const result = await deleteUser(id);
 
       if (!result) {
-        alert("Failed to delete gift");
+        toast.error("Failed to delete banner");
       } else {
-        alert(result.message || "Gift deleted successfully");
+        toast.success(result.message || "Banner deleted successfully");
       }
 
       setAllGifts(allGifts?.filter((gift) => gift._id !== id));
@@ -65,9 +67,9 @@ export default function BannerList({ data, loading, error }) {
     if (text === "") {
       setAllGifts(data?.banners);
     }
-  }, [text]);
+  }, [text, data?.banners]);
 
-  if (loading) return <Loading />;
+  if (loading) return <TopPerformanceLoading length={5} />;
   if (error) return <Error error={error} />;
 
   return (
@@ -128,8 +130,8 @@ export default function BannerList({ data, loading, error }) {
                     </td>
                     <td className="p-3 font-medium">{gift.name}</td>
 
-                    <td className="p-3">{gift.description}</td>
-                    <td className="p-3">{gift.webLink}</td>
+                    <td className="p-3">{gift.description || "-"}</td>
+                    <td className="p-3">{gift.webLink || "-"}</td>
                     <td className="p-3">
                       <span
                         className={`px-4 py-1 text-xs ${
@@ -177,7 +179,14 @@ export default function BannerList({ data, loading, error }) {
           </tbody>
         </table>
         {open && (
-          <AddNewBannerModal open={open} onClose={() => setIsOpen(false)} />
+          <AddNewBannerModal
+            open={open}
+            onClose={() => setIsOpen(false)}
+            onSuccess={() => {
+              setRefresh((prev) => !prev);
+              setIsOpen(false);
+            }}
+          />
         )}
         {/* {update && (
           <UpdateGiftModal

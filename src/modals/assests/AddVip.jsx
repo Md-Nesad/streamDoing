@@ -6,8 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { vipSchema } from "../../utility/validator";
 import { useState } from "react";
 import useFormDataPost from "../../hooks/useFormDataPost";
+import { toast } from "react-toastify";
 
-export default function AddVip({ open, onClose }) {
+export default function AddVip({ open, onClose, onSuccess }) {
   if (!open) return null;
   const { data } = useFetch(`${BASE_URL}/vips/categories`);
   const handleFormData = useFormDataPost(`${BASE_URL}/vips`);
@@ -38,15 +39,17 @@ export default function AddVip({ open, onClose }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-    window.location.reload();
+
     if (result.message) {
-      alert("Failed to create VIP");
+      toast.error("Failed to create VIP");
     } else {
-      alert("VIP created");
+      toast.success(result.message || "VIP created successfully");
     }
 
     setLoading(false);
     reset();
+
+    onSuccess();
   };
 
   return (
@@ -69,7 +72,7 @@ export default function AddVip({ open, onClose }) {
             <input
               type="text"
               {...register("vipName")}
-              placeholder="Enter VIP name"
+              placeholder="Add VIP Name here"
               className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
             />
             {errors.vipName && (
@@ -111,7 +114,7 @@ export default function AddVip({ open, onClose }) {
           <input
             type="number"
             {...register("vipPrice")}
-            placeholder="Enter price"
+            placeholder="Add Price here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
           {errors.vipPrice && (

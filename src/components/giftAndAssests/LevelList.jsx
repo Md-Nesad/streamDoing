@@ -1,23 +1,25 @@
 import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import AddGiftModal from "../../modals/AddGiftModal";
 import { BASE_URL, formatNumber } from "../../utility/utility";
-import Loading from "../Loading";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import AddNewFrameModal from "../../modals/assests/AddNewFrame";
+import useFetch from "../../hooks/useFetch";
+import { useGlobalConfirm } from "../../context/ConfirmProvider";
+import { toast } from "react-toastify";
+import TopPerformanceLoading from "../TopPerformanceLoading";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
-export default function LevelList({ data, loading, error }) {
+export default function LevelList() {
+  const [refresh, setRefresh] = useState(false);
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
-  //   const [update, setUpdate] = useState(false);
-  //   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { data, loading, error } = useFetch(`${BASE_URL}/level`, refresh);
   const deleteUser = useDelete(`${BASE_URL}/level`);
   const [allGifts, setAllGifts] = useState(data?.levels);
   const [dloading, setDLoading] = useState(null);
-  //   const [selectedGift, setSelectedGift] = useState(null);
+  const { confirm } = useGlobalConfirm();
 
   const handleFilter = () => {
     const filteredUsers = allGifts?.filter((item) => {
@@ -29,17 +31,15 @@ export default function LevelList({ data, loading, error }) {
   //handle gift delete
   const handleDelete = async (id) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this level?",
-      );
-      if (!confirmDelete) return;
+      const ok = await confirm("Are you sure to delete?");
+      if (!ok) return;
       setDLoading(id);
       const result = await deleteUser(id);
 
       if (!result) {
-        alert("Failed to delete gift");
+        toast.error("Failed to delete level");
       } else {
-        alert(result.message || "Gift deleted successfully");
+        toast.success(result.message || "Level deleted successfully");
       }
 
       setAllGifts(allGifts?.filter((gift) => gift._id !== id));
@@ -65,9 +65,9 @@ export default function LevelList({ data, loading, error }) {
     if (text === "") {
       setAllGifts(data?.levels);
     }
-  }, [text]);
+  }, [text, data?.levels]);
 
-  if (loading) return <Loading />;
+  if (loading) return <TopPerformanceLoading length={5} />;
   if (error) return <Error error={error} />;
 
   return (
@@ -175,7 +175,14 @@ export default function LevelList({ data, loading, error }) {
           </tbody>
         </table>
         {open && (
-          <AddNewFrameModal open={open} onClose={() => setIsOpen(false)} />
+          <AddNewFrameModal
+            open={open}
+            onClose={() => setIsOpen(false)}
+            onSuccess={() => {
+              setRefresh((prev) => !prev);
+              setIsOpen(false);
+            }}
+          />
         )}
         {/* {update && (
           <UpdateGiftModal

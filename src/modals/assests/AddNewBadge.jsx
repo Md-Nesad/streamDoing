@@ -5,8 +5,9 @@ import { badgeSchema } from "../../utility/validator";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-toastify";
 
-export default function AddNewBadgeModal({ open, onClose }) {
+export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
   if (!open) return null;
   const [loading, setLoading] = useState(false);
   const handleFormData = useFormDataPost(`${BASE_URL}/badges`);
@@ -37,16 +38,16 @@ export default function AddNewBadgeModal({ open, onClose }) {
     setLoading(true);
     const result = await handleFormData(formData);
 
-    window.location.reload();
-
     if (!result.message) {
-      alert("Failed to create badge");
+      toast.error("Failed to create badge");
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
     setLoading(false);
 
     reset();
+
+    onSuccess();
   };
 
   return (
@@ -71,7 +72,7 @@ export default function AddNewBadgeModal({ open, onClose }) {
           <input
             type="text"
             {...register("badgeName")}
-            placeholder="Enter badge name"
+            placeholder="add badge name here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
           {errors.badgeName && (
@@ -88,7 +89,7 @@ export default function AddNewBadgeModal({ open, onClose }) {
           <input
             type="text"
             {...register("badgeDescription")}
-            placeholder="Enter description"
+            placeholder="add badge description here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
           {errors.badgeDescription && (
@@ -105,7 +106,7 @@ export default function AddNewBadgeModal({ open, onClose }) {
           <input
             type="number"
             {...register("badgePrice")}
-            placeholder="Enter price"
+            placeholder="add badge price here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
           {errors.badgePrice && (

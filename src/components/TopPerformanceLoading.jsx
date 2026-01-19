@@ -1,10 +1,10 @@
-export default function TopPerformanceLoading({}) {
+export default function TopPerformanceLoading({ length }) {
   return (
-    <div className="bg-white p-3 sm:p-6 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)] border border-gray-200">
-      <h2 className="text-xl font-semibold mb-5">Top Performing Agency</h2>
+    <div className="bg-white p-3 sm:p-6 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.06)] border border-gray-200 mt-5">
+      {/* <h2 className="text-xl font-semibold mb-5">Top Performing Agency</h2> */}
 
       <div className="space-y-4">
-        {[...Array(16)].map((_, index) => (
+        {[...Array(Number(length))]?.map((_, index) => (
           <div
             key={index}
             className="flex flex-col max-sm:gap-5 sm:flex-row sm:items-center sm:justify-between bg-[#F1F3F6] rounded-xl px-3 sm:px-5 py-4 border border-gray-200 animate-pulse"

@@ -29,7 +29,7 @@ export default function TopPerformanceAgency({ data, setPage }) {
   }, [text, data?.data?.agencies]);
 
   if (data?.loading) {
-    return <TopPerformanceLoading />;
+    return <TopPerformanceLoading length={topAgencies?.length} />;
   }
 
   if (data?.error) {

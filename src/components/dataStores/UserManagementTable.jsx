@@ -123,7 +123,7 @@ export default function UserManagementTable() {
                   <td className="p-3">
                     <span className="px-1.5 py-1 text-xs bg-linear-to-b from-[#5DB90A] to-[#175111] rounded-lg font-semibold text-white flex items-center gap-1.5 w-14.5">
                       <img src={star} alt="" className="w-4 h-4" /> Lv
-                      {user.level || "N/A"}
+                      {user.level}
                     </span>
                   </td>
                   <td className="p-3">{user.phone}</td>

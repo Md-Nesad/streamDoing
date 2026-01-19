@@ -1,23 +1,24 @@
 import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import AddGiftModal from "../../modals/AddGiftModal";
 import { BASE_URL, formatNumber } from "../../utility/utility";
-import Loading from "../Loading";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import AddNewEventModal from "../../modals/assests/AddNewEvent";
+import useFetch from "../../hooks/useFetch";
+import { useGlobalConfirm } from "../../context/ConfirmProvider";
+import { toast } from "react-toastify";
+import TopPerformanceLoading from "../TopPerformanceLoading";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
-export default function EventLists({ data, loading, error }) {
-  console.log(data);
+export default function EventLists() {
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
-  //   const [update, setUpdate] = useState(false);
-  //   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const { data, loading, error } = useFetch(`${BASE_URL}/events`, refresh);
   const deleteUser = useDelete(`${BASE_URL}/events`);
   const [allGifts, setAllGifts] = useState(data?.events);
-
+  const { confirm } = useGlobalConfirm();
   const [dloading, setDLoading] = useState(null);
   //   const [selectedGift, setSelectedGift] = useState(null);
 
@@ -31,17 +32,15 @@ export default function EventLists({ data, loading, error }) {
   //handle gift delete
   const handleDelete = async (id) => {
     try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this event?",
-      );
-      if (!confirmDelete) return;
+      const ok = await confirm("Are you sure to delete?");
+      if (!ok) return;
       setDLoading(id);
       const result = await deleteUser(id);
 
       if (!result) {
-        alert("Failed to delete gift");
+        toast.error("Failed to delete event");
       } else {
-        alert(result.message || "Event deleted successfully");
+        toast.success(result.message || "Event deleted successfully");
       }
 
       setAllGifts(allGifts?.filter((gift) => gift._id !== id));
@@ -67,9 +66,9 @@ export default function EventLists({ data, loading, error }) {
     if (text === "") {
       setAllGifts(data?.events);
     }
-  }, [text]);
+  }, [text, data?.events]);
 
-  if (loading) return <Loading />;
+  if (loading) return <TopPerformanceLoading length={5} />;
   if (error) return <Error error={error} />;
 
   return (
@@ -179,7 +178,14 @@ export default function EventLists({ data, loading, error }) {
           </tbody>
         </table>
         {open && (
-          <AddNewEventModal open={open} onClose={() => setIsOpen(false)} />
+          <AddNewEventModal
+            open={open}
+            onClose={() => setIsOpen(false)}
+            onSuccess={() => {
+              setRefresh((prev) => !prev);
+              setIsOpen(false);
+            }}
+          />
         )}
         {/* {update && (
           <UpdateGiftModal

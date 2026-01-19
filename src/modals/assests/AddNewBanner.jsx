@@ -5,8 +5,9 @@ import { bannerSchema } from "../../utility/validator";
 import useFormDataPost from "../../hooks/useFormDataPost";
 import { BASE_URL } from "../../utility/utility";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
-export default function AddNewBannerModal({ open, onClose }) {
+export default function AddNewBannerModal({ open, onClose, onSuccess }) {
   if (!open) return null;
   const [loading, setLoading] = useState(false);
   const handleFormData = useFormDataPost(`${BASE_URL}/banner`);
@@ -38,23 +39,22 @@ export default function AddNewBannerModal({ open, onClose }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-
-    window.location.reload();
-
+    console.log(result);
     if (!result == {}) {
-      alert("Failed to create banner");
+      toast.error("Failed to create banner");
     } else {
-      alert("Banner created successfully");
+      toast.success("Banner created");
     }
     setLoading(false);
     reset();
+    onSuccess();
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/30 z-50">
       <form
         onSubmit={handleSubmit(handleSave)}
-        className="w-full max-w-[650px] bg-white rounded-2xl shadow-lg p-4 sm:p-6 h-[95vh] overflow-y-auto animatefadeIn hide_scrollbar max-sm:mx-3"
+        className="w-full max-w-[650px] bg-white rounded-2xl shadow-lg p-4 sm:p-6 max-sm:h-[95vh] overflow-y-auto animatefadeIn hide_scrollbar max-sm:mx-3"
       >
         {/* Title */}
         <h2 className="text-[20px] font-semibold text-gray-800 mb-1">
@@ -72,7 +72,7 @@ export default function AddNewBannerModal({ open, onClose }) {
           <input
             type="text"
             {...register("bannerName")}
-            placeholder="Enter Banner name"
+            placeholder="add banner name here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
           {errors.bannerName && (
@@ -82,21 +82,21 @@ export default function AddNewBannerModal({ open, onClose }) {
           )}
         </div>
 
-        <div className="mb-3.5">
+        <div className="mb-3.5 hidden">
           <label className="text-gray-700 text-[14px] font-medium">
             Banner Link
           </label>
           <input
             type="text"
             {...register("bannerLink")}
-            placeholder="Enter Banner Link"
+            placeholder="add banner link here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
-          {errors.bannerLink && (
+          {/* {errors.bannerLink && (
             <p className="text-red-500 text-xs mt-1">
               {errors.bannerLink.message}
             </p>
-          )}
+          )} */}
         </div>
 
         {/* Category */}
@@ -107,14 +107,14 @@ export default function AddNewBannerModal({ open, onClose }) {
           <input
             type="text"
             {...register("webLink")}
-            placeholder="Enter web link"
+            placeholder="add web link here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
-          {errors.webLink && (
+          {/* {errors.webLink && (
             <p className="text-red-500 text-xs mt-1">
               {errors.webLink.message}
             </p>
-          )}
+          )} */}
         </div>
 
         <div className="mb-3.5">
@@ -124,18 +124,18 @@ export default function AddNewBannerModal({ open, onClose }) {
           <input
             type="text"
             {...register("description")}
-            placeholder="Enter Description"
+            placeholder="Add short description about banner"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
-          {errors.description && (
+          {/* {errors.description && (
             <p className="text-red-500 text-xs mt-1">
               {errors.description.message}
             </p>
-          )}
+          )} */}
         </div>
 
         {/* Price */}
-        <div className="mb-3.5">
+        <div className="mb-3.5 hidden">
           <label className="text-gray-700 text-[14px] font-medium">Price</label>
           <input
             type="number"

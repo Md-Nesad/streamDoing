@@ -9,7 +9,7 @@ import Error from "../components/Error";
 
 export default function GiftAndAssests() {
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/gifts/category-wise-gifts`
+    `${BASE_URL}/gifts/category-wise-gifts`,
   );
 
   const {

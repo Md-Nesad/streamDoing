@@ -1,6 +1,5 @@
 import React from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import AllGiftTable from "./AllGiftTable";
 import RecentGiftActivity from "./RecentGiftActivity";
 import RevenueDistribution from "./RevenueDistribution";
 import useFetch from "../../hooks/useFetch";
