@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import HostPerformanceModal from "./HostPerformanceModal";
 import useFetch from "../../../hooks/useFetch";
 import { BASE_URL } from "../../../utility/utility";
+import { toast } from "react-toastify";
 
 export default function HostPerformanceList() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +18,7 @@ export default function HostPerformanceList() {
   const [reports, setReports] = useState([]);
 
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/agency/host/analytics/host-performance?startDate=${query.startDate}&endDate=${query.endDate}`
+    `${BASE_URL}/agency/host/analytics/host-performance?startDate=${query.startDate}&endDate=${query.endDate}`,
   );
 
   // sync API data to table
@@ -32,7 +33,7 @@ export default function HostPerformanceList() {
   // apply filter
   const handleFilter = () => {
     if (!startDate || !endDate) {
-      alert("Please select both start and end date");
+      toast.error("Please select start date and end date!");
       return;
     }
 

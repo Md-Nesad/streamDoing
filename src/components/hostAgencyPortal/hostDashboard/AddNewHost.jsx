@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { adminHostAgencySchema, hostAdd } from "../../../utility/validator";
 import { ChevronDown } from "lucide-react";
 import useJsonPost from "../../../hooks/useJsonPost";
+import { toast } from "react-toastify";
 
 export default function AddNewHost() {
   const [loading, setLoading] = useState(false);
@@ -37,9 +38,9 @@ export default function AddNewHost() {
     setLoading(true);
     const result = await handleSubmit(formData);
     if (result.success === false) {
-      alert(result.message);
+      toast.error(result.message);
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
     setLoading(false);
 

@@ -1,4 +1,4 @@
-import { Funnel, SquarePen, Trash2 } from "lucide-react";
+import { Funnel, LoaderCircle, SquarePen, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import AddFAQsModal from "./AddFAQsModal";
 import useFetch from "../../../hooks/useFetch";
@@ -7,15 +7,22 @@ import Loading from "../../Loading";
 import Error from "../../Error";
 import useDelete from "../../../hooks/useDelete";
 import UpdateFaq from "./UpdateFaq";
+import { useGlobalConfirm } from "../../../context/ConfirmProvider";
+import { toast } from "react-toastify";
 
 export default function FAQsList() {
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [selectedFaq, setSelectedFaq] = useState(null);
   const [text, setText] = useState("");
-  const { data, loading, error } = useFetch(`${BASE_URL}/support-agency/faq`);
+  const [refresh, setRefresh] = useState(false);
+  const { data, loading, error } = useFetch(
+    `${BASE_URL}/support-agency/faq`,
+    refresh,
+  );
   const [faqs, setFaqs] = useState(data?.data || []);
-
+  const { confirm } = useGlobalConfirm();
+  const [isLoading, setIsLoading] = useState(null);
   //handle Filter
   const handleFilter = () => {
     const filteredFaq = faqs.filter((faq) => {
@@ -31,16 +38,17 @@ export default function FAQsList() {
   const deleteUser = useDelete(`${BASE_URL}/support-agency/faq`);
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this FAQ?"
-    );
-    if (!confirmDelete) return;
+    const ok = await confirm("Are you sure to delete?");
+    if (!ok) return;
+
+    setIsLoading(id);
     const result = await deleteUser(id);
     if (!result) {
-      alert("Failed to delete FAQ");
+      toast.error("Failed to delete faq");
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
+    setIsLoading(null);
     setFaqs(faqs?.filter((faq) => faq._id !== id));
   };
 
@@ -109,7 +117,7 @@ export default function FAQsList() {
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
                   <td className="p-3 pl-6 font-medium">
-                    TKT-{faq?.createdBy.displayId}
+                    TKT-{faq?.createdBy?.displayId}
                   </td>
                   <td className="p-3 ">{faq?.question}</td>
                   <td className="p-3">
@@ -117,7 +125,7 @@ export default function FAQsList() {
                       {faq?.category[0].toUpperCase() + faq?.category.slice(1)}
                     </span>
                   </td>
-                  <td className="p-3">{faq?.createdBy.name}</td>
+                  <td className="p-3">{faq?.createdBy?.name}</td>
                   <td className="p-3">
                     <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
                       Published
@@ -125,12 +133,15 @@ export default function FAQsList() {
                   </td>
                   <td className="p-3">{formatOnlyDate(faq?.updatedAt)}</td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-4 items-center">
-                    <button onClick={() => handleDelete(faq?._id)}>
-                      <Trash2 size={17} />
-                    </button>
-
                     <button onClick={() => handleEdit(faq)}>
-                      <SquarePen className="text-[#FF0037]" size={17} />
+                      <SquarePen size={17} />
+                    </button>
+                    <button onClick={() => handleDelete(faq?._id)}>
+                      {isLoading === faq?._id ? (
+                        <LoaderCircle size={17} />
+                      ) : (
+                        <Trash2 size={17} className="text-[#FF0037]" />
+                      )}
                     </button>
                   </td>
                 </tr>
@@ -144,7 +155,16 @@ export default function FAQsList() {
             )}
           </tbody>
         </table>
-        {open && <AddFAQsModal open={open} onClose={() => setOpen(false)} />}
+        {open && (
+          <AddFAQsModal
+            open={open}
+            onClose={() => setOpen(false)}
+            onSuccess={() => {
+              setRefresh((prev) => !prev);
+              setOpen(false);
+            }}
+          />
+        )}
 
         <div>
           {edit && (
@@ -152,6 +172,10 @@ export default function FAQsList() {
               edit={edit}
               onEdit={() => setEdit(false)}
               faq={selectedFaq}
+              onSuccess={() => {
+                setRefresh((prev) => !prev);
+                setEdit(false);
+              }}
             />
           )}
         </div>

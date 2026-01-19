@@ -30,7 +30,7 @@ export default function MasterAgencyLogin() {
     try {
       setLoading(true);
 
-      const res = await fetch(`${BASE_URL}/agency/login`, {
+      const res = await fetch(`${BASE_URL}/agency/master-login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export default function MasterAgencyLogin() {
       console.log(data);
 
       if (!res.ok) {
-        setError(data.error || "Login failed");
+        setError(data.error || "Invalid credentials");
         return;
       }
 

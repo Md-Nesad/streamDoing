@@ -37,7 +37,7 @@ export default function MasterPortalHeader() {
             </h1>
 
             <p className="text-sm text-[#4473FF] font-semibold">
-              Master agency portal
+              Master agency Dashboard
             </p>
 
             <small className="text-xs text-[#181717]">

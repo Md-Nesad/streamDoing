@@ -2,8 +2,9 @@ import { ChevronDown } from "lucide-react";
 import useJsonPost from "../../../hooks/useJsonPost";
 import { BASE_URL } from "../../../utility/utility";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
-export default function AddFAQsModal({ open, onClose }) {
+export default function AddFAQsModal({ open, onClose, onSuccess }) {
   if (!open) return null;
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
@@ -14,7 +15,7 @@ export default function AddFAQsModal({ open, onClose }) {
   //handle Save
   const handleSave = async () => {
     if (!question || !answer || !category)
-      return alert("Please fill all fields");
+      return toast.error("Please fill all fields");
     try {
       setLoading(true);
       const result = await handlesubmit({
@@ -23,16 +24,15 @@ export default function AddFAQsModal({ open, onClose }) {
         category,
       });
       if (!result) {
-        alert("Failed to add FAQ");
+        toast.error("Failed to add FAQ");
       } else {
-        alert(result.message);
+        toast.success(result.message);
       }
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
-      window.location.refresh();
-      onClose();
+      onSuccess();
     }
   };
   return (

@@ -30,7 +30,7 @@ export default function AdminAgencyLogin() {
     try {
       setLoading(true);
 
-      const res = await fetch(`${BASE_URL}/agency/login`, {
+      const res = await fetch(`${BASE_URL}/agency/admin-login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export default function AdminAgencyLogin() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Login failed");
+        setError(data.error || "Invalid credentials");
         return;
       }
 

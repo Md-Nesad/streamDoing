@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { agencySchema } from "../../../utility/validator";
 import { useForm } from "react-hook-form";
 import { countries } from "../../../data/adminData";
+import { toast } from "react-toastify";
 
 export default function AddCoinAgency() {
   const [loading, setLoading] = useState(false);
@@ -50,13 +51,13 @@ export default function AddCoinAgency() {
     const result = await handleFormData(formData);
     console.log(result);
     if (result.success === false) {
-      alert(result.message);
+      toast.error(result.message);
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
     setLoading(false);
 
-    // reset();
+    reset();
   };
 
   return (

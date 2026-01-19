@@ -1,19 +1,25 @@
 import { useState } from "react";
 import useJsonPost from "../../../hooks/useJsonPost";
 import { BASE_URL } from "../../../utility/utility";
+import { toast } from "react-toastify";
 
 export default function FreezTitle() {
   const [transactionId, setTransactionId] = useState("");
   const handleSubmit = useJsonPost(`${BASE_URL}/agency/coin/coin-freeze/apply`);
 
   const handleCoinApply = async () => {
-    if (!transactionId) return alert("Please enter Valid Transaction ID");
+    if (!transactionId) return toast.error("Please enter Valid Transaction ID");
     const result = await handleSubmit({ transactionId });
-    alert(result.message);
 
-    if (result?.success === true) {
-      setTransactionId("");
+    if (result.success === false) {
+      return toast.error(result.message);
+    } else {
+      return toast.success(result.message);
     }
+
+    // if (result?.success === true) {
+    //   setTransactionId("");
+    // }
   };
   return (
     <>

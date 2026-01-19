@@ -37,7 +37,7 @@ export default function CoinPortalHeader() {
             </h1>
 
             <p className="text-sm text-[#4473FF] font-semibold">
-              Coin agency portal
+              Coin agency Dashboard
             </p>
 
             <small className="text-xs text-[#181717]">

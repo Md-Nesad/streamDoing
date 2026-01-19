@@ -1,4 +1,4 @@
-import { Pen, Trash2 } from "lucide-react";
+import { LoaderCircle, Pen, Trash2 } from "lucide-react";
 import TitleAndSubTitle from "../TitleAndSubTitle";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatOnlyDate } from "../../utility/utility";
@@ -7,29 +7,33 @@ import Error from "../Error";
 import { useEffect, useState } from "react";
 import Pagination from "../Pagination";
 import useDelete from "../../hooks/useDelete";
+import { useGlobalConfirm } from "../../context/ConfirmProvider";
+import { toast } from "react-toastify";
 
 export default function NotificationHistoryTable() {
   const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/support-agency/notification-center?page=${page}&limit=10`
+    `${BASE_URL}/support-agency/notification-center?page=${page}&limit=20`,
   );
+  const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState(data?.notifications);
   const pagination = data?.pagination;
+  const { confirm } = useGlobalConfirm();
 
   //handle delete
   const deleteUser = useDelete(
-    `${BASE_URL}/support-agency/notification-center`
+    `${BASE_URL}/support-agency/notification-center`,
   );
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this notification?"
-    );
-    if (!confirmDelete) return;
+    const ok = await confirm("Are you sure to delete?");
+    if (!ok) return;
+    setIsLoading(id);
     const result = await deleteUser(id);
-    alert(result.message);
+    toast.success(result.message);
+    setIsLoading(null);
     setNotifications(
-      notifications?.filter((notification) => notification._id !== id)
+      notifications?.filter((notification) => notification._id !== id),
     );
   };
 
@@ -84,7 +88,11 @@ export default function NotificationHistoryTable() {
                         <Pen size={17} />
                       </button>
                       <button onClick={() => handleDelete(notification._id)}>
-                        <Trash2 size={18} className="text-[#FF0037]" />
+                        {isLoading === notification._id ? (
+                          <LoaderCircle size={17} className="animate-spin" />
+                        ) : (
+                          <Trash2 size={18} className="text-[#FF0037]" />
+                        )}
                       </button>
                     </span>
                   </td>

@@ -1,8 +1,9 @@
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { BASE_URL } from "../../../utility/utility";
+import { toast } from "react-toastify";
 
-export default function UpdateFaq({ edit, onEdit, faq }) {
+export default function UpdateFaq({ edit, onEdit, faq, onSuccess }) {
   if (!edit) return null;
   //   console.log(faqId);
   const [question, setQuestion] = useState(faq.question);
@@ -23,6 +24,7 @@ export default function UpdateFaq({ edit, onEdit, faq }) {
         body: JSON.stringify(updatedFaq),
       });
       const result = await res.json();
+      toast.success(result.message);
       if (!res.ok) {
         throw new Error(result.message || "Something went wrong");
       }
@@ -30,8 +32,7 @@ export default function UpdateFaq({ edit, onEdit, faq }) {
       console.log(error);
     } finally {
       setLoading(false);
-      window.location.reload();
-      onEdit(false);
+      onSuccess();
     }
   };
 

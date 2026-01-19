@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { adminHostAgencySchema } from "../../../utility/validator";
 import { ChevronDown } from "lucide-react";
 import { countries } from "../../../data/adminData";
+import { toast } from "react-toastify";
 
 export default function AddAdminHostAgency() {
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,7 @@ export default function AddAdminHostAgency() {
   // form submission handler
   const handleSave = async (data) => {
     if (data.password !== data.rePassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -56,9 +57,9 @@ export default function AddAdminHostAgency() {
     setLoading(true);
     const result = await handleFormData(formData);
     if (result.success === false) {
-      alert(result.message);
+      toast.error(result.message);
     } else {
-      alert(result.message);
+      toast.success(result.message);
     }
     setLoading(false);
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useJsonPost from "../../../hooks/useJsonPost";
 import { BASE_URL } from "../../../utility/utility";
+import { toast } from "react-toastify";
 
 export default function QuickSellCoins() {
   const [userId, setUserId] = useState("");
@@ -10,15 +11,20 @@ export default function QuickSellCoins() {
   const handleSubmit = useJsonPost(`${BASE_URL}/agency/coin/coin-sale/to-user`);
 
   const handleCoinSell = async () => {
-    if (!userId) return alert("Please enter Valid User ID");
-    if (!coins) return alert("Please enter coin amount");
+    if (!userId || !coins)
+      return toast.error("Please enter coin Agency ID and coins");
     setLoading(true);
     const result = await handleSubmit({ userId, coins });
-    setLoading(false);
-    alert(result.message);
 
-    setUserId("");
-    setCoins("");
+    setLoading(false);
+
+    if (result.success === false) {
+      return toast.error(result.message);
+    } else {
+      setUserId("");
+      setCoins("");
+      return toast.success(result.message);
+    }
   };
 
   return (

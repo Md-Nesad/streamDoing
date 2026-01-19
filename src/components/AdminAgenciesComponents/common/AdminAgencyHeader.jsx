@@ -37,7 +37,7 @@ export default function AdminAgencyHeader() {
             </h1>
 
             <p className="text-sm text-[#4473FF] font-semibold">
-              Admin agency portal
+              Admin agency Dashboard
             </p>
 
             <small className="text-xs text-[#181717]">

@@ -37,7 +37,7 @@ export default function HostPortalHeader() {
             </h1>
 
             <p className="text-sm text-[#4473FF] font-semibold">
-              Host agency portal
+              Host agency Dashboard
             </p>
 
             <small className="text-xs text-[#181717]">

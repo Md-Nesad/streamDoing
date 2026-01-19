@@ -30,7 +30,7 @@ export default function CoinAgencyLogin() {
     try {
       setLoading(true);
 
-      const res = await fetch(`${BASE_URL}/agency/login`, {
+      const res = await fetch(`${BASE_URL}/agency/coin-login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export default function CoinAgencyLogin() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || "Login failed");
+        setError(data.error || "Invalid credentials");
         return;
       }
 

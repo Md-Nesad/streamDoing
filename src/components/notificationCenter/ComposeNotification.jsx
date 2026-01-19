@@ -4,6 +4,7 @@ import { ChevronDown, Eye, RotateCw, Send } from "lucide-react";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
 import useJsonPost from "../../hooks/useJsonPost";
+import { toast } from "react-toastify";
 
 export default function ComposeNotification() {
   const [targetType, setTargetType] = useState("");
@@ -13,7 +14,7 @@ export default function ComposeNotification() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const handleSubmit = useJsonPost(
-    `${BASE_URL}/support-agency/notification-center`
+    `${BASE_URL}/support-agency/notification-center`,
   );
 
   const data = {
@@ -34,13 +35,13 @@ export default function ComposeNotification() {
 
   //get users list
   const { data: userList } = useFetch(
-    `${BASE_URL}/support-agency/user?page=1&limit=100&type=&search=`
+    `${BASE_URL}/support-agency/user?page=1&limit=100&type=&search=`,
   );
   const users = userList?.users || [];
 
   //get agencies list
   const { data: agencyList } = useFetch(
-    `${BASE_URL}/support-agency/agency?page=1&limit=100&type=&search=`
+    `${BASE_URL}/support-agency/agency?page=1&limit=100&type=&search=`,
   );
   const agencies = agencyList?.agencies || [];
 
@@ -60,13 +61,15 @@ export default function ComposeNotification() {
   //handle submit
   const handleNotificationSend = async () => {
     if (!targetType || !category || !title || !message) {
-      return alert("Recipient type, category, title and message are required");
+      return toast.error(
+        "Recipient type, category, title and message are required",
+      );
     }
     setLoading(true);
     const result = await handleSubmit(data);
     setLoading(false);
-    console.log(result);
-    alert(result.message);
+
+    toast.success(result.message);
     reset();
   };
 

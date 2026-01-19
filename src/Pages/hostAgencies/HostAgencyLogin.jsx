@@ -30,7 +30,7 @@ export default function HostAgencyLogin() {
     try {
       setLoading(true);
 
-      const res = await fetch(`${BASE_URL}/agency/login`, {
+      const res = await fetch(`${BASE_URL}/agency/host-login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export default function HostAgencyLogin() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || "Invalid credentials");
+        setError(data.error || "Invalid credentials");
         return;
       }
 
