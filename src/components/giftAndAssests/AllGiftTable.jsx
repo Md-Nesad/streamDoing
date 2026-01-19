@@ -138,7 +138,7 @@ export default function AllGiftTable({ data, loading, error, setRefresh }) {
                       <img
                         src={gift?.imageUrl}
                         alt="Gift Image"
-                        className="w-10 h-10 ml-4.5 object-cover rounded-full"
+                        className="w-9 h-9 ml-4.5 object-cover rounded-full"
                       />
                     </td>
                     <td className="p-3 font-medium">{gift.name}</td>

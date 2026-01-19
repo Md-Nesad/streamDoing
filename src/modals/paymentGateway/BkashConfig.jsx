@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BASE_URL } from "../../utility/utility";
 import { toast } from "react-toastify";
 
-export default function BkashConfig({ open, onClose, selected }) {
+export default function BkashConfig({ open, onClose, selected, onSuccess }) {
   if (!open) return null;
   const [isHold, setIsHold] = useState(true);
   const [name, setName] = useState(selected?.name);
@@ -53,6 +53,7 @@ export default function BkashConfig({ open, onClose, selected }) {
       console.log(error);
     } finally {
       setLoading(false);
+      onSuccess();
     }
   };
 

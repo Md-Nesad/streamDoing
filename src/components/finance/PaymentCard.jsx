@@ -3,10 +3,12 @@ import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import StripeConfig from "../../modals/paymentGateway/StripeConfig";
 import BkashConfig from "../../modals/paymentGateway/BkashConfig";
+
 export default function PaymentCards() {
   const [open, setOpen] = useState(false);
   const [openBkash, setOpenBkash] = useState(false);
-  const { data } = useFetch(`${BASE_URL}/admin/payment-gateways`);
+  const [refresh, setRefresh] = useState(false);
+  const { data } = useFetch(`${BASE_URL}/admin/payment-gateways`, refresh);
   const paymentGateways = data?.paymentGateways;
   const [selected, setSelected] = useState(null);
 
@@ -62,6 +64,10 @@ export default function PaymentCards() {
           open={open}
           onClose={() => setOpen(false)}
           selected={selected}
+          onSuccess={() => {
+            setRefresh((prev) => !prev);
+            setOpen(false);
+          }}
         />
       )}
       {/* bkash */}
@@ -70,6 +76,10 @@ export default function PaymentCards() {
           open={openBkash}
           onClose={() => setOpenBkash(false)}
           selected={selected}
+          onSuccess={() => {
+            setRefresh((prev) => !prev);
+            setOpenBkash(false);
+          }}
         />
       )}
     </>

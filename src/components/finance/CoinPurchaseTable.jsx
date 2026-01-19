@@ -8,6 +8,7 @@ export default function CoinPurchaseTable({ data, setPage, loading }) {
   const [text, setText] = useState("");
   const [coinPurchaseList, setCoinPurchaseList] = useState(data?.topUps);
   const pagination = data?.pagination;
+  console.log(coinPurchaseList);
 
   //handle filter
   const handleFilter = () => {
@@ -66,7 +67,7 @@ export default function CoinPurchaseTable({ data, setPage, loading }) {
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
-                  <td className="p-3 pl-6">{coin?.user?.name}</td>
+                  <td className="p-3 pl-6">{coin?.user?.name || "N/A"}</td>
                   <td className="p-3">{formatNumber(coin?.coins) || "N/A"}</td>
                   <td className="p-3 text-[#FF00C8]">
                     {" "}
@@ -90,8 +91,8 @@ export default function CoinPurchaseTable({ data, setPage, loading }) {
                         coin.status === "pending"
                           ? "bg-linear-to-r from-[#87B4EE] to-[#95C3FF] text-[#1F80FF] opacity-90"
                           : coin.status === "completed"
-                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] opacity-90"
-                          : "bg-[#FF929296] text-[#D21B20] opacity-90"
+                            ? "bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] opacity-90"
+                            : "bg-[#FF929296] text-[#D21B20] opacity-90"
                       }  rounded-full font-semibold`}
                     >
                       {coin?.status[0].toUpperCase() + coin?.status.slice(1) ||

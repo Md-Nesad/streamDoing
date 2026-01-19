@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SquarePen, Trash2 } from "lucide-react";
+import { LoaderCircle, SquarePen, Trash2 } from "lucide-react";
 import { BASE_URL } from "../../utility/utility";
 import useDelete from "../../hooks/useDelete";
 import AddLevelTarget from "../../modals/dataSroreModals/AddLevelTarget";
@@ -8,12 +8,13 @@ import Pagination from "../Pagination";
 import { toast } from "react-toastify";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 
-export default function LevelUpTable({ data, setPage }) {
+export default function LevelUpTable({ data, setPage, setRefresh }) {
   const [open, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [salaries, setSalaries] = useState(data?.levelConfigs);
   const [selectedSalary, setSelectedSalary] = useState(null);
   const deleteUser = useDelete(`${BASE_URL}/admin/level-configs`);
+  const [loading, setLoading] = useState(null);
   const { confirm } = useGlobalConfirm();
   const pagination = data?.pagination;
 
@@ -27,12 +28,15 @@ export default function LevelUpTable({ data, setPage }) {
     try {
       const ok = await confirm("Are you sure to delete?");
       if (!ok) return;
+
+      setLoading(id);
       const result = await deleteUser(id);
       if (!result) {
         toast.error("Failed to delete target");
       } else {
         toast.success(result.message);
       }
+      setLoading(null);
       setSalaries(salaries?.filter((level) => level._id !== id));
     } catch (error) {
       console.log(error);
@@ -94,7 +98,11 @@ export default function LevelUpTable({ data, setPage }) {
                           title="Delete"
                           onClick={() => handleDelete(level._id)}
                         >
-                          <Trash2 size={17} className="text-red-500" />
+                          {loading === level._id ? (
+                            <LoaderCircle size={17} className="animate-spin" />
+                          ) : (
+                            <Trash2 size={17} className="text-red-500" />
+                          )}
                         </button>
                       </span>
                     </td>
@@ -117,12 +125,23 @@ export default function LevelUpTable({ data, setPage }) {
           onPageChange={setPage}
         />
         {open && (
-          <AddLevelTarget open={open} onClose={() => setIsOpen(false)} />
+          <AddLevelTarget
+            open={open}
+            onClose={() => setIsOpen(false)}
+            onSuccess={() => {
+              setRefresh((prev) => !prev);
+              setIsOpen(false);
+            }}
+          />
         )}
         {edit && (
           <UpdateLevelConfig
             onClose={() => setEdit(false)}
             selected={selectedSalary}
+            onSuccess={() => {
+              setRefresh((prev) => !prev);
+              setIsOpen(false);
+            }}
           />
         )}
       </div>

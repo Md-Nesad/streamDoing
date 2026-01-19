@@ -3,7 +3,7 @@ import useJsonPost from "../hooks/useJsonPost";
 import { BASE_URL } from "../utility/utility";
 import { toast } from "react-toastify";
 
-const SalaryModal = ({ onClose }) => {
+const SalaryModal = ({ onClose, onSuccess }) => {
   const [targetCoin, setTargetCoin] = useState("");
   const [targetDiamond, setTargetDiamond] = useState("");
   const [basicSalary, setBasicSalary] = useState("");
@@ -58,6 +58,7 @@ const SalaryModal = ({ onClose }) => {
       console.log(error);
     } finally {
       setLoading(false);
+      onSuccess();
     }
   };
 

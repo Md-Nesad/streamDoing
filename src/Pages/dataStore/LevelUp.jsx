@@ -8,8 +8,10 @@ import Error from "../../components/Error";
 
 export default function LevelUp() {
   const [page, setPage] = useState(1);
+  const [refresh, setRefresh] = useState(false);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/level-configs?page=${page}&limit=30`
+    `${BASE_URL}/admin/level-configs?page=${page}&limit=30`,
+    refresh,
   );
 
   if (loading) return <Loading />;
@@ -20,7 +22,7 @@ export default function LevelUp() {
         title="Level Up Config"
         subtitle="Manage level up packages and rewards"
       />
-      <LevelUpTable data={data} setPage={setPage} />
+      <LevelUpTable data={data} setPage={setPage} setRefresh={setRefresh} />
     </div>
   );
 }

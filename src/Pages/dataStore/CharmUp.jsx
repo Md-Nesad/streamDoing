@@ -8,8 +8,10 @@ import { BASE_URL } from "../../utility/utility";
 
 export default function CharmUp() {
   const [page, setPage] = useState(1);
+  const [refresh, setRefresh] = useState(false);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/charm-configs?page=${page}&limit=30`
+    `${BASE_URL}/admin/charm-configs?page=${page}&limit=30`,
+    refresh,
   );
 
   if (loading) return <Loading />;
@@ -20,7 +22,7 @@ export default function CharmUp() {
         title="Charm Up Config"
         subtitle="Manage charm up packages and rewards"
       />
-      <CharmUpTable data={data} setPage={setPage} />
+      <CharmUpTable data={data} setPage={setPage} setRefresh={setRefresh} />
     </div>
   );
 }

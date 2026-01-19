@@ -4,7 +4,7 @@ import { BASE_URL } from "../../utility/utility";
 import useJsonPut from "../../hooks/useJsonPut";
 import { toast } from "react-toastify";
 
-export default function UpdateLevelConfig({ onClose, selected }) {
+export default function UpdateLevelConfig({ onClose, selected, onSuccess }) {
   if (!open) return null;
   const [level, setLevel] = useState(selected?.level);
   const [requiredExperience, setRequiredExperience] = useState(
@@ -29,6 +29,7 @@ export default function UpdateLevelConfig({ onClose, selected }) {
     });
     toast.success(result.message || "Level config updated.");
     setLoading(false);
+    onSuccess();
   };
 
   return (

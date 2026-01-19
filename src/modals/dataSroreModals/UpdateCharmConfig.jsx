@@ -4,7 +4,7 @@ import { BASE_URL } from "../../utility/utility";
 import useJsonPut from "../../hooks/useJsonPut";
 import { toast } from "react-toastify";
 
-export default function UpdateCharmConfig({ onClose, selected }) {
+export default function UpdateCharmConfig({ onClose, selected, onSuccess }) {
   if (!open) return null;
   const [level, setLevel] = useState(selected?.level);
   const [requiredExperience, setRequiredExperience] = useState(
@@ -29,6 +29,7 @@ export default function UpdateCharmConfig({ onClose, selected }) {
     });
     toast.success(result.message || "Charm config updated.");
     setLoading(false);
+    onSuccess();
   };
 
   return (

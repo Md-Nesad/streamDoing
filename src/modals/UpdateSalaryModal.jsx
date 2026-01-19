@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BASE_URL } from "../utility/utility";
 import { toast } from "react-toastify";
 
-const UpdateSalaryModal = ({ onClose, selected }) => {
+const UpdateSalaryModal = ({ onClose, selected, onSuccess }) => {
   const [targetCoin, setTargetCoin] = useState(selected?.targetCoin);
   const [targetDiamond, setTargetDiamond] = useState(selected?.targetDiamond);
   const [basicSalary, setBasicSalary] = useState(selected?.basicSalary);
@@ -44,7 +44,7 @@ const UpdateSalaryModal = ({ onClose, selected }) => {
       console.log(error);
     } finally {
       setLoading(false);
-      onClose();
+      onSuccess();
     }
   };
 

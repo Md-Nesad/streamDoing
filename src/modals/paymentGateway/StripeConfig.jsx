@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BASE_URL } from "../../utility/utility";
 import { toast } from "react-toastify";
 
-export default function StripeConfig({ open, onClose, selected }) {
+export default function StripeConfig({ open, onClose, selected, onSuccess }) {
   if (!open) return null;
   const [isHold, setIsHold] = useState(true);
   const [name, setName] = useState(selected?.name);
@@ -47,6 +47,7 @@ export default function StripeConfig({ open, onClose, selected }) {
       console.log(error);
     } finally {
       setLoading(false);
+      onSuccess();
     }
   };
 

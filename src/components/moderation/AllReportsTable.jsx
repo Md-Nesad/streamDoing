@@ -72,16 +72,18 @@ export default function AllReportsTable({ reports, setPage }) {
                   key={report?._id}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
-                  <td className="p-3">
+                  <td className="p-3 pl-4">
                     <div className="w-8 h-8 rounded-full">
                       <img
-                        src={report?.reporterId?.profilePic}
+                        src={report?.reporterId?.profilePic || star}
                         alt="reporter profile picture"
                         className="w-8 h-8 rounded-full object-cover"
                       />
                     </div>
                   </td>
-                  <td className="p-3">{report?.reporterId?.displayId}</td>
+                  <td className="p-3">
+                    {report?.reporterId?.displayId || "N/A"}
+                  </td>
                   <td className="p-3">{report?.targetId?.name || "N/A"}</td>
                   <td className="p-3">
                     <span className="p-1 text-xs bg-linear-to-b from-[#FA77BD] to-[#940C44] rounded-lg font-semibold text-white flex items-center gap-2 w-14">

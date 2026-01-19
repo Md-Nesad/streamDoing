@@ -4,7 +4,7 @@ import useJsonPost from "../../hooks/useJsonPost";
 import { BASE_URL } from "../../utility/utility";
 import { toast } from "react-toastify";
 
-export default function AddLevelTarget({ open, onClose }) {
+export default function AddLevelTarget({ open, onClose, onSuccess }) {
   if (!open) return null;
   const [level, setLevel] = useState("");
   const [requiredExperience, setRequiredExperience] = useState("");
@@ -27,11 +27,8 @@ export default function AddLevelTarget({ open, onClose }) {
       description,
     });
     toast.success(result.message || "Level config added.");
-    setLevel("");
-    setRequiredExperience("");
-    setBadgeId("");
-    setDescription("");
     setLoading(false);
+    onSuccess();
   };
 
   return (

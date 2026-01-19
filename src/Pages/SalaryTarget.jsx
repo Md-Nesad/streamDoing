@@ -7,9 +7,14 @@ import useFetch from "../hooks/useFetch";
 import { BASE_URL, formatNumber, formatPercent } from "../utility/utility";
 import Salary from "../../public/icons/Salary";
 import Agency from "../../public/icons/Agency";
+import { useState } from "react";
 
 export default function SalaryTarget() {
-  const { data, loading, error } = useFetch(`${BASE_URL}/admin/salary-targets`);
+  const [refresh, setRefresh] = useState(false);
+  const { data, loading, error } = useFetch(
+    `${BASE_URL}/admin/salary-targets`,
+    refresh,
+  );
   const {
     data: state,
     loading: stateLoading,
@@ -53,7 +58,7 @@ export default function SalaryTarget() {
   return (
     <div>
       <SalaryCard data={salaryTarget} />
-      <SalaryTable data={data?.salaryTargets} />
+      <SalaryTable data={data?.salaryTargets} setRefresh={setRefresh} />
     </div>
   );
 }

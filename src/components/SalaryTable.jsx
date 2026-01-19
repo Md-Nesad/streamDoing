@@ -1,18 +1,19 @@
 import { useState } from "react";
 import SalaryModal from "../modals/SalaryModal";
 import { BASE_URL, formatNumber } from "../utility/utility";
-import { SquarePen, Trash2 } from "lucide-react";
+import { LoaderCircle, SquarePen, Trash2 } from "lucide-react";
 import UpdateSalaryModal from "../modals/UpdateSalaryModal";
 import useDelete from "../hooks/useDelete";
 import { toast } from "react-toastify";
 import { useGlobalConfirm } from "../context/ConfirmProvider";
 
-export default function SalaryTable({ data }) {
+export default function SalaryTable({ data, setRefresh }) {
   const [open, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [salaries, setSalaries] = useState(data);
   const [selectedSalary, setSelectedSalary] = useState(null);
   const { confirm } = useGlobalConfirm();
+  const [loading, setLoading] = useState(null);
   const deleteUser = useDelete(`${BASE_URL}/admin/salary-targets`);
   const handleEdit = (salary) => {
     setSelectedSalary(salary);
@@ -24,12 +25,16 @@ export default function SalaryTable({ data }) {
     try {
       const ok = await confirm("Are you sure to delete?");
       if (!ok) return;
+
+      setLoading(id);
+
       const result = await deleteUser(id);
       if (!result) {
         toast.error("Failed to delete target");
       } else {
         toast.success(result.message);
       }
+      setLoading(null);
       setSalaries(salaries?.filter((salary) => salary._id !== id));
     } catch (error) {
       console.log(error);
@@ -82,7 +87,11 @@ export default function SalaryTable({ data }) {
                         title="Delete"
                         onClick={() => handleDelete(salary._id)}
                       >
-                        <Trash2 size={17} className="text-red-500" />
+                        {loading === salary._id ? (
+                          <LoaderCircle size={17} className="animate-spin" />
+                        ) : (
+                          <Trash2 size={17} className="text-red-500" />
+                        )}
                       </button>
                     </span>
                   </td>
@@ -97,11 +106,23 @@ export default function SalaryTable({ data }) {
             )}
           </tbody>
         </table>
-        {open && <SalaryModal onClose={() => setIsOpen(false)} />}
+        {open && (
+          <SalaryModal
+            onClose={() => setIsOpen(false)}
+            onSuccess={() => {
+              setRefresh((prev) => !prev);
+              setIsOpen(false);
+            }}
+          />
+        )}
         {edit && (
           <UpdateSalaryModal
             onClose={() => setEdit(false)}
             selected={selectedSalary}
+            onSuccess={() => {
+              setRefresh((prev) => !prev);
+              setIsOpen(false);
+            }}
           />
         )}
       </div>

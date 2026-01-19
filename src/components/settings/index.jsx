@@ -2,6 +2,7 @@ import { Save } from "lucide-react";
 import { useRef, useState } from "react";
 import useJsonPost from "../../hooks/useJsonPost";
 import { BASE_URL } from "../../utility/utility";
+import { toast } from "react-toastify";
 
 export default function SettingsPage() {
   const inputRef = useRef();
@@ -37,11 +38,11 @@ export default function SettingsPage() {
       platformConfig.streamDoingLive === "" ||
       platformConfig.supportEmail === ""
     ) {
-      return alert("Streamdoing Live and Support Email are required");
+      return toast.error("Streamdoing Live and Email are required");
     }
 
     if (!inputRef.current.value.includes("@" && ".com")) {
-      return alert("Please enter a valid email address.");
+      return toast.error("Please enter a valid email.");
     }
     setLoading(true);
 
