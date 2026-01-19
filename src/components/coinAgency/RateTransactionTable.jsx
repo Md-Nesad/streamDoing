@@ -13,12 +13,11 @@ export default function RateTransactionTable() {
   const [selected, setSelected] = useState(null);
   const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/coins/rates/transactions?page=${page}&limit=20`,
+    `${BASE_URL}/coins/rates/transactions?page=${page}&limit=30`,
   );
 
   const transactions = data?.transactions;
   const pagination = data?.pagination;
-  const { agencies } = useStream();
 
   const handleOpen = (item) => {
     setOpen(true);
@@ -47,23 +46,18 @@ export default function RateTransactionTable() {
           <tbody>
             {transactions?.length > 0 ? (
               transactions?.map((item, index) => {
-                const findAgency = agencies?.agencies?.find(
-                  (agency) => agency._id === item?.to?._id,
-                );
-
                 return (
                   <tr
                     key={index}
                     className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                   >
                     <td className="p-3 font-medium pl-5">
-                      {findAgency ? findAgency?.type.toUpperCase() + "-" : ""}
-                      {findAgency?.displayId || "N/A"}
+                      {item?.to?.displayId
+                        ? `MASTER-${item?.to?.displayId}`
+                        : "N/A"}
                     </td>
-                    <td className="p-3">{findAgency?.name || "N/A"}</td>
-                    <td className="p-3">
-                      {findAgency?.type || "Master"} agency
-                    </td>
+                    <td className="p-3">{item?.to?.name || "N/A"}</td>
+                    <td className="p-3">{item?.saleTo}</td>
                     <td className="p-3">{formatNumber(item.coins)}</td>
                     <td className="p-3 text-[#00D519]">
                       ${formatNumber(item.amount)}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import useJsonPost from "../../hooks/useJsonPost";
 import { BASE_URL } from "../../utility/utility";
@@ -7,31 +7,86 @@ import { toast } from "react-toastify";
 
 export default function SellCoins() {
   const { data } = useFetch(`${BASE_URL}/coins/rates/latest`);
-  const handleSubmit = useJsonPost(`${BASE_URL}/coins/sales/admin-to-master`);
-  const agenciesOverview = useFetch(
-    `${BASE_URL}/dashboard/agencies-overview?limit=100`,
-  );
-  const masterIds = agenciesOverview?.data?.agencies;
+  const handleSubmit = useJsonPost(`${BASE_URL}/coins/sales/admin-to-all`);
 
   const [masterId, setMasterId] = useState("");
   const [coins, setCoins] = useState("");
   const [loading, setLoading] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  //API response values
+  const [referenceType, setReferenceType] = useState("");
+  const [referenceName, setReferenceName] = useState("");
+
+  //Auto fetch when masterId exists
+  const { data: referenceData } = useFetch(
+    masterId
+      ? `${BASE_URL}/coins/get-reference-user?displayId=${masterId}`
+      : null,
+  );
+
+  //Set response values
+  useEffect(() => {
+    if (referenceData?.reference) {
+      setReferenceType(referenceData.reference.type);
+      setReferenceName(referenceData.reference.name);
+    } else {
+      setReferenceType("");
+      setReferenceName("");
+    }
+  }, [referenceData]);
+
+  useEffect(() => {
+    if (!coins || !referenceType || !data?.coinRate) {
+      setTotalPrice(0);
+      return;
+    }
+
+    const amount = Number(coins);
+    let rate = 0;
+
+    if (referenceType === "master") {
+      rate = Number(data.coinRate.masterRate);
+    } else if (referenceType === "user") {
+      rate = Number(data.coinRate.userRate);
+    } else if (referenceType === "coin") {
+      rate = Number(data.coinRate.agencyRate);
+    }
+
+    if (!rate || !amount) {
+      setTotalPrice(0);
+      return;
+    }
+
+    setTotalPrice(rate * amount);
+  }, [coins, referenceType, data]);
+
+  const handleCancel = () => {
+    setMasterId("");
+    setCoins("");
+    setReferenceType("");
+    setReferenceName("");
+  };
 
   const handleCoinSell = async () => {
-    if (!masterId) return toast.error("Please enter research ID");
-    const masterExists = masterIds?.some(
-      (item) => String(item?.displayId) === String(masterId),
-    );
-
-    if (!masterExists) return toast.error("Invalid research ID");
-    if (!coins) return alert("Please enter coin amount");
+    if (!masterId || !coins)
+      return toast.error("Please enter research ID and coins");
 
     setLoading(true);
-    const result = await handleSubmit({ masterId, coins });
+
+    const result = await handleSubmit({
+      displayId: masterId,
+      coins,
+      category: referenceType,
+    });
+    console.log(result);
+
     toast.success(result.message);
 
     setMasterId("");
     setCoins("");
+    setReferenceType("");
+    setReferenceName("");
     setLoading(false);
   };
 
@@ -44,7 +99,7 @@ export default function SellCoins() {
       <p className="text-gray-500 text-md mb-7">Transfer coins from platform</p>
 
       {/* Form */}
-      <form className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:ml-10">
+      <form className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:ml-10">
         {/* Research ID */}
         <div className="flex flex-col gap-1 mb-3">
           <label className="text-[15px] font-medium text-gray-700">
@@ -67,19 +122,28 @@ export default function SellCoins() {
           <div className="relative">
             <select
               disabled
-              className="border border-[#626060] rounded-md px-3 pl-4 py-2 w-full outline-none appearance-none focus:ring-2 text-[15px] text-[#636363] focus:ring-blue-400"
+              value={referenceType}
+              className="border border-[#626060] rounded-md px-3 pl-4 py-2 w-full outline-none appearance-none text-[15px] text-[#636363]"
             >
-              <option>Master</option>
-              <option>Coin</option>
-              <option>Master</option>
-              <option>Host</option>
+              <option value="">Select</option>
+              <option value="coin">Coin</option>
+              <option value="master">Master</option>
+              <option value="user">User</option>
             </select>
 
-            {/* Dropdown Icon */}
             <span className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-500">
               <img src={downArrow} alt="" />
             </span>
           </div>
+        </div>
+        {/* Name */}
+        <div className="hidden">
+          <label className="text-[15px] font-medium text-gray-700">Name</label>
+          <input
+            value={referenceName}
+            readOnly
+            className="border border-[#626060] rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400"
+          />
         </div>
 
         {/* Number of Coins */}
@@ -102,7 +166,7 @@ export default function SellCoins() {
             Price (Coins)
           </label>
           <input
-            defaultValue={data?.coinRate?.masterRate}
+            value={Number.isFinite(totalPrice) ? totalPrice.toFixed(2) : 0}
             type="number"
             readOnly
             className="border border-[#626060] rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400"
@@ -111,15 +175,17 @@ export default function SellCoins() {
       </form>
 
       {/* Buttons */}
-      <div className="flex justify-center sm:justify-end items-center gap-2 mt-4">
-        <button className="px-10 py-1 rounded-md border border-[#CCCCCC] text-[#181717] bg-white hover:bg-gray-200 font-[490]">
+      <div className="flex justify-center sm:justify-end items-center gap-2 mt-6">
+        <button
+          onClick={handleCancel}
+          className="px-10 py-1 rounded-md border border-[#CCCCCC] text-[#181717] bg-white hover:bg-gray-200 font-[490]"
+        >
           Cancel
         </button>
 
         <button
           onClick={handleCoinSell}
-          className="px-12 py-1 rounded-md text-white font-medium
-          btn_gradient"
+          className="px-12 py-1 rounded-md text-white font-medium btn_gradient"
         >
           {loading ? "Sending..." : "Send"}
         </button>
