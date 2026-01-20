@@ -14,7 +14,6 @@ import DashboardUsers from "../../Pages/Users";
 import Transaction from "../../Pages/Transaction";
 import LiveStreams from "../../Pages/LiveStreams";
 import Moderation from "../../Pages/Moderation";
-import Analytics from "../../Pages/Analytics";
 import Finance from "../../Pages/Finance";
 import PkMaster from "../../Pages/PkMaster";
 import KycCenter from "../../Pages/KycCenter";
@@ -41,13 +40,15 @@ import { ProtectedRoute } from "../ProtectedRoutes";
 import LevelUp from "../../Pages/dataStore/LevelUp";
 import TopUp from "../../Pages/dataStore/TopUp";
 import CharmUp from "../../Pages/dataStore/CharmUp";
+import TopRanking from "../../Pages/TopRanking";
+import Analytics from "../../Pages/Analytics";
 
 export default function DashboardRouter() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/login" element={<AdminLogin />} />
           {/* dashboard nested routes here */}
           <Route element={<ProtectedRoute />}>
@@ -87,6 +88,7 @@ export default function DashboardRouter() {
               <Route path="transaction-history" element={<Transaction />} />
               <Route path="live-streams" element={<LiveStreams />} />
               <Route path="moderation" element={<Moderation />} />
+              <Route path="top-ranking" element={<TopRanking />} />
               <Route path="analytics" element={<Analytics />} />
               <Route path="finance" element={<Finance />} />
               <Route path="pk-masters" element={<PkMaster />} />
@@ -106,7 +108,7 @@ export default function DashboardRouter() {
               <Route path="user-management" element={<UserManagement />} />
               <Route path="admin-agency" element={<AdminAgency />} />
               <Route path="coin-agency" element={<CoinAgency />} />
-              <Route path="support" element={<SupportAgency />} />
+              <Route path="support-agency" element={<SupportAgency />} />
               <Route
                 path="support/add-support-agency"
                 element={<AddSupportAgency />}

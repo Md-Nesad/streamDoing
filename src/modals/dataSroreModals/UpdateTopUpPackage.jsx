@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { BASE_URL } from "../../utility/utility";
 import useJsonPut from "../../hooks/useJsonPut";
+import { toast } from "react-toastify";
 
-export default function UpdateTopUpPackage({ onClose, selected }) {
+export default function UpdateTopUpPackage({ onClose, selected, onSuccess }) {
   if (!open) return null;
   const [name, setName] = useState(selected?.name);
   const [coins, setCoins] = useState(selected?.coins);
@@ -10,7 +11,7 @@ export default function UpdateTopUpPackage({ onClose, selected }) {
   const [isActive, setIsActive] = useState(selected?.isActive);
   const [loading, setLoading] = useState(false);
   const handleSubmit = useJsonPut(
-    `${BASE_URL}/admin/top-up-packages/${selected._id}`
+    `${BASE_URL}/admin/top-up-packages/${selected._id}`,
   );
 
   const handleToggle = () => {
@@ -26,8 +27,9 @@ export default function UpdateTopUpPackage({ onClose, selected }) {
       price,
       isActive,
     });
-    alert(result.message || "Top up package updated.");
+    toast.success(result.message || "Top up package updated.");
     setLoading(false);
+    onSuccess();
   };
 
   return (

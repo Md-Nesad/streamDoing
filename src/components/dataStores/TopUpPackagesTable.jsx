@@ -1,19 +1,21 @@
 import { useState } from "react";
-import { SquarePen, Trash2 } from "lucide-react";
+import { LoaderCircle, SquarePen, Trash2 } from "lucide-react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import useDelete from "../../hooks/useDelete";
 import AddTopUpPackages from "../../modals/dataSroreModals/AddTopUpPackages";
 import UpdateTopUpPackage from "../../modals/dataSroreModals/UpdateTopUpPackage";
 import Pagination from "../Pagination";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
+import { toast } from "react-toastify";
 
-export default function TopUpPackagesTable({ data, setPage }) {
+export default function TopUpPackagesTable({ data, setPage, setRefresh }) {
   const [open, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const [salaries, setSalaries] = useState(data?.packages);
   const [selectedSalary, setSelectedSalary] = useState(null);
   const deleteUser = useDelete(`${BASE_URL}/admin/top-up-packages`);
   const pagination = data?.pagination;
+  const [loading, setLoading] = useState(null);
   const { confirm } = useGlobalConfirm();
 
   const handleEdit = (top) => {
@@ -26,15 +28,18 @@ export default function TopUpPackagesTable({ data, setPage }) {
     try {
       const ok = await confirm("Are you sure to delete?");
       if (!ok) return;
+      setLoading(id);
       const result = await deleteUser(id);
       if (!result) {
-        alert("Failed to delete target");
+        toast.error("Failed to delete target");
       } else {
-        alert(result.message);
+        toast.success(result.message);
       }
       setSalaries(salaries?.filter((top) => top._id !== id));
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(null);
     }
   };
 
@@ -93,7 +98,11 @@ export default function TopUpPackagesTable({ data, setPage }) {
                           title="Delete"
                           onClick={() => handleDelete(top._id)}
                         >
-                          <Trash2 size={17} className="text-red-500" />
+                          {loading === top._id ? (
+                            <LoaderCircle size={17} className="animate-spin" />
+                          ) : (
+                            <Trash2 size={17} className="text-red-500" />
+                          )}
                         </button>
                       </span>
                     </td>
@@ -116,12 +125,23 @@ export default function TopUpPackagesTable({ data, setPage }) {
           onPageChange={setPage}
         />
         {open && (
-          <AddTopUpPackages open={open} onClose={() => setIsOpen(false)} />
+          <AddTopUpPackages
+            open={open}
+            onClose={() => setIsOpen(false)}
+            onSuccess={() => {
+              setRefresh((prev) => !prev);
+              setIsOpen(false);
+            }}
+          />
         )}
         {edit && (
           <UpdateTopUpPackage
             onClose={() => setEdit(false)}
             selected={selectedSalary}
+            onSuccess={() => {
+              setRefresh((prev) => !prev);
+              setEdit(false);
+            }}
           />
         )}
       </div>

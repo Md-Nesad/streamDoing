@@ -29,6 +29,7 @@ import {
   Sparkles,
   Wallet2,
   HandFist,
+  AlignEndHorizontal,
 } from "lucide-react";
 import mayaPatel from "/mayaPatel.png";
 import { Coin } from "../../public/icons/Coin";
@@ -58,6 +59,11 @@ export const menuItems = [
   },
   { title: "Live Streams", icon: MonitorPlay, link: "/dashboard/live-streams" },
   { title: "Moderation", icon: ShieldCheck, link: "/dashboard/moderation" },
+  {
+    title: "Top Ranking",
+    icon: AlignEndHorizontal,
+    link: "/dashboard/top-ranking",
+  },
   { title: "Analytics", icon: BarChart3, link: "/dashboard/analytics" },
   { title: "Finance", icon: Landmark, link: "/dashboard/finance" },
   { title: "PK Masters", icon: Trophy, link: "/dashboard/pk-masters" },
@@ -76,6 +82,8 @@ export const menuItems = [
     link: "/dashboard/level-up",
   },
   { title: "Charm Up Config", icon: Sparkles, link: "/dashboard/charm-up" },
+
+  { title: "Support", icon: MessageCircleMore, link: "/dashboard/support" },
 
   // data store links
   { title: "Host", icon: ShieldCheck, link: "/dashboard/host-management" },
@@ -103,7 +111,7 @@ export const menuItems = [
   {
     title: "Support Agency",
     icon: HandFist,
-    link: "/dashboard/support",
+    link: "/dashboard/support-agency",
     hasChildren: true,
   },
   { title: "Delete/Ban", icon: Gift, link: "/dashboard/delete-ban" },

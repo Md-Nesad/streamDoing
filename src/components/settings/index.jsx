@@ -182,7 +182,7 @@ export default function SettingsPage() {
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
           <div className="space-y-1 w-full">
             <label className="text-sm font-medium">
-              Diamond to BDT Conversion Rate
+              Diamond to Dollar Conversion Rate
             </label>
             <input
               type="number"
@@ -217,7 +217,7 @@ export default function SettingsPage() {
             }
           />
 
-          <span className="text-sm font-medium sm:mt-5">BDT</span>
+          <span className="text-sm font-medium sm:mt-5">Dollar</span>
         </div>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 max-sm:mt-5">

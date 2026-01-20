@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { BASE_URL } from "../../utility/utility";
 import useJsonPost from "../../hooks/useJsonPost";
+import { toast } from "react-toastify";
 
-export default function AddTopUpPackages({ open, onClose }) {
+export default function AddTopUpPackages({ open, onClose, onSuccess }) {
   if (!open) return null;
   const [name, setName] = useState("");
   const [coins, setCoins] = useState("");
@@ -18,7 +19,7 @@ export default function AddTopUpPackages({ open, onClose }) {
   //handle post
   const handleTarget = async () => {
     if ((!name, !coins, !price, !isActive)) {
-      return alert("Please fill all the fields");
+      return toast.error("Please fill all the fields");
     }
     setLoading(true);
     const result = await handleSubmit({
@@ -27,12 +28,9 @@ export default function AddTopUpPackages({ open, onClose }) {
       price,
       isActive,
     });
-    alert(result.message || "Level config added.");
-    setName("");
-    setCoins("");
-    setPrice("");
-    setIsActive(false);
+    toast.success(result.message || "Level config added.");
     setLoading(false);
+    onSuccess();
   };
 
   return (
