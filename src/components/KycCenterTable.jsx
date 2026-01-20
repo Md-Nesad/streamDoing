@@ -69,7 +69,7 @@ export default function KycCenterTable({ data, setPage }) {
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
                   <td className="p-3 pl-6">
-                    {kyc?.parent ? `AGT-${kyc?.parent?.displayId}` : "N/A"}
+                    {kyc?.parent ? `${kyc?.parent?.displayId}` : "N/A"}
                   </td>
                   <td className="p-3 font-medium">
                     {kyc?.parent?.name || "N/A"}

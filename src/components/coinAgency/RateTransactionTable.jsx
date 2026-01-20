@@ -52,9 +52,7 @@ export default function RateTransactionTable() {
                     className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                   >
                     <td className="p-3 font-medium pl-5">
-                      {item?.to?.displayId
-                        ? `MASTER-${item?.to?.displayId}`
-                        : "N/A"}
+                      {item?.to?.displayId ? `${item?.to?.displayId}` : "N/A"}
                     </td>
                     <td className="p-3">{item?.to?.name || "N/A"}</td>
                     <td className="p-3">{item?.saleTo}</td>

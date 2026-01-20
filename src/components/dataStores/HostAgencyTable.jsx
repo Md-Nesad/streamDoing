@@ -122,12 +122,10 @@ export default function HostAgnecyTable() {
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
-                  <td className="p-3 font-medium pl-5">
-                    HOST-{host.displayId}
-                  </td>
+                  <td className="p-3 font-medium pl-5">{host.displayId}</td>
                   <td className="p-3">{host.name}</td>
                   <td className="p-3">
-                    {host?.parent ? "REF" + host?.parent?.displayId : "N/A"}
+                    {host?.parent ? host?.parent?.displayId : "N/A"}
                   </td>
                   <td className="p-3">{host.email}</td>
                   <td className="p-3">{host.phone}</td>

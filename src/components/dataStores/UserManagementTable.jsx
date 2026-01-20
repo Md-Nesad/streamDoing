@@ -126,7 +126,7 @@ export default function UserManagementTable() {
                       {user.level}
                     </span>
                   </td>
-                  <td className="p-3">{user.phone}</td>
+                  <td className="p-3">{user.phone || "N/A"}</td>
                   <td className="p-3">{user.location || "N/A"}</td>
                   <td className="p-3">
                     <span
@@ -141,14 +141,18 @@ export default function UserManagementTable() {
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                     <span className="flex items-center gap-3">
-                      <button onClick={() => setIsOpen(true)} title="Edit">
+                      {/* <button onClick={() => setIsOpen(true)} title="Edit">
                         <Pen size={19} />
-                      </button>
+                      </button> */}
                       <button
+                        className="pl-4"
                         onClick={() => handleDelete(user._id)}
                         title="Delete"
                       >
-                        <Trash2 size={18} className="text-[#FF0037]" />
+                        <Trash2
+                          size={18}
+                          className="text-[#FF0037] justify-center"
+                        />
                       </button>
                     </span>
                   </td>

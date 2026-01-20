@@ -96,7 +96,7 @@ export default function AdminAgencyTable({ tableData, setPage, loading }) {
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
                   <td className="p-3 font-medium pl-5">
-                    {admin?.parent ? "REF" + admin?.parent?.displayId : "N/A"}
+                    {admin?.parent ? admin?.parent?.displayId : "N/A"}
                   </td>
                   <td className="p-3">{admin.displayId}</td>
                   <td className="p-3">{admin.name}</td>

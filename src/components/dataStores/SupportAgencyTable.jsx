@@ -117,9 +117,7 @@ export default function SupportAgencyTable() {
                   key={support._id}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
-                  <td className="p-3 font-medium pl-5">
-                    S {support.displayId}
-                  </td>
+                  <td className="p-3 font-medium pl-5">{support.displayId}</td>
                   <td className="p-3">{support.name}</td>
                   <td className="p-3">{support.gender}</td>
                   <td className="p-3">{support.email}</td>
