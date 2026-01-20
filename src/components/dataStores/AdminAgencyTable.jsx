@@ -137,13 +137,19 @@ export default function AdminAgencyTable() {
                   </td>
                   <td className="p-3">
                     <span
-                      className={`px-4 py-1 text-xs ${
-                        host.status === "active"
+                      className={`px-3 py-1 text-xs block w-21 text-center ${
+                        host.status === "active" &&
+                        !host.ban.isTemporary &&
+                        !host.ban.isPermanent
                           ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                           : "bg-[#FF929296] text-[#D21B20]"
                       } text-[#005D23] rounded-full font-semibold`}
                     >
-                      {host.status}
+                      {host.ban.isTemporary
+                        ? "Temp. ban"
+                        : host.ban.isPermanent
+                          ? "Perm. ban"
+                          : host.status}
                     </span>
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

@@ -32,6 +32,7 @@ export default function AddNewEntryModal({ open, onClose, onSuccess }) {
     formData.append("name", data.entryName);
     formData.append("price", data.entryPrice);
     formData.append("categoryId", data.entryCategory);
+    formData.append("validity", data.entryValidity);
 
     if (data.entryFile) {
       formData.append("image", data.entryFile?.[0]);
@@ -123,6 +124,18 @@ export default function AddNewEntryModal({ open, onClose, onSuccess }) {
               {errors.entryPrice.message}
             </p>
           )}
+        </div>
+
+        <div className="mb-3">
+          <label className="text-gray-700 text-[14px] font-medium">
+            Validity(in days)
+          </label>
+          <input
+            type="number"
+            {...register("entryValidity")}
+            placeholder="add validity here"
+            className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
+          />
         </div>
 
         {/* Upload Logo */}

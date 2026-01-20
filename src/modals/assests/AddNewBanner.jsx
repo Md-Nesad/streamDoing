@@ -7,7 +7,7 @@ import { BASE_URL } from "../../utility/utility";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-export default function AddNewBannerModal({ open, onClose, onSuccess }) {
+function AddNewBannerModal({ open, onClose, onSuccess }) {
   if (!open) return null;
   const [loading, setLoading] = useState(false);
   const handleFormData = useFormDataPost(`${BASE_URL}/banner`);
@@ -211,3 +211,5 @@ export default function AddNewBannerModal({ open, onClose, onSuccess }) {
     </div>
   );
 }
+
+export default React.memo(AddNewBannerModal);

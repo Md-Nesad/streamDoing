@@ -44,6 +44,7 @@ export const badgeSchema = z.object({
   badgeName: z.string().min(2, "Badge name is required"),
   badgeDescription: z.string().optional(),
   badgePrice: z.string().optional(),
+  badgeValidity: z.string().optional(),
   badgeFile: z
     .any()
     .refine((files) => files?.length > 0, "Badge file is required")
@@ -57,6 +58,7 @@ export const badgeSchema = z.object({
 export const tempSchema = z.object({
   tempName: z.string().min(2, "Name is required"),
   tempPrice: z.string().optional(),
+  tempValidity: z.string().optional(),
   tempFile: z
     .any()
     .refine((files) => files?.length > 0, "Banner is required")
@@ -70,6 +72,7 @@ export const tempSchema = z.object({
 export const levelSchema = z.object({
   levelName: z.string().min(2, "Level name is required"),
   levelPrice: z.string().optional(),
+  validity: z.string().optional(),
   levelFile: z
     .any()
     .refine((files) => files?.length > 0, "Banner is required")
@@ -83,6 +86,7 @@ export const levelSchema = z.object({
 export const crownSchema = z.object({
   crownName: z.string().min(2, "Crown level is required"),
   crownPrice: z.string().optional(),
+  crownValidity: z.string().optional(),
   crownFile: z
     .any()
     .refine((files) => files?.length > 0, "Banner is required")
@@ -97,6 +101,7 @@ export const entrySchema = z.object({
   entryName: z.string().min(2, "Entry level is required"),
   entryPrice: z.string().optional(),
   entryCategory: z.string().min(1, "Category is required"),
+  entryValidity: z.string().optional(),
   entryFile: z
     .any()
     .refine((files) => files?.length > 0, "Banner is required")
@@ -125,6 +130,7 @@ export const vipSchema = z.object({
   vipName: z.string().min(2, "Event name is required"),
   vipPrice: z.string().min(2, "Price is required"),
   vipCategory: z.string().min(1, "Category is required"),
+  vipValidity: z.string().optional(),
   vipFile: z
     .any()
     .refine((files) => files?.length > 0, "Banner is required")

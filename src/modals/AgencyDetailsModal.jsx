@@ -86,11 +86,21 @@ export default function AgencyDetailsModal({ open, onClose, agency }) {
           {/* Video Live Time */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Status :</p>
-            <p
-              className={`${agency?.status === "active" ? "text-green-600" : "text-red-600"}`}
+            <span
+              className={`px-3 py-1 text-sm block w-26 text-center ${
+                agency.status === "active" &&
+                !agency.ban.isTemporary &&
+                !agency.ban.isPermanent
+                  ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                  : "bg-[#FF929296] text-[#D21B20]"
+              } text-[#005D23] rounded-full font-semibold`}
             >
-              {agency?.status}
-            </p>
+              {agency.ban.isTemporary
+                ? "Temp. ban"
+                : agency.ban.isPermanent
+                  ? "Perm. ban"
+                  : agency.status}
+            </span>
           </div>
 
           {/* Audio Live Time */}

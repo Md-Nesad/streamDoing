@@ -102,13 +102,19 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                           </td>
                           <td className="p-3">
                             <span
-                              className={`px-4 py-1 text-xs ${
-                                agency.status === "active"
+                              className={`px-3 py-1 text-xs block w-21 text-center ${
+                                agency.status === "active" &&
+                                !agency.ban.isTemporary &&
+                                !agency.ban.isPermanent
                                   ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                                   : "bg-[#FF929296] text-[#D21B20]"
                               } text-[#005D23] rounded-full font-semibold`}
                             >
-                              {agency.status}
+                              {agency.ban.isTemporary
+                                ? "Temp. ban"
+                                : agency.ban.isPermanent
+                                  ? "Perm. ban"
+                                  : agency.status}
                             </span>
                           </td>
                           <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

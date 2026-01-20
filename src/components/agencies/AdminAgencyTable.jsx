@@ -109,13 +109,19 @@ export default function AdminAgencyTable({ tableData, setPage, loading }) {
                   </td>
                   <td className="p-3">
                     <span
-                      className={`px-4 py-1 text-xs ${
-                        admin.status === "active"
+                      className={`px-3 py-1 text-xs block w-21 text-center ${
+                        admin.status === "active" &&
+                        !admin.ban.isTemporary &&
+                        !admin.ban.isPermanent
                           ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                           : "bg-[#FF929296] text-[#D21B20]"
                       } text-[#005D23] rounded-full font-semibold`}
                     >
-                      {admin.status}
+                      {admin.ban.isTemporary
+                        ? "Temp. ban"
+                        : admin.ban.isPermanent
+                          ? "Perm. ban"
+                          : admin.status}
                     </span>
                   </td>
                   <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

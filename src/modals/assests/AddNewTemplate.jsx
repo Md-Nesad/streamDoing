@@ -28,6 +28,7 @@ export default function AddNewTemplateModal({ open, onClose, onSuccess }) {
 
     formData.append("name", data.tempName);
     formData.append("price", data.tempPrice);
+    formData.append("validity", data.tempValidity);
     formData.append("isActive", "true");
 
     if (data.tempFile) {
@@ -109,6 +110,18 @@ export default function AddNewTemplateModal({ open, onClose, onSuccess }) {
               {errors.tempPrice.message}
             </p>
           )}
+        </div>
+
+        <div className="mb-3">
+          <label className="text-gray-700 text-[14px] font-medium">
+            Validity(in days)
+          </label>
+          <input
+            type="number"
+            {...register("tempValidity")}
+            placeholder="add validity here"
+            className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
+          />
         </div>
 
         {/* Position */}

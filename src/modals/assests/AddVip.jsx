@@ -32,7 +32,7 @@ export default function AddVip({ open, onClose, onSuccess }) {
     formData.append("name", data.vipName);
     formData.append("price", data.vipPrice);
     formData.append("category", data.vipCategory);
-
+    formData.append("validity", data.vipValidity);
     if (data.vipFile) {
       formData.append("image", data.vipFile?.[0]);
     }
@@ -122,6 +122,18 @@ export default function AddVip({ open, onClose, onSuccess }) {
               {errors.vipPrice.message}
             </p>
           )}
+        </div>
+
+        <div className="mb-3">
+          <label className="text-gray-700 text-[14px] font-medium">
+            Validity(in days)
+          </label>
+          <input
+            type="number"
+            {...register("vipValidity")}
+            placeholder="add validity here"
+            className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
+          />
         </div>
 
         {/* Upload Logo */}

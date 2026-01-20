@@ -3,22 +3,25 @@ import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
-import AddNewFrameModal from "../../modals/assests/AddNewFrame";
 import useFetch from "../../hooks/useFetch";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
 import TopPerformanceLoading from "../TopPerformanceLoading";
 import AddNewLevel from "../../modals/assests/AddNewLevel";
+import AddNewFrameModal from "../../modals/assests/AddNewFrame";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
-export default function LevelList() {
+export default function FrameLists() {
   const [refresh, setRefresh] = useState(false);
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
-  const { data, loading, error } = useFetch(`${BASE_URL}/level`, refresh);
-  const deleteUser = useDelete(`${BASE_URL}/level`);
-  const [allGifts, setAllGifts] = useState(data?.levels);
+  const { data, loading, error } = useFetch(
+    `${BASE_URL}/frames?search=&page=1&limit=20`,
+    refresh,
+  );
+  const deleteUser = useDelete(`${BASE_URL}/frames`);
+  const [allGifts, setAllGifts] = useState(data?.frames);
   const [dloading, setDLoading] = useState(null);
   const { confirm } = useGlobalConfirm();
 
@@ -38,9 +41,9 @@ export default function LevelList() {
       const result = await deleteUser(id);
 
       if (!result) {
-        toast.error("Failed to delete level");
+        toast.error("Failed to delete frame");
       } else {
-        toast.success(result.message || "Level deleted successfully");
+        toast.success(result.message || "Frame deleted successfully");
       }
 
       setAllGifts(allGifts?.filter((gift) => gift._id !== id));
@@ -64,9 +67,9 @@ export default function LevelList() {
 
   useEffect(() => {
     if (text === "") {
-      setAllGifts(data?.levels);
+      setAllGifts(data?.frames);
     }
-  }, [text, data?.levels]);
+  }, [text, data?.frames]);
 
   if (loading) return <TopPerformanceLoading length={5} />;
   if (error) return <Error error={error} />;
@@ -93,7 +96,7 @@ export default function LevelList() {
             onClick={() => setIsOpen(true)}
             className="sm:px-6 py-1.5 max-sm:py-2 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
           >
-            + Add Level
+            + Add Frame
           </button>
         </div>
       </div>
@@ -103,8 +106,8 @@ export default function LevelList() {
         <table className="w-full text-left border-collapse text-nowrap">
           <thead>
             <tr className="text-[#535353] text-md font-medium">
-              <th className="pl-7 p-3">Level Image</th>
-              <th className="p-3">Level Name</th>
+              <th className="pl-7 p-3">Frame Image</th>
+              <th className="p-3"> Name</th>
               <th className="p-3">Price (Coins)</th>
               <th className="p-3">Status</th>
               <th className="p-3 sm:pl-4">Action</th>
@@ -169,14 +172,14 @@ export default function LevelList() {
             ) : (
               <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
                 <td colSpan={9} className="p-3 text-center">
-                  No level found
+                  No Frame found
                 </td>
               </tr>
             )}
           </tbody>
         </table>
         {open && (
-          <AddNewLevel
+          <AddNewFrameModal
             open={open}
             onClose={() => setIsOpen(false)}
             onSuccess={() => {

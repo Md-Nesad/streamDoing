@@ -54,7 +54,7 @@ export default function UpdateAgenciesDetails() {
 
     setIsLoading(true);
     const result = await handleFormData(formData);
-
+    console.log(result);
     if (result.error) {
       toast.error(result.error);
     } else {
@@ -198,7 +198,6 @@ export default function UpdateAgenciesDetails() {
                   <option value="">Select</option>
                   <option value="active">Active</option>
                   <option value="suspended">Suspended</option>
-                  <option value="banned">Banned</option>
                 </select>
 
                 <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
@@ -356,7 +355,7 @@ export default function UpdateAgenciesDetails() {
           <div className="flex justify-center sm:justify-end mt-8 gap-4">
             <button
               type="button"
-              onClick={() => navigate("/dashboard/host-agency")}
+              onClick={() => navigate(-1)}
               className="px-8 py-1 border border-gray-300 rounded-md text-[#181717]"
             >
               Cancel

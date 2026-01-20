@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import TopPerformanceLoading from "../TopPerformanceLoading";
 // import Loading from "../Loading";
 
-export default function AllGiftTable({ data, loading, error, setRefresh }) {
+function AllGiftTable({ data, loading, error, setRefresh }) {
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
   const [update, setUpdate] = useState(false);
@@ -73,7 +73,8 @@ export default function AllGiftTable({ data, loading, error, setRefresh }) {
     }
   }, [text, data]);
 
-  if (loading) return <TopPerformanceLoading length={5} />;
+  if (loading || category?.loading || subCategory?.loading)
+    return <TopPerformanceLoading length={5} />;
   if (error) return <Error error={error} />;
 
   return (
@@ -139,17 +140,12 @@ export default function AllGiftTable({ data, loading, error, setRefresh }) {
                         src={gift?.imageUrl}
                         alt="Gift Image"
                         className="w-9 h-9 ml-4.5 object-cover rounded-full"
+                        loading="lazy"
                       />
                     </td>
                     <td className="p-3 font-medium">{gift.name}</td>
-                    <td className="p-3">
-                      {category?.loading ? "Loading..." : categoryName || "N/A"}
-                    </td>
-                    <td className="p-3">
-                      {subCategory?.loading
-                        ? "Loading..."
-                        : subCategoryName || "N/A"}
-                    </td>
+                    <td className="p-3">{categoryName || "N/A"}</td>
+                    <td className="p-3">{subCategoryName || "N/A"}</td>
                     <td className="p-3">{formatNumber(gift.cost)}</td>
                     <td className="p-3">
                       <span
@@ -222,6 +218,8 @@ export default function AllGiftTable({ data, loading, error, setRefresh }) {
     </>
   );
 }
+
+export default React.memo(AllGiftTable);
 
 // import { useState } from "react";
 // import BannerGifts from "./BannerGifts";

@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 export default function AddNewFrameModal({ open, onClose, onSuccess }) {
   if (!open) return null;
   const [loading, setLoading] = useState(false);
-  const handleFormData = useFormDataPost(`${BASE_URL}/level`);
+  const handleFormData = useFormDataPost(`${BASE_URL}/frames`);
 
   const {
     register,
@@ -28,6 +28,7 @@ export default function AddNewFrameModal({ open, onClose, onSuccess }) {
 
     formData.append("name", data.levelName);
     formData.append("price", data.levelPrice);
+    formData.append("validity", data.validity);
 
     if (data.levelFile) {
       formData.append("image", data.levelFile?.[0]);
@@ -35,7 +36,7 @@ export default function AddNewFrameModal({ open, onClose, onSuccess }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-
+    console.log(result);
     if (!result.message) {
       toast.error("Failed to create level");
     } else {
@@ -55,7 +56,7 @@ export default function AddNewFrameModal({ open, onClose, onSuccess }) {
       >
         {/* Title */}
         <h2 className="text-[20px] font-semibold text-gray-800 mb-1">
-          Add New Level
+          Add New Frame
         </h2>
         <p className="text-gray-500 text-[14px] mb-6">
           Create a new virtual gift for users to send during livestreams
@@ -64,12 +65,12 @@ export default function AddNewFrameModal({ open, onClose, onSuccess }) {
         {/* Gift Name */}
         <div className="mb-3">
           <label className="text-gray-700 text-[14px] font-medium">
-            Level Name
+            Frame Name
           </label>
           <input
             type="text"
             {...register("levelName")}
-            placeholder="add level name here"
+            placeholder="add frame name here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
           {errors.levelName && (
@@ -101,14 +102,26 @@ export default function AddNewFrameModal({ open, onClose, onSuccess }) {
           <input
             type="number"
             {...register("levelPrice")}
-            placeholder="add level price here"
+            placeholder="add price here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
-          {errors.levelPrice && (
+          {/* {errors.levelPrice && (
             <p className="text-red-500 text-xs mt-1">
               {errors.levelPrice.message}
             </p>
-          )}
+          )} */}
+        </div>
+
+        <div className="mb-3">
+          <label className="text-gray-700 text-[14px] font-medium">
+            Validity(in days)
+          </label>
+          <input
+            type="number"
+            {...register("validity")}
+            placeholder="add validity here"
+            className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
+          />
         </div>
 
         {/* Position */}

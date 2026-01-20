@@ -1,16 +1,16 @@
 import { Upload } from "lucide-react";
 import useFormDataPost from "../../hooks/useFormDataPost";
 import { BASE_URL } from "../../utility/utility";
-import { badgeSchema } from "../../utility/validator";
+import { levelSchema } from "../../utility/validator";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 
-export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
+export default function AddNewLevel({ open, onClose, onSuccess }) {
   if (!open) return null;
   const [loading, setLoading] = useState(false);
-  const handleFormData = useFormDataPost(`${BASE_URL}/badges`);
+  const handleFormData = useFormDataPost(`${BASE_URL}/level`);
 
   const {
     register,
@@ -19,35 +19,31 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
     reset,
     watch,
   } = useForm({
-    resolver: zodResolver(badgeSchema),
+    resolver: zodResolver(levelSchema),
   });
 
   // form submission handler
   const handleSave = async (data) => {
     const formData = new FormData();
 
-    formData.append("name", data.badgeName);
-    formData.append("description", data.badgeDescription);
-    formData.append("price", data.badgePrice);
-    formData.append("isActive", "true");
-    formData.append("validity", data.badgeValidity);
+    formData.append("name", data.levelName);
+    formData.append("price", data.levelPrice);
 
-    if (data.badgeFile) {
-      formData.append("image", data.badgeFile?.[0]);
+    if (data.levelFile) {
+      formData.append("image", data.levelFile?.[0]);
     }
 
     setLoading(true);
     const result = await handleFormData(formData);
 
     if (!result.message) {
-      toast.error("Failed to create badge");
+      toast.error("Failed to create level");
     } else {
       toast.success(result.message);
     }
     setLoading(false);
 
     reset();
-
     onSuccess();
   };
 
@@ -59,7 +55,7 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
       >
         {/* Title */}
         <h2 className="text-[20px] font-semibold text-gray-800 mb-1">
-          Add New Badge
+          Add New Level
         </h2>
         <p className="text-gray-500 text-[14px] mb-6">
           Create a new virtual gift for users to send during livestreams
@@ -68,29 +64,29 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
         {/* Gift Name */}
         <div className="mb-3">
           <label className="text-gray-700 text-[14px] font-medium">
-            Badges Name
+            Level Name
           </label>
           <input
             type="text"
-            {...register("badgeName")}
-            placeholder="add badge name here"
+            {...register("levelName")}
+            placeholder="add level name here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
-          {errors.badgeName && (
+          {errors.levelName && (
             <p className="text-red-500 text-xs mt-1">
-              {errors.badgeName.message}
+              {errors.levelName.message}
             </p>
           )}
         </div>
 
-        <div className="mb-3">
+        {/* <div className="mb-3">
           <label className="text-gray-700 text-[14px] font-medium">
             Description
           </label>
           <input
             type="text"
             {...register("badgeDescription")}
-            placeholder="add badge description here"
+            placeholder="Enter description"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
           {errors.badgeDescription && (
@@ -98,35 +94,21 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
               {errors.badgeDescription.message}
             </p>
           )}
-        </div>
+        </div> */}
 
         <div className="mb-3">
-          <label className="text-gray-700 text-[14px] font-medium">
-            Recharge
-          </label>
+          <label className="text-gray-700 text-[14px] font-medium">Price</label>
           <input
             type="number"
-            {...register("badgePrice")}
-            placeholder="add badge price here"
+            {...register("levelPrice")}
+            placeholder="add level price here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
-          {errors.badgePrice && (
+          {errors.levelPrice && (
             <p className="text-red-500 text-xs mt-1">
-              {errors.badgePrice.message}
+              {errors.levelPrice.message}
             </p>
           )}
-        </div>
-
-        <div className="mb-3">
-          <label className="text-gray-700 text-[14px] font-medium">
-            Validity(in days)
-          </label>
-          <input
-            type="number"
-            {...register("badgeValidity")}
-            placeholder="add validity here"
-            className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
-          />
         </div>
 
         {/* Position */}
@@ -145,11 +127,13 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
 
         {/* Upload Logo */}
         <div>
-          <label>Upload Badge (SVG, PNG, Mp4)</label>
-          <div className="relative w-full cursor-pointer">
+          <label className="text-gray-700 text-[14px] font-medium">
+            Upload Banner (SVG, PNG, Mp4)
+          </label>
+          <div className="relative w-full cursor-pointer mt-1">
             <input
               type="file"
-              {...register("badgeFile")}
+              {...register("levelFile")}
               className="absolute inset-0 opacity-0 cursor-pointer"
             />
 
@@ -159,13 +143,13 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
               </span>
               <span className="w-px h-7 bg-gray-300"></span>
               <span className="text-[#686868A6] font-medium truncate">
-                {watch("badgeFile")?.[0]?.name || "No file choosen"}
+                {watch("levelFile")?.[0]?.name || "No file choosen"}
               </span>
             </div>
           </div>
-          {errors.badgeFile && (
+          {errors.levelFile && (
             <p className="text-red-500 text-xs mt-1">
-              {errors.badgeFile.message}
+              {errors.levelFile.message}
             </p>
           )}
         </div>

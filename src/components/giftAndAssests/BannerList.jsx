@@ -8,10 +8,8 @@ import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
 import useFetch from "../../hooks/useFetch";
 import TopPerformanceLoading from "../TopPerformanceLoading";
-// import UpdateGiftModal from "../../modals/UpdateGiftModal";
-// import Loading from "../Loading";
 
-export default function BannerList() {
+function BannerList() {
   const [refresh, setRefresh] = useState(false);
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
@@ -21,7 +19,6 @@ export default function BannerList() {
   const [allGifts, setAllGifts] = useState(data?.banners);
   const [dloading, setDLoading] = useState(null);
   const { confirm } = useGlobalConfirm();
-  //   const [selectedGift, setSelectedGift] = useState(null);
 
   const handleFilter = () => {
     const filteredUsers = allGifts?.filter((item) => {
@@ -35,7 +32,9 @@ export default function BannerList() {
     try {
       const ok = await confirm("Are you sure to delete?");
       if (!ok) return;
+
       setDLoading(id);
+
       const result = await deleteUser(id);
 
       if (!result) {
@@ -51,17 +50,6 @@ export default function BannerList() {
       setDLoading(null);
     }
   };
-
-  //   const handleUpdateModal = (gift) => {
-  //     setSelectedGift(gift);
-  //     setUpdate(true);
-  //   };
-
-  //   useEffect(() => {
-  //     setAllGifts(
-  //       data?.gifts.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)),
-  //     );
-  //   }, [data]);
 
   useEffect(() => {
     if (text === "") {
@@ -126,6 +114,7 @@ export default function BannerList() {
                         src={gift?.bannerURL}
                         alt="Gift Image"
                         className="w-13 h-8 ml-4.5 object-cover rounded-sm"
+                        loading="lazy"
                       />
                     </td>
                     <td className="p-3 font-medium">{gift.name}</td>
@@ -188,14 +177,9 @@ export default function BannerList() {
             }}
           />
         )}
-        {/* {update && (
-          <UpdateGiftModal
-            open={update}
-            onClose={() => setUpdate(false)}
-            gift={selectedGift}
-          />
-        )} */}
       </div>
     </>
   );
 }
+
+export default React.memo(BannerList);
