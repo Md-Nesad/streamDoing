@@ -1,5 +1,5 @@
 import { Funnel, LoaderCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../../utility/utility";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";

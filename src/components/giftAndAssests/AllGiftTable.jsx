@@ -1,5 +1,5 @@
 import { Funnel, LoaderCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddGiftModal from "../../modals/AddGiftModal";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatNumber } from "../../utility/utility";

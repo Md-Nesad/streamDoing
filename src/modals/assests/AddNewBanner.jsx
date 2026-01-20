@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { bannerSchema } from "../../utility/validator";
 import useFormDataPost from "../../hooks/useFormDataPost";
 import { BASE_URL } from "../../utility/utility";
-import { useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 function AddNewBannerModal({ open, onClose, onSuccess }) {
