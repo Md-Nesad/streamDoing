@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import TopUpPackagesTable from "../../components/dataStores/TopUpPackagesTable";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
-import Loading from "../../components/Loading";
 import Error from "../../components/Error";
+import TopPerformanceLoading from "../../components/TopPerformanceLoading";
 
 export default function TopUp() {
   const [refresh, setRefresh] = useState(false);
@@ -13,7 +13,7 @@ export default function TopUp() {
     refresh,
   );
 
-  if (loading) return <Loading />;
+  if (loading) return <TopPerformanceLoading length={5} />;
   if (error) return <Error error={error} />;
   return (
     <div>
