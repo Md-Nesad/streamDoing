@@ -98,6 +98,15 @@ export default function HostAgencyTable({
     }
   }, [text]);
 
+  //   const levelColors = {
+  //   0: "from-gray-400 to-gray-600",
+  //   1: "from-blue-400 to-blue-600",
+  //   2: "from-green-400 to-green-600",
+  //   3: "from-yellow-400 to-yellow-600",
+  //   4: "from-orange-400 to-orange-600",
+  //   5: "from-red-500 to-red-700",
+  // };
+
   if (loading) return <Loading />;
 
   return (

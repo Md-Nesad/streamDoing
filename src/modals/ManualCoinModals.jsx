@@ -22,8 +22,8 @@ export default function ManualCoinModal({ open, onClose }) {
 
   const handleFormSubmit = async () => {
     if (!adjusted_id || !coins || !category || !reason)
-      return alert("Please fill all");
-    if (!action) return alert("Please select an action");
+      return toast.error("Please fill all");
+    if (!action) return toast.error("Please select an action");
     const result = await handleSubmit({
       adjusted_id,
       coins,
@@ -31,6 +31,7 @@ export default function ManualCoinModal({ open, onClose }) {
       reason,
       action,
     });
+    console.log(result);
 
     toast.success(result.message);
   };
@@ -105,14 +106,14 @@ export default function ManualCoinModal({ open, onClose }) {
           <div className="flex gap-5">
             <button
               onClick={() => setAction("add")}
-              className="border px-4 py-1.5 rounded-md text-gray-700 active:scale-y-150"
+              className="border px-4 py-1.5 rounded-md text-gray-700 active:scale-y-200"
             >
               Add Coin
             </button>
 
             <button
               onClick={() => setAction("remove")}
-              className="border px-4 py-1.5 rounded-md text-gray-700 active:scale-y-150"
+              className="border px-4 py-1.5 rounded-md text-gray-700 active:scale-y-200"
             >
               Remove Coin
             </button>
