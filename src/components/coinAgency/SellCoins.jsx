@@ -5,7 +5,7 @@ import { BASE_URL } from "../../utility/utility";
 import downArrow from "/icons/Vector 151.png";
 import { toast } from "react-toastify";
 
-export default function SellCoins() {
+export default function SellCoins({ setRefresh }) {
   const { data } = useFetch(`${BASE_URL}/coins/rates/latest`);
   const handleSubmit = useJsonPost(`${BASE_URL}/coins/sales/admin-to-all`);
 
@@ -90,6 +90,7 @@ export default function SellCoins() {
       setReferenceType("");
       setReferenceName("");
       setLoading(false);
+      setRefresh((prev) => !prev);
       return toast.success(result.message);
     }
   };

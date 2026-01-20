@@ -14,6 +14,7 @@ export default function TabsSection() {
   const [openRefundModal, setOpenRefundModal] = useState(false);
   const [openRateModal, setOpenRateModal] = useState(false);
   const navigate = useNavigate();
+  const [refresh, setRefresh] = useState(false);
 
   return (
     <div>
@@ -88,8 +89,8 @@ export default function TabsSection() {
           </div>
         </div>
         <TabPanel>
-          <SellCoins />
-          <RateTransactionTable />
+          <SellCoins setRefresh={setRefresh} />
+          <RateTransactionTable refresh={refresh} />
         </TabPanel>
 
         <TabPanel>

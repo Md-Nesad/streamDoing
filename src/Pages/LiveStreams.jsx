@@ -64,13 +64,13 @@ export default function LiveStreams() {
     // New live created
     socket.on("admin:new-live-created", (data) => {
       console.log("create event", data);
-      fetchLiveStreams(); // re-fetch live streams
+      fetchLiveStreams();
     });
 
     // Live ended
     socket.on("admin:live-ended", (data) => {
       console.log("end event", data);
-      fetchLiveStreams(); // re-fetch live streams
+      fetchLiveStreams();
     });
 
     // Viewers count update

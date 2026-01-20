@@ -5,15 +5,15 @@ import Loading from "../Loading";
 import Error from "../Error";
 import Pagination from "../Pagination";
 import { useState } from "react";
-import { useStream } from "../../context/streamContext";
 import CoinTransactionModal from "../../modals/ConiTransactionModal";
 
-export default function RateTransactionTable() {
+export default function RateTransactionTable({ refresh }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
   const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
     `${BASE_URL}/coins/rates/transactions?page=${page}&limit=30`,
+    refresh,
   );
 
   const transactions = data?.transactions;

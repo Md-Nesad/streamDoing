@@ -35,7 +35,7 @@ function ThisMonthChart({ month }) {
         </Pie>
       </PieChart>
 
-      <p className="mt-2 text-lg font-medium">{month}</p>
+      <p className="mt-2 text-sm font-medium">{month}</p>
     </div>
   );
 }
