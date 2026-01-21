@@ -1,21 +1,17 @@
 import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
-import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import AddNewEntryModal from "../../modals/assests/AddNewEntry";
 import useFetch from "../../hooks/useFetch";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
-import TopPerformanceLoading from "../TopPerformanceLoading";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
-export default function EntryLists() {
+export default function EntryLists({ data, setRefresh }) {
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const { data, loading, error } = useFetch(`${BASE_URL}/entries`, refresh);
   const deleteUser = useDelete(`${BASE_URL}/entries`);
   const [allGifts, setAllGifts] = useState(data?.entries);
   const [dloading, setDLoading] = useState(null);
@@ -51,6 +47,7 @@ export default function EntryLists() {
       console.log(err);
     } finally {
       setDLoading(null);
+      setRefresh((prev) => !prev);
     }
   };
 
@@ -71,8 +68,8 @@ export default function EntryLists() {
     }
   }, [text, data?.entries]);
 
-  if (loading) return <TopPerformanceLoading length={5} />;
-  if (error) return <Error error={error} />;
+  // if (loading) return <TopPerformanceLoading length={5} />;
+  // if (error) return <Error error={error} />;
 
   return (
     <>

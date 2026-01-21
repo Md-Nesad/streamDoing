@@ -1,25 +1,21 @@
 import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
-import Error from "../Error";
+// import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
-import useFetch from "../../hooks/useFetch";
+// import useFetch from "../../hooks/useFetch";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
-import TopPerformanceLoading from "../TopPerformanceLoading";
-import AddNewLevel from "../../modals/assests/AddNewLevel";
+// import TopPerformanceLoading from "../TopPerformanceLoading";
+// import AddNewLevel from "../../modals/assests/AddNewLevel";
 import AddNewFrameModal from "../../modals/assests/AddNewFrame";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
-export default function FrameLists() {
-  const [refresh, setRefresh] = useState(false);
+export default function FrameLists({ data, setRefresh }) {
+  // const [refresh, setRefresh] = useState(false);
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
-  const { data, loading, error } = useFetch(
-    `${BASE_URL}/frames?search=&page=1&limit=20`,
-    refresh,
-  );
   const deleteUser = useDelete(`${BASE_URL}/frames`);
   const [allGifts, setAllGifts] = useState(data?.frames);
   const [dloading, setDLoading] = useState(null);
@@ -51,6 +47,7 @@ export default function FrameLists() {
       console.log(err);
     } finally {
       setDLoading(null);
+      setRefresh((prev) => !prev);
     }
   };
 
@@ -71,8 +68,8 @@ export default function FrameLists() {
     }
   }, [text, data?.frames]);
 
-  if (loading) return <TopPerformanceLoading length={5} />;
-  if (error) return <Error error={error} />;
+  // if (loading) return <TopPerformanceLoading length={5} />;
+  // if (error) return <Error error={error} />;
 
   return (
     <>

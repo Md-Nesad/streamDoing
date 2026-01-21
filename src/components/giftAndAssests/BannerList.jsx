@@ -1,19 +1,18 @@
 import { Funnel, LoaderCircle } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { BASE_URL } from "../../utility/utility";
-import Error from "../Error";
+// import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import AddNewBannerModal from "../../modals/assests/AddNewBanner";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
-import useFetch from "../../hooks/useFetch";
-import TopPerformanceLoading from "../TopPerformanceLoading";
+// import useFetch from "../../hooks/useFetch";
+// import TopPerformanceLoading from "../TopPerformanceLoading";
 
-function BannerList() {
-  const [refresh, setRefresh] = useState(false);
+function BannerList({ data, setRefresh }) {
+  // const [refresh, setRefresh] = useState(false);
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
-  const { data, loading, error } = useFetch(`${BASE_URL}/banner`, refresh);
 
   const deleteUser = useDelete(`${BASE_URL}/banner`);
   const [allGifts, setAllGifts] = useState(data?.banners);
@@ -48,6 +47,7 @@ function BannerList() {
       console.log(err);
     } finally {
       setDLoading(null);
+      setRefresh((prev) => !prev);
     }
   };
 
@@ -57,8 +57,8 @@ function BannerList() {
     }
   }, [text, data?.banners]);
 
-  if (loading) return <TopPerformanceLoading length={5} />;
-  if (error) return <Error error={error} />;
+  // if (loading) return <TopPerformanceLoading length={5} />;
+  // if (error) return <Error error={error} />;
 
   return (
     <>
@@ -182,4 +182,4 @@ function BannerList() {
   );
 }
 
-export default React.memo(BannerList);
+export default memo(BannerList);

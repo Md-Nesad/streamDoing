@@ -48,9 +48,9 @@ export default function AddNewCrown({ open, onClose, onSuccess }) {
 
     setLoading(false);
 
-    // reset();
+    reset();
 
-    // onSuccess();
+    onSuccess();
   };
 
   return (
@@ -127,6 +127,11 @@ export default function AddNewCrown({ open, onClose, onSuccess }) {
             placeholder="add validity here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
+          {errors.crownValidity && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.crownValidity.message}
+            </p>
+          )}
         </div>
 
         {/* Position */}

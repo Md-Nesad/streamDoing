@@ -125,6 +125,11 @@ export default function AddNewTemplateModal({ open, onClose, onSuccess }) {
             placeholder="add validity here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
+          {errors.tempValidity && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.tempValidity.message}
+            </p>
+          )}
         </div>
 
         {/* Position */}

@@ -1,21 +1,16 @@
 import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
-import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import AddNewEventModal from "../../modals/assests/AddNewEvent";
-import useFetch from "../../hooks/useFetch";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
-import TopPerformanceLoading from "../TopPerformanceLoading";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
-export default function EventLists() {
+export default function EventLists({ data, setRefresh }) {
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const { data, loading, error } = useFetch(`${BASE_URL}/events`, refresh);
   const deleteUser = useDelete(`${BASE_URL}/events`);
   const [allGifts, setAllGifts] = useState(data?.events);
   const { confirm } = useGlobalConfirm();
@@ -48,6 +43,7 @@ export default function EventLists() {
       console.log(err);
     } finally {
       setDLoading(null);
+      setRefresh((prev) => !prev);
     }
   };
 
@@ -68,8 +64,8 @@ export default function EventLists() {
     }
   }, [text, data?.events]);
 
-  if (loading) return <TopPerformanceLoading length={5} />;
-  if (error) return <Error error={error} />;
+  // if (loading) return <TopPerformanceLoading length={5} />;
+  // if (error) return <Error error={error} />;
 
   return (
     <>

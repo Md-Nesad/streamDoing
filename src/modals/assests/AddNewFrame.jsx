@@ -1,7 +1,7 @@
 import { Upload } from "lucide-react";
 import useFormDataPost from "../../hooks/useFormDataPost";
 import { BASE_URL } from "../../utility/utility";
-import { levelSchema } from "../../utility/validator";
+import { frameSchema } from "../../utility/validator";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,7 +21,7 @@ export default function AddNewFrameModal({ open, onClose, onSuccess }) {
     reset,
     watch,
   } = useForm({
-    resolver: zodResolver(levelSchema),
+    resolver: zodResolver(frameSchema),
   });
 
   // form submission handler
@@ -126,6 +126,11 @@ export default function AddNewFrameModal({ open, onClose, onSuccess }) {
             placeholder="add validity here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
+          {errors.validity && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.validity.message}
+            </p>
+          )}
         </div>
 
         {/* Position */}

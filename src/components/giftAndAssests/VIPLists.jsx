@@ -1,24 +1,16 @@
 import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
-import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import AddVip from "../../modals/assests/AddVip";
-import useFetch from "../../hooks/useFetch";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
-import TopPerformanceLoading from "../TopPerformanceLoading";
-// import UpdateGiftModal from "../../modals/UpdateGiftModal";
-// import Loading from "../Loading";
 
-export default function VIPLists() {
+export default function VIPLists({ data, setRefresh }) {
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const { data, loading, error } = useFetch(`${BASE_URL}/vips`, refresh);
   const deleteUser = useDelete(`${BASE_URL}/vips`);
   const [allGifts, setAllGifts] = useState(data?.vips);
-
   const [dloading, setDLoading] = useState(null);
   //   const [selectedGift, setSelectedGift] = useState(null);
   const { confirm } = useGlobalConfirm();
@@ -49,6 +41,7 @@ export default function VIPLists() {
       console.log(err);
     } finally {
       setDLoading(null);
+      setRefresh((prev) => !prev);
     }
   };
 
@@ -68,9 +61,6 @@ export default function VIPLists() {
       setAllGifts(data?.vips);
     }
   }, [text, data?.vips]);
-
-  if (loading) return <TopPerformanceLoading length={5} />;
-  if (error) return <Error error={error} />;
 
   return (
     <>

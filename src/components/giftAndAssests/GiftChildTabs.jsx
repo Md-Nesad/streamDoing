@@ -1,23 +1,34 @@
-import React, { lazy, Suspense, useState } from "react";
+import React, { useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
-// import LevelTabs from "./LevelTabs";
-import TopPerformanceLoading from "../TopPerformanceLoading";
-const AllGiftTable = lazy(() => import("./AllGiftTable"));
-const BannerList = lazy(() => import("./BannerList"));
-// const LevelList = lazy(() => import("./LevelList"));
-const CrownLists = lazy(() => import("./CrownList"));
-const BadgesLists = lazy(() => import("./BadgesLists"));
-const FrameLists = lazy(() => import("./FrameLists"));
-const TemplateLists = lazy(() => import("./TemplateLists"));
-const EntryLists = lazy(() => import("./EntryLists"));
-const EventLists = lazy(() => import("./EventLists"));
-const VIPLists = lazy(() => import("./VIPLists"));
+import AllGiftTable from "./AllGiftTable";
+import BannerList from "./BannerList"; // const LevelList from "./LevelList"));onst CrownLists from "./CrownList"));onst BadgesLists from "./BadgesLists")
+import FrameLists from "./FrameLists";
+import TemplateLists from "./TemplateLists";
+import EntryLists from "./EntryLists";
+import EventLists from "./EventLists";
+import VIPLists from "./VIPLists";
+import CrownLists from "./CrownList";
+import BadgesLists from "./BadgesLists";
 
 function GiftChildTabs() {
   const [refresh, setRefresh] = useState(false);
   const { data, loading, error } = useFetch(`${BASE_URL}/gifts/list`, refresh);
+  const { data: badges } = useFetch(`${BASE_URL}/badges`, refresh);
+  const { data: banners } = useFetch(`${BASE_URL}/banner`, refresh);
+  const { data: crowns } = useFetch(`${BASE_URL}/crowns`, refresh);
+  const { data: frames } = useFetch(
+    `${BASE_URL}/frames?search=&page=1&limit=20`,
+    refresh,
+  );
+  const { data: templates } = useFetch(
+    `${BASE_URL}/template?search=&page=1&limit=20`,
+    refresh,
+  );
+  const { data: entries } = useFetch(`${BASE_URL}/entries`, refresh);
+  const { data: events } = useFetch(`${BASE_URL}/events`, refresh);
+  const { data: vips } = useFetch(`${BASE_URL}/vips`, refresh);
 
   return (
     <Tabs>
@@ -90,52 +101,50 @@ function GiftChildTabs() {
         </Tab>
       </TabList>
 
-      <Suspense fallback={<TopPerformanceLoading length={5} />}>
-        <TabPanel>
-          <AllGiftTable
-            data={data}
-            loading={loading}
-            error={error}
-            setRefresh={setRefresh}
-          />
-        </TabPanel>
+      <TabPanel>
+        <AllGiftTable
+          data={data}
+          loading={loading}
+          error={error}
+          setRefresh={setRefresh}
+        />
+      </TabPanel>
 
-        <TabPanel>
-          <BannerList />
-        </TabPanel>
+      <TabPanel>
+        <BannerList data={banners} setRefresh={setRefresh} />
+      </TabPanel>
 
-        {/* <TabPanel>
+      {/* <TabPanel>
           <LevelTabs />
         </TabPanel> */}
 
-        <TabPanel>
-          <CrownLists />
-        </TabPanel>
+      <TabPanel>
+        <CrownLists data={crowns} setRefresh={setRefresh} />
+      </TabPanel>
 
-        <TabPanel>
-          <BadgesLists />
-        </TabPanel>
+      <TabPanel>
+        <BadgesLists data={badges} setRefresh={setRefresh} />
+      </TabPanel>
 
-        <TabPanel>
-          <FrameLists />
-        </TabPanel>
+      <TabPanel>
+        <FrameLists data={frames} setRefresh={setRefresh} />
+      </TabPanel>
 
-        <TabPanel>
-          <TemplateLists />
-        </TabPanel>
+      <TabPanel>
+        <TemplateLists data={templates} setRefresh={setRefresh} />
+      </TabPanel>
 
-        <TabPanel>
-          <EntryLists />
-        </TabPanel>
+      <TabPanel>
+        <EntryLists data={entries} setRefresh={setRefresh} />
+      </TabPanel>
 
-        <TabPanel>
-          <EventLists />
-        </TabPanel>
+      <TabPanel>
+        <EventLists data={events} setRefresh={setRefresh} />
+      </TabPanel>
 
-        <TabPanel>
-          <VIPLists />
-        </TabPanel>
-      </Suspense>
+      <TabPanel>
+        <VIPLists data={vips} setRefresh={setRefresh} />
+      </TabPanel>
     </Tabs>
   );
 }

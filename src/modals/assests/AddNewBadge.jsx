@@ -131,6 +131,11 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
             placeholder="add validity here"
             className="w-full border border-[#626060] rounded-lg px-3 py-2 text-[14px] mt-1 focus:outline-none"
           />
+          {errors.badgeValidity && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.badgeValidity.message}
+            </p>
+          )}
         </div>
 
         {/* Position */}

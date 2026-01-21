@@ -1,25 +1,16 @@
 import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
-import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
-import AddNewCrown from "../../modals/assests/AddNewCrown";
-import useFetch from "../../hooks/useFetch";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
-import TopPerformanceLoading from "../TopPerformanceLoading";
 import AddNewTemplateModal from "../../modals/assests/AddNewTemplate";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
 // import Loading from "../Loading";
 
-export default function TemplateLists() {
-  const [refresh, setRefresh] = useState(false);
+export default function TemplateLists({ data, setRefresh }) {
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
-  const { data, loading, error } = useFetch(
-    `${BASE_URL}/template?search=&page=1&limit=20`,
-    refresh,
-  );
   const deleteUser = useDelete(`${BASE_URL}/template`);
   const [allGifts, setAllGifts] = useState(data?.templates);
   const [dloading, setDLoading] = useState(null);
@@ -52,6 +43,7 @@ export default function TemplateLists() {
       console.log(err);
     } finally {
       setDLoading(null);
+      setRefresh((prev) => !prev);
     }
   };
 
@@ -72,8 +64,8 @@ export default function TemplateLists() {
     }
   }, [text, data?.templates]);
 
-  if (loading) return <TopPerformanceLoading length={5} />;
-  if (error) return <Error error={error} />;
+  // if (loading) return <TopPerformanceLoading length={5} />;
+  // if (error) return <Error error={error} />;
 
   return (
     <>

@@ -5,7 +5,7 @@ import RevenueDistribution from "./RevenueDistribution";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
 import LevelTabs from "./LevelTabs";
-const GiftChildTabs = lazy(() => import("./GiftChildTabs"));
+import GiftChildTabs from "./GiftChildTabs";
 
 export default function GiftTabs() {
   const { data } = useFetch(`${BASE_URL}/gifts/list`);
