@@ -39,7 +39,7 @@ export default function Sidebar({ isToogleNav, onClose }) {
         }
         onClick={() => isToogleNav && setTimeout(onClose, 700)}
       >
-        <item.icon size={18} />
+        <item.icon size={16} />
         <span>{item.title}</span>
       </NavLink>
     ));
@@ -52,7 +52,7 @@ export default function Sidebar({ isToogleNav, onClose }) {
           className={`space-y-2 lg:w-55 shrink-0 overflow-y-auto bg-[#FFFFFF] px-1 py-2 shadow-[0_2px_10px_rgba(0,0,0,0.06)] rounded-md fixed top-26.5 z-10 left-0 h-[83vh] hide_scrollbar animatefadeInLeft`}
         >
           <nav aria-label="dashboard_navbar">
-            {renderMenuItems(menuItems.slice(0, 18))}
+            {renderMenuItems(menuItems.slice(0, 16))}
           </nav>
 
           <div
@@ -70,7 +70,7 @@ export default function Sidebar({ isToogleNav, onClose }) {
           </div>
 
           <nav className="space-y-2 transition-all duration-500">
-            {isToogleDataStore && renderMenuItems(menuItems.slice(18))}
+            {isToogleDataStore && renderMenuItems(menuItems.slice(16))}
           </nav>
         </aside>
       )}
@@ -78,7 +78,7 @@ export default function Sidebar({ isToogleNav, onClose }) {
       {/* Desktop Sidebar */}
       <aside className="space-y-2 lg:w-55 md:w-50 shrink-0 overflow-y-auto bg-[#FFFFFF] px-1 py-2 lg:ml-13 shadow-[0_2px_10px_rgba(0,0,0,0.06)] rounded-md hidden lg:block h-[80vh] hide_scrollbar">
         <nav aria-label="dashboard_navbar">
-          {renderMenuItems(menuItems.slice(0, 18))}
+          {renderMenuItems(menuItems.slice(0, 16))}
         </nav>
 
         <div
@@ -96,7 +96,7 @@ export default function Sidebar({ isToogleNav, onClose }) {
         </div>
 
         <nav className="space-y-2 transition-all duration-500">
-          {isToogleDataStore && renderMenuItems(menuItems.slice(18))}
+          {isToogleDataStore && renderMenuItems(menuItems.slice(16))}
         </nav>
       </aside>
     </>

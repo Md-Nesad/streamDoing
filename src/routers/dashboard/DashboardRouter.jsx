@@ -37,9 +37,9 @@ import AddSupportAgency from "../../components/dataStores/AddSupportAgency";
 import UpdateAgenciesDetails from "../../Pages/agencies/UpdateAgenciesDetails";
 import UpdateSupportAgency from "../../components/dataStores/UpdateSupportAgency";
 import { ProtectedRoute } from "../ProtectedRoutes";
-import LevelUp from "../../Pages/dataStore/LevelUp";
-import TopUp from "../../Pages/dataStore/TopUp";
-import CharmUp from "../../Pages/dataStore/CharmUp";
+// import LevelUp from "../../Pages/dataStore/LevelUp";
+// import TopUp from "../../Pages/dataStore/TopUp";
+// import CharmUp from "../../Pages/dataStore/CharmUp";
 import TopRanking from "../../Pages/TopRanking";
 import Analytics from "../../Pages/Analytics";
 
@@ -118,9 +118,9 @@ export default function DashboardRouter() {
                 element={<UpdateSupportAgency />}
               />
               <Route path="delete-ban" element={<DeleteBan />} />
-              <Route path="level-up" element={<LevelUp />} />
+              {/* <Route path="level-up" element={<LevelUp />} />
               <Route path="top-up" element={<TopUp />} />
-              <Route path="charm-up" element={<CharmUp />} />
+              <Route path="charm-up" element={<CharmUp />} /> */}
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

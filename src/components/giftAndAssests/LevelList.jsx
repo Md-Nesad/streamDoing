@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
-import AddNewFrameModal from "../../modals/assests/AddNewFrame";
 import useFetch from "../../hooks/useFetch";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";

@@ -14,6 +14,8 @@ export default function AddNewEntryModal({ open, onClose, onSuccess }) {
   const handleFormData = useFormDataPost(`${BASE_URL}/entries`);
   const categoreis = data?.categories;
   const [loading, setLoading] = useState(false);
+  const [isSell, setIsSell] = useState(false);
+  const [isExhibit, setIsExhibit] = useState(false);
 
   const {
     register,
@@ -33,6 +35,8 @@ export default function AddNewEntryModal({ open, onClose, onSuccess }) {
     formData.append("price", data.entryPrice);
     formData.append("categoryId", data.entryCategory);
     formData.append("validity", data.entryValidity);
+    // formData.append("isSell", isSell);
+    // formData.append("isExhibit", isExhibit);
 
     if (data.entryFile) {
       formData.append("image", data.entryFile?.[0]);
@@ -40,6 +44,7 @@ export default function AddNewEntryModal({ open, onClose, onSuccess }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
+    console.log(result);
 
     if (!result.message) {
       toast.error("Failed to create entry");
@@ -165,6 +170,48 @@ export default function AddNewEntryModal({ open, onClose, onSuccess }) {
               {errors.entryFile.message}
             </p>
           )}
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-center justify-between max-sm:justify-center gap-4 w-full">
+          <div className="flex items-center max-sm:justify-between gap-8 border border-gray-300 rounded-md px-3 py-2 w-full sm:w-[48%]">
+            <span className="text-gray-700 text-[14px] font-medium">
+              For Sale
+            </span>
+            <div
+              onClick={() => {
+                setIsSell(!isSell);
+              }}
+              className={`w-10 h-3 rounded-full cursor-pointer flex items-center transition-all duration-300 ${
+                isSell ? "bg-pink-400" : "bg-pink-200"
+              }`}
+            >
+              <div
+                className={`w-5 h-5 rounded-full shadow-xl transition-all duration-300 bg-linear-to-br from-pink-600 to-pink-400 relative ${
+                  isSell ? "translate-x-5" : "translate-x-0"
+                }`}
+              ></div>
+            </div>
+          </div>
+
+          <div className="flex items-center max-sm:justify-between gap-8 border border-gray-300 rounded-md px-3 py-2 w-full sm:w-[48%]">
+            <span className="text-gray-700 text-[14px] font-medium">
+              For Exhibit
+            </span>
+            <div
+              onClick={() => {
+                setIsExhibit(!isExhibit);
+              }}
+              className={`w-10 h-3 rounded-full cursor-pointer flex items-center transition-all duration-300 ${
+                isExhibit ? "bg-pink-400" : "bg-pink-200"
+              }`}
+            >
+              <div
+                className={`w-5 h-5 rounded-full shadow-xl transition-all duration-300 bg-linear-to-br from-pink-600 to-pink-400 relative ${
+                  isExhibit ? "translate-x-5" : "translate-x-0"
+                }`}
+              ></div>
+            </div>
+          </div>
         </div>
 
         {/* Buttons */}

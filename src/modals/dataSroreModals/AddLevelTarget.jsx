@@ -1,31 +1,32 @@
 import { useState } from "react";
-import { useStream } from "../../context/streamContext";
-import useJsonPost from "../../hooks/useJsonPost";
 import { BASE_URL } from "../../utility/utility";
 import { toast } from "react-toastify";
+import { Upload } from "lucide-react";
+import useFormDataPost from "../../hooks/useFormDataPost";
 
 export default function AddLevelTarget({ open, onClose, onSuccess }) {
   if (!open) return null;
   const [level, setLevel] = useState("");
   const [requiredExperience, setRequiredExperience] = useState("");
-  const [badgeId, setBadgeId] = useState("");
+  const [badgeFile, setBadgeFile] = useState(null);
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
-  const { badgeList } = useStream();
-  const handleSubmit = useJsonPost(`${BASE_URL}/admin/level-configs`);
+  const handleFormData = useFormDataPost(`${BASE_URL}/admin/level-configs`);
   //handle post
 
   const handleTarget = async () => {
-    if ((!level, !requiredExperience, !badgeId, !description)) {
-      return toast.error("Please fill all the fields");
+    if ((!level, !requiredExperience, !badgeFile)) {
+      return toast.error("Level, Experience and File is required!");
     }
+
+    const formData = new FormData();
+    formData.append("level", level);
+    formData.append("requiredExperience", requiredExperience);
+    formData.append("badgeFile", badgeFile);
+    formData.append("description", description);
+
     setLoading(true);
-    const result = await handleSubmit({
-      level,
-      requiredExperience,
-      badgeId,
-      description,
-    });
+    const result = await handleFormData(formData);
     toast.success(result.message || "Level config added.");
     setLoading(false);
     onSuccess();
@@ -68,21 +69,24 @@ export default function AddLevelTarget({ open, onClose, onSuccess }) {
 
           <div>
             <label className="text-sm font-medium text-gray-700">
-              Badge Id
+              Upload Badge (SVG, PNG)
             </label>
-            <div className="relative">
-              <select
-                value={badgeId}
-                onChange={(e) => setBadgeId(e.target.value)}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-md appearance-none"
-              >
-                <option value="">Select</option>
-                {badgeList?.map((badge) => (
-                  <option key={badge._id} value={badge._id}>
-                    {badge.name}
-                  </option>
-                ))}
-              </select>
+            <div className="relative w-full cursor-pointer">
+              <input
+                type="file"
+                onChange={(e) => setBadgeFile(e.target.files[0])}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
+
+              <div className="border border-gray-300 rounded-md px-3 text-sm flex items-center gap-3">
+                <span className="text-[#686868A6] font-medium py-2 flex items-center gap-2">
+                  Upload <Upload size={15} />
+                </span>
+                <span className="w-px h-7 bg-gray-300"></span>
+                <span className="text-[#686868A6] font-medium truncate">
+                  {badgeFile?.name || "No file choosen"}
+                </span>
+              </div>
             </div>
           </div>
 

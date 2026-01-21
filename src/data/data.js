@@ -76,12 +76,12 @@ export const menuItems = [
   //   link: "/dashboard/notification-center",
   // },
   // { title: "Inbox Assets", icon: MessageCircleMore, link: "/dashboard/inbox" },
-  {
-    title: "Level Up Config",
-    icon: ArrowUpCircle,
-    link: "/dashboard/level-up",
-  },
-  { title: "Charm Up Config", icon: Sparkles, link: "/dashboard/charm-up" },
+  // {
+  //   title: "Level Up Config",
+  //   icon: ArrowUpCircle,
+  //   link: "/dashboard/level-up",
+  // },
+  // { title: "Charm Up Config", icon: Sparkles, link: "/dashboard/charm-up" },
 
   { title: "Support", icon: MessageCircleMore, link: "/dashboard/support" },
 

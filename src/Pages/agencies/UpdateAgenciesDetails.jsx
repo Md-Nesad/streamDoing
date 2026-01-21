@@ -179,7 +179,7 @@ export default function UpdateAgenciesDetails() {
             </div>
 
             <div>
-              <label>Refference Id</label>
+              <label>Reference Id</label>
               <input
                 type="text"
                 {...register("referrenceId")}

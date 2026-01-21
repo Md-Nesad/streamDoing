@@ -126,10 +126,11 @@ export default function VIPLists() {
                         src={gift?.imageURL}
                         alt="Gift Image"
                         className="w-8 h-8 ml-4.5 object-cover rounded-full"
+                        loading="lazy"
                       />
                     </td>
                     <td className="p-3 font-medium">{gift.name}</td>
-                    <td className="p-3">{gift.category?.name}</td>
+                    <td className="p-3">{gift.category}</td>
                     <td className="p-3">{formatNumber(gift.price)}</td>
 
                     <td className="p-3">

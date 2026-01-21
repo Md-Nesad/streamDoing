@@ -4,6 +4,7 @@ import RecentGiftActivity from "./RecentGiftActivity";
 import RevenueDistribution from "./RevenueDistribution";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
+import LevelTabs from "./LevelTabs";
 const GiftChildTabs = lazy(() => import("./GiftChildTabs"));
 
 export default function GiftTabs() {
@@ -18,12 +19,21 @@ export default function GiftTabs() {
         >
           All Gifts
         </Tab>
+
+        <Tab
+          className="font-sans cursor-pointer"
+          selectedClassName="active-tab"
+        >
+          Level
+        </Tab>
+
         <Tab
           className="font-sans cursor-pointer"
           selectedClassName="active-tab"
         >
           Real Time Tracking
         </Tab>
+
         <Tab
           className="font-sans cursor-pointer"
           selectedClassName="active-tab"
@@ -34,6 +44,10 @@ export default function GiftTabs() {
 
       <TabPanel>
         <GiftChildTabs />
+      </TabPanel>
+
+      <TabPanel>
+        <LevelTabs />
       </TabPanel>
 
       <TabPanel>

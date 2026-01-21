@@ -39,7 +39,7 @@ export default function RefundModal({ open, onClose }) {
       refundCoins,
       category,
     });
-    console.log(result);
+
     toast.success(result.message || "Refund added.");
     setLoading(false);
     onClose();

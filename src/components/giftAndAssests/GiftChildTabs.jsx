@@ -1,10 +1,12 @@
-import React, { lazy, memo, useState } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
+// import LevelTabs from "./LevelTabs";
+import TopPerformanceLoading from "../TopPerformanceLoading";
 const AllGiftTable = lazy(() => import("./AllGiftTable"));
 const BannerList = lazy(() => import("./BannerList"));
-const LevelList = lazy(() => import("./LevelList"));
+// const LevelList = lazy(() => import("./LevelList"));
 const CrownLists = lazy(() => import("./CrownList"));
 const BadgesLists = lazy(() => import("./BadgesLists"));
 const FrameLists = lazy(() => import("./FrameLists"));
@@ -32,12 +34,12 @@ function GiftChildTabs() {
         >
           Banner
         </Tab>
-        <Tab
+        {/* <Tab
           className="font-sans cursor-pointer text-sm"
           selectedClassName="active-tab"
         >
           Level
-        </Tab>
+        </Tab> */}
         <Tab
           className="font-sans cursor-pointer text-sm"
           selectedClassName="active-tab"
@@ -88,51 +90,53 @@ function GiftChildTabs() {
         </Tab>
       </TabList>
 
-      <TabPanel>
-        <AllGiftTable
-          data={data}
-          loading={loading}
-          error={error}
-          setRefresh={setRefresh}
-        />
-      </TabPanel>
+      <Suspense fallback={<TopPerformanceLoading length={5} />}>
+        <TabPanel>
+          <AllGiftTable
+            data={data}
+            loading={loading}
+            error={error}
+            setRefresh={setRefresh}
+          />
+        </TabPanel>
 
-      <TabPanel>
-        <BannerList />
-      </TabPanel>
+        <TabPanel>
+          <BannerList />
+        </TabPanel>
 
-      <TabPanel>
-        <LevelList />
-      </TabPanel>
+        {/* <TabPanel>
+          <LevelTabs />
+        </TabPanel> */}
 
-      <TabPanel>
-        <CrownLists />
-      </TabPanel>
+        <TabPanel>
+          <CrownLists />
+        </TabPanel>
 
-      <TabPanel>
-        <BadgesLists />
-      </TabPanel>
+        <TabPanel>
+          <BadgesLists />
+        </TabPanel>
 
-      <TabPanel>
-        <FrameLists />
-      </TabPanel>
+        <TabPanel>
+          <FrameLists />
+        </TabPanel>
 
-      <TabPanel>
-        <TemplateLists />
-      </TabPanel>
+        <TabPanel>
+          <TemplateLists />
+        </TabPanel>
 
-      <TabPanel>
-        <EntryLists />
-      </TabPanel>
+        <TabPanel>
+          <EntryLists />
+        </TabPanel>
 
-      <TabPanel>
-        <EventLists />
-      </TabPanel>
+        <TabPanel>
+          <EventLists />
+        </TabPanel>
 
-      <TabPanel>
-        <VIPLists />
-      </TabPanel>
+        <TabPanel>
+          <VIPLists />
+        </TabPanel>
+      </Suspense>
     </Tabs>
   );
 }
-export default memo(GiftChildTabs);
+export default GiftChildTabs;

@@ -8,7 +8,6 @@ export default function HostTable({ hostListData }) {
   const [selected, setSelected] = useState(null);
   const [hostList, setHostList] = useState(hostListData?.hosts);
   const [text, setText] = useState("");
-  console.log(selected);
 
   //handle filter
   const handleFilter = () => {

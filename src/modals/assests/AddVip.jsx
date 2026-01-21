@@ -1,5 +1,4 @@
 import { ChevronDown, Upload } from "lucide-react";
-import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,9 +9,7 @@ import { toast } from "react-toastify";
 
 export default function AddVip({ open, onClose, onSuccess }) {
   if (!open) return null;
-  const { data } = useFetch(`${BASE_URL}/vips/categories`);
   const handleFormData = useFormDataPost(`${BASE_URL}/vips`);
-  const categoreis = data;
   const [loading, setLoading] = useState(false);
 
   const {
@@ -92,11 +89,9 @@ export default function AddVip({ open, onClose, onSuccess }) {
                 className="border border-[#626060] py-2"
               >
                 <option value="">Search Category</option>
-                {categoreis?.map((category) => (
-                  <option value={category._id} key={category._id}>
-                    {category.name}
-                  </option>
-                ))}
+                <option value="vvip">VVIP</option>
+                <option value="svip">SVIP</option>
+                <option value="vip">VIP</option>
               </select>
               <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
             </div>

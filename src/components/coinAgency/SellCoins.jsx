@@ -79,7 +79,6 @@ export default function SellCoins({ setRefresh }) {
       coins,
       category: referenceType,
     });
-    console.log(result);
 
     if (result.success === false) {
       setLoading(false);
