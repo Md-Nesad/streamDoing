@@ -1,10 +1,10 @@
-import React from "react";
+import React, { lazy } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import RecentGiftActivity from "./RecentGiftActivity";
 import RevenueDistribution from "./RevenueDistribution";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
-import GiftChildTabs from "./GiftChildTabs";
+const GiftChildTabs = lazy(() => import("./GiftChildTabs"));
 
 export default function GiftTabs() {
   const { data } = useFetch(`${BASE_URL}/gifts/list`);

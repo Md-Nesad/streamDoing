@@ -42,6 +42,8 @@ export default function UpdateAgenciesDetails() {
     formData.append("ban[isTemporary]", isTempOn);
     formData.append("ban[reason]", reason);
     formData.append("ban[until]", until);
+    formData.append("referalId", data.referrenceId);
+    formData.append("password", data.password);
     if (data.profilePic) {
       formData.append("profilePic", data.profilePic?.[0]);
     }
@@ -77,6 +79,7 @@ export default function UpdateAgenciesDetails() {
         country: data.country?._id,
         status: data.status,
         documentType: data.documentType,
+        referrenceId: data.parent?.displayId,
       });
     }
   }, [data, reset]);
@@ -171,6 +174,27 @@ export default function UpdateAgenciesDetails() {
                 type="text"
                 {...register("whatsapp")}
                 placeholder="+1 (737)-123-3265"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
+              />
+            </div>
+
+            <div>
+              <label>Refference Id</label>
+              <input
+                type="text"
+                {...register("referrenceId")}
+                placeholder="000100"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label>Password</label>
+              <input
+                type="text"
+                {...register("password")}
+                placeholder="*************"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-sm"
               />
             </div>

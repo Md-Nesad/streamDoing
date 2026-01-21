@@ -5,7 +5,7 @@ export const agencySchema = z.object({
   agencyName: z.string().min(2, "Agency name is required"),
   email: z.string().email("Invalid email"),
   password: z.string().min(6, "Minimum 6 characters"),
-  phoneNumber: z.string().min(4, "User ID required"),
+  phoneNumber: z.string().optional(),
   country: z.string().min(1, "Country is required"),
   documentType: z.string().min(1, "Document type required"),
   whatsapp: z.string().min(1, "Whatsapp number is required"),

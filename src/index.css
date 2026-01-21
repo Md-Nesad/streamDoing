@@ -19,7 +19,7 @@ th {
 
 button {
   cursor: pointer;
-  transition: all 5s ease-in-out !important;
+  transition: all 0.3s ease-in-out !important;
 }
 
 @keyframes fadeIn {

@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useJsonPost from "../hooks/useJsonPost";
 import { BASE_URL } from "../utility/utility";
 import { toast } from "react-toastify";
-
+import useFetch from "../hooks/useFetch";
 export default function ManualCoinModal({ open, onClose }) {
   if (!open) return null;
   const [action, setAction] = useState("");
@@ -11,19 +11,29 @@ export default function ManualCoinModal({ open, onClose }) {
   const [coins, setCoins] = useState("");
   const [category, setCategory] = useState("");
   const [reason, setReason] = useState("");
+  const handleSubmit = useJsonPost(`${BASE_URL}/coins/adjustments`);
 
   const handleToggle = () => {
     setIsHold(!isHold);
     setAction(isHold ? "unhold" : "hold");
   };
 
-  // handle form submission
-  const handleSubmit = useJsonPost(`${BASE_URL}/coins/adjustments`);
+  //Auto fetch when masterId exists
+  const { data: referenceData } = useFetch(
+    adjusted_id ? `${BASE_URL}/coins/transaction/${adjusted_id}` : null,
+  );
+
+  useEffect(() => {
+    if (referenceData?.transaction) {
+      setCategory(referenceData.transaction.userType);
+    } else {
+      setCategory("");
+    }
+  }, [referenceData]);
 
   const handleFormSubmit = async () => {
-    if (!adjusted_id || !coins || !category || !reason)
-      return toast.error("Please fill all");
-    if (!action) return toast.error("Please select an action");
+    if (!adjusted_id || !coins || !action)
+      return toast.error("Id, Coins and action are required.");
     const result = await handleSubmit({
       adjusted_id,
       coins,
@@ -31,7 +41,6 @@ export default function ManualCoinModal({ open, onClose }) {
       reason,
       action,
     });
-    console.log(result);
 
     toast.success(result.message);
   };
@@ -51,11 +60,11 @@ export default function ManualCoinModal({ open, onClose }) {
         <div className="grid grid-cols-2 gap-6 mt-6">
           <div>
             <label className="text-sm font-medium text-gray-700 flex">
-              User Id <span className="hidden sm:block">/ Transaction Id</span>
+              User Id <span className="hidden sm:block">/ Agency Id</span>
             </label>
             <input
               type="number"
-              placeholder="Enter User Id"
+              placeholder="User or Agency Id"
               value={adjusted_id}
               onChange={(e) => setAdjusted_id(e.target.value)}
               className="w-full mt-1 border border-[#626060] rounded-md px-3 py-1.5 focus:outline-none"
@@ -96,6 +105,8 @@ export default function ManualCoinModal({ open, onClose }) {
               className="w-full mt-1 border border-[#626060] rounded-md px-3 py-2 text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-400 appearance-none"
             >
               <option>Category</option>
+              <option value="coin">Coin</option>
+              <option value="master">Master</option>
               <option value="user">User</option>
             </select>
           </div>
@@ -106,14 +117,14 @@ export default function ManualCoinModal({ open, onClose }) {
           <div className="flex gap-5">
             <button
               onClick={() => setAction("add")}
-              className="border px-4 py-1.5 rounded-md text-gray-700 active:scale-y-200"
+              className="border px-4 py-1.5 rounded-md text-gray-700 focus:bg-gray-300 active:scale-y-200"
             >
               Add Coin
             </button>
 
             <button
               onClick={() => setAction("remove")}
-              className="border px-4 py-1.5 rounded-md text-gray-700 active:scale-y-200"
+              className="border px-4 py-1.5 rounded-md text-gray-700 focus:bg-gray-300 active:scale-y-200"
             >
               Remove Coin
             </button>

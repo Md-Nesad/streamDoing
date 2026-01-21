@@ -81,7 +81,7 @@ export default function CoinSenderTable({ tableData, setPage }) {
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
                   <td title={coin.transactionId} className="p-3">
-                    {coin.transactionId.slice(0, 10)}
+                    {coin.transactionId.slice(0, 20)}
                   </td>
                   <td className="p-3">{coin.fromType}</td>
                   <td className="p-3">

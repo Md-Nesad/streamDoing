@@ -1,20 +1,19 @@
-import React from "react";
+import React, { lazy, memo, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import AllGiftTable from "./AllGiftTable";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
-import BannerList from "./BannerList";
-import LevelList from "./LevelList";
-import CrownLists from "./CrownList";
-import BadgesLists from "./BadgesLists";
-import EntryLists from "./EntryLists";
-import EventLists from "./EventLists";
-import VIPLists from "./VIPLists";
-import { useState } from "react";
-import TemplateLists from "./TemplateLists";
-import FrameLists from "./FrameLists";
+const AllGiftTable = lazy(() => import("./AllGiftTable"));
+const BannerList = lazy(() => import("./BannerList"));
+const LevelList = lazy(() => import("./LevelList"));
+const CrownLists = lazy(() => import("./CrownList"));
+const BadgesLists = lazy(() => import("./BadgesLists"));
+const FrameLists = lazy(() => import("./FrameLists"));
+const TemplateLists = lazy(() => import("./TemplateLists"));
+const EntryLists = lazy(() => import("./EntryLists"));
+const EventLists = lazy(() => import("./EventLists"));
+const VIPLists = lazy(() => import("./VIPLists"));
 
-export default function GiftChildTabs() {
+function GiftChildTabs() {
   const [refresh, setRefresh] = useState(false);
   const { data, loading, error } = useFetch(`${BASE_URL}/gifts/list`, refresh);
 
@@ -136,3 +135,4 @@ export default function GiftChildTabs() {
     </Tabs>
   );
 }
+export default memo(GiftChildTabs);

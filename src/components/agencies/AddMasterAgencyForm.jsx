@@ -34,8 +34,9 @@ export default function AddMasterAgencyForm() {
     formData.append("name", data.agencyName);
     formData.append("password", data.password);
     formData.append("email", data.email);
-    formData.append("phone", data.phoneNumber);
+    formData.append("phone", data.whatsapp);
     formData.append("whatsapp", data.whatsapp);
+    formData.append("referalId", data.phoneNumber);
     formData.append("country", data.country);
     formData.append("documentType", data.documentType);
     formData.append("status", "active");
@@ -56,10 +57,10 @@ export default function AddMasterAgencyForm() {
       toast.error(result.message);
     } else {
       toast.success(result.message);
+
+      reset();
     }
     setLoading(false);
-
-    reset();
   };
 
   return (
@@ -108,7 +109,7 @@ export default function AddMasterAgencyForm() {
 
           {/* User ID */}
           <div>
-            <label>Phone</label>
+            <label>Reference ID</label>
             <input
               type="text"
               {...register("phoneNumber")}
