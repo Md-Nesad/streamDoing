@@ -31,8 +31,8 @@ export default function AddNewFrameModal({ open, onClose, onSuccess }) {
     formData.append("name", data.levelName);
     formData.append("price", data.levelPrice);
     formData.append("validity", data.validity);
-    // formData.append("isSell", isSell);
-    // formData.append("isExhibit", isExhibit);
+    formData.append("isSell", isSell);
+    formData.append("isExhibit", isExhibit);
 
     if (data.levelFile) {
       formData.append("image", data.levelFile?.[0]);
@@ -40,7 +40,7 @@ export default function AddNewFrameModal({ open, onClose, onSuccess }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-    console.log(result);
+
     if (!result.message) {
       toast.error("Failed to create level");
     } else {

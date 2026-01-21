@@ -121,7 +121,7 @@ export default function AddVip({ open, onClose, onSuccess }) {
 
         <div className="mb-3">
           <label className="text-gray-700 text-[14px] font-medium">
-            Validity(in days)
+            Validity(in Months)
           </label>
           <input
             type="number"

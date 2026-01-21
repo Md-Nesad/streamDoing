@@ -35,8 +35,8 @@ export default function AddNewEntryModal({ open, onClose, onSuccess }) {
     formData.append("price", data.entryPrice);
     formData.append("categoryId", data.entryCategory);
     formData.append("validity", data.entryValidity);
-    // formData.append("isSell", isSell);
-    // formData.append("isExhibit", isExhibit);
+    formData.append("isSell", isSell);
+    formData.append("isExhibit", isExhibit);
 
     if (data.entryFile) {
       formData.append("image", data.entryFile?.[0]);
@@ -44,7 +44,6 @@ export default function AddNewEntryModal({ open, onClose, onSuccess }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-    console.log(result);
 
     if (!result.message) {
       toast.error("Failed to create entry");

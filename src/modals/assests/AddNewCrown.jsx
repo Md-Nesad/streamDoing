@@ -40,7 +40,6 @@ export default function AddNewCrown({ open, onClose, onSuccess }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-    console.log(result);
     if (result.success === false) {
       toast.error(result.message);
     } else {

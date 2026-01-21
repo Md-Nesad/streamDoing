@@ -31,8 +31,8 @@ export default function AddNewTemplateModal({ open, onClose, onSuccess }) {
     formData.append("name", data.tempName);
     formData.append("price", data.tempPrice);
     formData.append("validity", data.tempValidity);
-    // formData.append("isSell", isSell);
-    // formData.append("isExhibit", isExhibit);
+    formData.append("isSell", isSell);
+    formData.append("isExhibit", isExhibit);
 
     if (data.tempFile) {
       formData.append("image", data.tempFile?.[0]);
@@ -40,7 +40,7 @@ export default function AddNewTemplateModal({ open, onClose, onSuccess }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-    console.log(result);
+
     if (!result.message) {
       toast.error("Failed to create template");
     } else {

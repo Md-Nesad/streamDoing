@@ -33,8 +33,8 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
     formData.append("price", data.badgePrice);
     formData.append("isActive", "true");
     formData.append("validity", data.badgeValidity);
-    // formData.append("isSell", isSell);
-    // formData.append("isExhibit", isExhibit);
+    formData.append("isSell", isSell);
+    formData.append("isExhibit", isExhibit);
 
     if (data.badgeFile) {
       formData.append("image", data.badgeFile?.[0]);
@@ -42,7 +42,6 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-    console.log(result);
 
     if (!result.message) {
       toast.error("Failed to create badge");

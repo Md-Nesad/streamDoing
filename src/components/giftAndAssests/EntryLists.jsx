@@ -128,7 +128,7 @@ export default function EntryLists() {
                   >
                     <td className="p-3 pl-7 mx-auto">
                       <img
-                        src={gift?.imageUrl}
+                        src={gift?.imageURL}
                         alt="Gift Image"
                         className="w-8 h-8 ml-4.5 object-cover rounded-full"
                       />

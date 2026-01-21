@@ -11,6 +11,7 @@ export default function ManualCoinModal({ open, onClose }) {
   const [coins, setCoins] = useState("");
   const [category, setCategory] = useState("");
   const [reason, setReason] = useState("");
+  const [loading, setLoading] = useState(false);
   const handleSubmit = useJsonPost(`${BASE_URL}/coins/adjustments`);
 
   const handleToggle = () => {
@@ -34,6 +35,7 @@ export default function ManualCoinModal({ open, onClose }) {
   const handleFormSubmit = async () => {
     if (!adjusted_id || !coins || !action)
       return toast.error("Id, Coins and action are required.");
+    setLoading(true);
     const result = await handleSubmit({
       adjusted_id,
       coins,
@@ -41,7 +43,7 @@ export default function ManualCoinModal({ open, onClose }) {
       reason,
       action,
     });
-
+    setLoading(false);
     toast.success(result.message);
   };
 
@@ -158,7 +160,7 @@ export default function ManualCoinModal({ open, onClose }) {
             onClick={handleFormSubmit}
             className="px-8 py-1 rounded-md text-white btn_gradient"
           >
-            Confirm
+            {loading ? "Submitting..." : "Confirm"}
           </button>
         </div>
       </div>
