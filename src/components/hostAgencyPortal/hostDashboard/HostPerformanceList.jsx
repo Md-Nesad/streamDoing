@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 export default function HostPerformanceList() {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [selected, setSeclected] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
@@ -16,9 +16,12 @@ export default function HostPerformanceList() {
   });
 
   const [reports, setReports] = useState([]);
-
   const { data, loading, error } = useFetch(
     `${BASE_URL}/agency/host/analytics/host-performance?startDate=${query.startDate}&endDate=${query.endDate}`,
+  );
+
+  const { data: hostList } = useFetch(
+    `${BASE_URL}/agency/host/dashboard/hosts?page=1&limit=20&search=`,
   );
 
   // sync API data to table
@@ -125,33 +128,41 @@ export default function HostPerformanceList() {
 
             <tbody>
               {reports.length > 0 ? (
-                reports.map((user, index) => (
-                  <tr
-                    key={index}
-                    className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
-                  >
-                    <td className="p-3 pl-5 font-medium">{index + 1}</td>
-                    <td className="p-3">{user?.hostName || "N/A"}</td>
-                    <td className="p-3">{user?.level || "N/A"}</td>
-                    <td className="p-3">{user?.monthlyTarget || "-"}</td>
-                    <td className="p-3">{user?.diamonds || "-"}</td>
-                    <td className="p-3 text-[#30ACFF] font-semibold">
-                      {user?.liveMinutes || "-"}
-                    </td>
-                    <td className="p-3 text-[#FF0AB1] font-semibold">
-                      {user?.targetProgress || "-"}%
-                    </td>
-                    <td className="p-3">{user?.estimatedSalary || "-"}</td>
-                    <td className="p-3">
-                      <button
-                        onClick={() => setIsOpen(true)}
-                        className="text-blue-600 hover:underline"
+                reports.map(
+                  (user, index) => (
+                    console.log(user),
+                    (
+                      <tr
+                        key={index}
+                        className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                       >
-                        View
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                        <td className="p-3 pl-5 font-medium">{user?.rank}</td>
+                        <td className="p-3">{user?.hostName || "N/A"}</td>
+                        <td className="p-3">Lv{user?.level}</td>
+                        <td className="p-3">{user?.monthlyTarget || "-"}</td>
+                        <td className="p-3">{user?.totalDiamonds || "-"}</td>
+                        <td className="p-3 text-[#30ACFF] font-semibold">
+                          {user?.avgDailyHours || "-"}h
+                        </td>
+                        <td className="p-3 text-[#FF0AB1] font-semibold">
+                          {user?.targetProgress || "-"}%
+                        </td>
+                        <td className="p-3">{user?.totalSalary}</td>
+                        <td className="p-3">
+                          <button
+                            onClick={() => {
+                              setIsOpen(true);
+                              setSeclected(user);
+                            }}
+                            className="text-blue-600 hover:underline"
+                          >
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                    )
+                  ),
+                )
               ) : (
                 <tr className="border-t border-[#DFDFDF]">
                   <td colSpan={9} className="p-5 text-center text-gray-500">
@@ -168,6 +179,8 @@ export default function HostPerformanceList() {
           <HostPerformanceModal
             open={isOpen}
             onClose={() => setIsOpen(false)}
+            user={selected}
+            hostList={hostList}
           />
         )}
       </div>

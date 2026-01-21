@@ -1,6 +1,17 @@
+import { useState } from "react";
+import { formatOnlyTime } from "../../../utility/utility";
+import PendingJoinRequestModal from "./PendingJoinRequestModal";
+
 export default function PendingJoinRequest({ data }) {
   const hostRequest = data?.hostRequests;
-  console.log(hostRequest);
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
+
+  const handleView = (host) => {
+    setSelected(host);
+    setOpen(true);
+  };
+
   return (
     <>
       {/* table area */}
@@ -36,10 +47,12 @@ export default function PendingJoinRequest({ data }) {
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
-                  <td className="p-3 font-medium pl-10">{request.displayId}</td>
+                  <td className="p-3 font-medium pl-10">
+                    {request?.hostId?.displayId}
+                  </td>
                   <td className="p-3">{request.name}</td>
-                  <td className="p-3">{request.level}</td>
-                  <td className="p-3">{request.applied}</td>
+                  <td className="p-3">Lv{request.level || "N/A"}</td>
+                  <td className="p-3">{formatOnlyTime(request.updatedAt)}</td>
                   <td className="p-3">
                     <span
                       className={`px-4 py-1 text-xs ${
@@ -52,7 +65,7 @@ export default function PendingJoinRequest({ data }) {
                     </span>
                   </td>
                   <td className="p-3 ">
-                    <button>View</button>
+                    <button onClick={() => handleView(request)}>View</button>
                   </td>
                 </tr>
               ))
@@ -65,6 +78,13 @@ export default function PendingJoinRequest({ data }) {
             )}
           </tbody>
         </table>
+        {open && (
+          <PendingJoinRequestModal
+            open={open}
+            onClose={() => setOpen(false)}
+            host={selected}
+          />
+        )}
       </div>
     </>
   );

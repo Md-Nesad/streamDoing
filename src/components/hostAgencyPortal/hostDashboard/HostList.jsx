@@ -86,11 +86,11 @@ export default function HostList({ data }) {
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
-                  <td className="p-3 font-medium pl-5">HST-{host.displayId}</td>
+                  <td className="p-3 font-medium pl-5">{host.displayId}</td>
                   <td className="p-3">{host.name}</td>
                   <td className="p-3 text-[#FF00C8]">Lv {host.level}</td>
                   <td className="p-3">{formatNumber(host.diamonds)}</td>
-                  <td className="p-3">{formatNumber(host.beans)}</td>
+                  <td className="p-3">{formatNumber(host.coins)}</td>
                   <td className="p-3">
                     <span
                       className={`px-4 py-1 text-xs ${

@@ -1,3 +1,5 @@
+import { formatNumber, formatStreamingHours } from "../../../utility/utility";
+
 export default function HostSalariesTable({ data }) {
   const salarySheet = data?.hostSalaries;
   return (
@@ -57,22 +59,34 @@ export default function HostSalariesTable({ data }) {
 
                   <td className="border-t border-r p-3">
                     <img
-                      src={item.image}
+                      src={item?.profilePic}
                       alt={item.name}
                       className="w-10 h-10 rounded-full mx-auto"
                     />
                   </td>
 
                   <td className="border-t border-r p-3">{item.name}</td>
-                  <td className="border-t border-r p-3">{item.userId}</td>
-                  <td className="border-t border-r p-3">13</td>
-                  <td className="border-t border-r p-3">13</td>
-                  <td className="border-t border-r p-3">24H 15m</td>
-                  <td className="border-t border-r p-3">17H 15m</td>
-                  <td className="border-t border-r p-3">10k</td>
-                  <td className="border-t border-r p-3">98$</td>
-                  <td className="border-t border-r p-3">98$</td>
-                  <td className="border-r-0 border-t p-3">98$</td>
+                  <td className="border-t border-r p-3">{item.displayId}</td>
+                  <td className="border-t border-r p-3">
+                    {item.totalVideoDay}
+                  </td>
+                  <td className="border-t border-r p-3">
+                    {item.totalAudioDay}
+                  </td>
+                  <td className="border-t border-r p-3">
+                    {formatStreamingHours(item.totalVideoTime)}
+                  </td>
+                  <td className="border-t border-r p-3">
+                    {formatStreamingHours(item.totalAudioTime)}
+                  </td>
+                  <td className="border-t border-r p-3">
+                    {formatNumber(item.totalDiamonds)}
+                  </td>
+                  <td className="border-t border-r p-3">{item.basicSalary}$</td>
+                  <td className="border-t border-r p-3">{item.totalSalary}$</td>
+                  <td className="border-r-0 border-t p-3">
+                    {item.agencyShare}$
+                  </td>
                 </tr>
               ))
             ) : (
