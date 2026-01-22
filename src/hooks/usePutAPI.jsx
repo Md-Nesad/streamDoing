@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function usePutApi(baseUrl) {
   const handleFormData = async (formData) => {
     try {
@@ -12,9 +10,6 @@ export default function usePutApi(baseUrl) {
       });
       const data = await res.json();
 
-      //   if (!res.ok) {
-      //     throw new Error(data.message || "Something went wrong");
-      //   }
       return data;
     } catch (error) {
       return { success: false, message: error.message };

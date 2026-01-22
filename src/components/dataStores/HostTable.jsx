@@ -99,7 +99,7 @@ export default function HostManageMentTable({ hostListData }) {
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
                   <td className="p-3 font-medium pl-5 max-xl:w-40">
-                    HST-{host.displayId}
+                    {host.displayId}
                   </td>
                   <td className="p-3 max-xl:w-40">{host.name || "-"}</td>
                   <td className="p-3">

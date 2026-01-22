@@ -24,6 +24,7 @@ export default function SupportAgencyTable() {
   const { data, loading, error } = useFetch(
     `${BASE_URL}/admin/support-agencies?page=${page}&limit=20`,
   );
+  console.log(data);
   const deleteUser = useDelete(`${BASE_URL}/admin/support-agencies`);
   const [supportAgencies, setSupportAgencies] = useState(data?.supportAgencies);
   const pagination = data?.pagination;
@@ -147,18 +148,19 @@ export default function SupportAgencyTable() {
                   </td>
                   <td className="p-3">
                     <span
-                      className={`px-3 py-1 text-xs block w-20 text-center ${
-                        support.ban.isPermanent === false &&
-                        support.ban.isTemporary === false
+                      className={`px-3 py-1 text-xs block w-21 text-center ${
+                        support.status === "active"
                           ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                           : "bg-[#FF929296] text-[#D21B20]"
                       } text-[#005D23] rounded-full font-semibold`}
                     >
-                      {support.ban.isPermanent
-                        ? "Perm. Ban"
-                        : support.ban.isTemporary
-                          ? "Temp. Ban"
-                          : "Active"}
+                      {support.status === "suspended"
+                        ? support.ban.isPermanent
+                          ? "Perm. Ban"
+                          : support.ban.isTemporary
+                            ? "Temp. Ban"
+                            : "Suspended"
+                        : support.status}
                     </span>
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

@@ -8,7 +8,7 @@ export default function AgencyFilterModal({
       <h4 className="font-semibold text-sm mb-3">Filter by Status</h4>
 
       <div className="space-y-2">
-        {["all", "active", "suspended"].map((status) => (
+        {["all", "active", "suspended", "pending"].map((status) => (
           <label
             key={status}
             className="flex items-center gap-2 text-sm cursor-pointer"

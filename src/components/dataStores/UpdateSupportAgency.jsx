@@ -40,6 +40,7 @@ export default function UpdateSupportAgency() {
     formData.append("password", data.supportPassword);
     formData.append("location", data.supportLocation);
     formData.append("nid", data.supportNID);
+    formData.append("status", data.status);
     formData.append("ban[isPermanent]", isPerOn);
     formData.append("ban[isTemporary]", isTempOn);
     formData.append("ban[reason]", reason);
@@ -57,14 +58,14 @@ export default function UpdateSupportAgency() {
 
     setIsLoading(true);
     const result = await handleFormData(formData);
-
-    if (result.success === false) {
+    console.log(result);
+    if (result.message === "Please provide 'until' date for temporary ban.") {
       toast.error(result.message);
     } else {
       toast.success(result.message);
+      navigate("/dashboard/support-agency");
     }
     setIsLoading(false);
-
     // reset();
   };
 
@@ -77,6 +78,7 @@ export default function UpdateSupportAgency() {
         supportGender: data?.supportAgency.gender,
         supportLocation: data?.supportAgency.location,
         supportNID: data?.supportAgency.nid,
+        status: data?.supportAgency.status,
       });
     }
   }, [data, reset]);
@@ -186,6 +188,20 @@ export default function UpdateSupportAgency() {
               />
             </div>
 
+            <div>
+              <label>Status</label>
+              <div className="relative">
+                <select {...register("status")}>
+                  <option value="">Select</option>
+                  <option value="active">Active</option>
+                  <option value="suspended">Suspended</option>
+                  <option value="pending">Pemding</option>
+                </select>
+
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              </div>
+            </div>
+
             {/* NID Front */}
             <div>
               <label>NID Front</label>
@@ -232,6 +248,27 @@ export default function UpdateSupportAgency() {
               </div>
             </div>
 
+            <div>
+              <label>Profile Pic</label>
+              <div className="relative w-full cursor-pointer">
+                <input
+                  type="file"
+                  {...register("supportProfilePic")}
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
+
+                <div className="border border-gray-300 rounded-md px-3 text-sm flex items-center gap-3">
+                  <span className="text-[#686868A6] font-medium py-2">
+                    Choose File
+                  </span>
+                  <span className="w-px h-7 bg-gray-300"></span>
+                  <span className="text-[#686868A6] font-medium">
+                    {watch("supportProfilePic")?.[0]?.name || "No file choosen"}
+                  </span>
+                </div>
+              </div>
+            </div>
+
             <div className="mt-5 flex flex-wrap items-center justify-between max-sm:justify-center gap-4 w-full">
               <div className="flex items-center gap-8 border border-gray-300 rounded-md px-3 py-2 w-[48%]">
                 <span className="text-sm">Temporary Ban</span>
@@ -273,26 +310,6 @@ export default function UpdateSupportAgency() {
             </div>
 
             {/* Profile Pic */}
-            <div>
-              <label>Profile Pic</label>
-              <div className="relative w-full cursor-pointer">
-                <input
-                  type="file"
-                  {...register("supportProfilePic")}
-                  className="absolute inset-0 opacity-0 cursor-pointer"
-                />
-
-                <div className="border border-gray-300 rounded-md px-3 text-sm flex items-center gap-3">
-                  <span className="text-[#686868A6] font-medium py-2">
-                    Choose File
-                  </span>
-                  <span className="w-px h-7 bg-gray-300"></span>
-                  <span className="text-[#686868A6] font-medium">
-                    {watch("supportProfilePic")?.[0]?.name || "No file choosen"}
-                  </span>
-                </div>
-              </div>
-            </div>
 
             {isTempOn && (
               <>

@@ -61,10 +61,9 @@ export default function UpdateAgenciesDetails() {
       toast.error(result.error);
     } else {
       toast.success(result.message || "Agency updated successfully");
+      navigate(-1);
     }
     setIsLoading(false);
-    reset();
-    navigate(-1);
   };
 
   //get single data

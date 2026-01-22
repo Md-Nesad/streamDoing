@@ -145,12 +145,12 @@ export default function CoinAgencyTable() {
                   <td className="p-3">
                     <span
                       className={`px-3 py-1 text-xs block w-21 text-center ${
-                        host.status === "active" && !host.ban.isTemporary
+                        host.status === "active"
                           ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                           : "bg-[#FF929296] text-[#D21B20]"
                       } text-[#005D23] rounded-full font-semibold`}
                     >
-                      {host.ban.isTemporary ? "Temp. ban" : host.status}
+                      {host.status}
                     </span>
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
