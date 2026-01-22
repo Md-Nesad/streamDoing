@@ -45,17 +45,6 @@ export default function VIPLists({ data, setRefresh }) {
     }
   };
 
-  //   const handleUpdateModal = (gift) => {
-  //     setSelectedGift(gift);
-  //     setUpdate(true);
-  //   };
-
-  //   useEffect(() => {
-  //     setAllGifts(
-  //       data?.gifts.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)),
-  //     );
-  //   }, [data]);
-
   useEffect(() => {
     if (text === "") {
       setAllGifts(data?.vips);
