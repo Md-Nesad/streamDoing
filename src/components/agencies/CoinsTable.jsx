@@ -129,12 +129,18 @@ export default function CoinsTable() {
                     <td className="p-3">
                       <span
                         className={`px-3 py-1 text-xs block w-21 text-center ${
-                          coin.status === "active" && !coin.ban.isTemporary
+                          coin.status === "active"
                             ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                             : "bg-[#FF929296] text-[#D21B20]"
                         } text-[#005D23] rounded-full font-semibold`}
                       >
-                        {coin.ban.isTemporary ? "Temp. ban" : coin.status}
+                        {coin.status === "suspended"
+                          ? coin.ban.isPermanent
+                            ? "Perm. Ban"
+                            : coin.ban.isTemporary
+                              ? "Temp. Ban"
+                              : "Suspended"
+                          : coin.status[0].toUpperCase() + coin.status.slice(1)}
                       </span>
                     </td>
                     <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

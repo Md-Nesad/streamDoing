@@ -150,7 +150,13 @@ export default function AdminAgencyTable() {
                           : "bg-[#FF929296] text-[#D21B20]"
                       } text-[#005D23] rounded-full font-semibold`}
                     >
-                      {host.status}
+                      {host.status === "suspended"
+                        ? host.ban.isPermanent
+                          ? "Perm. Ban"
+                          : host.ban.isTemporary
+                            ? "Temp. Ban"
+                            : "Suspended"
+                        : host.status[0].toUpperCase() + host.status.slice(1)}
                     </span>
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

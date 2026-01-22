@@ -10,6 +10,7 @@ import Pagination from "../Pagination";
 import useFetch from "../../hooks/useFetch";
 import Loading from "../Loading";
 import Error from "../Error";
+import { useDebounce } from "../../hooks/useDebounce";
 export default function GiftingTable() {
   const [text, setText] = useState("");
   const [page, setPage] = useState(1);
@@ -18,14 +19,15 @@ export default function GiftingTable() {
   );
   const [giftList, setGiftList] = useState(data?.giftTransactions);
   const pagination = data?.pagination;
+  const debouncedText = useDebounce(text, 400);
 
-  const handleFilter = () => {
-    const filteredGift = giftList?.filter((gift) => {
-      return gift?.gift.name.toLowerCase().includes(text.toLowerCase());
-      // gift.displayId.toString().includes(text)
-    });
-    setGiftList(filteredGift);
-  };
+  const filteredGifts = giftList?.filter((gift) => {
+    const matchText = gift?.gift.name
+      .toLowerCase()
+      .includes(debouncedText.toLowerCase());
+
+    return matchText;
+  });
 
   useEffect(() => {
     if (text === "") {
@@ -45,22 +47,20 @@ export default function GiftingTable() {
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[87%] px-4 py-1.5 rounded-md"
-          placeholder="Search by Agency ID or name"
+          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-full px-4 py-1.5 rounded-md"
+          placeholder="Search by gift name"
         />
 
         {/* Buttons */}
-        <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
+        {/* <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={handleFilter}
             className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
           >
             <Funnel size={18} /> Filter
           </button>
-          {/* <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
-            Add Agency
-          </button> */}
-        </div>
+          
+        </div> */}
       </div>
 
       {/* table area */}
@@ -80,8 +80,8 @@ export default function GiftingTable() {
           </thead>
 
           <tbody>
-            {giftList?.length > 0 ? (
-              giftList?.map((gift, index) => (
+            {filteredGifts?.length > 0 ? (
+              filteredGifts?.map((gift, index) => (
                 <tr
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"

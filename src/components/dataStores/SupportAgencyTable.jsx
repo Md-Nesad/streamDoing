@@ -160,7 +160,8 @@ export default function SupportAgencyTable() {
                           : support.ban.isTemporary
                             ? "Temp. Ban"
                             : "Suspended"
-                        : support.status}
+                        : support.status[0].toUpperCase() +
+                          support.status.slice(1)}
                     </span>
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

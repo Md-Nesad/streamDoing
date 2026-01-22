@@ -101,13 +101,28 @@ export default function HostAgencyTable({
     setText("");
   }, [usersList]);
 
-  //   const levelColors = {
-  //   0: "from-gray-400 to-gray-600",
-  //   1: "from-blue-400 to-blue-600",
-  //   2: "from-green-400 to-green-600",
-  //   3: "from-yellow-400 to-yellow-600",
-  //   4: "from-orange-400 to-orange-600",
-  //   5: "from-red-500 to-red-700",
+  // const levelColors = {
+  //   0: "bg-gradient-to-b from-[#C5A175] to-[#F0242D]",
+  //   1: "bg-[#DCE0ED]",
+  //   2: "bg-[#DCE0ED]",
+  //   3: "bg-[#DCE0ED]",
+  //   4: "bg-[#DCE0ED]",
+  //   5: "bg-[#DCE0ED]",
+  //   6: "bg-[#0C9D85]",
+  //   7: "bg-[#0C9D85]",
+  //   8: "bg-[#0C9D85]",
+  //   9: "bg-[#0C9D85]",
+  //   10: "bg-[#0C9D85]",
+  //   11: "bg-[#0C9D85]",
+  //   12: "bg-linear-to-b from-[#5DB90A] to-[#175111]",
+  //   13: "bg-linear-to-b from-[#5DB90A] to-[#175111]",
+  //   14: "bg-linear-to-b from-[#FF8085] to-[#830019]",
+  //   15: "bg-linear-to-b from-[#FF8085] to-[#830019]",
+  //   16: "bg-linear-to-b from-[#FF8085] to-[#830019]",
+  //   17: "bg-linear-to-b from-[#B249F3] to-[#510C9B]",
+  //   18: "bg-linear-to-b from-[#B249F3] to-[#510C9B]",
+  //   19: "bg-linear-to-b from-[#B249F3] to-[#510C9B]",
+  //   20: "bg-linear-to-b from-[#B249F3] to-[#510C9B]",
   // };
 
   if (loading) return <Loading />;
@@ -185,7 +200,9 @@ export default function HostAgencyTable({
                     </span>
                   </td>
                   <td className="p-3">
-                    <span className="px-1.5 py-1 text-xs bg-linear-to-b from-[#5DB90A] to-[#175111] rounded-lg font-semibold text-white flex items-center gap-1.5 w-14.5">
+                    <span
+                      className={`px-1.5 py-1 text-xs bg-linear-to-b from-[#5DB90A] to-[#175111] rounded-lg font-semibold text-white flex items-center gap-1.5 w-14.5`}
+                    >
                       <img src={star} alt="" className="w-4 h-4" /> Lv
                       {user.level}
                     </span>

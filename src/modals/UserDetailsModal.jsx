@@ -23,7 +23,7 @@ export default function UserDetailsModal({ open, onClose, user }) {
         <div className="space-y-3 text-sm sm:text-lg">
           {/* ID */}
           <div className="flex justify-between">
-            <p className="font-medium text-gray-700">ID :</p>
+            <p className="font-medium text-gray-700">User ID :</p>
             <p className="text-gray-800">{user?.displayId}</p>
           </div>
 

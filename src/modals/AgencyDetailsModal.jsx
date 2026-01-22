@@ -43,7 +43,7 @@ export default function AgencyDetailsModal({ open, onClose, agency }) {
         <div className="space-y-2 text-sm sm:text-lg">
           {/* ID */}
           <div className="flex justify-between">
-            <p className="font-medium text-gray-700">ID :</p>
+            <p className="font-medium text-gray-700">Agency ID :</p>
             <p className="text-gray-800">{agency?.displayId}</p>
           </div>
 
@@ -145,7 +145,7 @@ export default function AgencyDetailsModal({ open, onClose, agency }) {
             <div className="flex flex-col gap-1.5 items-center">
               <img
                 src={agency?.documentFrontURL}
-                alt="agency profile"
+                alt="Document Front"
                 className="w-32 h-23 rounded-sm object-contain blur-xs hover:blur-none cursor-pointer"
                 loading="lazy"
                 onClick={() =>
@@ -158,7 +158,7 @@ export default function AgencyDetailsModal({ open, onClose, agency }) {
             <div className="flex flex-col gap-1.5 items-center">
               <img
                 src={agency?.documentBackURL}
-                alt="agency profile"
+                alt="Document Back"
                 className="w-32 h-23 rounded-sm object-contain blur-xs hover:blur-none cursor-pointer"
                 loading="lazy"
                 onClick={() =>

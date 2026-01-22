@@ -129,12 +129,19 @@ export default function MastersTable() {
                     <td className="p-3">
                       <span
                         className={`px-3 py-1 text-xs block w-21 text-center ${
-                          master.status === "active" && !master.ban.isTemporary
+                          master.status === "active"
                             ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                             : "bg-[#FF929296] text-[#D21B20]"
                         } text-[#005D23] rounded-full font-semibold`}
                       >
-                        {master.ban.isTemporary ? "Temp. ban" : master.status}
+                        {master.status === "suspended"
+                          ? master.ban.isPermanent
+                            ? "Perm. Ban"
+                            : master.ban.isTemporary
+                              ? "Temp. Ban"
+                              : "Suspended"
+                          : master.status[0].toUpperCase() +
+                            master.status.slice(1)}
                       </span>
                     </td>
                     <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

@@ -6,22 +6,22 @@ import {
 } from "../../utility/utility";
 import Pagination from "../Pagination";
 import { useEffect, useState } from "react";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export default function CoinSenderTable({ tableData, setPage }) {
   const [text, setText] = useState("");
   const [coinsSend, setCoinsSend] = useState(tableData?.transactions);
   const pagination = tableData?.pagination;
+  const debouncedText = useDebounce(text, 400);
 
   //handle filter
-  const handleFilter = () => {
-    const filteredUsers = coinsSend?.filter((coin) => {
-      return (
-        coin.transactionId.toLowerCase().includes(text.toLowerCase()) ||
-        coin?.to?.displayId.toString().includes(text)
-      );
-    });
-    setCoinsSend(filteredUsers);
-  };
+  const filterTransactions = coinsSend?.filter((coin) => {
+    const matchText =
+      coin.transactionId.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      coin?.to?.displayId.toString().includes(debouncedText);
+
+    return matchText;
+  });
 
   useEffect(() => {
     if (text === "") {
@@ -38,19 +38,19 @@ export default function CoinSenderTable({ tableData, setPage }) {
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[87%] px-4 py-1.5 rounded-md"
+          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-ful px-4 py-1.5 rounded-md"
           placeholder="Search by transaction ID or receiver Id"
         />
 
         {/* Buttons */}
-        <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
+        {/* <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={handleFilter}
             className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
           >
             <Funnel size={18} /> Filter
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* table area */}
@@ -70,8 +70,8 @@ export default function CoinSenderTable({ tableData, setPage }) {
           </thead>
 
           <tbody>
-            {coinsSend?.length > 0 ? (
-              coinsSend.map((coin, index) => (
+            {filterTransactions?.length > 0 ? (
+              filterTransactions.map((coin, index) => (
                 <tr
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
