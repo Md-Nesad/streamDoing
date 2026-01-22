@@ -2,11 +2,22 @@ import { Funnel } from "lucide-react";
 import { useState } from "react";
 import UserDetailsModal from "../../modals/UserDetailsModal";
 import { useStream } from "../../context/streamContext";
+import { useExportDownload } from "../../hooks/useExportDownload";
+import { BASE_URL } from "../../utility/utility";
 
 export default function AnalyticsHostTable({ data }) {
   const topHosts = data?.data?.data;
   const [open, setIsOpen] = useState(false);
   const { countriesName } = useStream();
+  const { loading, download } = useExportDownload();
+
+  const handleExport = () => {
+    download(
+      `${BASE_URL}/admin/analytics/top-performing-hosts?limit=30&page=1&isExport=true`,
+      "topHosts.csv",
+    );
+  };
+
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-4 mt-5">
@@ -22,8 +33,11 @@ export default function AnalyticsHostTable({ data }) {
           <button className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto">
             <Funnel size={18} /> Filter
           </button>
-          <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-white border border-[#CCCCCC]  rounded-md font-medium w-full sm:w-auto text-nowrap">
-            Export Data
+          <button
+            onClick={handleExport}
+            className="px-3 sm:px-6 py-1.5 text-sm sm:text-base btn_gradient rounded-md font-medium w-full sm:w-auto text-nowrap"
+          >
+            {loading ? "Exporting..." : "Export Data"}
           </button>
         </div>
       </div>
@@ -63,7 +77,7 @@ export default function AnalyticsHostTable({ data }) {
                 {/* Right: Stats */}
                 <div className="flex items-start gap-3 sm:gap-10 font-medium text-[#181717]">
                   <div
-                    className={`text-white text-xs px-3 py-1 sm:mt-1 rounded-full ${host.badge.color}`}
+                    className={`text-white text-xs px-3 py-1 sm:mt-1 rounded-full ${host?.badge?.color}`}
                   >
                     {host.level}
                   </div>

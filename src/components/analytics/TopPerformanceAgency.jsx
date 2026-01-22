@@ -1,16 +1,25 @@
 import { Funnel } from "lucide-react";
 import { useStream } from "../../context/streamContext";
-import { formatNumber } from "../../utility/utility";
+import { BASE_URL, formatNumber } from "../../utility/utility";
 import Pagination from "../Pagination";
 import { useEffect, useState } from "react";
 import Error from "../Error";
 import TopPerformanceLoading from "../TopPerformanceLoading";
+import { useExportDownload } from "../../hooks/useExportDownload";
 
 export default function TopPerformanceAgency({ data, setPage }) {
   const [text, setText] = useState("");
   const [topAgencies, setTopAgencies] = useState(data?.data?.agencies);
   const { countriesName } = useStream();
   const pagination = data?.data.pagination;
+  const { loading, download } = useExportDownload();
+
+  const handleExport = () => {
+    download(
+      `${BASE_URL}/admin/analytics/top-agencies?limit=30&page=1&isExport=true`,
+      "topAgencies.csv",
+    );
+  };
 
   const handleFilter = () => {
     const filteredUsers = topAgencies?.filter((agency) => {
@@ -56,8 +65,11 @@ export default function TopPerformanceAgency({ data, setPage }) {
           >
             <Funnel size={18} /> Filter
           </button>
-          <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-white border border-[#CCCCCC]  rounded-md font-medium w-full sm:w-auto text-nowrap">
-            Export Data
+          <button
+            onClick={handleExport}
+            className="px-3 sm:px-6 py-1.5 text-sm sm:text-base btn_gradient rounded-md font-medium w-full sm:w-auto text-nowrap"
+          >
+            {loading ? "Exporting..." : "Export Data"}
           </button>
         </div>
       </div>

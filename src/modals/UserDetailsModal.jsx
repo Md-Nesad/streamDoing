@@ -82,12 +82,12 @@ export default function UserDetailsModal({ open, onClose, user }) {
             <p className="font-medium text-gray-700">Status :</p>
             <span
               className={`px-3 py-1 text-sm text-center ${
-                user.status === "active"
+                user?.status === "active"
                   ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                   : "bg-[#FF929296] text-[#D21B20]"
               } text-[#005D23] rounded-full font-semibold block w-22`}
             >
-              {user.status}
+              {user?.status}
             </span>
           </div>
 
