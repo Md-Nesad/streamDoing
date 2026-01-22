@@ -2,11 +2,30 @@ import { formatNumber, formatOnlyDate } from "../utility/utility";
 
 export default function AgencyDetailsModal({ open, onClose, agency }) {
   if (!open) return null;
-  console.log(agency);
+  //download function
+  const downloadImage = async (url, filename = "image.jpg") => {
+    try {
+      const res = await fetch(url, { mode: "cors" });
+      const blob = await res.blob();
+
+      const blobUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+
+      a.href = blobUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (err) {
+      console.error("Download failed", err);
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
-      <div className="bg-[#FDFDFD] w-full max-w-md rounded-xl shadow-lg sm:p-6 p-4 relative animatefadeIn">
+      <div className="bg-[#FDFDFD] w-full max-w-md rounded-xl shadow-lg sm:px-6 sm:py-4 p-4 relative animatefadeIn">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -21,7 +40,7 @@ export default function AgencyDetailsModal({ open, onClose, agency }) {
         </h2>
 
         {/* Rows */}
-        <div className="space-y-3 text-sm sm:text-lg">
+        <div className="space-y-2 text-sm sm:text-lg">
           {/* ID */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">ID :</p>
@@ -79,7 +98,7 @@ export default function AgencyDetailsModal({ open, onClose, agency }) {
 
           {/* Video Live Time */}
           <div className="flex justify-between">
-            <p className="font-medium text-gray-700">Dismonds :</p>
+            <p className="font-medium text-gray-700">Diamonds :</p>
             <p className="text-gray-800">{formatNumber(agency?.dismonds)}</p>
           </div>
 
@@ -87,19 +106,13 @@ export default function AgencyDetailsModal({ open, onClose, agency }) {
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Status :</p>
             <span
-              className={`px-3 py-1 text-sm block w-26 text-center ${
-                agency.status === "active" &&
-                !agency.ban.isTemporary &&
-                !agency.ban.isPermanent
+              className={`px-3 py-1 text-sm block w-30 text-center ${
+                agency.status === "active" && !agency.ban.isTemporary
                   ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                  : "bg-[#FF929296] text-[#D21B20]"
+                  : "bg-[#FF929296] text-[#D22B20]"
               } text-[#005D23] rounded-full font-semibold`}
             >
-              {agency.ban.isTemporary
-                ? "Temp. ban"
-                : agency.ban.isPermanent
-                  ? "Perm. ban"
-                  : agency.status}
+              {agency.ban.isTemporary ? "Temp. ban" : agency.status}
             </span>
           </div>
 
@@ -113,6 +126,47 @@ export default function AgencyDetailsModal({ open, onClose, agency }) {
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Registration Time :</p>
             <p className="text-gray-800">{formatOnlyDate(agency?.createdAt)}</p>
+          </div>
+
+          <div className="flex items-center justify-between gap-4 mx-5 pt-3">
+            <div className="flex flex-col gap-1.5 items-center">
+              <img
+                src={agency?.profilePic}
+                alt="agency profile"
+                className="w-32 h-23 rounded-sm object-contain blur-xs hover:blur-none cursor-pointer"
+                loading="lazy"
+                onClick={() =>
+                  downloadImage(agency?.profilePic, "agency-profile.jpg")
+                }
+              />
+              <span className="text-sm">Profile</span>
+            </div>
+
+            <div className="flex flex-col gap-1.5 items-center">
+              <img
+                src={agency?.documentFrontURL}
+                alt="agency profile"
+                className="w-32 h-23 rounded-sm object-contain blur-xs hover:blur-none cursor-pointer"
+                loading="lazy"
+                onClick={() =>
+                  downloadImage(agency?.documentFrontURL, "document-front.jpg")
+                }
+              />
+              <span className="text-sm">Doc. Front</span>
+            </div>
+
+            <div className="flex flex-col gap-1.5 items-center">
+              <img
+                src={agency?.documentBackURL}
+                alt="agency profile"
+                className="w-32 h-23 rounded-sm object-contain blur-xs hover:blur-none cursor-pointer"
+                loading="lazy"
+                onClick={() =>
+                  downloadImage(agency?.documentBackURL, "document-back.jpg")
+                }
+              />
+              <span className="text-sm">Doc. Back</span>
+            </div>
           </div>
         </div>
       </div>

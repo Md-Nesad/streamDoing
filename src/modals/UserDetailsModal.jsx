@@ -1,5 +1,8 @@
+import { formatNumber, formatOnlyDate } from "../utility/utility";
+
 export default function UserDetailsModal({ open, onClose, user }) {
   if (!open) return null;
+  console.log(user);
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
       <div className="bg-[#FDFDFD] w-full max-w-md rounded-xl shadow-lg sm:p-6 p-4 relative animatefadeIn">
@@ -40,61 +43,58 @@ export default function UserDetailsModal({ open, onClose, user }) {
           {/* Country */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Country :</p>
-            <p className="text-gray-800">{user?.location}</p>
+            <p className="text-gray-800">{user?.location || "N/A"}</p>
+          </div>
+
+          <div className="flex justify-between">
+            <p className="font-medium text-gray-700">Type :</p>
+            <p className="text-gray-800">{user?.type || "N/A"}</p>
           </div>
 
           {/* Phone Number */}
           <div className="flex justify-between">
-            <p className="font-medium text-gray-700">Phone Number :</p>
-            <p className="text-gray-800">{user?.phone}</p>
+            <p className="font-medium text-gray-700">Email :</p>
+            <p className="text-gray-800">{user?.email || "N/A"}</p>
+          </div>
+
+          <div className="flex justify-between">
+            <p className="font-medium text-gray-700">Gender :</p>
+            <p className="text-gray-800">{user?.gender || "N/A"}</p>
           </div>
 
           {/* Coin Balance */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Coin Balance :</p>
-            <p className="text-gray-800">{user?.balance}</p>
+            <p className="text-gray-800">{formatNumber(user?.coins)}</p>
           </div>
 
-          {/* Coin Spend */}
           <div className="flex justify-between">
-            <p className="font-medium text-gray-700">Coin Spend :</p>
-            <p className="text-gray-800">36</p>
+            <p className="font-medium text-gray-700">Diamonds :</p>
+            <p className="text-gray-800">{formatNumber(user?.diamonds)}</p>
           </div>
 
-          {/* Earning Balance */}
           <div className="flex justify-between">
-            <p className="font-medium text-gray-700">Earning Balance :</p>
-            <p className="text-gray-800">8269</p>
+            <p className="font-medium text-gray-700">Level :</p>
+            <p className="text-gray-800">Lv{user?.level}</p>
           </div>
 
-          {/* Total Earning */}
           <div className="flex justify-between">
-            <p className="font-medium text-gray-700">Grand Total Earning :</p>
-            <p className="text-gray-800">4875516</p>
-          </div>
-
-          {/* Video Live Time */}
-          <div className="flex justify-between">
-            <p className="font-medium text-gray-700">Video Live Time :</p>
-            <p className="text-gray-800">30hr 21min || Day : 27</p>
-          </div>
-
-          {/* Audio Live Time */}
-          <div className="flex justify-between">
-            <p className="font-medium text-gray-700">Audio Live Time :</p>
-            <p className="text-gray-800">30hr 21min || Day : 27</p>
+            <p className="font-medium text-gray-700">Status :</p>
+            <span
+              className={`px-3 py-1 text-sm text-center ${
+                user.status === "active"
+                  ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
+                  : "bg-[#FF929296] text-[#D21B20]"
+              } text-[#005D23] rounded-full font-semibold block w-22`}
+            >
+              {user.status}
+            </span>
           </div>
 
           {/* Registration Time */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Registration Time :</p>
-            <p className="text-gray-800">12/4/2025 12:10:30</p>
-          </div>
-
-          {/* Last Login Time */}
-          <div className="flex justify-between">
-            <p className="font-medium text-gray-700">Last Login Time :</p>
-            <p className="text-gray-800">12/4/2025 12:10:30</p>
+            <p className="text-gray-800">{formatOnlyDate(user?.createdAt)}</p>
           </div>
         </div>
       </div>

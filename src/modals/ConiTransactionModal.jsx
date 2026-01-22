@@ -2,7 +2,7 @@ import { formatNumber, formatOnlyDate } from "../utility/utility";
 
 export default function CoinTransactionModal({ open, onClose, item }) {
   if (!open) return null;
-
+  console.log(item);
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
       <div className="bg-[#FDFDFD] w-full max-w-md rounded-xl shadow-lg sm:p-6 p-4 relative animatefadeIn">
@@ -24,14 +24,14 @@ export default function CoinTransactionModal({ open, onClose, item }) {
           {/* ID */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">ID :</p>
-            <p className="text-gray-800">{item?.to?.displayId}</p>
+            <p className="text-gray-800">{item?.to?.displayId || "N/A"}</p>
           </div>
 
           {/* User */}
           <div className="flex justify-between items-center">
             <p className="font-medium text-gray-700">Name :</p>
             <div className="flex items-center gap-3">
-              <p className="text-gray-800">{item?.to?.name}</p>
+              <p className="text-gray-800">{item?.to?.name || "N/A"}</p>
             </div>
           </div>
 
@@ -58,13 +58,6 @@ export default function CoinTransactionModal({ open, onClose, item }) {
             <p className="text-gray-800">{item?.type}</p>
           </div>
 
-          {/* Total Earning */}
-          <div className="flex justify-between">
-            <p className="font-medium text-gray-700">Amount :</p>
-            <p className="text-gray-800">{formatNumber(item?.amount)}</p>
-          </div>
-
-          {/* Video Live Time */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Coins :</p>
             <p className="text-gray-800">{formatNumber(item?.coins)}</p>
@@ -76,6 +69,14 @@ export default function CoinTransactionModal({ open, onClose, item }) {
             <p className="text-gray-800">{item?.rate}</p>
           </div>
 
+          {/* Total Earning */}
+          <div className="flex justify-between">
+            <p className="font-medium text-gray-700">Amount :</p>
+            <p className="text-gray-800">{formatNumber(item?.amount)}</p>
+          </div>
+
+          {/* Video Live Time */}
+
           {/* Video Live Time */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Status :</p>
@@ -86,10 +87,15 @@ export default function CoinTransactionModal({ open, onClose, item }) {
             </p>
           </div>
 
+          <div className="flex justify-between">
+            <p className="font-medium text-gray-700">Refund Coins :</p>
+            <p>{formatNumber(item?.refundedCoins)}</p>
+          </div>
+
           {/* Registration Time */}
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Registration Time :</p>
-            <p className="text-gray-800">{formatOnlyDate(item?.createdAt)}</p>
+            <p className="text-gray-800">{formatOnlyDate(item?.updatedAt)}</p>
           </div>
         </div>
       </div>
