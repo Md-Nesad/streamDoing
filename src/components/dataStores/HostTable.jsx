@@ -1,24 +1,36 @@
-import { Funnel, Pen, Trash2 } from "lucide-react";
-import EditHostModal from "../../modals/dataSroreModals/EditHostModal";
+import { Eye, Funnel } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { formatNumber } from "../../utility/utility";
+import HostDetailsModal from "../../modals/HostDetailsModal";
+import AgencyFilterModal from "../../modals/AgencyFilterModal";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export default function HostManageMentTable({ hostListData }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [filterOpen, setFilterOpen] = useState(false);
   const [hostList, setHostList] = useState(hostListData?.hosts);
   const [text, setText] = useState("");
+  const [selected, setSelected] = useState(null);
+  const debouncedText = useDebounce(text, 400);
+
+  const handleView = (host) => {
+    setSelected(host);
+    setIsOpen(true);
+  };
 
   //handle filter
-  const handleFilter = () => {
-    const filteredUsers = hostList?.filter((host) => {
-      return (
-        host.name.toLowerCase().includes(text.toLowerCase()) ||
-        host.displayId.toString().includes(text)
-      );
-    });
-    setHostList(filteredUsers);
-  };
+  const filteredUsers = hostList?.filter((user) => {
+    const matchText =
+      user.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      user.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
 
   //update list when text empty
   useEffect(() => {
@@ -41,19 +53,24 @@ export default function HostManageMentTable({ hostListData }) {
         />
 
         {/* Buttons */}
-        <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
+        <div className="relative">
           <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+            onClick={() => setFilterOpen((prev) => !prev)}
+            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
           >
             <Funnel size={18} /> Filter
           </button>
-          {/* <button
-            onClick={() => navigate("/dashboard/agencies/add-host-agency")}
-            className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
-          >
-            Add Agency
-          </button> */}
+
+          {/* Filter Dropdown */}
+          {filterOpen && (
+            <div className="absolute right-0 top-full mt-2 z-50">
+              <AgencyFilterModal
+                statusFilter={statusFilter}
+                setStatusFilter={setStatusFilter}
+                onClose={() => setFilterOpen(false)}
+              />
+            </div>
+          )}
         </div>
       </div>
 
@@ -75,8 +92,8 @@ export default function HostManageMentTable({ hostListData }) {
           </thead>
 
           <tbody>
-            {hostList?.length > 0 ? (
-              hostList?.map((host) => (
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((host) => (
                 <tr
                   key={host._id}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
@@ -109,10 +126,9 @@ export default function HostManageMentTable({ hostListData }) {
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                     <span className="flex items-center gap-3">
-                      <button onClick={() => setIsOpen(true)} title="Edit">
-                        <Pen size={19} />
+                      <button onClick={() => handleView(host)}>
+                        <Eye size={17} />
                       </button>
-                      <Trash2 size={18} className="text-[#FF0037]" />
                     </span>
                   </td>
                 </tr>
@@ -130,7 +146,11 @@ export default function HostManageMentTable({ hostListData }) {
           </tbody>
         </table>
         {isOpen && (
-          <EditHostModal open={isOpen} onClose={() => setIsOpen(false)} />
+          <HostDetailsModal
+            agency={selected}
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+          />
         )}
       </div>
     </>

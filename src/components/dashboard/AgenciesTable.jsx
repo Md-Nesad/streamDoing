@@ -2,10 +2,11 @@ import { Funnel } from "lucide-react";
 import star from "../../assests/star.png";
 import Pagination from "../Pagination";
 import Loading from "../Loading";
-import { formatNumber } from "../../utility/utility";
+import { BASE_URL, formatNumber } from "../../utility/utility";
 import { useState } from "react";
 import AgencyDetailsModal from "../../modals/AgencyDetailsModal";
 import AgencyFilterModal from "../../modals/AgencyFilterModal";
+import { useExportDownload } from "../../hooks/useExportDownload";
 
 export default function AgenciesTable({ agenciesData, setPage, loading }) {
   const [selected, setSelected] = useState(null);
@@ -14,6 +15,7 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
   const [statusFilter, setStatusFilter] = useState("all");
   const agenciesList = agenciesData?.agencies;
   const agenciesPagination = agenciesData?.pagination;
+  const { loading: loadingExport, download } = useExportDownload();
 
   // if (loading) return <Loading />;
   const handleEdit = (agency) => {
@@ -27,6 +29,14 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
 
     return matchStatus;
   });
+
+  //handle export
+  const handleExport = () => {
+    download(
+      `${BASE_URL}/dashboard/agencies-overview?page=1&limit=30&search=&isExport=true`,
+      "agencies.csv",
+    );
+  };
 
   return (
     <>
@@ -42,8 +52,11 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                 Agencies Overview
               </h2>
               <div className="flex items-center sm:gap-3 gap-2">
-                <button className="sm:px-4 px-1 py-2 text-sm sm:text-md bg-[#FFFFFF] rounded-md font-medium border border-[#CCCCCC]">
-                  Export Data
+                <button
+                  onClick={handleExport}
+                  className="sm:px-4 px-1 py-2 text-sm sm:text-md btn_gradient rounded-md font-medium border"
+                >
+                  {loadingExport ? "Exporting..." : "Export Data"}
                 </button>
                 <div className="relative">
                   <button

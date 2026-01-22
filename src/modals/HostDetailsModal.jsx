@@ -24,13 +24,13 @@ export default function HostDetailsModal({ open, onClose, agency }) {
         <div className="space-y-3 text-sm sm:text-lg">
           {/* ID */}
           <div className="flex justify-between">
-            <p className="font-medium text-gray-700">ID :</p>
+            <p className="font-medium text-gray-700">Host ID :</p>
             <p className="text-gray-800">{agency?.displayId}</p>
           </div>
 
           {/* User */}
           <div className="flex justify-between items-center">
-            <p className="font-medium text-gray-700">Name :</p>
+            <p className="font-medium text-gray-700">Host Name :</p>
             <div className="flex items-center gap-3">
               <img
                 src={agency?.profilePic}
@@ -87,6 +87,10 @@ export default function HostDetailsModal({ open, onClose, agency }) {
           </div>
 
           {/* Registration Time */}
+          <div className="flex justify-between">
+            <p className="font-medium text-gray-700">Registration Time :</p>
+            <p className="text-gray-800">{formatOnlyDate(agency?.createdAt)}</p>
+          </div>
         </div>
       </div>
     </div>

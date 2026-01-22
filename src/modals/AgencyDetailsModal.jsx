@@ -106,7 +106,7 @@ export default function AgencyDetailsModal({ open, onClose, agency }) {
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Status :</p>
             <span
-              className={`px-3 py-1 text-sm block w-30 text-center ${
+              className={`px-3 py-1 text-sm block text-center ${
                 agency.status === "active" && !agency.ban.isTemporary
                   ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                   : "bg-[#FF929296] text-[#D22B20]"

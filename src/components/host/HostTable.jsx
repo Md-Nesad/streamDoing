@@ -1,65 +1,38 @@
-import { Ellipsis, Eye, Funnel } from "lucide-react";
+import { Eye, Funnel } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import HostDetailsModal from "../../modals/HostDetailsModal";
 import { useDebounce } from "../../hooks/useDebounce";
+import AgencyFilterModal from "../../modals/AgencyFilterModal";
+import { useExportDownload } from "../../hooks/useExportDownload";
 
 export default function HostTable({ hostListData }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [hostList, setHostList] = useState(hostListData?.hosts);
   const [text, setText] = useState("");
+  const debouncedText = useDebounce(text, 400);
+  const { loading, download } = useExportDownload();
 
-  //handle filter
-  const handleFilter = () => {
-    const filteredUsers = hostList?.filter((host) => {
-      return (
-        host.name.toLowerCase().includes(text.toLowerCase()) ||
-        host.displayId.toString().includes(text)
-      );
-    });
-    setHostList(filteredUsers);
-  };
+  const filteredUsers = hostList?.filter((user) => {
+    const matchText =
+      user.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      user.displayId.toString().includes(debouncedText);
 
-  const debounceText = useDebounce(text, 400);
+    const matchStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
 
-  const filteredUsers = hostList?.filter((host) => {
-    return (
-      host.name.toLowerCase().includes(debounceText.toLowerCase()) ||
-      host.displayId.toString().includes(debounceText)
-    );
+    return matchText && matchStatus;
   });
 
   //handle export
-  const handleExport = async () => {
-    try {
-      const res = await fetch(
-        `${BASE_URL}/dashboard/hosts/export?search=&startDate=&endDate=`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("admin_token")}`,
-          },
-        },
-      );
-
-      if (!res.ok) throw new Error("Export failed");
-
-      const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "hosts.csv";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error(err);
-      alert("Export failed");
-    }
+  const handleExport = () => {
+    download(
+      `${BASE_URL}/dashboard/hosts/export?search=&startDate=&endDate=`,
+      "hosts.csv",
+    );
   };
 
   //handle view
@@ -94,15 +67,28 @@ export default function HostTable({ hostListData }) {
             onClick={handleExport}
             className="px-3 sm:px-6 py-2 text-sm sm:text-base btn_gradient text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
           >
-            Export Data
+            {loading ? "Exporting..." : "Export Data"}
           </button>
 
-          <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-2 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute right-0 top-full mt-2 z-50">
+                <AgencyFilterModal
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -131,7 +117,7 @@ export default function HostTable({ hostListData }) {
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
                   <td className="p-3 font-medium pl-5 max-xl:w-40">
-                    HST-{host.displayId}
+                    {host.displayId}
                   </td>
                   <td className="p-3 max-xl:w-40">{host.name || "-"}</td>
                   <td className="p-3">
@@ -153,7 +139,7 @@ export default function HostTable({ hostListData }) {
                   <td className="p-3">{host.location || "N/A"}</td>
                   <td className="p-3">
                     <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
-                      {host.status || "N/A"}
+                      {host.status}
                     </span>
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
