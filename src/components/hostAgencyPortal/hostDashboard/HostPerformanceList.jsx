@@ -147,7 +147,7 @@ export default function HostPerformanceList() {
                         <td className="p-3 text-[#FF0AB1] font-semibold">
                           {user?.targetProgress || "-"}%
                         </td>
-                        <td className="p-3">{user?.totalSalary}</td>
+                        <td className="p-3">${user?.totalSalary}</td>
                         <td className="p-3">
                           <button
                             onClick={() => {

@@ -1,14 +1,17 @@
-import { Ellipsis, Funnel } from "lucide-react";
+import { Funnel } from "lucide-react";
 import star from "../../assests/star.png";
 import Pagination from "../Pagination";
 import Loading from "../Loading";
 import { formatNumber } from "../../utility/utility";
 import { useState } from "react";
 import AgencyDetailsModal from "../../modals/AgencyDetailsModal";
+import AgencyFilterModal from "../../modals/AgencyFilterModal";
 
 export default function AgenciesTable({ agenciesData, setPage, loading }) {
   const [selected, setSelected] = useState(null);
   const [open, setOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const agenciesList = agenciesData?.agencies;
   const agenciesPagination = agenciesData?.pagination;
 
@@ -17,6 +20,13 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
     setSelected(agency);
     setOpen(true);
   };
+
+  const filteredUsers = agenciesList?.filter((agency) => {
+    const matchStatus =
+      statusFilter === "all" ? true : agency.status === statusFilter;
+
+    return matchStatus;
+  });
 
   return (
     <>
@@ -35,9 +45,25 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                 <button className="sm:px-4 px-1 py-2 text-sm sm:text-md bg-[#FFFFFF] rounded-md font-medium border border-[#CCCCCC]">
                   Export Data
                 </button>
-                <button className="sm:px-5 px-2 py-2 bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium flex items-center gap-2 text-sm sm:text-md">
-                  <Funnel size={18} /> Filter
-                </button>
+                <div className="relative">
+                  <button
+                    onClick={() => setFilterOpen((prev) => !prev)}
+                    className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+                  >
+                    <Funnel size={18} /> Filter
+                  </button>
+
+                  {/* Filter Dropdown */}
+                  {filterOpen && (
+                    <div className="absolute right-0 top-full mt-2 z-50">
+                      <AgencyFilterModal
+                        statusFilter={statusFilter}
+                        setStatusFilter={setStatusFilter}
+                        onClose={() => setFilterOpen(false)}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -61,11 +87,8 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                 </thead>
 
                 <tbody>
-                  {agenciesList?.length > 0 ? (
-                    agenciesList?.map((agency, index) => {
-                      // const country = countries?.find(
-                      //   (country) => country._id === agency.country
-                      // )?.name;
+                  {filteredUsers?.length > 0 ? (
+                    filteredUsers?.map((agency, index) => {
                       return (
                         <tr
                           key={index}
@@ -104,17 +127,14 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
                             <span
                               className={`px-3 py-1 text-xs block w-21 text-center ${
                                 agency.status === "active" &&
-                                !agency.ban.isTemporary &&
-                                !agency.ban.isPermanent
+                                !agency.ban.isTemporary
                                   ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                                   : "bg-[#FF929296] text-[#D21B20]"
                               } text-[#005D23] rounded-full font-semibold`}
                             >
                               {agency.ban.isTemporary
                                 ? "Temp. ban"
-                                : agency.ban.isPermanent
-                                  ? "Perm. ban"
-                                  : agency.status}
+                                : agency.status}
                             </span>
                           </td>
                           <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

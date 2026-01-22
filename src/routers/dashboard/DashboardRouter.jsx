@@ -110,11 +110,11 @@ export default function DashboardRouter() {
               <Route path="coin-agency" element={<CoinAgency />} />
               <Route path="support-agency" element={<SupportAgency />} />
               <Route
-                path="support/add-support-agency"
+                path="support-agency/add-support-agency"
                 element={<AddSupportAgency />}
               />
               <Route
-                path="support/update-support-agency/:supportId"
+                path="support-agency/update-support-agency/:supportId"
                 element={<UpdateSupportAgency />}
               />
               <Route path="delete-ban" element={<DeleteBan />} />

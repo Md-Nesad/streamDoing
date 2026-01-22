@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
 import { useNavigate } from "react-router-dom";
-import { useStream } from "../../context/streamContext";
 import Loading from "../Loading";
 import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import Pagination from "../Pagination";
 import { toast } from "react-toastify";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
+import AgencyFilterModal from "../../modals/AgencyFilterModal";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export default function AdminAgencyTable() {
   const navigate = useNavigate();
@@ -17,25 +18,28 @@ export default function AdminAgencyTable() {
   const [deleteLoading, setDeleteLoading] = useState(null);
   const [page, setPage] = useState(1);
   const [text, setText] = useState("");
-  const { countriesName } = useStream();
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const debouncedText = useDebounce(text, 400);
   const deleteUser = useDelete(`${BASE_URL}/admin/agencies`);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/agencies?page=${page}&limit=30&search=`,
+    `${BASE_URL}/admin/agencies?page=${page}&limit=100&search=`,
   );
   const hostAgencies = data?.agencies?.filter((item) => item.type === "admin");
   const pagination = data?.pagination;
   const [hosts, setHosts] = useState(hostAgencies);
 
   //handle filter
-  const handleFilter = () => {
-    const filteredUsers = hostAgencies?.filter((agency) => {
-      return (
-        agency.name.toLowerCase().includes(text.toLowerCase()) ||
-        agency.displayId.toString().includes(text)
-      );
-    });
-    setHosts(filteredUsers);
-  };
+  const filteredUsers = hosts?.filter((user) => {
+    const matchText =
+      user.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      user.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
 
   //handle delete
   const handleDelete = async (id) => {
@@ -63,12 +67,6 @@ export default function AdminAgencyTable() {
     setHosts(hostAgencies);
   }, [data]);
 
-  useEffect(() => {
-    if (text === "") {
-      handleFilter();
-    }
-  }, [text]);
-
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
   return (
@@ -85,12 +83,25 @@ export default function AdminAgencyTable() {
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute right-0 top-full mt-2 z-50">
+                <AgencyFilterModal
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
           <button
             onClick={() => navigate("/dashboard/agencies/add-admin-agency")}
             className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
@@ -117,8 +128,8 @@ export default function AdminAgencyTable() {
           </thead>
 
           <tbody>
-            {hosts?.length > 0 ? (
-              hosts?.map((host, index) => (
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((host, index) => (
                 <tr
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
@@ -130,26 +141,16 @@ export default function AdminAgencyTable() {
                   </td>
                   <td className="p-3">{host.email}</td>
                   <td className="p-3">{host.phone}</td>
-                  <td className="p-3">
-                    {host?.country?.name ||
-                      countriesName(host.country) ||
-                      "N/A"}
-                  </td>
+                  <td className="p-3">{host?.country?.name || "N/A"}</td>
                   <td className="p-3">
                     <span
                       className={`px-3 py-1 text-xs block w-21 text-center ${
-                        host.status === "active" &&
-                        !host.ban.isTemporary &&
-                        !host.ban.isPermanent
+                        host.status === "active" && !host.ban.isTemporary
                           ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                           : "bg-[#FF929296] text-[#D21B20]"
                       } text-[#005D23] rounded-full font-semibold`}
                     >
-                      {host.ban.isTemporary
-                        ? "Temp. ban"
-                        : host.ban.isPermanent
-                          ? "Perm. ban"
-                          : host.status}
+                      {host.ban.isTemporary ? "Temp. ban" : host.status}
                     </span>
                   </td>
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

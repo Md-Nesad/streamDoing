@@ -63,8 +63,8 @@ export default function UpdateAgenciesDetails() {
       toast.success(result.message || "Agency updated successfully");
     }
     setIsLoading(false);
-
     reset();
+    navigate(-1);
   };
 
   //get single data

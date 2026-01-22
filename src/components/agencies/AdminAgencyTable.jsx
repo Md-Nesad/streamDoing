@@ -1,33 +1,38 @@
-import { Ellipsis, Funnel } from "lucide-react";
+import { Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
 import Loading from "../Loading";
-import { useStream } from "../../context/streamContext";
 import { useEffect, useState } from "react";
 import { formatNumber } from "../../utility/utility";
 import AgencyDetailsModal from "../../modals/AgencyDetailsModal";
+import AgencyFilterModal from "../../modals/AgencyFilterModal";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export default function AdminAgencyTable({ tableData, setPage, loading }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const adminList = tableData?.agencies?.filter(
     (item) => item.type === "admin",
   );
   const [admins, setAdmins] = useState(adminList);
   const adminPagination = tableData?.pagination;
-  const { countriesName } = useStream();
   const navigate = useNavigate();
   const [text, setText] = useState("");
+  const debouncedText = useDebounce(text, 400);
 
-  const handleFilter = () => {
-    const filteredUsers = adminList?.filter((agency) => {
-      return (
-        agency.name.toLowerCase().includes(text.toLowerCase()) ||
-        agency.displayId.toString().includes(text)
-      );
-    });
-    setAdmins(filteredUsers);
-  };
+  //handle filter
+  const filteredUsers = admins?.filter((user) => {
+    const matchText =
+      user.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      user.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
 
   //handle edit
   const handleEdit = (agency) => {
@@ -57,12 +62,25 @@ export default function AdminAgencyTable({ tableData, setPage, loading }) {
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute right-0 top-full mt-2 z-50">
+                <AgencyFilterModal
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
           <button
             onClick={() => navigate("/dashboard/agencies/add-admin-agency")}
             className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
@@ -89,8 +107,8 @@ export default function AdminAgencyTable({ tableData, setPage, loading }) {
           </thead>
 
           <tbody>
-            {admins?.length > 0 ? (
-              admins?.map((admin, index) => (
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((admin, index) => (
                 <tr
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
@@ -102,26 +120,16 @@ export default function AdminAgencyTable({ tableData, setPage, loading }) {
                   <td className="p-3">{admin.name}</td>
                   <td className="p-3">{formatNumber(admin.diamond)}</td>
                   <td className="p-3">{admin.commission || "N/A"}</td>
-                  <td className="p-3">
-                    {admin?.country?.name ||
-                      countriesName(admin.country) ||
-                      "N/A"}
-                  </td>
+                  <td className="p-3">{admin?.country?.name || "N/A"}</td>
                   <td className="p-3">
                     <span
                       className={`px-3 py-1 text-xs block w-21 text-center ${
-                        admin.status === "active" &&
-                        !admin.ban.isTemporary &&
-                        !admin.ban.isPermanent
+                        admin.status === "active" && !admin.ban.isTemporary
                           ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                           : "bg-[#FF929296] text-[#D21B20]"
                       } text-[#005D23] rounded-full font-semibold`}
                     >
-                      {admin.ban.isTemporary
-                        ? "Temp. ban"
-                        : admin.ban.isPermanent
-                          ? "Perm. ban"
-                          : admin.status}
+                      {admin.ban.isTemporary ? "Temp. ban" : admin.status}
                     </span>
                   </td>
                   <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

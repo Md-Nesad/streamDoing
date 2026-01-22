@@ -114,10 +114,6 @@ function GiftChildTabs() {
         <BannerList data={banners} setRefresh={setRefresh} />
       </TabPanel>
 
-      {/* <TabPanel>
-          <LevelTabs />
-        </TabPanel> */}
-
       <TabPanel>
         <CrownLists data={crowns} setRefresh={setRefresh} />
       </TabPanel>

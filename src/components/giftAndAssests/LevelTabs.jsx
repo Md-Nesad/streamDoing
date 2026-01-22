@@ -1,5 +1,4 @@
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import LevelList from "./LevelList";
 import LevelUp from "../../Pages/dataStore/LevelUp";
 import CharmUp from "../../Pages/dataStore/CharmUp";
 
@@ -14,12 +13,6 @@ export default function LevelTabs() {
           className="font-sans cursor-pointer text-sm"
           selectedClassName="active-tab"
         >
-          Level
-        </Tab>
-        <Tab
-          className="font-sans cursor-pointer text-sm"
-          selectedClassName="active-tab"
-        >
           Level Up
         </Tab>
         <Tab
@@ -29,10 +22,6 @@ export default function LevelTabs() {
           Charm Up
         </Tab>
       </TabList>
-
-      <TabPanel>
-        <LevelList />
-      </TabPanel>
 
       <TabPanel>
         <LevelUp />

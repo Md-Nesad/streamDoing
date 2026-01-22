@@ -82,10 +82,10 @@ export default function HostSalariesTable({ data }) {
                   <td className="border-t border-r p-3">
                     {formatNumber(item.totalDiamonds)}
                   </td>
-                  <td className="border-t border-r p-3">{item.basicSalary}$</td>
-                  <td className="border-t border-r p-3">{item.totalSalary}$</td>
+                  <td className="border-t border-r p-3">${item.basicSalary}</td>
+                  <td className="border-t border-r p-3">${item.totalSalary}</td>
                   <td className="border-r-0 border-t p-3">
-                    {item.agencyShare}$
+                    ${item.agencyShare}
                   </td>
                 </tr>
               ))

@@ -1,39 +1,40 @@
-import { Ellipsis, Funnel } from "lucide-react";
+import { Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading";
 import Pagination from "../Pagination";
-import { useStream } from "../../context/streamContext";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import AgencyDetailsModal from "../../modals/AgencyDetailsModal";
+import AgencyFilterModal from "../../modals/AgencyFilterModal";
+import { useDebounce } from "../../hooks/useDebounce";
 
-export default function MastersTable({ tableData, setPage, loading }) {
+export default function MastersTable() {
+  const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
-  const masterList = tableData?.agencies?.filter(
-    (item) => item.type === "master",
-  );
-  const [masters, setMasters] = useState(masterList);
-  const masterPagination = tableData?.pagination;
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const navigate = useNavigate();
-  const { countriesName } = useStream();
   const [text, setText] = useState("");
-  const { data, loading: masterLoading } = useFetch(
-    `${BASE_URL}/admin/agencies/master-agencies?search=`,
+  const debouncedText = useDebounce(text, 400);
+  const { data, loading } = useFetch(
+    `${BASE_URL}/admin/agencies/master-agencies?page=${page}&limit=30&search=`,
   );
-  const coinlists = data?.data;
+  const [masters, setMasters] = useState(data?.data);
+  const masterPagination = data?.pagination;
 
   //handle filter
-  const handleFilter = () => {
-    const filteredUsers = masterList?.filter((agency) => {
-      return (
-        agency.name.toLowerCase().includes(text.toLowerCase()) ||
-        agency.displayId.toString().includes(text)
-      );
-    });
-    setMasters(filteredUsers);
-  };
+  const filteredUsers = masters?.filter((user) => {
+    const matchText =
+      user.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      user.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
 
   //handle edit
   const handleEdit = (agency) => {
@@ -43,11 +44,11 @@ export default function MastersTable({ tableData, setPage, loading }) {
 
   useEffect(() => {
     if (text === "") {
-      setMasters(masterList);
+      setMasters(data?.data);
     }
-  }, [text, tableData]);
+  }, [text, data?.data]);
 
-  if (loading || masterLoading) return <Loading />;
+  if (loading) return <Loading />;
   return (
     <>
       {/* search area */}
@@ -63,12 +64,25 @@ export default function MastersTable({ tableData, setPage, loading }) {
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute right-0 top-full mt-2 z-50">
+                <AgencyFilterModal
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
           <button
             onClick={() => navigate("/dashboard/agencies/add-master-agency")}
             className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
@@ -95,12 +109,8 @@ export default function MastersTable({ tableData, setPage, loading }) {
           </thead>
 
           <tbody>
-            {masters?.length > 0 ? (
-              masters.map((master, index) => {
-                const saleBye = coinlists?.find(
-                  (item) => item?._id === master._id,
-                );
-
+            {filteredUsers?.length > 0 ? (
+              filteredUsers.map((master, index) => {
                 return (
                   <tr
                     key={index}
@@ -109,32 +119,22 @@ export default function MastersTable({ tableData, setPage, loading }) {
                     <td className="p-3 pl-5">{master.displayId}</td>
                     <td className="p-3">{master.name}</td>
                     <td className="p-3">
-                      {formatNumber(saleBye?.totalSaleCoins)}
+                      {formatNumber(master?.totalSaleCoins)}
                     </td>
                     <td className="p-3">
-                      {formatNumber(saleBye?.totalBuyCoins)}
+                      {formatNumber(master?.totalBuyCoins)}
                     </td>
                     <td className="p-3">{formatNumber(master.revenue)}</td>
-                    <td className="p-3">
-                      {master?.country?.name ||
-                        countriesName(master.country) ||
-                        "N/A"}
-                    </td>
+                    <td className="p-3">{master?.country?.name || "N/A"}</td>
                     <td className="p-3">
                       <span
                         className={`px-3 py-1 text-xs block w-21 text-center ${
-                          master.status === "active" &&
-                          !master.ban.isTemporary &&
-                          !master.ban.isPermanent
+                          master.status === "active" && !master.ban.isTemporary
                             ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                             : "bg-[#FF929296] text-[#D21B20]"
                         } text-[#005D23] rounded-full font-semibold`}
                       >
-                        {master.ban.isTemporary
-                          ? "Temp. ban"
-                          : master.ban.isPermanent
-                            ? "Perm. ban"
-                            : master.status}
+                        {master.ban.isTemporary ? "Temp. ban" : master.status}
                       </span>
                     </td>
                     <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

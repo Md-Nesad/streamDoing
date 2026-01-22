@@ -177,20 +177,12 @@ export default function AgencisTabs() {
 
       <TabPanel>
         <StatsSection data={coinAgenciesdata} />
-        <CoinsTable
-          tableData={agenciesData}
-          setPage={setPage}
-          loading={agenciesList.loading}
-        />
+        <CoinsTable />
       </TabPanel>
 
       <TabPanel>
         <StatsSection data={masterAgenciesData} />
-        <MastersTable
-          tableData={agenciesData}
-          setPage={setPage}
-          loading={agenciesList.loading}
-        />
+        <MastersTable />
       </TabPanel>
 
       <TabPanel>

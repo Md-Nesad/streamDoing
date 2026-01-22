@@ -1,6 +1,9 @@
 import { Funnel } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { formatNumber, formatOnlyDate } from "../../utility/utility";
+import {
+  formatNumber,
+  formatOnlyDate,
+  formatOnlyTime,
+} from "../../utility/utility";
 import Pagination from "../Pagination";
 import { useEffect, useState } from "react";
 
@@ -8,7 +11,6 @@ export default function CoinSenderTable({ tableData, setPage }) {
   const [text, setText] = useState("");
   const [coinsSend, setCoinsSend] = useState(tableData?.transactions);
   const pagination = tableData?.pagination;
-  const navigate = useNavigate();
 
   //handle filter
   const handleFilter = () => {
@@ -48,12 +50,6 @@ export default function CoinSenderTable({ tableData, setPage }) {
           >
             <Funnel size={18} /> Filter
           </button>
-          {/* <button
-            onClick={() => navigate("/dashboard/agencies/add-host-agency")}
-            className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
-          >
-            Add Agency
-          </button> */}
         </div>
       </div>
 
@@ -81,7 +77,7 @@ export default function CoinSenderTable({ tableData, setPage }) {
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
                   <td title={coin.transactionId} className="p-3">
-                    {coin.transactionId.slice(0, 20)}
+                    {coin.transactionId.slice(0, 13)}
                   </td>
                   <td className="p-3">{coin.fromType}</td>
                   <td className="p-3">
@@ -93,11 +89,13 @@ export default function CoinSenderTable({ tableData, setPage }) {
                     {coin?.to?.displayId || "N/A"}
                   </td>
                   <td className="p-3">{coin.toType}</td>
-                  <td className="p-3">{formatNumber(coin.amount)}</td>
-                  <td className="p-3">{formatOnlyDate(coin.date)}</td>
+                  <td className="p-3">{formatNumber(coin.coins)}</td>
+                  <td className="p-3">
+                    {formatOnlyDate(coin.date)}, {formatOnlyTime(coin.date)}
+                  </td>
                   <td className="p-3 text-[#181717] font-medium cursor-pointer flex gap-5 items-center">
                     <span
-                      className={`px-4 py-1 text-xs text-center block w-23 ${
+                      className={`px-2 py-1 text-xs text-center block w-20 ${
                         coin.status === "completed"
                           ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                           : "bg-[#FF929296] text-[#D21B20]"

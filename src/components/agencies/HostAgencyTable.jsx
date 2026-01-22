@@ -1,30 +1,34 @@
-import { Ellipsis, Funnel } from "lucide-react";
+import { Funnel } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
 import Loading from "../Loading";
 import { useEffect, useState } from "react";
-import { useStream } from "../../context/streamContext";
 import AgencyDetailsModal from "../../modals/AgencyDetailsModal";
+import { useDebounce } from "../../hooks/useDebounce";
+import AgencyFilterModal from "../../modals/AgencyFilterModal";
 
 export default function HostAgencyTable({ tableData, setPage, loading }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const hostList = tableData?.agencies?.filter((item) => item.type === "host");
   const [hosts, setHosts] = useState(hostList);
   const hostPagination = tableData?.pagination;
   const navigate = useNavigate();
-  const { countriesName } = useStream();
   const [text, setText] = useState("");
+  const debouncedText = useDebounce(text, 400);
 
-  const handleFilter = () => {
-    const filteredUsers = hostList?.filter((agency) => {
-      return (
-        agency.name.toLowerCase().includes(text.toLowerCase()) ||
-        agency.displayId.toString().includes(text)
-      );
-    });
-    setHosts(filteredUsers);
-  };
+  const filteredUsers = hosts?.filter((user) => {
+    const matchText =
+      user.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      user.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
 
   //handle edit
   const handleEdit = (agency) => {
@@ -54,12 +58,25 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute right-0 top-full mt-2 z-50">
+                <AgencyFilterModal
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
           <button
             onClick={() => navigate("/dashboard/agencies/add-host-agency")}
             className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
@@ -87,8 +104,8 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
           </thead>
 
           <tbody>
-            {hosts?.length > 0 ? (
-              hosts?.map((host) => (
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((host) => (
                 <tr
                   key={host._id}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
@@ -101,26 +118,16 @@ export default function HostAgencyTable({ tableData, setPage, loading }) {
                   <td className="p-3">{host.balance}</td>
                   <td className="p-3">{host.diamonds}</td>
                   <td className="p-3">{host.revenue}</td>
-                  <td className="p-3">
-                    {host?.country?.name ||
-                      countriesName(host.country) ||
-                      "N/A"}
-                  </td>
+                  <td className="p-3">{host?.country?.name || "N/A"}</td>
                   <td className="p-3">
                     <span
                       className={`px-3 py-1 text-xs block w-21 text-center ${
-                        host.status === "active" &&
-                        !host.ban.isTemporary &&
-                        !host.ban.isPermanent
+                        host.status === "active" && !host.ban.isTemporary
                           ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
                           : "bg-[#FF929296] text-[#D21B20]"
                       } text-[#005D23] rounded-full font-semibold`}
                     >
-                      {host.ban.isTemporary
-                        ? "Temp. ban"
-                        : host.ban.isPermanent
-                          ? "Perm. ban"
-                          : host.status}
+                      {host.ban.isTemporary ? "Temp. ban" : host.status}
                     </span>
                   </td>
                   <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">

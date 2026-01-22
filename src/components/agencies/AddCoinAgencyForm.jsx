@@ -305,7 +305,7 @@ export default function AddCoinAgencyForm() {
         <div className="flex justify-center sm:justify-end mt-8 gap-4">
           <button
             type="button"
-            onClick={() => navigate("/dashboard/agencies")}
+            onClick={() => navigate(-1)}
             className="px-8 py-1 border border-gray-300 rounded-md text-[#181717]"
           >
             Cancel

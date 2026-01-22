@@ -1,6 +1,5 @@
 import { Funnel, Pen, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-// import EditSupportModal from "../../modals/dataSroreModals/EditSupportModal";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
@@ -11,11 +10,16 @@ import Pagination from "../Pagination";
 import useDelete from "../../hooks/useDelete";
 import { toast } from "react-toastify";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
+import { useDebounce } from "../../hooks/useDebounce";
+import AgencyFilterModal from "../../modals/AgencyFilterModal";
 
 export default function SupportAgencyTable() {
   const navigate = useNavigate();
   const [text, setText] = useState("");
   const [page, setPage] = useState(1);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const debouncedText = useDebounce(text, 400);
   const { countriesName } = useStream();
   const { data, loading, error } = useFetch(
     `${BASE_URL}/admin/support-agencies?page=${page}&limit=20`,
@@ -26,15 +30,16 @@ export default function SupportAgencyTable() {
   const { confirm } = useGlobalConfirm();
 
   //handle filter
-  const handleFilter = () => {
-    const filteredUsers = supportAgencies?.filter((support) => {
-      return (
-        support.name.toLowerCase().includes(text.toLowerCase()) ||
-        support.displayId.toString().includes(text)
-      );
-    });
-    setSupportAgencies(filteredUsers);
-  };
+  const filteredUsers = supportAgencies?.filter((user) => {
+    const matchText =
+      user.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      user.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
 
   //handle delete
   const handleDelete = async (id) => {
@@ -79,14 +84,29 @@ export default function SupportAgencyTable() {
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute right-0 top-full mt-2 z-50">
+                <AgencyFilterModal
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
           <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button>
-          <button
-            onClick={() => navigate("/dashboard/support/add-support-agency")}
+            onClick={() =>
+              navigate("/dashboard/support-agency/add-support-agency")
+            }
             className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
           >
             Add Agency
@@ -111,8 +131,8 @@ export default function SupportAgencyTable() {
           </thead>
 
           <tbody>
-            {supportAgencies?.length > 0 ? (
-              supportAgencies?.map((support) => (
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((support) => (
                 <tr
                   key={support._id}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
@@ -147,7 +167,7 @@ export default function SupportAgencyTable() {
                         title="Edit"
                         onClick={() =>
                           navigate(
-                            `/dashboard/support/update-support-agency/${support._id}`,
+                            `/dashboard/support-agency/update-support-agency/${support._id}`,
                           )
                         }
                       >

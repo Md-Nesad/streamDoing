@@ -1,4 +1,4 @@
-import { Funnel, Pen, Trash2 } from "lucide-react";
+import { Funnel, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import Loading from "../Loading";
@@ -10,11 +10,15 @@ import useDelete from "../../hooks/useDelete";
 import star from "../../assests/star.png";
 import { toast } from "react-toastify";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
+import { useDebounce } from "../../hooks/useDebounce";
+import FilterDropdown from "../../modals/FilterModal";
 
 export default function UserManagementTable() {
   const navigate = useNavigate();
   const [text, setText] = useState("");
   const [page, setPage] = useState(1);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const { data, loading, error } = useFetch(
     `${BASE_URL}/admin/users?page=${page}&limit=30`,
   );
@@ -22,17 +26,19 @@ export default function UserManagementTable() {
   const pagination = data?.pagination;
   const deleteUser = useDelete(`${BASE_URL}/admin/users`);
   const { confirm } = useGlobalConfirm();
+  const debouncedText = useDebounce(text, 400);
 
   //handle filter
-  const handleFilter = () => {
-    const filteredUsers = data?.users?.filter((user) => {
-      return (
-        user.name.toLowerCase().includes(text.toLowerCase()) ||
-        user.displayId.toString().includes(text)
-      );
-    });
-    setUsers(filteredUsers);
-  };
+  const filteredUsers = users?.filter((user) => {
+    const matchText =
+      user.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      user.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
 
   //handle delete
   const handleDelete = async (id) => {
@@ -54,12 +60,6 @@ export default function UserManagementTable() {
     setUsers(data?.users || []);
   }, [data]);
 
-  useEffect(() => {
-    if (text === "") {
-      handleFilter();
-    }
-  }, [text]);
-
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
   return (
@@ -77,12 +77,25 @@ export default function UserManagementTable() {
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute right-0 top-full mt-2 z-50">
+                <FilterDropdown
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
           <button
             onClick={() => navigate("/dashboard/agencies/add-host-agency")}
             className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
@@ -110,8 +123,8 @@ export default function UserManagementTable() {
           </thead>
 
           <tbody>
-            {users?.length > 0 ? (
-              users?.map((user, index) => (
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((user, index) => (
                 <tr
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"

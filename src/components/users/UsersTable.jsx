@@ -16,6 +16,8 @@ import star from "../../assests/star.png";
 import { toast } from "react-toastify";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import BanUserModal from "../../modals/BanUserModal";
+import { useDebounce } from "../../hooks/useDebounce";
+import FilterDropdown from "../../modals/FilterModal";
 
 export default function HostAgencyTable({
   usersList,
@@ -26,31 +28,37 @@ export default function HostAgencyTable({
   const [text, setText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [banOpen, setBanOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [selectedUser, setSelectedUser] = useState(null);
   const [users, setUsers] = useState(usersList?.users || []);
   const pagination = usersList?.pagination;
   const [isloading, setIsLoading] = useState(null);
   const { confirm } = useGlobalConfirm();
+  const [loadingId, setLoadingId] = useState(null);
 
   // custom hook for delete that return a function
   const deleteUser = useDelete(`${BASE_URL}/admin/users`);
 
-  //filtered users
-  const handleFilter = () => {
-    const filteredUsers = usersList?.users?.filter((user) => {
-      return (
-        user.name.toLowerCase().includes(text.toLowerCase()) ||
-        user.displayId.toString().includes(text)
-      );
-    });
-    setUsers(filteredUsers);
-  };
+  const debouncedText = useDebounce(text, 400);
+
+  const filteredUsers = users?.filter((user) => {
+    const matchText =
+      user.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      user.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
+  console.log(filteredUsers);
 
   // Delete user by ID
   const handleDelete = async (id) => {
     const ok = await confirm("Are you sure to delete?");
     if (!ok) return;
-
+    setLoadingId(id);
     const result = await deleteUser(id);
 
     if (!result) {
@@ -58,6 +66,7 @@ export default function HostAgencyTable({
     } else {
       toast.success(result.message);
     }
+    setLoadingId(null);
     //fetching data after delete
     setUsers((prev) => prev.filter((user) => user._id !== id));
   };
@@ -92,12 +101,6 @@ export default function HostAgencyTable({
     setText("");
   }, [usersList]);
 
-  useEffect(() => {
-    if (text === "") {
-      handleFilter();
-    }
-  }, [text]);
-
   //   const levelColors = {
   //   0: "from-gray-400 to-gray-600",
   //   1: "from-blue-400 to-blue-600",
@@ -122,12 +125,25 @@ export default function HostAgencyTable({
         />
 
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute right-0 top-full mt-2 z-50">
+                <FilterDropdown
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -149,8 +165,8 @@ export default function HostAgencyTable({
           </thead>
 
           <tbody>
-            {users?.length > 0 ? (
-              users?.map((user) => (
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((user) => (
                 <tr
                   key={user._id}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
@@ -175,7 +191,7 @@ export default function HostAgencyTable({
                     </span>
                   </td>
                   <td className="p-3">{formatNumber(user.diamonds)}</td>
-                  <td className="p-3">{formatNumber(user.beans)}</td>
+                  <td className="p-3">{formatNumber(user.coins)}</td>
                   <td className="p-3">{user.location || "N/A"}</td>
                   <td className="p-3">
                     <span
@@ -244,7 +260,11 @@ export default function HostAgencyTable({
                         title="Delete"
                         onClick={() => handleDelete(user._id)}
                       >
-                        <Trash2 size={18} className="text-[#FF0037]" />
+                        {loadingId === user._id ? (
+                          <LoaderCircle size={17} className="animate-spin" />
+                        ) : (
+                          <Trash2 size={18} className="text-[#FF0037]" />
+                        )}
                       </button>
                     </span>
                   </td>

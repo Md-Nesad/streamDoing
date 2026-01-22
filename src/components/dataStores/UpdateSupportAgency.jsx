@@ -293,46 +293,6 @@ export default function UpdateSupportAgency() {
                 </div>
               </div>
             </div>
-            {/* ban logic here */}
-            {/* <div className="mt-5 flex flex-wrap items-center justify-between max-sm:justify-center gap-4 w-full">
-              <div className="flex items-center gap-8 border border-gray-300 rounded-md px-3 py-2 w-[48%]">
-                <span className="text-sm">Temporary Ban</span>
-                <div
-                  onClick={() => {
-                    setIsTempOn(!isTempOn);
-                    setIsPerOn(false);
-                  }}
-                  className={`w-10 h-3 rounded-full cursor-pointer flex items-center transition-all duration-300 ${
-                    isTempOn ? "bg-pink-400" : "bg-pink-200"
-                  }`}
-                >
-                  <div
-                    className={`w-5 h-5 rounded-full shadow-xl transition-all duration-300 bg-linear-to-br from-pink-600 to-pink-400 relative ${
-                      isTempOn ? "translate-x-5" : "translate-x-0"
-                    }`}
-                  ></div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-8 border border-gray-300 rounded-md px-3 py-2 w-[48%]">
-                <span className="text-sm">Permanent Ban</span>
-                <div
-                  onClick={() => {
-                    setIsPerOn(!isPerOn);
-                    setIsTempOn(false);
-                  }}
-                  className={`w-10 h-3 rounded-full cursor-pointer flex items-center transition-all duration-300 ${
-                    isPerOn ? "bg-pink-400" : "bg-pink-200"
-                  }`}
-                >
-                  <div
-                    className={`w-5 h-5 rounded-full shadow-xl transition-all duration-300 bg-linear-to-br from-pink-600 to-pink-400 relative ${
-                      isPerOn ? "translate-x-5" : "translate-x-0"
-                    }`}
-                  ></div>
-                </div>
-              </div>
-            </div> */}
 
             {isTempOn && (
               <>

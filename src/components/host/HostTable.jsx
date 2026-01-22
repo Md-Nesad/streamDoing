@@ -2,6 +2,7 @@ import { Ellipsis, Eye, Funnel } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import HostDetailsModal from "../../modals/HostDetailsModal";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export default function HostTable({ hostListData }) {
   const [open, setOpen] = useState(false);
@@ -19,6 +20,15 @@ export default function HostTable({ hostListData }) {
     });
     setHostList(filteredUsers);
   };
+
+  const debounceText = useDebounce(text, 400);
+
+  const filteredUsers = hostList?.filter((host) => {
+    return (
+      host.name.toLowerCase().includes(debounceText.toLowerCase()) ||
+      host.displayId.toString().includes(debounceText)
+    );
+  });
 
   //handle export
   const handleExport = async () => {
@@ -114,8 +124,8 @@ export default function HostTable({ hostListData }) {
           </thead>
 
           <tbody>
-            {hostList?.length > 0 ? (
-              hostList?.map((host) => (
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((host) => (
                 <tr
                   key={host._id}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
