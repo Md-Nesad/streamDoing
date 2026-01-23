@@ -1,7 +1,9 @@
 import { formatNumber } from "../../../utility/utility";
+import Pagination from "../../Pagination";
 
-export default function MasterHostPerformance({ data }) {
+export default function MasterHostPerformance({ data, setPage }) {
   const coinAgencyPerformance = data?.data;
+  const pagination = data?.pagination;
 
   return (
     <>
@@ -73,6 +75,12 @@ export default function MasterHostPerformance({ data }) {
             )}
           </tbody>
         </table>
+        <Pagination
+          page={pagination?.page}
+          total={pagination?.total}
+          limit={pagination?.limit}
+          onPageChange={setPage}
+        />
       </div>
     </>
   );

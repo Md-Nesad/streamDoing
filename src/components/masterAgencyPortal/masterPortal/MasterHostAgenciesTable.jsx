@@ -5,8 +5,9 @@ import { formatNumber } from "../../../utility/utility";
 import { useNavigate } from "react-router-dom";
 import { useDebounce } from "../../../hooks/useDebounce";
 import AgencyFilterModal from "../../../modals/AgencyFilterModal";
+import Pagination from "../../Pagination";
 
-export default function MasterHostAgenciesTable({ data }) {
+export default function MasterHostAgenciesTable({ data, setPage }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
@@ -15,6 +16,7 @@ export default function MasterHostAgenciesTable({ data }) {
   const [agencies, setAgencies] = useState(data?.agencies || []);
   const [selectedAgencies, setSelectedAgencies] = useState(null);
   const coinAgencies = agencies?.filter((item) => item.type === "host");
+  const pagination = data?.pagination;
   const debouncedText = useDebounce(text, 400);
   //hadle filter functionallity
   const filteredUsers = coinAgencies?.filter((user) => {
@@ -154,6 +156,13 @@ export default function MasterHostAgenciesTable({ data }) {
               agency={selectedAgencies}
             />
           )}
+
+          <Pagination
+            page={pagination?.page}
+            total={pagination?.total}
+            limit={pagination?.limit}
+            onPageChange={setPage}
+          />
         </div>
       </div>
     </>

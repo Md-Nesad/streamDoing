@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import HostDetailsModalPortal from "./HostDetailsModal";
 import { useDebounce } from "../../../hooks/useDebounce";
 import FilterDropdown from "../../../modals/FilterModal";
+import Pagination from "../../Pagination";
 
-export default function HostList({ data }) {
+export default function HostList({ data, setPage }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -15,6 +16,7 @@ export default function HostList({ data }) {
   const [hosts, setHosts] = useState(data?.hosts);
   const [text, setText] = useState("");
   const debouncedText = useDebounce(text, 400);
+  const pagination = data?.pagination;
 
   //handle filter
   const filteredHosts = hosts?.filter((host) => {
@@ -136,6 +138,12 @@ export default function HostList({ data }) {
             )}
           </tbody>
         </table>
+        <Pagination
+          page={pagination?.page}
+          total={pagination?.total}
+          limit={pagination?.limit}
+          onPageChange={setPage}
+        />
       </div>
       {open && (
         <HostDetailsModalPortal

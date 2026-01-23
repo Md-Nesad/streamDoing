@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import StatsSection from "../../dashboard/StatsCard";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { RadioTower, Users, Wallet } from "lucide-react";
@@ -11,6 +11,7 @@ import Loading from "../../Loading";
 import Error from "../../Error";
 
 export default function MasterAgenciesTabs() {
+  const [page, setPage] = useState(1);
   const {
     data: stat,
     loading: statLoading,
@@ -18,7 +19,7 @@ export default function MasterAgenciesTabs() {
   } = useFetch(`${BASE_URL}/agency/master/dashboard/stats`);
 
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/agency/master/agencies?page=1&limit=50&search=&status=`
+    `${BASE_URL}/agency/master/agencies?page=${page}&limit=50&search=&status=`,
   );
 
   const agencies = [
@@ -81,17 +82,17 @@ export default function MasterAgenciesTabs() {
 
         <TabPanel>
           <StatsSection data={agencies} />
-          <MasterCoinAgenciesTable data={data} />
+          <MasterCoinAgenciesTable data={data} setPage={setPage} />
         </TabPanel>
 
         <TabPanel>
           <StatsSection data={agencies} />
-          <MasterHostAgenciesTable data={data} />
+          <MasterHostAgenciesTable data={data} setPage={setPage} />
         </TabPanel>
 
         <TabPanel>
           <StatsSection data={agencies} />
-          <MasterAdminAgenciesTable data={data} />
+          <MasterAdminAgenciesTable data={data} setPage={setPage} />
         </TabPanel>
       </Tabs>
     </div>

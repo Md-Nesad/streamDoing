@@ -3,14 +3,16 @@ import { useEffect, useState } from "react";
 import { countries } from "../../../data/adminData";
 import { useDebounce } from "../../../hooks/useDebounce";
 import AgencyFilterModal from "../../../modals/AgencyFilterModal";
+import Pagination from "../../Pagination";
 
-export default function MasterAdminAgenciesTable({ data }) {
+export default function MasterAdminAgenciesTable({ data, setPage }) {
   // const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const [agencies, setAgencies] = useState(data?.agencies || []);
   const [filterOpen, setFilterOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
   const adminAgencies = agencies?.filter((item) => item.type === "admin");
+  const pagination = data?.pagination;
   const debouncedText = useDebounce(text, 400);
   //hadle filter functionallity
   const filteredUsers = adminAgencies?.filter((user) => {
@@ -130,6 +132,12 @@ export default function MasterAdminAgenciesTable({ data }) {
               )}
             </tbody>
           </table>
+          <Pagination
+            page={pagination?.page}
+            total={pagination?.total}
+            limit={pagination?.limit}
+            onPageChange={setPage}
+          />
         </div>
       </div>
     </>

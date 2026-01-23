@@ -6,8 +6,10 @@ import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatNumber, formatPercent } from "../../utility/utility";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
+import { useState } from "react";
 
 export default function MasterDashboard() {
+  const [page, setPage] = useState(1);
   const {
     data: stat,
     loading: statLoading,
@@ -20,7 +22,7 @@ export default function MasterDashboard() {
     loading: agenciesOverviewLoading,
     error: agenciesOverviewError,
   } = useFetch(
-    `${BASE_URL}/agency/master/dashboard/coin-agencies?page=1&limit=20`
+    `${BASE_URL}/agency/master/dashboard/coin-agencies?page=${page}&limit=30`,
   );
 
   const stats = [
@@ -63,7 +65,7 @@ export default function MasterDashboard() {
     <div>
       <StatsSection data={stats} />
       <MasterSellCoins />
-      <MasterAgencisOverview data={agenciesOverview} />
+      <MasterAgencisOverview data={agenciesOverview} setPage={setPage} />
     </div>
   );
 }

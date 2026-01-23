@@ -6,8 +6,10 @@ import { BASE_URL, formatNumber } from "../../utility/utility";
 import MasterHostPerformance from "../../components/masterAgencyPortal/masterPortal/MasterHostPerformance";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
+import { useState } from "react";
 
 export default function MasterPortalAnalytics() {
+  const [page, setPage] = useState(1);
   //analytics stats
   const {
     data: stat,
@@ -28,7 +30,7 @@ export default function MasterPortalAnalytics() {
     loading: coinAgenciesPerformanceLoading,
     error: coinAgenciesPerformanceError,
   } = useFetch(
-    `${BASE_URL}/agency/master/analytics/coin-agencies-performance?page=1&limit=10`
+    `${BASE_URL}/agency/master/analytics/coin-agencies-performance?page=${page}&limit=30`,
   );
 
   //loading
@@ -51,7 +53,7 @@ export default function MasterPortalAnalytics() {
     },
     {
       title: "Total Amount Sent",
-      value: stat?.totalAmountSent,
+      value: formatNumber(stat?.totalAmountSent),
       change: "",
       icon: RadioTower,
       iconBg: "bg-gradient-to-b from-[#13E17D] to-[#30ACFF]",
@@ -110,7 +112,7 @@ export default function MasterPortalAnalytics() {
         <CoinSalesOverview data={coinSalesOverview} />
       </section>
 
-      <MasterHostPerformance data={coinAgenciesPerformance} />
+      <MasterHostPerformance data={coinAgenciesPerformance} setPage={setPage} />
     </div>
   );
 }

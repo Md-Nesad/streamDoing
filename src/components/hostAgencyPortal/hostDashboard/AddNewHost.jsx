@@ -41,6 +41,7 @@ export default function AddNewHost() {
       toast.error(result.message);
     } else {
       toast.success(result.message);
+      navigate("/host-agency-portal");
     }
     setLoading(false);
 

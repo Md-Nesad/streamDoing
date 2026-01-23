@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { formatNumber } from "../../../utility/utility";
 import MasterModal from "./MasterModal";
+import Pagination from "../../Pagination";
 
-export default function MasterAgencisOverview({ data }) {
+export default function MasterAgencisOverview({ data, setPage }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
   const agencies = data?.agencies;
+  const pagination = data?.pagination;
 
   const handleView = (agency) => {
     setSelected(agency);
@@ -82,6 +84,12 @@ export default function MasterAgencisOverview({ data }) {
               )}
             </tbody>
           </table>
+          <Pagination
+            page={pagination?.page}
+            total={pagination?.total}
+            limit={pagination?.limit}
+            onPageChange={setPage}
+          />
         </div>
       </div>
       {open && (
