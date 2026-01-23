@@ -1,18 +1,18 @@
-import { Funnel } from "lucide-react";
-import { useStream } from "../../context/streamContext";
+// import { Funnel } from "lucide-react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
 import Pagination from "../Pagination";
 import { useEffect, useState } from "react";
 import Error from "../Error";
 import TopPerformanceLoading from "../TopPerformanceLoading";
 import { useExportDownload } from "../../hooks/useExportDownload";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export default function TopPerformanceAgency({ data, setPage }) {
   const [text, setText] = useState("");
   const [topAgencies, setTopAgencies] = useState(data?.data?.agencies);
-  const { countriesName } = useStream();
   const pagination = data?.data.pagination;
   const { loading, download } = useExportDownload();
+  const debouncedText = useDebounce(text, 500);
 
   const handleExport = () => {
     download(
@@ -21,15 +21,13 @@ export default function TopPerformanceAgency({ data, setPage }) {
     );
   };
 
-  const handleFilter = () => {
-    const filteredUsers = topAgencies?.filter((agency) => {
-      return (
-        agency.name.toLowerCase().includes(text.toLowerCase()) ||
-        agency.displayId.toString().includes(text)
-      );
-    });
-    setTopAgencies(filteredUsers);
-  };
+  const filteredUsers = topAgencies?.filter((agency) => {
+    const matchText =
+      agency.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      agency.displayId.toString().includes(debouncedText);
+
+    return matchText;
+  });
 
   useEffect(() => {
     if (text === "") {
@@ -53,18 +51,18 @@ export default function TopPerformanceAgency({ data, setPage }) {
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
+          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-full px-4 py-1.5 rounded-md"
           placeholder="Search by agency ID or name"
         />
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button
+          {/* <button
             onClick={handleFilter}
             className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
           >
             <Funnel size={18} /> Filter
-          </button>
+          </button> */}
           <button
             onClick={handleExport}
             className="px-3 sm:px-6 py-1.5 text-sm sm:text-base btn_gradient rounded-md font-medium w-full sm:w-auto text-nowrap"
@@ -79,8 +77,8 @@ export default function TopPerformanceAgency({ data, setPage }) {
         <h2 className="text-xl font-semibold mb-5">Top Performing Agency</h2>
 
         <div className="space-y-4">
-          {topAgencies?.length > 0 ? (
-            topAgencies?.map((agency, index) => (
+          {filteredUsers?.length > 0 ? (
+            filteredUsers?.map((agency, index) => (
               <div
                 key={index}
                 className="flex flex-col max-sm:gap-5 sm:flex-row sm:items-center sm:justify-between bg-[#F1F3F6] rounded-xl px-3 sm:px-5 py-4 border border-gray-200"
@@ -107,7 +105,7 @@ export default function TopPerformanceAgency({ data, setPage }) {
                 <div className="flex gap-3 sm:gap-10 font-medium text-[#181717]">
                   <div>
                     <p className="text-xs sm:text-sm text-gray-600 mt-1 text-left">
-                      {countriesName(agency.country)}
+                      {agency?.country?.name}
                     </p>
                   </div>
 

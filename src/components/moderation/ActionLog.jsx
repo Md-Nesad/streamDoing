@@ -8,7 +8,7 @@ import Loading from "../Loading";
 export default function ActionLog() {
   const [page, setPage] = useState(1);
   const { data, error, loading } = useFetch(
-    `${BASE_URL}/admin/reports/action-logs?page=${page}&limit=20&actionType=`
+    `${BASE_URL}/admin/reports/action-logs?page=${page}&limit=20&actionType=`,
   );
   const logs = data?.logs;
   const pagination = data?.pagination;
@@ -29,7 +29,7 @@ export default function ActionLog() {
               {/* Left */}
               <div>
                 <h3 className="sm:text-lg text-md font-semibold text-[#1a1a1a] mb-1">
-                  {t.details}
+                  {t.details || "-"}
                 </h3>
                 <p className="sm:text-sm text-xs text-[#535353] font-medium">
                   By {t?.moderator?.name} • {t.timeAgo}

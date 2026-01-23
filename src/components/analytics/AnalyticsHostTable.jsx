@@ -70,7 +70,7 @@ export default function AnalyticsHostTable({ data }) {
                     <p className="text-sm text-gray-600">
                       ID : {host.displayId}
                     </p>
-                    <p className="text-sm text-gray-500">{host.agency}</p>
+                    <p className="text-sm text-gray-500">{host?.agency}</p>
                   </div>
                 </div>
 
@@ -79,14 +79,12 @@ export default function AnalyticsHostTable({ data }) {
                   <div
                     className={`text-white text-xs px-3 py-1 sm:mt-1 rounded-full ${host?.badge?.color}`}
                   >
-                    {host.level}
+                    {host?.level}
                   </div>
 
-                  <div
-                    className={`${host.country === "Pakistan" ? "pl-4" : ""}`}
-                  >
+                  <div>
                     <p className="text-xs sm:text-sm text-gray-600 mt-1 text-start">
-                      {countriesName(host.country)}
+                      {host?.country?.name}
                     </p>
                   </div>
 

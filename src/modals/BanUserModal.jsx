@@ -3,7 +3,6 @@ import { X } from "lucide-react";
 import useJsonPost from "../hooks/useJsonPost";
 import { BASE_URL } from "../utility/utility";
 import { toast } from "react-toastify";
-
 export default function BanUserModal({ isOpen, onClose, user, onSuccess }) {
   if (!isOpen) return null;
   const [isTempOn, setIsTempOn] = useState(true);
@@ -12,8 +11,8 @@ export default function BanUserModal({ isOpen, onClose, user, onSuccess }) {
   const [until, setUntil] = useState("");
   const [loading, setLoading] = useState(false);
   const handleSubmit = useJsonPost(`${BASE_URL}/admin/users/ban/${user._id}`);
-  //handle ban
 
+  //handle ban
   const handleBan = async () => {
     const data = {
       isPermanent: isPerOn,

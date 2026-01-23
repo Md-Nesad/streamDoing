@@ -11,8 +11,10 @@ import { useState } from "react";
 
 export default function ModerationTabs() {
   const [page, setPage] = useState(1);
+  const [refresh, setRefresh] = useState(false);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/reports?status=&page=${page}&limit=20`
+    `${BASE_URL}/admin/reports?status=&page=${page}&limit=20`,
+    refresh,
   );
 
   const moderationSummary = data?.summary;
@@ -71,7 +73,11 @@ export default function ModerationTabs() {
         </TabList>
 
         <TabPanel>
-          <AllReportsTable reports={data} setPage={setPage} />
+          <AllReportsTable
+            reports={data}
+            setPage={setPage}
+            setRefresh={setRefresh}
+          />
         </TabPanel>
 
         <TabPanel>

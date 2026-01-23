@@ -7,7 +7,7 @@ import { logData } from "../data/data";
 import useFetch from "../hooks/useFetch";
 import { BASE_URL } from "../utility/utility";
 
-export default function ReportModal({ open, onClose, id }) {
+export default function ReportModal({ open, onClose, id, refresh }) {
   if (!open) return null;
   const { data, loading, error } = useFetch(`${BASE_URL}/admin/reports/${id}`);
   const report = data?.report;
@@ -58,23 +58,39 @@ export default function ReportModal({ open, onClose, id }) {
           </TabList>
 
           <TabPanel>
-            <Details report={report} loading={loading} error={error} id={id} />
+            <Details
+              report={report}
+              loading={loading}
+              error={error}
+              id={id}
+              setRefresh={refresh}
+            />
           </TabPanel>
 
           <TabPanel>
             {/* Three Image Boxes */}
             <div className="flex items-center gap-4 my-6">
-              {evidence?.map((e, index) => (
-                <div key={index}>
-                  <div className="text-gray-400 text-sm flex flex-col items-center">
-                    <img
-                      src={e || "No evidence found"}
-                      alt="Evidence Image"
-                      className="w-40 h-40 object-cover rounded-md"
-                    />
+              {evidence?.length > 0 ? (
+                evidence?.map((e, index) => (
+                  <div key={index}>
+                    <div className="text-gray-400 text-sm flex flex-col items-center">
+                      <img
+                        src={e || "No evidence found"}
+                        alt="Evidence Image"
+                        className="w-40 h-40 object-cover rounded-md"
+                      />
+                    </div>
                   </div>
+                ))
+              ) : (
+                <div className="text-gray-400 text-sm flex flex-col items-center">
+                  <img
+                    src="No evidence found"
+                    alt="Evidence Image"
+                    className="w-40 h-40 object-cover rounded-md"
+                  />
                 </div>
-              ))}
+              )}
             </div>
 
             {/* Chat Transcript */}

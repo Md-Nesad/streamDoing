@@ -4,22 +4,24 @@ import { useStream } from "../../context/streamContext";
 import { BASE_URL, formatOnlyTime } from "../../utility/utility";
 import Loading from "../Loading";
 import Error from "../Error";
+import { toast } from "react-toastify";
 
-export default function Details({ report, loading, error, id }) {
+export default function Details({ report, loading, error, id, setRefresh }) {
   const [notes, setNotes] = useState(report?.moderatorNotes[0]?.note);
   const [actionType, setActionType] = useState("");
   const { agencies } = useStream();
+  const [loadings, setLoadings] = useState(false);
   //find admin
   const admin = agencies?.agencies?.find(
-    (item) => item._id === report?.actions[0]?.moderatorId
+    (item) => item._id === report?.actions[0]?.moderatorId,
   );
 
   //handle action taken
   const handleAction = async () => {
-    if (!notes) return alert("Please enter notes");
-    if (!actionType) return alert("Please select an action");
+    if (!actionType) return toast.error("Please select an action");
 
     try {
+      setLoadings(true);
       const data = {
         note: notes,
         actionType,
@@ -38,13 +40,16 @@ export default function Details({ report, loading, error, id }) {
 
       const result = await res.json();
       if (result.message) {
-        alert(result.message);
+        toast.success(result.message);
+        setRefresh((prev) => !prev);
       } else {
-        alert(result.error);
+        toast.error(result.error);
       }
     } catch (error) {
       console.log(error);
-      alert(error.message);
+      toast.error(error.message);
+    } finally {
+      setLoadings(false);
     }
   };
 
@@ -86,40 +91,55 @@ export default function Details({ report, loading, error, id }) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap max-sm:justify-center gap-3 pt-0 sm:pt-2">
+        <div className="flex flex-wrap max-sm:justify-center gap-2 pt-0 sm:pt-2">
           <button
-            onClick={() => setActionType("warning")}
-            className="border rounded-md px-4 py-1 flex items-center gap-2 text-sm active:animate-bounce"
+            onClick={() => {
+              setActionType("warning");
+              // handleAction();
+            }}
+            className="border rounded-md px-2 py-1 flex items-center gap-2 text-sm active:animate-bounce"
           >
             <TriangleAlert size={16} /> Issue Warning
           </button>
 
           <button
-            onClick={() => setActionType("fine")}
+            onClick={() => {
+              setActionType("fine");
+              // handleAction();
+            }}
             className="bg-[#ff7676] text-white rounded-md px-4 py-1 flex items-center gap-2 text-sm active:animate-bounce"
           >
             <span className="text-white">$</span> Apply Fine
           </button>
 
           <button
-            onClick={() => setActionType("ban")}
-            className="bg-[#ff5c5c] text-white rounded-md px-4 py-1 flex items-center gap-2 text-sm active:animate-bounce"
+            onClick={() => {
+              setActionType("ban");
+              // handleAction();
+            }}
+            className="bg-[#ff5c5c] text-white rounded-md px-2 py-1 flex items-center gap-2 text-sm active:animate-bounce"
           >
             <Ban size={16} /> Ban User
           </button>
 
           <button
-            onClick={() => setActionType("resolve")}
-            className="bg-[#2ecc71] text-white rounded-md px-4 py-1 flex items-center gap-2 text-sm active:animate-bounce"
+            onClick={() => {
+              setActionType("resolve");
+              // handleAction();
+            }}
+            className="bg-[#2ecc71] text-white rounded-md px-2 py-1 flex items-center gap-2 text-sm active:animate-bounce"
           >
             <CircleCheck size={16} /> Resolve
           </button>
 
           <button
-            onClick={handleAction}
-            className="btn_white rounded-md px-4 py-1 flex items-center gap-2 text-sm"
+            onClick={() => {
+              // setActionType("delete");
+              handleAction();
+            }}
+            className="bg-[#074DFF] text-white rounded-md px-6 py-1 flex items-center gap-2 text-sm"
           >
-            Submit
+            {loadings ? "Submitting..." : "Submit"}
           </button>
         </div>
       </div>

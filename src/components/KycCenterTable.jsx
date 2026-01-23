@@ -3,22 +3,29 @@ import { useEffect, useState } from "react";
 import UserDetailsModal from "../modals/KycUserDetailsModal";
 import Pagination from "./Pagination";
 import { formatOnlyTime } from "../utility/utility";
+import AgencyFilterModal from "../modals/AgencyFilterModal";
+import { useDebounce } from "../hooks/useDebounce";
 
-export default function KycCenterTable({ data, setPage }) {
+export default function KycCenterTable({ data, setPage, setRefresh }) {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [kycTable, setKycTable] = useState(data?.agencies);
   const pagination = data?.pagination;
+  const debouncedText = useDebounce(text, 400);
+  const [selected, setSelected] = useState(null);
 
-  const handleFilter = () => {
-    const filteredUsers = kycTable?.filter((kuc) => {
-      return (
-        kuc.name.toLowerCase().includes(text.toLowerCase()) ||
-        kuc.displayId.toString().includes(text)
-      );
-    });
-    setKycTable(filteredUsers);
-  };
+  const filteredUsers = kycTable?.filter((user) => {
+    const matchText =
+      user.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      user.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
 
   useEffect(() => {
     if (text === "") {
@@ -39,12 +46,25 @@ export default function KycCenterTable({ data, setPage }) {
             placeholder="Search by agency name or ID"
           />
 
-          <button
-            onClick={handleFilter}
-            className="sm:px-5 px-2 py-2 bg-[#FFFFFF] rounded-md font-medium border border-[#CCCCCC] flex items-center gap-2 text-sm sm:text-md"
-          >
-            <Funnel size={18} /> Filter
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute right-0 top-full mt-2 z-50">
+                <AgencyFilterModal
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
         </div>
 
         <table className="w-full text-left border-collapse text-nowrap">
@@ -62,8 +82,8 @@ export default function KycCenterTable({ data, setPage }) {
           </thead>
 
           <tbody>
-            {kycTable?.length > 0 ? (
-              kycTable?.map((kyc, index) => (
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((kyc, index) => (
                 <tr
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
@@ -92,7 +112,7 @@ export default function KycCenterTable({ data, setPage }) {
                   <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
                     {kyc.status === "active" ? (
                       <span className="flex items-center gap-4">
-                        <button onClick={() => setOpen(true)}>
+                        <button>
                           <CircleCheckBig
                             size={17}
                             className=" text-white
@@ -100,18 +120,32 @@ export default function KycCenterTable({ data, setPage }) {
                           />
                         </button>
                         <CircleX size={18} className="text-[#FF0037]" />
-                        <Ellipsis size={17} />
+                        <button
+                          onClick={() => {
+                            setSelected(kyc);
+                            setOpen(true);
+                          }}
+                        >
+                          <Ellipsis size={17} />
+                        </button>
                       </span>
                     ) : (
                       <span className="flex items-center gap-4">
-                        <button onClick={() => setOpen(true)}>
+                        <button>
                           <CircleCheckBig
                             size={17}
                             className="text-[#11B324]"
                           />
                         </button>
                         <CircleX size={18} className="text-[#FF0037]" />
-                        <Ellipsis size={17} />
+                        <button
+                          onClick={() => {
+                            setSelected(kyc);
+                            setOpen(true);
+                          }}
+                        >
+                          <Ellipsis size={17} />
+                        </button>
                       </span>
                     )}
                   </td>
@@ -127,7 +161,12 @@ export default function KycCenterTable({ data, setPage }) {
           </tbody>
         </table>
         {open && (
-          <UserDetailsModal open={open} onClose={() => setOpen(false)} />
+          <UserDetailsModal
+            open={open}
+            onClose={() => setOpen(false)}
+            kyc={selected}
+            setRefresh={setRefresh}
+          />
         )}
         <Pagination
           page={pagination?.page}

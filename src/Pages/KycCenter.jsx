@@ -13,6 +13,7 @@ import { Coin } from "../../public/icons/Coin";
 import { useState } from "react";
 export default function KycCenter() {
   const [page, setPage] = useState(1);
+  const [refresh, setRefresh] = useState(false);
   const {
     data: state,
     loading: stateLoading,
@@ -25,7 +26,8 @@ export default function KycCenter() {
     loading: agencyLoading,
     error: agencyError,
   } = useFetch(
-    `${BASE_URL}/admin/agencies?page=${page}&limit=20&search=&status=&type=`
+    `${BASE_URL}/admin/agencies?page=${page}&limit=20&search=&status=&type=`,
+    refresh,
   );
 
   const kyc = [
@@ -64,7 +66,11 @@ export default function KycCenter() {
   return (
     <div>
       <StatsSection data={kyc} />
-      <KycCenterTable data={agencyList} setPage={setPage} />
+      <KycCenterTable
+        data={agencyList}
+        setPage={setPage}
+        setRefresh={setRefresh}
+      />
     </div>
   );
 }

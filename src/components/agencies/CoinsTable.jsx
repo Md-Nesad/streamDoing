@@ -131,7 +131,9 @@ export default function CoinsTable() {
                         className={`px-3 py-1 text-xs block w-21 text-center ${
                           coin.status === "active"
                             ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                            : "bg-[#FF929296] text-[#D21B20]"
+                            : coin.status === "pending"
+                              ? "bg-[#6FADFF] text-[#FFFFFF]"
+                              : "bg-[#FF929296] text-[#D21B20]"
                         } text-[#005D23] rounded-full font-semibold`}
                       >
                         {coin.status === "suspended"

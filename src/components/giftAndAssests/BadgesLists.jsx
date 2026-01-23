@@ -6,6 +6,7 @@ import useDelete from "../../hooks/useDelete";
 import AddNewBadgeModal from "../../modals/assests/AddNewBadge";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
+import { useDebounce } from "../../hooks/useDebounce";
 // import useFetch from "../../hooks/useFetch";
 // import TopPerformanceLoading from "../TopPerformanceLoading";
 // import UpdateGiftModal from "../../modals/UpdateGiftModal";
@@ -20,14 +21,15 @@ export default function BadgesLists({ data, setRefresh }) {
   const { confirm } = useGlobalConfirm();
 
   const [dloading, setDLoading] = useState(null);
-  //   const [selectedGift, setSelectedGift] = useState(null);
+  const debouncedText = useDebounce(text, 400);
 
-  const handleFilter = () => {
-    const filteredUsers = allGifts?.filter((item) => {
-      return item.name.toLowerCase().includes(text.toLowerCase());
-    });
-    setAllGifts(filteredUsers);
-  };
+  const filteredUsers = allGifts?.filter((item) => {
+    const matchText = item.name
+      .toLowerCase()
+      .includes(debouncedText.toLowerCase());
+
+    return matchText;
+  });
 
   //handle gift delete
   const handleDelete = async (id) => {
@@ -52,17 +54,6 @@ export default function BadgesLists({ data, setRefresh }) {
     }
   };
 
-  //   const handleUpdateModal = (gift) => {
-  //     setSelectedGift(gift);
-  //     setUpdate(true);
-  //   };
-
-  //   useEffect(() => {
-  //     setAllGifts(
-  //       data?.gifts.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)),
-  //     );
-  //   }, [data]);
-
   useEffect(() => {
     if (text === "") {
       setAllGifts(data?.badges);
@@ -80,16 +71,16 @@ export default function BadgesLists({ data, setRefresh }) {
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
+          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-full px-4 py-1.5 rounded-md"
           placeholder="Search by gift name"
         />
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button
+          {/* <button
             onClick={handleFilter}
             className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
           >
             <Funnel size={18} /> Filter
-          </button>
+          </button> */}
           <button
             onClick={() => setIsOpen(true)}
             className="sm:px-6 py-1.5 max-sm:py-2 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
@@ -114,8 +105,8 @@ export default function BadgesLists({ data, setRefresh }) {
           </thead>
 
           <tbody>
-            {allGifts?.length > 0 ? (
-              allGifts?.map((gift) => {
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((gift) => {
                 return (
                   <tr
                     key={gift._id}

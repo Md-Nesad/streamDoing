@@ -4,23 +4,31 @@ import ReportModal from "../../modals/ReportModal";
 import star from "../../assests/star.png";
 import { formatOnlyDate, formatOnlyTime } from "../../utility/utility";
 import Pagination from "../Pagination";
-export default function AllReportsTable({ reports, setPage }) {
+import ModerationFilter from "../../modals/ModerationFilter";
+import { useDebounce } from "../../hooks/useDebounce";
+export default function AllReportsTable({ reports, setPage, setRefresh }) {
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [allReports, setAllReports] = useState(reports?.reports);
   const [selectedReportId, setSelectedReportId] = useState(null);
   const pagination = reports?.pagination;
+  const debouncedText = useDebounce(text, 400);
 
   //handle Filter
-  const handleFilter = () => {
-    const filteredReports = allReports?.filter((report) => {
-      return (
-        report?.targetId?.name.toLowerCase().includes(text.toLowerCase()) ||
-        report?.reporterId?.displayId.toString().includes(text)
-      );
-    });
-    setAllReports(filteredReports);
-  };
+  const filteredUsers = allReports?.filter((report) => {
+    const matchText =
+      report?.targetId?.name
+        .toLowerCase()
+        .includes(debouncedText.toLowerCase()) ||
+      report?.reporterId?.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : report.status === statusFilter;
+
+    return matchText & matchStatus;
+  });
 
   useEffect(() => {
     if (text === "") {
@@ -40,12 +48,25 @@ export default function AllReportsTable({ reports, setPage }) {
           placeholder="Search by Reporter ID or Target Name"
         />
 
-        <button
-          onClick={handleFilter}
-          className="sm:px-5 px-2 py-2 bg-[#FFFFFF] rounded-md font-medium border border-[#CCCCCC] flex items-center gap-2 text-sm sm:text-md"
-        >
-          <Funnel size={18} /> Filter
-        </button>
+        <div className="relative">
+          <button
+            onClick={() => setFilterOpen((prev) => !prev)}
+            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+          >
+            <Funnel size={18} /> Filter
+          </button>
+
+          {/* Filter Dropdown */}
+          {filterOpen && (
+            <div className="absolute right-0 top-full mt-2 z-50">
+              <ModerationFilter
+                statusFilter={statusFilter}
+                setStatusFilter={setStatusFilter}
+                onClose={() => setFilterOpen(false)}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* table area */}
@@ -66,8 +87,8 @@ export default function AllReportsTable({ reports, setPage }) {
           </thead>
 
           <tbody>
-            {allReports?.length > 0 ? (
-              allReports?.map((report) => (
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((report) => (
                 <tr
                   key={report?._id}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
@@ -143,6 +164,7 @@ export default function AllReportsTable({ reports, setPage }) {
             open={open}
             onClose={() => setIsOpen(false)}
             id={selectedReportId}
+            refresh={setRefresh}
           />
         )}
       </div>
