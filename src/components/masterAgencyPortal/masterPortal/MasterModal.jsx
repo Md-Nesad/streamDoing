@@ -23,13 +23,13 @@ export default function MasterModal({ open, onClose, agency }) {
         <div className="space-y-3 text-sm sm:text-lg">
           {/* ID */}
           <div className="flex justify-between">
-            <p className="font-medium text-gray-700">ID :</p>
+            <p className="font-medium text-gray-700">Agency ID :</p>
             <p className="text-gray-800">{agency?.displayId}</p>
           </div>
 
           {/* User */}
           <div className="flex justify-between items-center">
-            <p className="font-medium text-gray-700">Name :</p>
+            <p className="font-medium text-gray-700">Agency Name :</p>
             <div className="flex items-center gap-3">
               <p className="text-gray-800">{agency?.name}</p>
             </div>
@@ -37,7 +37,7 @@ export default function MasterModal({ open, onClose, agency }) {
 
           {/* Earning Balance */}
           <div className="flex justify-between">
-            <p className="font-medium text-gray-700">Type :</p>
+            <p className="font-medium text-gray-700">Agency Type :</p>
             <p className="text-gray-800">{agency?.type || "N/A"}</p>
           </div>
 
@@ -47,17 +47,17 @@ export default function MasterModal({ open, onClose, agency }) {
             <p className="text-gray-800">{formatNumber(agency?.coins)}</p>
           </div>
 
-          {/* Total Earning */}
-          <div className="flex justify-between">
-            <p className="font-medium text-gray-700">Revenue :</p>
-            <p className="text-gray-800">{formatNumber(agency?.revenue)}</p>
-          </div>
-
           <div className="flex justify-between">
             <p className="font-medium text-gray-700">Total Sales :</p>
             <p className="text-gray-800">
               {formatNumber(agency?.totalCoinsSold)}
             </p>
+          </div>
+
+          {/* Total Earning */}
+          <div className="flex justify-between">
+            <p className="font-medium text-gray-700">Revenue :</p>
+            <p className="text-gray-800">{formatNumber(agency?.revenue)}</p>
           </div>
 
           {/* Video Live Time */}

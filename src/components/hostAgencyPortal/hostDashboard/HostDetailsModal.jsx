@@ -15,20 +15,20 @@ export default function HostDetailsModalPortal({ open, onClose, host }) {
 
         {/* Name */}
         <h2 className="text-xl sm:text-2xl font-semibold text-center mb-6">
-          {host?.name}
+          Host Details
         </h2>
 
         {/* Rows */}
         <div className="space-y-3 text-sm sm:text-lg">
           {/* ID */}
           <div className="flex justify-between">
-            <p className="font-medium text-gray-700">ID :</p>
+            <p className="font-medium text-gray-700">Host ID :</p>
             <p className="text-gray-800">{host?.displayId}</p>
           </div>
 
           {/* User */}
           <div className="flex justify-between items-center">
-            <p className="font-medium text-gray-700">Name :</p>
+            <p className="font-medium text-gray-700">Host Name :</p>
             <div className="flex items-center gap-3">
               <img
                 src={host?.profilePic}

@@ -3,7 +3,7 @@ import useJsonPost from "../../../hooks/useJsonPost";
 import { BASE_URL } from "../../../utility/utility";
 import { toast } from "react-toastify";
 
-export default function QuickSellCoins() {
+export default function QuickSellCoins({ setRefresh }) {
   const [userId, setUserId] = useState("");
   const [coins, setCoins] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,6 +23,7 @@ export default function QuickSellCoins() {
     } else {
       setUserId("");
       setCoins("");
+      setRefresh((prev) => !prev);
       return toast.success(result.message);
     }
   };

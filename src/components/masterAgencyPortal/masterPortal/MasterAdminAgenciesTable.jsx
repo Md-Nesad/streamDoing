@@ -1,25 +1,28 @@
 import { Funnel } from "lucide-react";
 import { useEffect, useState } from "react";
 import { countries } from "../../../data/adminData";
+import { useDebounce } from "../../../hooks/useDebounce";
+import AgencyFilterModal from "../../../modals/AgencyFilterModal";
 
 export default function MasterAdminAgenciesTable({ data }) {
   // const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const [agencies, setAgencies] = useState(data?.agencies || []);
-  // const [selectedAgencies, setSelectedAgencies] = useState(null);
-  //filtered coin agencies
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const adminAgencies = agencies?.filter((item) => item.type === "admin");
-
+  const debouncedText = useDebounce(text, 400);
   //hadle filter functionallity
-  const handleFilter = () => {
-    const filteredUsers = agencies?.filter((agency) => {
-      return (
-        agency.name.toLowerCase().includes(text.toLowerCase()) ||
-        agency.displayId.toString().includes(text)
-      );
-    });
-    setAgencies(filteredUsers);
-  };
+  const filteredUsers = adminAgencies?.filter((user) => {
+    const matchText =
+      user.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      user.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
   //updating state when text empty
   useEffect(() => {
     if (text === "") {
@@ -41,12 +44,25 @@ export default function MasterAdminAgenciesTable({ data }) {
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute left-0 top-full mt-2 z-50">
+                <AgencyFilterModal
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
           <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
             Add Agency
           </button>
@@ -72,7 +88,7 @@ export default function MasterAdminAgenciesTable({ data }) {
               {adminAgencies?.length > 0 ? (
                 adminAgencies?.map((agency, index) => {
                   const country = countries?.find(
-                    (country) => country._id === agency.country
+                    (country) => country._id === agency.country,
                   )?.name;
                   return (
                     <tr

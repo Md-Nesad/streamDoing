@@ -1,26 +1,32 @@
 import { Funnel } from "lucide-react";
 import { useEffect, useState } from "react";
-import MasterHostAgencyDetailsModal from "./MasterHostAgencyDetailsModal";
+import MasterCoinAgencyDetailsModal from "./MasterCoinAgencyDetailsModal";
 import { formatNumber } from "../../../utility/utility";
+import { useNavigate } from "react-router-dom";
+import { useDebounce } from "../../../hooks/useDebounce";
+import AgencyFilterModal from "../../../modals/AgencyFilterModal";
 
 export default function MasterHostAgenciesTable({ data }) {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [agencies, setAgencies] = useState(data?.agencies || []);
   const [selectedAgencies, setSelectedAgencies] = useState(null);
-  //filtered coin agencies
-  const hostAgencies = agencies?.filter((item) => item.type === "host");
-
+  const coinAgencies = agencies?.filter((item) => item.type === "host");
+  const debouncedText = useDebounce(text, 400);
   //hadle filter functionallity
-  const handleFilter = () => {
-    const filteredUsers = agencies?.filter((agency) => {
-      return (
-        agency.name.toLowerCase().includes(text.toLowerCase()) ||
-        agency.displayId.toString().includes(text)
-      );
-    });
-    setAgencies(filteredUsers);
-  };
+  const filteredUsers = coinAgencies?.filter((user) => {
+    const matchText =
+      user.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      user.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
   //updating state when text empty
   useEffect(() => {
     if (text === "") {
@@ -42,13 +48,31 @@ export default function MasterHostAgenciesTable({ data }) {
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute left-0 top-full mt-2 z-50">
+                <AgencyFilterModal
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
           <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+            onClick={() =>
+              navigate("/master-agency-portal/agencies/add-coin-agency")
+            }
+            className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
           >
-            <Funnel size={18} /> Filter
-          </button>
-          <button className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap">
             Add Agency
           </button>
         </div>
@@ -61,34 +85,31 @@ export default function MasterHostAgenciesTable({ data }) {
           <table className="w-full text-left border-collapse shrink text-nowrap">
             <thead>
               <tr className="text-[#535353] font-medium text-md">
-                <th className="p-3 pl-5">Host ID</th>
+                <th className="p-3 pl-5">Agency ID</th>
                 <th className="p-3">Name</th>
                 <th className="p-3">Balance</th>
-                <th className="p-3">Diamond</th>
-                <th className="p-3">Revenue</th>
+                <th className="p-3">Total Sales</th>
                 <th className="p-3">Status</th>
                 <th className="p-3 pl-5">Action</th>
               </tr>
             </thead>
 
             <tbody>
-              {hostAgencies?.length > 0 ? (
-                hostAgencies?.map((agency, index) => {
-                  // const country = countries?.find(
-                  //   (country) => country._id === agency.country
-                  // )?.name;
+              {filteredUsers?.length > 0 ? (
+                filteredUsers?.map((agency, index) => {
                   return (
                     <tr
                       key={index}
                       className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                     >
                       <td className="p-3 font-medium pl-5">
-                        HST-{agency.displayId}
+                        {agency.displayId}
                       </td>
                       <td className="p-3">{agency.name || "N/A"}</td>
                       <td className="p-3">{formatNumber(agency.balance)}</td>
-                      <td className="p-3">{formatNumber(agency.diamonds)}</td>
-                      <td className="p-3">{formatNumber(agency.revenue)}</td>
+                      <td className="p-3">
+                        {formatNumber(agency.totalSales) || "N/A"}
+                      </td>
                       <td className="p-3">
                         <span
                           className={`px-4 py-1 text-xs text-center block w-23 ${
@@ -127,7 +148,7 @@ export default function MasterHostAgenciesTable({ data }) {
             </tbody>
           </table>
           {open && (
-            <MasterHostAgencyDetailsModal
+            <MasterCoinAgencyDetailsModal
               open={open}
               onClose={() => setOpen(false)}
               agency={selectedAgencies}

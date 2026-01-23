@@ -3,24 +3,30 @@ import { useEffect, useState } from "react";
 import { formatNumber } from "../../../utility/utility";
 import { useNavigate } from "react-router-dom";
 import HostDetailsModalPortal from "./HostDetailsModal";
+import { useDebounce } from "../../../hooks/useDebounce";
+import FilterDropdown from "../../../modals/FilterModal";
 
 export default function HostList({ data }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [selected, setSelected] = useState(null);
   const [hosts, setHosts] = useState(data?.hosts);
   const [text, setText] = useState("");
+  const debouncedText = useDebounce(text, 400);
 
   //handle filter
-  const handleFilter = () => {
-    const filteredUsers = hosts?.filter((host) => {
-      return (
-        host.name.toLowerCase().includes(text.toLowerCase()) ||
-        host.displayId.toString().includes(text)
-      );
-    });
-    setHosts(filteredUsers);
-  };
+  const filteredHosts = hosts?.filter((host) => {
+    const matchText =
+      host?.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      host?.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : host.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
 
   //handle edit
   const handleView = (host) => {
@@ -49,12 +55,25 @@ export default function HostList({ data }) {
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute left-0 top-full mt-2 z-50">
+                <FilterDropdown
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
           <button
             onClick={() => navigate("/host-agency-portal/add-host")}
             className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
@@ -80,8 +99,8 @@ export default function HostList({ data }) {
           </thead>
 
           <tbody>
-            {hosts?.length > 0 ? (
-              hosts?.map((host, index) => (
+            {filteredHosts?.length > 0 ? (
+              filteredHosts?.map((host, index) => (
                 <tr
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"

@@ -44,21 +44,19 @@ export default function AgencyPerformance({ data }) {
               performance?.map((agency, index) => {
                 //for getting display id and status
                 const { data } = useFetch(
-                  `${BASE_URL}/agency/admin/agencies/${agency?.agencyId}`
+                  `${BASE_URL}/agency/admin/agencies/${agency?.agencyId}`,
                 );
                 // console.log(data);
                 //for getting country name
                 const countryName = countries.find(
-                  (country) => country._id === data?.country
+                  (country) => country._id === data?.country,
                 )?.name;
                 return (
                   <tr
                     key={index}
                     className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                   >
-                    <td className="p-3 font-medium pl-5">
-                      Agc-{data?.displayId}
-                    </td>
+                    <td className="p-3 font-medium pl-5">{data?.displayId}</td>
 
                     <td className="p-3">
                       <img

@@ -1,7 +1,9 @@
 import { timeAgo } from "../../../utility/utility";
+import Pagination from "../../Pagination";
 
-export default function CoinTransactionList({ data }) {
+export default function CoinTransactionList({ data, setPage }) {
   const transactionHistory = data?.data;
+  const pagination = data?.pagination;
   return (
     <>
       {/* table area */}
@@ -73,6 +75,12 @@ export default function CoinTransactionList({ data }) {
             )}
           </tbody>
         </table>
+        <Pagination
+          page={pagination?.page}
+          limit={pagination?.limit}
+          total={pagination?.total}
+          onPageChange={setPage}
+        />
       </div>
     </>
   );

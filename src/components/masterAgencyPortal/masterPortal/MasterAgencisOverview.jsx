@@ -41,7 +41,7 @@ export default function MasterAgencisOverview({ data }) {
                       className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                     >
                       <td className="p-3 font-medium pl-5">
-                        COIN-{agency.displayId}
+                        {agency.displayId}
                       </td>
                       <td className="p-3">{agency.name || "N/A"}</td>
                       <td className="p-3">{formatNumber(agency.coins)}</td>

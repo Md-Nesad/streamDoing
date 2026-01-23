@@ -3,25 +3,30 @@ import { useEffect, useState } from "react";
 import MasterCoinAgencyDetailsModal from "./MasterCoinAgencyDetailsModal";
 import { formatNumber } from "../../../utility/utility";
 import { useNavigate } from "react-router-dom";
+import { useDebounce } from "../../../hooks/useDebounce";
+import AgencyFilterModal from "../../../modals/AgencyFilterModal";
 
 export default function MasterCoinAgenciesTable({ data }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [agencies, setAgencies] = useState(data?.agencies || []);
   const [selectedAgencies, setSelectedAgencies] = useState(null);
-  //filtered coin agencies
   const coinAgencies = agencies?.filter((item) => item.type === "coin");
+  const debouncedText = useDebounce(text, 400);
   //hadle filter functionallity
-  const handleFilter = () => {
-    const filteredUsers = agencies?.filter((agency) => {
-      return (
-        agency.name.toLowerCase().includes(text.toLowerCase()) ||
-        agency.displayId.toString().includes(text)
-      );
-    });
-    setAgencies(filteredUsers);
-  };
+  const filteredUsers = coinAgencies?.filter((user) => {
+    const matchText =
+      user.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      user.displayId.toString().includes(debouncedText);
+
+    const matchStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
   //updating state when text empty
   useEffect(() => {
     if (text === "") {
@@ -43,12 +48,25 @@ export default function MasterCoinAgenciesTable({ data }) {
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute left-0 top-full mt-2 z-50">
+                <AgencyFilterModal
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
           <button
             onClick={() =>
               navigate("/master-agency-portal/agencies/add-coin-agency")
@@ -77,18 +95,15 @@ export default function MasterCoinAgenciesTable({ data }) {
             </thead>
 
             <tbody>
-              {coinAgencies?.length > 0 ? (
-                coinAgencies?.map((agency, index) => {
-                  // const country = countries?.find(
-                  //   (country) => country._id === agency.country
-                  // )?.name;
+              {filteredUsers?.length > 0 ? (
+                filteredUsers?.map((agency, index) => {
                   return (
                     <tr
                       key={index}
                       className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                     >
                       <td className="p-3 font-medium pl-5">
-                        COIN-{agency.displayId}
+                        {agency.displayId}
                       </td>
                       <td className="p-3">{agency.name || "N/A"}</td>
                       <td className="p-3">{formatNumber(agency.balance)}</td>

@@ -5,18 +5,21 @@ import { toast } from "react-toastify";
 
 export default function FreezTitle() {
   const [transactionId, setTransactionId] = useState("");
+  const [loading, setLoading] = useState(false);
   const handleSubmit = useJsonPost(`${BASE_URL}/agency/coin/coin-freeze/apply`);
 
   const handleCoinApply = async () => {
     if (!transactionId) return toast.error("Please enter Valid Transaction ID");
+    setLoading(true);
     const result = await handleSubmit({ transactionId });
 
     if (result.success === false) {
-      return toast.error(result.message);
+      toast.error(result.message);
     } else {
-      return toast.success(result.message);
+      toast.success(result.message);
+      setTransactionId("");
     }
-
+    setLoading(false);
     // if (result?.success === true) {
     //   setTransactionId("");
     // }
@@ -50,7 +53,7 @@ export default function FreezTitle() {
             onClick={handleCoinApply}
             className="px-12 py-2 text-md btn_gradient"
           >
-            Apply
+            {loading ? "Freezing..." : "Apply"}
           </button>
         </div>
       </form>

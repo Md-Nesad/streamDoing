@@ -5,8 +5,10 @@ import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatNumber, formatPercent } from "../../utility/utility";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
+import { useState } from "react";
 
 export default function CoinTranactionHistory() {
+  const [page, setPage] = useState(1);
   const {
     data: stats,
     loading,
@@ -18,7 +20,7 @@ export default function CoinTranactionHistory() {
     loading: transactionHistoryLoading,
     error: transactionHistoryError,
   } = useFetch(
-    `${BASE_URL}/agency/coin/dashboard/buy-sale-transactions?page=1&limit=10&search=&type=`
+    `${BASE_URL}/agency/coin/dashboard/buy-sale-transactions?page=${page}&limit=30&search=&type=`,
   );
 
   const stat = [
@@ -57,7 +59,7 @@ export default function CoinTranactionHistory() {
   return (
     <div>
       <StatsSection data={stat} />
-      <CoinTransactionList data={transactionHistory} />
+      <CoinTransactionList data={transactionHistory} setPage={setPage} />
     </div>
   );
 }

@@ -6,8 +6,11 @@ import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatNumber, formatPercent } from "../../utility/utility";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
+import { useState } from "react";
 
 export default function CoinDashboard() {
+  const [page, setPage] = useState(1);
+  const [refresh, setRefresh] = useState(false);
   const {
     data: stats,
     loading,
@@ -19,7 +22,8 @@ export default function CoinDashboard() {
     loading: transactionHistoryLoading,
     error: transactionHistoryError,
   } = useFetch(
-    `${BASE_URL}/agency/coin/dashboard/buy-sale-transactions?page=1&limit=10&search=&type=`
+    `${BASE_URL}/agency/coin/dashboard/buy-sale-transactions?page=${page}&limit=30&search=&type=`,
+    refresh,
   );
 
   const stat = [
@@ -58,8 +62,8 @@ export default function CoinDashboard() {
   return (
     <div>
       <StatsSection data={stat} />
-      <QuickSellCoins />
-      <CoinTransactionList data={transactionHistory} />
+      <QuickSellCoins setRefresh={setRefresh} />
+      <CoinTransactionList data={transactionHistory} setPage={setPage} />
     </div>
   );
 }

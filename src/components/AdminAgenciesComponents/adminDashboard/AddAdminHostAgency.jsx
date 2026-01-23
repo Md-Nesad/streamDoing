@@ -60,6 +60,7 @@ export default function AddAdminHostAgency() {
       toast.error(result.message);
     } else {
       toast.success(result.message);
+      navigate("/admin-agency-portal");
     }
     setLoading(false);
 
@@ -305,7 +306,7 @@ export default function AddAdminHostAgency() {
         <div className="flex justify-center sm:justify-end mt-8 gap-4">
           <button
             type="button"
-            onClick={() => navigate("/dashboard/agencies")}
+            onClick={() => navigate("/admin-agency-portal")}
             className="px-8 py-1 border border-gray-300 rounded-md text-[#181717]"
           >
             Cancel
