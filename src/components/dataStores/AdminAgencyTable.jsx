@@ -93,7 +93,7 @@ export default function AdminAgencyTable() {
 
             {/* Filter Dropdown */}
             {filterOpen && (
-              <div className="absolute right-0 top-full mt-2 z-50">
+              <div className="absolute left-0 top-full mt-2 z-50">
                 <AgencyFilterModal
                   statusFilter={statusFilter}
                   setStatusFilter={setStatusFilter}
