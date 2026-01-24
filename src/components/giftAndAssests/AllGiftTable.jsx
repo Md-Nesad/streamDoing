@@ -90,7 +90,7 @@ function AllGiftTable({ data, loading, error, setRefresh }) {
           value={text}
           onChange={(e) => setText(e.target.value)}
           className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-full px-4 py-1.5 rounded-md"
-          placeholder="Search by gift name or category"
+          placeholder="Search by gift name"
         />
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
           <button

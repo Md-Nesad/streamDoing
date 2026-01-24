@@ -6,14 +6,13 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { agencySchema } from "../../utility/validator";
 import { useForm } from "react-hook-form";
-import { useStream } from "../../context/streamContext";
 import { toast } from "react-toastify";
+import { countries } from "../../data/adminData";
 
 export default function AddHostAgencyForm() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleFormData = useFormDataPost(`${BASE_URL}/admin/agencies`);
-  const { countries } = useStream();
 
   //validated form using react hook form + zod
   const {
