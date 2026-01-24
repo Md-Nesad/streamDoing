@@ -29,6 +29,7 @@ export default function MasterCoinAgenciesTable({ data, setPage }) {
 
     return matchText && matchStatus;
   });
+  console.log(filteredUsers);
   //updating state when text empty
   useEffect(() => {
     if (text === "") {
@@ -108,9 +109,9 @@ export default function MasterCoinAgenciesTable({ data, setPage }) {
                         {agency.displayId}
                       </td>
                       <td className="p-3">{agency.name || "N/A"}</td>
-                      <td className="p-3">{formatNumber(agency.balance)}</td>
+                      <td className="p-3">{formatNumber(agency.coins)}</td>
                       <td className="p-3">
-                        {formatNumber(agency.totalSales) || "N/A"}
+                        {formatNumber(agency.totalCoinsSold)}
                       </td>
                       <td className="p-3">
                         <span

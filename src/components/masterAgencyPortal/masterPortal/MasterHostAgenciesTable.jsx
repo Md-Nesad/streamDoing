@@ -108,9 +108,9 @@ export default function MasterHostAgenciesTable({ data, setPage }) {
                         {agency.displayId}
                       </td>
                       <td className="p-3">{agency.name || "N/A"}</td>
-                      <td className="p-3">{formatNumber(agency.balance)}</td>
+                      <td className="p-3">{formatNumber(agency.coins)}</td>
                       <td className="p-3">
-                        {formatNumber(agency.totalSales) || "N/A"}
+                        {formatNumber(agency.totalCoinsSold)}
                       </td>
                       <td className="p-3">
                         <span

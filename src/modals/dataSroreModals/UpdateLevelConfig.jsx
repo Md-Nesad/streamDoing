@@ -1,32 +1,40 @@
 import { useState } from "react";
-import { useStream } from "../../context/streamContext";
 import { BASE_URL } from "../../utility/utility";
-import useJsonPut from "../../hooks/useJsonPut";
 import { toast } from "react-toastify";
+import { Upload } from "lucide-react";
+import usePutApi from "../../hooks/usePutAPI";
 
-export default function UpdateLevelConfig({ onClose, selected, onSuccess }) {
+export default function UpdateLevelConfig({
+  open,
+  onClose,
+  onSuccess,
+  selected,
+}) {
   if (!open) return null;
-  const [level, setLevel] = useState(selected?.level);
-  const [requiredExperience, setRequiredExperience] = useState(
-    selected?.requiredExperience,
-  );
-  const [badgeId, setBadgeId] = useState(selected?.badge?._id);
-  const [description, setDescription] = useState(selected?.description);
+  // const [level, setLevel] = useState("");
+  // const [requiredExperience, setRequiredExperience] = useState("");
+  console.log(selected);
+  const [badgeFile, setBadgeFile] = useState(null);
+  // const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
-  const { badgeList } = useStream();
-  const handleSubmit = useJsonPut(
-    `${BASE_URL}/admin/level-configs/${selected._id}`,
+  const handleFormData = usePutApi(
+    `${BASE_URL}/admin/level-configs/${selected?._id}`,
   );
   //handle post
 
   const handleTarget = async () => {
+    if (!badgeFile) {
+      return toast.error("File is required!");
+    }
+
+    const formData = new FormData();
+    // formData.append("level", level);
+    // formData.append("requiredExperience", requiredExperience);
+    formData.append("badgeFile", badgeFile);
+    // formData.append("description", description);
+
     setLoading(true);
-    const result = await handleSubmit({
-      level,
-      requiredExperience,
-      badgeId,
-      description,
-    });
+    const result = await handleFormData(formData);
     toast.success(result.message || "Level config updated.");
     setLoading(false);
     onSuccess();
@@ -36,68 +44,32 @@ export default function UpdateLevelConfig({ onClose, selected, onSuccess }) {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-white w-full max-w-xl mx-auto rounded-xl p-4 sm:p-6 overflow-y-auto max-h-[95vh] hide_scrollbar animatefadeIn">
         <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
-          Update Level Config
+          Update Level Badge
         </h2>
 
         {/* GRID FORM */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-2 mt-6">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-2 mt-6">
           <div>
-            <label className="text-sm font-medium text-gray-700 flex">
-              Level
+            <label className="text-sm font-medium text-gray-700 pb-1">
+              Update Level Badge (SVG, PNG)
             </label>
-            <input
-              type="number"
-              value={level}
-              onChange={(e) => setLevel(e.target.value)}
-              placeholder="Enter level"
-              className="w-full mt-1 border border-[#626060] rounded-md px-3 py-1.5 focus:outline-none"
-            />
-          </div>
+            <div className="relative w-full cursor-pointer mt-1">
+              <input
+                type="file"
+                onChange={(e) => setBadgeFile(e.target.files[0])}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
 
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              Required Exp.
-            </label>
-            <input
-              type="number"
-              value={requiredExperience}
-              onChange={(e) => setRequiredExperience(e.target.value)}
-              placeholder="Enter required exp"
-              className="w-full mt-1 border border-[#626060] rounded-md px-3 py-1.5 focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              Badge Id
-            </label>
-            <div className="relative">
-              <select
-                value={badgeId}
-                onChange={(e) => setBadgeId(e.target.value)}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 text-md appearance-none"
-              >
-                <option value="">Select</option>
-                {badgeList?.map((badge) => (
-                  <option key={badge._id} value={badge._id}>
-                    {badge.name}
-                  </option>
-                ))}
-              </select>
+              <div className="border border-gray-300 rounded-md px-3 text-sm flex items-center gap-3">
+                <span className="text-[#686868A6] font-medium py-2 flex items-center gap-2">
+                  Upload <Upload size={15} />
+                </span>
+                <span className="w-px h-7 bg-gray-300"></span>
+                <span className="text-[#686868A6] font-medium truncate">
+                  {badgeFile?.name || "No file choosen"}
+                </span>
+              </div>
             </div>
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              Description
-            </label>
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter description"
-              className="w-full mt-1 border border-[#626060] rounded-md px-3 py-1.5 focus:outline-none"
-            />
           </div>
         </div>
 

@@ -21,7 +21,7 @@ export default function NotificationHistoryTable({ refresh }) {
   const pagination = data?.pagination;
   const { confirm } = useGlobalConfirm();
   //handle delete
-  const deleteUser = useDelete(`${BASE_URL}/admin/notifications`);
+  const deleteUser = useDelete(`${BASE_URL}/admin/notification-center`);
 
   const handleDelete = async (id) => {
     const ok = await confirm("Are you sure to delete?");

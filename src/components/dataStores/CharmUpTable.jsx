@@ -3,25 +3,25 @@ import { LoaderCircle, SquarePen, Trash2 } from "lucide-react";
 import { BASE_URL } from "../../utility/utility";
 import useDelete from "../../hooks/useDelete";
 import AddCharmConfig from "../../modals/dataSroreModals/AddCharmConfig";
-// import UpdateCharmConfig from "../../modals/dataSroreModals/UpdateCharmConfig";
+import UpdateCharmConfig from "../../modals/dataSroreModals/UpdateCharmConfig";
 import Pagination from "../Pagination";
 import { toast } from "react-toastify";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 
 export default function CharmUpTable({ data, setPage, setRefresh }) {
   const [open, setIsOpen] = useState(false);
-  // const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(false);
   const [salaries, setSalaries] = useState(data?.charmConfigs);
-  // const [selectedSalary, setSelectedSalary] = useState(null);
+  const [selectedSalary, setSelectedSalary] = useState(null);
   const deleteUser = useDelete(`${BASE_URL}/admin/charm-configs`);
   const { confirm } = useGlobalConfirm();
   const [loading, setLoading] = useState(null);
   const pagination = data?.pagination;
 
-  // const handleEdit = (level) => {
-  //   setSelectedSalary(level);
-  //   setEdit(true);
-  // };
+  const handleEdit = (level) => {
+    setSelectedSalary(level);
+    setEdit(true);
+  };
 
   //handle delete
   const handleDelete = async (id) => {
@@ -91,9 +91,9 @@ export default function CharmUpTable({ data, setPage, setRefresh }) {
                     </td>
                     <td className="p-3">
                       <span className="flex items-center gap-4">
-                        {/* <button title="Edit" onClick={() => handleEdit(level)}>
-                          <SquarePen size={17} />
-                        </button> */}
+                        <button title="Edit" onClick={() => handleEdit(level)}>
+                          Edit
+                        </button>
 
                         <button
                           title="Delete"
@@ -139,8 +139,9 @@ export default function CharmUpTable({ data, setPage, setRefresh }) {
             }}
           />
         )}
-        {/* {edit && (
+        {edit && (
           <UpdateCharmConfig
+            open={edit}
             onClose={() => setEdit(false)}
             selected={selectedSalary}
             onSuccess={() => {
@@ -148,7 +149,7 @@ export default function CharmUpTable({ data, setPage, setRefresh }) {
               setIsOpen(false);
             }}
           />
-        )} */}
+        )}
       </div>
     </>
   );

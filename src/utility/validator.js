@@ -169,11 +169,17 @@ export const addGiftSchema = z.object({
     ),
   giftSound: z
     .any()
-    .refine((files) => files?.length > 0, "Sound file is required")
+    .optional()
     .refine(
-      (files) =>
-        ["audio/mpeg", "audio/wav", "audio/ogg"].includes(files?.[0]?.type),
-      "Only MP3, WAV or OGG audio files are allowed",
+      (files) => {
+        if (!files || files.length === 0) return true; // ❌ কোনো error না
+        return ["audio/mpeg", "audio/wav", "audio/ogg"].includes(
+          files[0]?.type,
+        );
+      },
+      {
+        message: "Only MP3, WAV or OGG audio files are allowed",
+      },
     ),
 });
 

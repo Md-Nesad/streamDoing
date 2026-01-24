@@ -44,13 +44,6 @@ export default function MasterAgenciesTabs() {
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
     },
-    // {
-    //   title: "Avg Sell",
-    //   value: "৳" + formatNumber(stat?.averageSale),
-    //   change: formatPercent(stat?.saleGrowth),
-    //   icon: TrendingUp,
-    //   iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
-    // },
   ];
 
   if (loading) return <Loading />;

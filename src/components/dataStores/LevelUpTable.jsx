@@ -3,25 +3,25 @@ import { LoaderCircle, SquarePen, Trash2 } from "lucide-react";
 import { BASE_URL } from "../../utility/utility";
 import useDelete from "../../hooks/useDelete";
 import AddLevelTarget from "../../modals/dataSroreModals/AddLevelTarget";
-// import UpdateLevelConfig from "../../modals/dataSroreModals/UpdateLevelConfig";
+import UpdateLevelConfig from "../../modals/dataSroreModals/UpdateLevelConfig";
 import Pagination from "../Pagination";
 import { toast } from "react-toastify";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 
 export default function LevelUpTable({ data, setPage, setRefresh }) {
   const [open, setIsOpen] = useState(false);
-  // const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(false);
   const [salaries, setSalaries] = useState(data?.levelConfigs);
-  // const [selectedSalary, setSelectedSalary] = useState(null);
+  const [selectedSalary, setSelectedSalary] = useState(null);
   const deleteUser = useDelete(`${BASE_URL}/admin/level-configs`);
   const [loading, setLoading] = useState(null);
   const { confirm } = useGlobalConfirm();
   const pagination = data?.pagination;
 
-  // const handleEdit = (level) => {
-  //   setSelectedSalary(level);
-  //   setEdit(true);
-  // };
+  const handleEdit = (level) => {
+    setSelectedSalary(level);
+    setEdit(true);
+  };
 
   //handle delete
   const handleDelete = async (id) => {
@@ -79,6 +79,9 @@ export default function LevelUpTable({ data, setPage, setRefresh }) {
                         src={level?.badge}
                         alt="badge profile"
                         className="w-8 h-8 rounded-full object-cover"
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                        crossOrigin="anonymous"
                       />
                     </td>
                     <td className="p-3">{level.level}</td>
@@ -88,9 +91,9 @@ export default function LevelUpTable({ data, setPage, setRefresh }) {
                     </td>
                     <td className="p-3">
                       <span className="flex items-center gap-4">
-                        {/* <button title="Edit" onClick={() => handleEdit(level)}>
-                          <SquarePen size={17} />
-                        </button> */}
+                        <button title="Edit" onClick={() => handleEdit(level)}>
+                          Edit
+                        </button>
 
                         <button
                           title="Delete"
@@ -136,8 +139,9 @@ export default function LevelUpTable({ data, setPage, setRefresh }) {
             }}
           />
         )}
-        {/* {edit && (
+        {edit && (
           <UpdateLevelConfig
+            open={edit}
             onClose={() => setEdit(false)}
             selected={selectedSalary}
             onSuccess={() => {
@@ -145,7 +149,7 @@ export default function LevelUpTable({ data, setPage, setRefresh }) {
               setIsOpen(false);
             }}
           />
-        )} */}
+        )}
       </div>
     </>
   );
