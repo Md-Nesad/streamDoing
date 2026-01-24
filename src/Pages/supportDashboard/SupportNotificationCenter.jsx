@@ -1,10 +1,19 @@
 import React from "react";
-import NotificationCenter from "../NotificationCenter";
+import TitleAndSubTitle from "../../components/TitleAndSubTitle";
+import SendNotificationForm from "../../components/supportTeamPortal/SupportDashboardComponents/SendNotificationForm";
+import NotificationHistory from "./NotificationHistory";
 
 export default function SupportNotificationCenter() {
   return (
     <>
-      <NotificationCenter />
+      <div>
+        <TitleAndSubTitle
+          title="Notification Center"
+          subtitle="Send notifications to users, agencies, and hosts"
+        />
+        <SendNotificationForm />
+        <NotificationHistory />
+      </div>
     </>
   );
 }

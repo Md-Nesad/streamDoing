@@ -30,6 +30,8 @@ export default function AllReportsTable({ reports, setPage, setRefresh }) {
     return matchText & matchStatus;
   });
 
+  console.log(filteredUsers);
+
   useEffect(() => {
     if (text === "") {
       setAllReports(reports?.reports);

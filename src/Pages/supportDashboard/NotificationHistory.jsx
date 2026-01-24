@@ -1,34 +1,35 @@
 import { LoaderCircle, Pen, Trash2 } from "lucide-react";
+import TitleAndSubTitle from "../../components/TitleAndSubTitle";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatOnlyDate } from "../../utility/utility";
-import Loading from "../Loading";
-import Error from "../Error";
+import Loading from "../../components/Loading";
+import Error from "../../components/Error";
 import { useEffect, useState } from "react";
-import Pagination from "../Pagination";
 import useDelete from "../../hooks/useDelete";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
-import TitleAndSubTitle from "../TitleAndSubTitle";
+import Pagination from "../../components/Pagination";
 
-export default function NotificationHistoryTable({ refresh }) {
+export default function NotificationHistory() {
   const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/notification-center?page=${page}&limit=20`,
-    refresh,
+    `${BASE_URL}/support-agency/notification-center?page=${page}&limit=20`,
   );
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState(data?.notifications);
   const pagination = data?.pagination;
   const { confirm } = useGlobalConfirm();
+
   //handle delete
-  const deleteUser = useDelete(`${BASE_URL}/admin/notifications`);
+  const deleteUser = useDelete(
+    `${BASE_URL}/support-agency/notification-center`,
+  );
 
   const handleDelete = async (id) => {
     const ok = await confirm("Are you sure to delete?");
     if (!ok) return;
     setIsLoading(id);
     const result = await deleteUser(id);
-    console.log(result);
     toast.success(result.message);
     setIsLoading(null);
     setNotifications(

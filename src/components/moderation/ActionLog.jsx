@@ -2,17 +2,18 @@ import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL } from "../../utility/utility";
 import Error from "../Error";
-import Pagination from "../Pagination";
 import Loading from "../Loading";
+import Pagination from "../Pagination";
 
 export default function ActionLog() {
   const [page, setPage] = useState(1);
   const { data, error, loading } = useFetch(
     `${BASE_URL}/admin/reports/action-logs?page=${page}&limit=20&actionType=`,
   );
+
   const logs = data?.logs;
   const pagination = data?.pagination;
-
+  console.log(pagination);
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 
@@ -56,12 +57,14 @@ export default function ActionLog() {
           </div>
         )}
       </div>
-      <Pagination
-        page={pagination?.page}
-        total={pagination?.total}
-        limit={pagination?.limit}
-        onPageChange={setPage}
-      />
+      {pagination && (
+        <Pagination
+          page={pagination?.page}
+          total={pagination?.total}
+          limit={pagination?.limit}
+          onPageChange={setPage}
+        />
+      )}
     </div>
   );
 }

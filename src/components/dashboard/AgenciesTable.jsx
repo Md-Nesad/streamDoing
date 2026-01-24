@@ -29,6 +29,7 @@ export default function AgenciesTable({ agenciesData, setPage, loading }) {
 
     return matchStatus;
   });
+  console.log(agenciesData);
 
   //handle export
   const handleExport = () => {

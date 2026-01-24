@@ -42,6 +42,7 @@ import { ProtectedRoute } from "../ProtectedRoutes";
 // import CharmUp from "../../Pages/dataStore/CharmUp";
 import TopRanking from "../../Pages/TopRanking";
 import Analytics from "../../Pages/Analytics";
+import NotificationCenter from "../../Pages/NotificationCenter";
 
 export default function DashboardRouter() {
   return (
@@ -95,11 +96,11 @@ export default function DashboardRouter() {
               <Route path="kyc-centre" element={<KycCenter />} />
               <Route path="salary-target" element={<SalaryTarget />} />
               <Route path="gifts-assets" element={<GiftAndAssests />} />
-              {/* <Route
-              path="notification-center"
-              element={<NotificationCenter />}
-            />
-            <Route path="inbox" element={<InboxPage />} /> */}
+              <Route
+                path="notification-center"
+                element={<NotificationCenter />}
+              />
+              {/* <Route path="inbox" element={<InboxPage />} /> */}
               <Route path="settings" element={<Setting />} />
               {/* data store routes */}
               <Route path="host-management" element={<HostManagement />} />

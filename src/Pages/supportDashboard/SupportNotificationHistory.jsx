@@ -1,10 +1,9 @@
-import React from "react";
-import NotificationHistoryTable from "../../components/notificationCenter/NotificationHistoryTable";
+import NotificationHistory from "./NotificationHistory";
 
 export default function SupportNotificationHistory() {
   return (
     <>
-      <NotificationHistoryTable />
+      <NotificationHistory />
     </>
   );
 }

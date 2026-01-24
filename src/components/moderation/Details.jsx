@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 
 export default function Details({ report, loading, error, id, setRefresh }) {
   const [notes, setNotes] = useState(report?.moderatorNotes[0]?.note);
-  const [actionType, setActionType] = useState("");
   const { agencies } = useStream();
   const [loadings, setLoadings] = useState(false);
   //find admin
@@ -17,9 +16,7 @@ export default function Details({ report, loading, error, id, setRefresh }) {
   );
 
   //handle action taken
-  const handleAction = async () => {
-    if (!actionType) return toast.error("Please select an action");
-
+  const handleAction = async (actionType) => {
     try {
       setLoadings(true);
       const data = {
@@ -62,7 +59,7 @@ export default function Details({ report, loading, error, id, setRefresh }) {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-3 sm:gap-y-5">
           <Info
             label="Report Type"
-            value={report?.actions[0]?.actionType || "N/A"}
+            value={report?.actions?.at(-1)?.actionType || "N/A"}
           />
           <Info label="Admin Name" value={admin?.name || "Super Admin"} />
           <Info label="Admin Id" value={admin?.displayId || "N/A"} />
@@ -93,53 +90,31 @@ export default function Details({ report, loading, error, id, setRefresh }) {
         {/* Action Buttons */}
         <div className="flex flex-wrap max-sm:justify-center gap-2 pt-0 sm:pt-2">
           <button
-            onClick={() => {
-              setActionType("warning");
-              // handleAction();
-            }}
+            onClick={() => handleAction("warning")}
             className="border rounded-md px-2 py-1 flex items-center gap-2 text-sm active:animate-bounce"
           >
             <TriangleAlert size={16} /> Issue Warning
           </button>
 
           <button
-            onClick={() => {
-              setActionType("fine");
-              // handleAction();
-            }}
+            onClick={() => handleAction("fine")}
             className="bg-[#ff7676] text-white rounded-md px-4 py-1 flex items-center gap-2 text-sm active:animate-bounce"
           >
             <span className="text-white">$</span> Apply Fine
           </button>
 
           <button
-            onClick={() => {
-              setActionType("ban");
-              // handleAction();
-            }}
+            onClick={() => handleAction("ban")}
             className="bg-[#ff5c5c] text-white rounded-md px-2 py-1 flex items-center gap-2 text-sm active:animate-bounce"
           >
             <Ban size={16} /> Ban User
           </button>
 
           <button
-            onClick={() => {
-              setActionType("resolve");
-              // handleAction();
-            }}
+            onClick={() => handleAction("resolve")}
             className="bg-[#2ecc71] text-white rounded-md px-2 py-1 flex items-center gap-2 text-sm active:animate-bounce"
           >
             <CircleCheck size={16} /> Resolve
-          </button>
-
-          <button
-            onClick={() => {
-              // setActionType("delete");
-              handleAction();
-            }}
-            className="bg-[#074DFF] text-white rounded-md px-6 py-1 flex items-center gap-2 text-sm"
-          >
-            {loadings ? "Submitting..." : "Submit"}
           </button>
         </div>
       </div>

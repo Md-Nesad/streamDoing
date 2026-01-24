@@ -1,19 +1,21 @@
 import React, { useState } from "react";
-import Notification from "../../assests/Notification";
+import Notification from "../../../assests/Notification";
 import { ChevronDown, Eye, RotateCw, Send } from "lucide-react";
-import useFetch from "../../hooks/useFetch";
-import { BASE_URL } from "../../utility/utility";
-import useJsonPost from "../../hooks/useJsonPost";
+import useFetch from "../../../hooks/useFetch";
+import { BASE_URL } from "../../../utility/utility";
+import useJsonPost from "../../../hooks/useJsonPost";
 import { toast } from "react-toastify";
 
-export default function ComposeNotification({ setRefresh }) {
+export default function SendNotificationForm() {
   const [targetType, setTargetType] = useState("");
   const [targetIds, setTargetIds] = useState([]);
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const handleSubmit = useJsonPost(`${BASE_URL}/admin/notification-center`);
+  const handleSubmit = useJsonPost(
+    `${BASE_URL}/support-agency/notification-center`,
+  );
 
   const data = {
     targetType,
@@ -33,19 +35,19 @@ export default function ComposeNotification({ setRefresh }) {
 
   //get users list
   const { data: userList } = useFetch(
-    `${BASE_URL}/admin/users?page=1&limit=100&search=&status=&type=`,
+    `${BASE_URL}/support-agency/user?page=1&limit=100&type=&search=`,
   );
   const users = userList?.users || [];
 
   //get agencies list
   const { data: agencyList } = useFetch(
-    `${BASE_URL}/admin/agencies?page=1&limit=100&search=&status=&type=`,
+    `${BASE_URL}/support-agency/agency?page=1&limit=100&type=&search=`,
   );
   const agencies = agencyList?.agencies || [];
 
   const handleRadioChange = (type) => {
     setTargetType(type);
-    setTargetIds([]);
+    setTargetIds([]); // radio change হলে previous selection clear
   };
 
   const handleCheckboxChange = (id, checked) => {
@@ -66,8 +68,9 @@ export default function ComposeNotification({ setRefresh }) {
     setLoading(true);
     const result = await handleSubmit(data);
     setLoading(false);
+
     toast.success(result.message);
-    setRefresh((prev) => !prev);
+    reset();
   };
 
   return (
