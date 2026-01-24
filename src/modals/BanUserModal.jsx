@@ -15,16 +15,20 @@ export default function BanUserModal({ isOpen, onClose, user, onSuccess }) {
   //handle ban
   const handleBan = async () => {
     const data = {
-      isPermanent: isPerOn,
-      isTemporary: isTempOn,
+      isPermanent: String(isPerOn),
+      isTemporary: String(isTempOn),
       reason: reason,
       until: until,
     };
     setLoading(true);
     const result = await handleSubmit(data);
+    if (result.success === false) {
+      toast.error(result.message);
+    } else {
+      toast.success(result.message);
+      onSuccess();
+    }
     setLoading(false);
-    toast.success(result.message);
-    onSuccess();
   };
 
   return (

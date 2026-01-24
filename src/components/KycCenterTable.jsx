@@ -103,7 +103,9 @@ export default function KycCenterTable({ data, setPage, setRefresh }) {
                       className={`px-4 py-1 text-xs text-center block w-23 ${
                         kyc.status === "active"
                           ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                          : "bg-[#FF929296] text-[#D21B20]"
+                          : kyc.status === "pending"
+                            ? "bg-[#6FADFF] text-[#FFFFFF]"
+                            : "bg-[#FF929296] text-[#D21B20]"
                       } text-[#005D23] rounded-full font-semibold`}
                     >
                       {kyc.status}

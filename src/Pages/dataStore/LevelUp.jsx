@@ -9,7 +9,7 @@ export default function LevelUp() {
   const [page, setPage] = useState(1);
   const [refresh, setRefresh] = useState(false);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/level-configs?page=${page}&limit=30`,
+    `${BASE_URL}/admin/level-configs?page=${page}&limit=20`,
     refresh,
   );
 

@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import TitleAndSubTitle from "../components/TitleAndSubTitle";
 import StatsSection from "../components/dashboard/StatsCard";
 import { kyc } from "../data/data";

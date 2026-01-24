@@ -3,25 +3,26 @@ import { formatNumber } from "../../utility/utility";
 import Pagination from "../Pagination";
 import Loading from "../Loading";
 import { useEffect, useState } from "react";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export default function CoinPurchaseTable({ data, setPage, loading }) {
   const [text, setText] = useState("");
-  const [coinPurchaseList, setCoinPurchaseList] = useState(data?.topUps);
+  const [coinPurchaseList] = useState(data?.topUps);
   const pagination = data?.pagination;
+  const debouncedText = useDebounce(text, 400);
 
-  //handle filter
-  const handleFilter = () => {
-    const filteredUsers = coinPurchaseList?.filter((coin) => {
-      return coin?.user?.name.toLowerCase().includes(text.toLowerCase());
-    });
-    setCoinPurchaseList(filteredUsers);
-  };
+  const filteredUsers = coinPurchaseList?.filter((coin) => {
+    return (
+      coin?.user?.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      coin?.topUpMethod.toLowerCase().includes(debouncedText.toLowerCase())
+    );
+  });
 
-  useEffect(() => {
-    if (text === "") {
-      setCoinPurchaseList(data?.topUps);
-    }
-  }, [text, data?.topUps]);
+  // useEffect(() => {
+  //   if (text === "") {
+  //     setCoinPurchaseList(data?.topUps);
+  //   }
+  // }, [text, data?.topUps]);
 
   if (loading) return <Loading />;
 
@@ -35,15 +36,15 @@ export default function CoinPurchaseTable({ data, setPage, loading }) {
             value={text}
             onChange={(e) => setText(e.target.value)}
             className="border border-[#BBBBBB] outline-[#BBBBBB] w-full px-4 py-1.5 rounded-md"
-            placeholder="Search withdrawals"
+            placeholder="Search by name or method"
           />
 
-          <button
+          {/* <button
             onClick={handleFilter}
             className="sm:px-5 px-2 py-2 bg-[#FFFFFF] rounded-md font-medium border border-[#CCCCCC] flex items-center gap-2 text-sm sm:text-md"
           >
             <Funnel size={18} /> Filter
-          </button>
+          </button> */}
         </div>
 
         <table className="w-full text-left border-collapse text-nowrap">
@@ -60,8 +61,8 @@ export default function CoinPurchaseTable({ data, setPage, loading }) {
           </thead>
 
           <tbody>
-            {coinPurchaseList?.length > 0 ? (
-              coinPurchaseList?.map((coin, index) => (
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((coin, index) => (
                 <tr
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"

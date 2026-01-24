@@ -13,7 +13,7 @@ export default function useJsonPost(BaseUrl) {
       const result = await res.json();
 
       if (!res.ok) {
-        throw new Error(result.message || "Something went wrong");
+        throw new Error(result.error || "Something went wrong");
       }
 
       return result;

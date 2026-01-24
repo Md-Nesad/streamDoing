@@ -136,7 +136,10 @@ export default function AgencyDetailsModal({ open, onClose, agency }) {
                 className="w-32 h-23 rounded-sm object-contain blur-xs hover:blur-none cursor-pointer"
                 loading="lazy"
                 onClick={() =>
-                  downloadImage(agency?.profilePic, "agency-profile.jpg")
+                  downloadImage(
+                    agency?.profilePic,
+                    `${agency?.name}-profile.jpg`,
+                  )
                 }
               />
               <span className="text-sm">Profile</span>
@@ -149,7 +152,10 @@ export default function AgencyDetailsModal({ open, onClose, agency }) {
                 className="w-32 h-23 rounded-sm object-contain blur-xs hover:blur-none cursor-pointer"
                 loading="lazy"
                 onClick={() =>
-                  downloadImage(agency?.documentFrontURL, "document-front.jpg")
+                  downloadImage(
+                    agency?.documentFrontURL,
+                    `${agency?.name}-front.jpg`,
+                  )
                 }
               />
               <span className="text-sm">Doc. Front</span>
@@ -162,7 +168,10 @@ export default function AgencyDetailsModal({ open, onClose, agency }) {
                 className="w-32 h-23 rounded-sm object-contain blur-xs hover:blur-none cursor-pointer"
                 loading="lazy"
                 onClick={() =>
-                  downloadImage(agency?.documentBackURL, "document-back.jpg")
+                  downloadImage(
+                    agency?.documentBackURL,
+                    `${agency?.name}-back.jpg`,
+                  )
                 }
               />
               <span className="text-sm">Doc. Back</span>

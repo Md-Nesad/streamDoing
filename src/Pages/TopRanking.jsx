@@ -27,7 +27,7 @@ export default function TopRanking() {
 
   //top performing agency
   const topPerformanceAgency = useFetch(
-    `${BASE_URL}/admin/analytics/top-agencies?limit=15&page=${page}`,
+    `${BASE_URL}/admin/analytics/top-agencies?limit=20&page=${page}`,
   );
 
   //coin sales overview

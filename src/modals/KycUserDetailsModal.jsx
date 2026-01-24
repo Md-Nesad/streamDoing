@@ -38,7 +38,7 @@ export default function UserDetailsModal({ open, onClose, kyc, setRefresh }) {
         body: JSON.stringify({ status }),
       });
       const result = await res.json();
-      console.log(result);
+
       toast.success("Update Successfully");
       // onClose();
     } catch (error) {
@@ -110,7 +110,9 @@ export default function UserDetailsModal({ open, onClose, kyc, setRefresh }) {
               alt="kyc profile"
               className="w-32 h-23 rounded-sm object-contain blur-xs hover:blur-none cursor-pointer"
               loading="lazy"
-              onClick={() => downloadImage(kyc?.profilePic, "kyc-profile.jpg")}
+              onClick={() =>
+                downloadImage(kyc?.profilePic, `${kyc.name}-profile.jpg`)
+              }
             />
             <span className="text-sm">Profile</span>
           </div>
@@ -122,7 +124,7 @@ export default function UserDetailsModal({ open, onClose, kyc, setRefresh }) {
               className="w-32 h-23 rounded-sm object-contain blur-xs hover:blur-none cursor-pointer"
               loading="lazy"
               onClick={() =>
-                downloadImage(kyc?.documentFrontURL, "document-front.jpg")
+                downloadImage(kyc?.documentFrontURL, `${kyc.name}-front.jpg`)
               }
             />
             <span className="text-sm">Doc. Front</span>
@@ -135,7 +137,7 @@ export default function UserDetailsModal({ open, onClose, kyc, setRefresh }) {
               className="w-32 h-23 rounded-sm object-contain blur-xs hover:blur-none cursor-pointer"
               loading="lazy"
               onClick={() =>
-                downloadImage(kyc?.documentBackURL, "document-back.jpg")
+                downloadImage(kyc?.documentBackURL, `${kyc.name}-back.jpg`)
               }
             />
             <span className="text-sm">Doc. Back</span>
