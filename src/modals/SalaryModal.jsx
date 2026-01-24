@@ -54,11 +54,11 @@ const SalaryModal = ({ onClose, onSuccess }) => {
       });
       toast.success("Salary target created.");
       handleClose();
+      onSuccess();
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
-      onSuccess();
     }
   };
 

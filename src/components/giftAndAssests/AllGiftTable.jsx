@@ -139,6 +139,8 @@ function AllGiftTable({ data, loading, error, setRefresh }) {
                         alt="Gift Image"
                         className="w-9 h-9 ml-4.5 object-cover rounded-full"
                         loading="lazy"
+                        referrerPolicy="no-referrer"
+                        crossOrigin="anonymous"
                       />
                     </td>
                     <td className="p-3 font-medium">{gift.name}</td>
