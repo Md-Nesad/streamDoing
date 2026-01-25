@@ -18,8 +18,8 @@ export default function ReportModal({ open, onClose, id, refresh }) {
   // if (loading) return <Loading />;
   // if (error) return <Error error={error} />;
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-2 sm:px-4">
-      <div className="bg-[#FDFDFD] w-full max-w-2xl rounded-xl relative animatefadeIn max-sm:h-[95vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-2 sm:px-4 ">
+      <div className="bg-[#FDFDFD] w-full max-w-2xl rounded-xl relative animatefadeIn h-[95vh] sm:h-[80vh] overflow-y-auto hide_scrollbar">
         <div className="flex items-center justify-between px-4 sm:px-6 pt-5">
           <div>
             <h2 className="text-[18px] font-semibold">Report Details</h2>
