@@ -1,12 +1,16 @@
 import { useState } from "react";
-import UserDetailsModal from "../../modals/UserDetailsModal";
 import { useExportDownload } from "../../hooks/useExportDownload";
-import { BASE_URL } from "../../utility/utility";
+import {
+  BASE_URL,
+  formatNumber,
+  formatStreamingHours,
+} from "../../utility/utility";
 import { useDebounce } from "../../hooks/useDebounce";
+import Pagination from "../Pagination";
 
-export default function AnalyticsHostTable({ data }) {
+export default function AnalyticsHostTable({ data, setPage }) {
   const topHosts = data?.data?.data;
-  const [open, setIsOpen] = useState(false);
+  const pagination = data?.data?.pagination;
   const [text, setText] = useState("");
   const { loading, download } = useExportDownload();
   const debouncedText = useDebounce(text, 400);
@@ -71,11 +75,7 @@ export default function AnalyticsHostTable({ data }) {
                     className="w-14 h-14 rounded-full object-cover border"
                     loading="lazy"
                   />
-                  <div
-                    role="button"
-                    onClick={() => setIsOpen(true)}
-                    className="cursor-pointer"
-                  >
+                  <div className="cursor-pointer">
                     <h3 className="font-semibold text-gray-800">
                       {host?.name}
                     </h3>
@@ -94,9 +94,10 @@ export default function AnalyticsHostTable({ data }) {
                     {host?.level}
                   </div>
 
-                  <div>
+                  <div className="mt-1">
+                    <p className="text-xs sm:text-sm text-gray-500">Location</p>
                     <p className="text-xs sm:text-sm text-gray-600 mt-1 text-start">
-                      {host?.country?.name}
+                      {host?.location || "N/A"}
                     </p>
                   </div>
 
@@ -105,14 +106,14 @@ export default function AnalyticsHostTable({ data }) {
                       Streaming
                     </p>
                     <p className="text-blue-600 max-sm:text-xs max-sm:text-left font-semibold">
-                      {host.streamHour || "0"}
+                      {formatStreamingHours(host.totalStreamingHours) || "0"}
                     </p>
                   </div>
 
                   <div className="text-right mt-1">
                     <p className="text-xs sm:text-sm text-gray-500">Diamonds</p>
                     <p className="text-pink-600 max-sm:text-xs max-sm:text-left font-semibold">
-                      {host.diamonds}
+                      {formatNumber(host.totalDiamonds)}
                     </p>
                   </div>
                 </div>
@@ -122,9 +123,12 @@ export default function AnalyticsHostTable({ data }) {
             <p className="text-center text-gray-600">No hosts found</p>
           )}
         </div>
-        {open && (
-          <UserDetailsModal open={open} onClose={() => setIsOpen(false)} />
-        )}
+        <Pagination
+          page={pagination?.page}
+          total={pagination?.total}
+          limit={pagination?.limit}
+          onPageChange={setPage}
+        />
       </div>
     </>
   );
