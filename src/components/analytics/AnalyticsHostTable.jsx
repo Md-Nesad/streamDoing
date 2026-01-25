@@ -70,10 +70,14 @@ export default function AnalyticsHostTable({ data, setPage }) {
                 {/* Left: Image + Info */}
                 <div className="flex items-center gap-4">
                   <img
-                    src={host?.profilePic}
+                    src={host?.profilePic || "/agent.png"}
                     alt={host?.name}
                     className="w-14 h-14 rounded-full object-cover border"
                     loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "/agent.png";
+                    }}
                   />
                   <div className="cursor-pointer">
                     <h3 className="font-semibold text-gray-800">
@@ -88,14 +92,17 @@ export default function AnalyticsHostTable({ data, setPage }) {
 
                 {/* Right: Stats */}
                 <div className="flex items-start gap-3 sm:gap-10 font-medium text-[#181717]">
-                  <div
-                    className={`text-white text-xs px-3 py-1 sm:mt-1 rounded-full ${host?.badge?.color}`}
-                  >
-                    {host?.level}
+                  <div className="mt-1">
+                    {/* <p className="text-xs sm:text-sm text-gray-500">Level</p> */}
+                    <span
+                      className={`px-3 pb-1 pt-0.5 text-xs bg-[#46934F] text-[#FFFFFF] rounded-lg font-semibold`}
+                    >
+                      Lv{host.level}
+                    </span>
                   </div>
 
                   <div className="mt-1">
-                    <p className="text-xs sm:text-sm text-gray-500">Location</p>
+                    {/* <p className="text-xs sm:text-sm text-gray-500">Location</p> */}
                     <p className="text-xs sm:text-sm text-gray-600 mt-1 text-start">
                       {host?.location || "N/A"}
                     </p>
@@ -105,7 +112,7 @@ export default function AnalyticsHostTable({ data, setPage }) {
                     <p className="text-xs sm:text-sm text-gray-500">
                       Streaming
                     </p>
-                    <p className="text-blue-600 max-sm:text-xs max-sm:text-left font-semibold">
+                    <p className="text-[#30ACFF] max-sm:text-xs max-sm:text-left font-semibold">
                       {formatStreamingHours(host.totalStreamingHours) || "0"}
                     </p>
                   </div>
