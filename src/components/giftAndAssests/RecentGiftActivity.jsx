@@ -1,10 +1,10 @@
 import { timeAgo } from "../../utility/utility";
 
-export default function RecentGiftActivity({ data }) {
+export default function RecentGiftActivity({ data, page }) {
   const allGifts = data?.gifts;
 
   const recentGifts = (allGifts || []).sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
   );
 
   return (
@@ -29,7 +29,7 @@ export default function RecentGiftActivity({ data }) {
 
               <div className="space-y-1">
                 <p className="text-sm font-semibold text-gray-900">
-                  User{index + 1} sent {item.name}
+                  User sent {item.name}
                 </p>
                 <p className="text-xs text-gray-500 font-medium">
                   {timeAgo(item.createdAt)}

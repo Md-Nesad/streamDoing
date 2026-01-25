@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React, { lazy, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import RecentGiftActivity from "./RecentGiftActivity";
 import RevenueDistribution from "./RevenueDistribution";
@@ -8,7 +8,8 @@ import LevelTabs from "./LevelTabs";
 import GiftChildTabs from "./GiftChildTabs";
 
 export default function GiftTabs() {
-  const { data } = useFetch(`${BASE_URL}/gifts/list`);
+  const [page, setPage] = useState(1);
+  const { data } = useFetch(`${BASE_URL}/gifts/list?${page}`);
 
   return (
     <Tabs>
@@ -51,7 +52,7 @@ export default function GiftTabs() {
       </TabPanel>
 
       <TabPanel>
-        <RecentGiftActivity data={data} />
+        <RecentGiftActivity data={data} page={page} />
       </TabPanel>
 
       <TabPanel>
