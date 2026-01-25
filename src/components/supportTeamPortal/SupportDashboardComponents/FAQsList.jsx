@@ -9,10 +9,14 @@ import useDelete from "../../../hooks/useDelete";
 import UpdateFaq from "./UpdateFaq";
 import { useGlobalConfirm } from "../../../context/ConfirmProvider";
 import { toast } from "react-toastify";
+import { useDebounce } from "../../../hooks/useDebounce";
+import FaqFilter from "../../../modals/FaqFilter";
 
 export default function FAQsList() {
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [selectedFaq, setSelectedFaq] = useState(null);
   const [text, setText] = useState("");
   const [refresh, setRefresh] = useState(false);
@@ -21,18 +25,21 @@ export default function FAQsList() {
     refresh,
   );
   const [faqs, setFaqs] = useState(data?.data || []);
+
   const { confirm } = useGlobalConfirm();
   const [isLoading, setIsLoading] = useState(null);
+  const debouncedText = useDebounce(text, 400);
   //handle Filter
-  const handleFilter = () => {
-    const filteredFaq = faqs.filter((faq) => {
-      return (
-        faq.question.toLowerCase().includes(text.toLowerCase()) ||
-        faq.category.toLowerCase().includes(text.toLowerCase())
-      );
-    });
-    setFaqs(filteredFaq);
-  };
+  const filteredUsers = faqs?.filter((faq) => {
+    const matchText =
+      faq.question.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      faq.category.toLowerCase().includes(debouncedText.toLowerCase());
+
+    const matchStatus =
+      statusFilter === "all" ? true : faq.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
 
   //handleDelete
   const deleteUser = useDelete(`${BASE_URL}/support-agency/faq`);
@@ -80,12 +87,25 @@ export default function FAQsList() {
 
         {/* Buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((prev) => !prev)}
+              className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+            >
+              <Funnel size={18} /> Filter
+            </button>
+
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute left-0 top-full mt-2 z-50">
+                <FaqFilter
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </div>
+            )}
+          </div>
           <button
             onClick={() => setOpen(true)}
             className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
@@ -110,8 +130,8 @@ export default function FAQsList() {
           </thead>
 
           <tbody>
-            {faqs?.length > 0 ? (
-              faqs?.map((faq) => (
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((faq) => (
                 <tr
                   key={faq._id}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
@@ -128,7 +148,7 @@ export default function FAQsList() {
                   <td className="p-3">{faq?.createdBy?.name}</td>
                   <td className="p-3">
                     <span className="px-4 py-1 text-xs bg-linear-to-r from-[#79D49B] to-[#25C962] text-[#005D23] rounded-full font-semibold">
-                      Published
+                      {faq?.status[0].toUpperCase() + faq?.status.slice(1)}
                     </span>
                   </td>
                   <td className="p-3">{formatOnlyDate(faq?.updatedAt)}</td>

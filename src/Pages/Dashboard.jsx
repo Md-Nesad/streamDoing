@@ -53,7 +53,7 @@ export default function Dashboard() {
     {
       title: "Platform Revenue",
       value: "$" + formatNumber(data?.platformRevenue),
-      change: `+${formatPercent(data?.revenueGrowth)}`,
+      change: `${formatPercent(data?.revenueGrowth)}`,
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
     },

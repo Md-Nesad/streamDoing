@@ -45,10 +45,14 @@ export function formatNumber(num) {
 
 //percentage formater
 export function formatPercent(value, decimals = 2) {
-  return `${Number(value)
-    .toFixed(decimals)
-    .replace(/\.0+$/, "")
-    .replace(/(\.\d*[1-9])0+$/, "$1")}%`;
+  if (value === null || value === undefined || value === "") return "0%";
+
+  const num = Number(value);
+
+  return `${num > 0 ? "+" : ""}${num.toLocaleString("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: decimals,
+  })}%`;
 }
 
 //date format

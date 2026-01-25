@@ -4,23 +4,33 @@ import { BASE_URL, formatOnlyDate } from "../../../utility/utility";
 import Error from "../../Error";
 import Loading from "../../Loading";
 import { useEffect, useState } from "react";
+import { useDebounce } from "../../../hooks/useDebounce";
+import ModerationFilter from "../../../modals/ModerationFilter";
 
 export default function ReportsTable() {
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/support-agency/reports?status=&page=1&limit=10`
+    `${BASE_URL}/support-agency/reports?status=&page=1&limit=10`,
   );
   const [text, setText] = useState("");
   const [reports, setReports] = useState(data?.reports);
+  const debouncedText = useDebounce(text, 400);
 
-  const handleFilter = () => {
-    const filteredUsers = reports?.filter((report) => {
-      return (
-        report?.targetId?.name.toLowerCase().includes(text.toLowerCase()) ||
-        report?.reporterId?.name.toLowerCase().includes(text.toLowerCase())
-      );
-    });
-    setReports(filteredUsers);
-  };
+  const filteredReports = reports?.filter((report) => {
+    const matchText =
+      report?.targetId?.name
+        .toLowerCase()
+        .includes(debouncedText.toLowerCase()) ||
+      report?.reporterId?.name
+        .toLowerCase()
+        .includes(debouncedText.toLowerCase());
+
+    const matchStatus =
+      statusFilter === "all" ? true : report.status === statusFilter;
+
+    return matchText && matchStatus;
+  });
 
   useEffect(() => {
     if (text === "") {
@@ -42,12 +52,25 @@ export default function ReportsTable() {
           placeholder="Search by Id or name"
         />
 
-        <button
-          onClick={handleFilter}
-          className="sm:px-5 px-2 py-2 bg-[#FFFFFF] rounded-md font-medium border border-[#CCCCCC] flex items-center gap-2 text-sm sm:text-md"
-        >
-          <Funnel size={18} /> Filter
-        </button>
+        <div className="relative">
+          <button
+            onClick={() => setFilterOpen((prev) => !prev)}
+            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center gap-2"
+          >
+            <Funnel size={18} /> Filter
+          </button>
+
+          {/* Filter Dropdown */}
+          {filterOpen && (
+            <div className="absolute right-0 top-full mt-2 z-50">
+              <ModerationFilter
+                statusFilter={statusFilter}
+                setStatusFilter={setStatusFilter}
+                onClose={() => setFilterOpen(false)}
+              />
+            </div>
+          )}
+        </div>
       </div>
       {/* table area */}
       <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mt-5 mb-10">
@@ -66,14 +89,14 @@ export default function ReportsTable() {
           </thead>
 
           <tbody>
-            {reports?.length > 0 ? (
-              reports?.map((report, index) => (
+            {filteredReports?.length > 0 ? (
+              filteredReports?.map((report, index) => (
                 <tr
                   key={index}
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
                   <td className="p-3 pl-6 font-medium">
-                    {report?.displayId || "N/A"}
+                    {report?.targetId?.displayId || "N/A"}
                   </td>
                   <td className="p-3 ">{report?.targetId?.name || "N/A"}</td>
                   <td className="p-3 ">{report?.reporterId?.name || "N/A"}</td>
@@ -95,7 +118,9 @@ export default function ReportsTable() {
                       className={`px-4 py-1 text-xs text-center block w-23 ${
                         report.status === "resolved"
                           ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                          : "bg-[#FF929296] text-[#D21B20]"
+                          : report.status === "pending"
+                            ? "bg-[#6FADFF] text-[#FFFFFF]"
+                            : "bg-[#FF929296] text-[#D21B20]"
                       } text-[#005D23] rounded-full font-semibold`}
                     >
                       {report.status}

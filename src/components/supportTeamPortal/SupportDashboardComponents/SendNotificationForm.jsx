@@ -6,7 +6,7 @@ import { BASE_URL } from "../../../utility/utility";
 import useJsonPost from "../../../hooks/useJsonPost";
 import { toast } from "react-toastify";
 
-export default function SendNotificationForm() {
+export default function SendNotificationForm({ setRefresh }) {
   const [targetType, setTargetType] = useState("");
   const [targetIds, setTargetIds] = useState([]);
   const [category, setCategory] = useState("");
@@ -68,7 +68,7 @@ export default function SendNotificationForm() {
     setLoading(true);
     const result = await handleSubmit(data);
     setLoading(false);
-
+    setRefresh((prev) => !prev);
     toast.success(result.message);
     reset();
   };

@@ -10,10 +10,11 @@ import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
 import Pagination from "../../components/Pagination";
 
-export default function NotificationHistory() {
+export default function NotificationHistory({ refresh }) {
   const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
     `${BASE_URL}/support-agency/notification-center?page=${page}&limit=20`,
+    refresh,
   );
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState(data?.notifications);
