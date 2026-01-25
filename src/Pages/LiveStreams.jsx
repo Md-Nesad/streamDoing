@@ -15,9 +15,9 @@ export default function LiveStreams() {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const [lives, setLives] = useState([]);
-  const [streamList, setStreamList] = useState([]);
-  const [selectedStream, setSelectedStream] = useState(null);
-  const state = totalViewersWithAvgDuration(streamList);
+  // const [streamList, setStreamList] = useState([]);
+  // const [selectedStream, setSelectedStream] = useState(null);
+  const state = totalViewersWithAvgDuration(lives);
 
   const fetchLiveStreams = async () => {
     try {
@@ -33,9 +33,8 @@ export default function LiveStreams() {
       const data = await res.json();
       setData(data);
       // Filter only live streams
-      const liveStreams = data?.liveStreams?.filter((s) => s.status === "live");
-      setLives(liveStreams);
-      setStreamList(liveStreams);
+      // const liveStreams = data?.liveStreams?.filter((s) => s.status === "live");
+      setLives(data?.liveStreams);
     } catch (error) {
       console.error("Failed to fetch live streams:", error);
       setError(error.message);
@@ -62,14 +61,12 @@ export default function LiveStreams() {
   // Socket listeners
   useEffect(() => {
     // New live created
-    socket.on("admin:new-live-created", (data) => {
-      console.log("create event", data);
+    socket.on("admin:new-live-created", () => {
       fetchLiveStreams();
     });
 
     // Live ended
-    socket.on("admin:live-ended", (data) => {
-      console.log("end event", data);
+    socket.on("admin:live-ended", () => {
       fetchLiveStreams();
     });
 
@@ -78,9 +75,9 @@ export default function LiveStreams() {
       setLives((prev) =>
         prev.map((live) => (live._id === roomId ? { ...live, viewers } : live)),
       );
-      setStreamList((prev) =>
-        prev.map((live) => (live._id === roomId ? { ...live, viewers } : live)),
-      );
+      // setStreamList((prev) =>
+      //   prev.map((live) => (live._id === roomId ? { ...live, viewers } : live)),
+      // );
     });
 
     return () => {
@@ -96,8 +93,8 @@ export default function LiveStreams() {
   const streamSummary = [
     {
       title: "Active Streams",
-      value: streamList?.length,
-      change: streamList?.length > 0 ? "currently live" : "currenly offline",
+      value: lives?.length,
+      change: lives?.length > 0 ? "currently live" : "currenly offline",
       icon: Video,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
     },
@@ -135,10 +132,9 @@ export default function LiveStreams() {
       <LiveStreamTable
         lives={lives}
         setLives={setLives}
-        streamList={streamList}
         setPage={setPage}
         loading={loading}
-        onView={(stream) => setSelectedStream(stream)}
+        // onView={(stream) => setSelectedStream(stream)}
       />
 
       {/* <LiveViewerModal

@@ -2,7 +2,7 @@ import {
   Activity,
   Ban,
   Eye,
-  Funnel,
+  // Funnel,
   Mic,
   UserRound,
   Video,
@@ -11,17 +11,16 @@ import star from "../assests/star.png";
 import { getDurationFromStartDate } from "../utility/utility";
 // import Pagination from "./Pagination";
 import Loading from "./Loading";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
 // import { useZegoVideoAdmin } from "../hooks/useZegoAdmin";
 
 export default function LiveStreamTable({
   lives,
-  setLives,
-  setPage,
+  // setLives,
+  // setPage,
   loading,
-  streamList,
-  onView,
+  // onView,
 }) {
   const [text, setText] = useState("");
   const debouncedText = useDebounce(text, 400);
@@ -36,11 +35,11 @@ export default function LiveStreamTable({
   });
 
   // Optional: live search when typing
-  useEffect(() => {
-    if (text === "") {
-      setLives(streamList);
-    }
-  }, [text, streamList, setLives]);
+  // useEffect(() => {
+  //   if (text === "") {
+  //     setLives(streamList);
+  //   }
+  // }, [text, streamList, setLives]);
 
   return (
     <>
@@ -120,7 +119,7 @@ export default function LiveStreamTable({
                       </td>
                       <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                         <span className="flex items-center gap-4">
-                          <button onClick={() => onView(stream)}>
+                          <button>
                             <Video size={19} className="text-[#181717]" />
                           </button>
                           <Mic size={20} className="text-[#181717]" />

@@ -124,8 +124,8 @@ export const totalViewersWithAvgDuration = (streams = []) => {
   }, 0);
 
   // Average duration
-  const averageDurationMs = totalDurationMs / streams.length;
-
+  let averageDurationMs = totalDurationMs / streams.length;
+  if (averageDurationMs < 0) averageDurationMs = 0;
   // Convert ms → h m s
   const hours = Math.floor(averageDurationMs / (1000 * 60 * 60));
   const minutes = Math.floor(
@@ -143,7 +143,8 @@ export const totalViewersWithAvgDuration = (streams = []) => {
 export function getDurationFromStartDate(startDate) {
   const now = new Date().getTime();
   const start = new Date(startDate).getTime();
-  const durationMs = now - start;
+  let durationMs = now - start;
+  if (durationMs < 0) durationMs = 0;
   const hours = Math.floor(durationMs / (1000 * 60 * 60));
   const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((durationMs % (1000 * 60)) / 1000);
