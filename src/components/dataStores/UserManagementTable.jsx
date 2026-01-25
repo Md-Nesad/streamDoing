@@ -4,7 +4,6 @@ import useFetch from "../../hooks/useFetch";
 import Loading from "../Loading";
 import Error from "../Error";
 import { BASE_URL } from "../../utility/utility";
-import { useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
 import useDelete from "../../hooks/useDelete";
 import star from "../../assests/star.png";
@@ -14,7 +13,6 @@ import { useDebounce } from "../../hooks/useDebounce";
 import FilterDropdown from "../../modals/FilterModal";
 
 export default function UserManagementTable() {
-  const navigate = useNavigate();
   const [text, setText] = useState("");
   const [page, setPage] = useState(1);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -71,7 +69,7 @@ export default function UserManagementTable() {
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full sm:max-w-[75%] px-4 py-1.5 rounded-md"
+          className="border border-[#BBBBBB] outline-[#BBBBBB] w-full px-4 py-1.5 rounded-md"
           placeholder="Search by ID or name"
         />
 
@@ -87,7 +85,7 @@ export default function UserManagementTable() {
 
             {/* Filter Dropdown */}
             {filterOpen && (
-              <div className="absolute left-0 top-full mt-2 z-50">
+              <div className="absolute right-0 top-full mt-2 z-50">
                 <FilterDropdown
                   statusFilter={statusFilter}
                   setStatusFilter={setStatusFilter}
@@ -96,12 +94,12 @@ export default function UserManagementTable() {
               </div>
             )}
           </div>
-          <button
+          {/* <button
             onClick={() => navigate("/dashboard/agencies/add-host-agency")}
             className="px-3 sm:px-6 py-1.5 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
           >
             Add Agency
-          </button>
+          </button> */}
         </div>
       </div>
 

@@ -1,10 +1,9 @@
 import { Eye, Funnel } from "lucide-react";
-
 import { useEffect, useState } from "react";
 import { formatNumber } from "../../utility/utility";
 import HostDetailsModal from "../../modals/HostDetailsModal";
-import AgencyFilterModal from "../../modals/AgencyFilterModal";
 import { useDebounce } from "../../hooks/useDebounce";
+import FilterDropdown from "../../modals/FilterModal";
 
 export default function HostManageMentTable({ hostListData }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,7 +63,7 @@ export default function HostManageMentTable({ hostListData }) {
           {/* Filter Dropdown */}
           {filterOpen && (
             <div className="absolute right-0 top-full mt-2 z-50">
-              <AgencyFilterModal
+              <FilterDropdown
                 statusFilter={statusFilter}
                 setStatusFilter={setStatusFilter}
                 onClose={() => setFilterOpen(false)}
