@@ -7,7 +7,7 @@ import Error from "../components/Error";
 import { Clock, Eye, TrendingUp, Video } from "lucide-react";
 import { socket } from "../socket/socket";
 import Loading from "../components/Loading";
-import LiveViewerModal from "../modals/LiveViewerModal";
+// import LiveViewerModal from "../modals/LiveViewerModal";
 
 export default function LiveStreams() {
   const [loading, setLoading] = useState(false);
@@ -141,11 +141,11 @@ export default function LiveStreams() {
         onView={(stream) => setSelectedStream(stream)}
       />
 
-      <LiveViewerModal
+      {/* <LiveViewerModal
         open={!!selectedStream}
         stream={selectedStream}
         onClose={() => setSelectedStream(null)}
-      />
+      /> */}
     </div>
   );
 }

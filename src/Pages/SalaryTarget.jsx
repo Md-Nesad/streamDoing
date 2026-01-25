@@ -42,7 +42,7 @@ export default function SalaryTarget() {
     {
       title: "Agency",
       value: state?.agency?.totalAgencies,
-      change: "+" + formatPercent(state?.agency?.totalAgenciesGrowth),
+      change: formatPercent(state?.agency?.totalAgenciesGrowth),
       icon: Agency,
       iconBg: "bg-gradient-to-tl from-[#30ACFF] to-[#C213E1]",
     },

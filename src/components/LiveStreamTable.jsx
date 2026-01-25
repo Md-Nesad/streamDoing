@@ -12,6 +12,7 @@ import { getDurationFromStartDate } from "../utility/utility";
 // import Pagination from "./Pagination";
 import Loading from "./Loading";
 import { useEffect, useState } from "react";
+import { useDebounce } from "../hooks/useDebounce";
 // import { useZegoVideoAdmin } from "../hooks/useZegoAdmin";
 
 export default function LiveStreamTable({
@@ -23,20 +24,16 @@ export default function LiveStreamTable({
   onView,
 }) {
   const [text, setText] = useState("");
+  const debouncedText = useDebounce(text, 400);
   // const { muteHost, unmuteHost, banHost } = useZegoVideoAdmin();
 
-  const handleFilter = () => {
-    if (text === "") {
-      setLives(streamList);
-    } else {
-      const filtered = streamList.filter(
-        (stream) =>
-          stream?.host?.name.toLowerCase().includes(text.toLowerCase()) ||
-          stream?.host?.displayId.toString().includes(text),
-      );
-      setLives(filtered);
-    }
-  };
+  const filteredLive = lives?.filter((stream) => {
+    const matchText =
+      stream?.host?.name.toLowerCase().includes(debouncedText.toLowerCase()) ||
+      stream?.host?.displayId.toString().includes(debouncedText);
+
+    return matchText;
+  });
 
   // Optional: live search when typing
   useEffect(() => {
@@ -61,12 +58,12 @@ export default function LiveStreamTable({
               placeholder="Search by ID or name"
             />
 
-            <button
+            {/* <button
               onClick={handleFilter}
               className="sm:px-5 px-2 py-2 bg-[#FFFFFF] rounded-md font-medium border border-[#CCCCCC] flex items-center gap-2 text-sm sm:text-md"
             >
               <Funnel size={18} /> Filter
-            </button>
+            </button> */}
           </div>
 
           {/* table area */}
@@ -86,8 +83,8 @@ export default function LiveStreamTable({
               </thead>
 
               <tbody>
-                {lives?.length > 0 ? (
-                  lives?.map((stream, index) => (
+                {filteredLive?.length > 0 ? (
+                  filteredLive?.map((stream, index) => (
                     <tr
                       key={index}
                       className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
