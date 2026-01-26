@@ -18,6 +18,7 @@ import { useState } from "react";
 
 export default function TopRanking() {
   const [page, setPage] = useState(1);
+  const [pagetwo, setPagetwo] = useState(1);
 
   // UI control
   const [selectedRange, setSelectedRange] = useState("");
@@ -57,7 +58,7 @@ export default function TopRanking() {
   );
 
   const topPerformanceAgency = useFetch(
-    `${BASE_URL}/admin/analytics/top-agencies?${query}&limit=20&page=${page}`,
+    `${BASE_URL}/admin/analytics/top-agencies?${query}&limit=20&page=${pagetwo}`,
   );
 
   const coinSalesOverview = useFetch(
@@ -180,7 +181,10 @@ export default function TopRanking() {
         </TabPanel>
 
         <TabPanel>
-          <TopPerformanceAgency data={topPerformanceAgency} setPage={setPage} />
+          <TopPerformanceAgency
+            data={topPerformanceAgency}
+            setPage={setPagetwo}
+          />
         </TabPanel>
       </Tabs>
 
