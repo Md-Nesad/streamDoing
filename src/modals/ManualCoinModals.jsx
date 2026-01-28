@@ -119,14 +119,14 @@ export default function ManualCoinModal({ open, onClose }) {
           <div className="flex gap-5">
             <button
               onClick={() => setAction("add")}
-              className="border px-4 py-1.5 rounded-md text-gray-700 focus:bg-gray-300 active:scale-y-200"
+              className="border px-4 py-1.5 rounded-md text-gray-700 focus:bg-gray-300"
             >
               Add Coin
             </button>
 
             <button
               onClick={() => setAction("remove")}
-              className="border px-4 py-1.5 rounded-md text-gray-700 focus:bg-gray-300 active:scale-y-200"
+              className="border px-4 py-1.5 rounded-md text-gray-700 focus:bg-gray-300"
             >
               Remove Coin
             </button>
