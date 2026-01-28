@@ -43,7 +43,7 @@ export default function AddNewCrown({ open, onClose, onSuccess }) {
     if (result.success === false) {
       toast.error(result.message);
     } else {
-      toast.success(result.message);
+      toast.success(result.message || "Crown created");
     }
 
     setLoading(false);

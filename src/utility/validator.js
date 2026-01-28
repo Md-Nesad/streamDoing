@@ -34,8 +34,14 @@ export const bannerSchema = z.object({
     .refine((files) => files?.length > 0, "Banner file is required")
     .refine(
       (files) =>
-        ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed",
+        [
+          "image/png",
+          "image/svg+xml",
+          "video/mp4",
+          "image/jpeg",
+          "image/jpg",
+        ].includes(files?.[0]?.type),
+      "Invalid file type",
     ),
 });
 
@@ -50,8 +56,14 @@ export const badgeSchema = z.object({
     .refine((files) => files?.length > 0, "Badge file is required")
     .refine(
       (files) =>
-        ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed",
+        [
+          "image/png",
+          "image/svg+xml",
+          "video/mp4",
+          "image/jpeg",
+          "image/jpg",
+        ].includes(files?.[0]?.type),
+      "Invalid file type",
     ),
 });
 
@@ -64,8 +76,14 @@ export const tempSchema = z.object({
     .refine((files) => files?.length > 0, "Banner is required")
     .refine(
       (files) =>
-        ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed",
+        [
+          "image/png",
+          "image/svg+xml",
+          "video/mp4",
+          "image/jpeg",
+          "image/jpg",
+        ].includes(files?.[0]?.type),
+      "Invalid file type",
     ),
 });
 
@@ -78,8 +96,14 @@ export const frameSchema = z.object({
     .refine((files) => files?.length > 0, "Banner is required")
     .refine(
       (files) =>
-        ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed",
+        [
+          "image/png",
+          "image/svg+xml",
+          "video/mp4",
+          "image/jpeg",
+          "image/jpg",
+        ].includes(files?.[0]?.type),
+      "Invalid file type",
     ),
 });
 
@@ -91,8 +115,14 @@ export const levelSchema = z.object({
     .refine((files) => files?.length > 0, "Banner is required")
     .refine(
       (files) =>
-        ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed",
+        [
+          "image/png",
+          "image/svg+xml",
+          "video/mp4",
+          "image/jpeg",
+          "image/jpg",
+        ].includes(files?.[0]?.type),
+      "Invalid file type",
     ),
 });
 
@@ -105,8 +135,14 @@ export const crownSchema = z.object({
     .refine((files) => files?.length > 0, "Banner is required")
     .refine(
       (files) =>
-        ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed",
+        [
+          "image/png",
+          "image/svg+xml",
+          "video/mp4",
+          "image/jpeg",
+          "image/jpg",
+        ].includes(files?.[0]?.type),
+      "Invalid file type",
     ),
 });
 
@@ -120,8 +156,14 @@ export const entrySchema = z.object({
     .refine((files) => files?.length > 0, "Banner is required")
     .refine(
       (files) =>
-        ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed",
+        [
+          "image/png",
+          "image/svg+xml",
+          "video/mp4",
+          "image/jpeg",
+          "image/jpg",
+        ].includes(files?.[0]?.type),
+      "Invalid file type",
     ),
 });
 
@@ -134,8 +176,14 @@ export const eventSchema = z.object({
     .refine((files) => files?.length > 0, "Banner is required")
     .refine(
       (files) =>
-        ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed",
+        [
+          "image/png",
+          "image/svg+xml",
+          "video/mp4",
+          "image/jpeg",
+          "image/jpg",
+        ].includes(files?.[0]?.type),
+      "Invalid file type",
     ),
 });
 
@@ -149,8 +197,14 @@ export const vipSchema = z.object({
     .refine((files) => files?.length > 0, "Banner is required")
     .refine(
       (files) =>
-        ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed",
+        [
+          "image/png",
+          "image/svg+xml",
+          "video/mp4",
+          "image/jpeg",
+          "image/jpg",
+        ].includes(files?.[0]?.type),
+      "Invalid file type",
     ),
 });
 //add gift schema
@@ -164,8 +218,14 @@ export const addGiftSchema = z.object({
     .refine((files) => files?.length > 0, "Logo is required")
     .refine(
       (files) =>
-        ["image/png", "image/svg+xml", "video/mp4"].includes(files?.[0]?.type),
-      "Only SVG, PNG or MP4 allowed",
+        [
+          "image/png",
+          "image/svg+xml",
+          "video/mp4",
+          "image/jpeg",
+          "image/jpg",
+        ].includes(files?.[0]?.type),
+      "Invalid file type",
     ),
   giftSound: z
     .any()
