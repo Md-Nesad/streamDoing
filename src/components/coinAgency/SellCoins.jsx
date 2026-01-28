@@ -89,7 +89,7 @@ export default function SellCoins({ setRefresh }) {
       setReferenceType("");
       setReferenceName("");
       setLoading(false);
-      referenceType === "master" && setRefresh((prev) => !prev);
+      setRefresh((prev) => !prev);
       return toast.success(result.message);
     }
   };
