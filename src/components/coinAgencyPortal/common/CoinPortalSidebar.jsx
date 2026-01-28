@@ -42,7 +42,7 @@ export default function CoinPortalSidebar({ isToogleNav, onClose }) {
       {/* Mobile Sidebar */}
       {isToogleNav && (
         <aside
-          className={`space-y-2 lg:w-55 shrink-0 overflow-y-auto bg-[#FFFFFF] px-1 py-2 shadow-[0_2px_10px_rgba(0,0,0,0.06)] rounded-md fixed top-26.5 z-10 left-0 h-[83vh] hide_scrollbar animatefadeInLeft`}
+          className={`space-y-2 lg:w-55 shrink-0 overflow-y-auto bg-[#FFFFFF] px-1 py-2 shadow-[0_2px_10px_rgba(0,0,0,0.06)] rounded-md fixed top-27.5 z-10 left-0 h-[83vh] hide_scrollbar animatefadeInLeft block lg:hidden`}
         >
           <nav aria-label="dashboard_navbar">
             {renderMenuItems(coinMenuItems)}
