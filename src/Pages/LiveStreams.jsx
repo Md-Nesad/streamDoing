@@ -87,6 +87,12 @@ export default function LiveStreams() {
     };
   }, []);
 
+  const handleStopLive = (liveId) => {
+    socket.emit("live:stop", liveId);
+
+    fetchLiveStreams();
+  };
+
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 
@@ -134,6 +140,7 @@ export default function LiveStreams() {
         setLives={setLives}
         setPage={setPage}
         loading={loading}
+        liveStop={handleStopLive}
         // onView={(stream) => setSelectedStream(stream)}
       />
 
