@@ -24,7 +24,7 @@ export default function SupportAgencyTable() {
   const { data, loading, error } = useFetch(
     `${BASE_URL}/admin/support-agencies?page=${page}&limit=20`,
   );
-  console.log(data);
+
   const deleteUser = useDelete(`${BASE_URL}/admin/support-agencies`);
   const [supportAgencies, setSupportAgencies] = useState(data?.supportAgencies);
   const pagination = data?.pagination;

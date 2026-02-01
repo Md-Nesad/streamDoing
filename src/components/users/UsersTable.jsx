@@ -52,7 +52,6 @@ export default function HostAgencyTable({
 
     return matchText && matchStatus;
   });
-  console.log(filteredUsers);
 
   // Delete user by ID
   const handleDelete = async (id) => {

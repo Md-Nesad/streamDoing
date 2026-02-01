@@ -84,64 +84,59 @@ export default function LiveStreamTable({
 
               <tbody>
                 {filteredLive?.length > 0 ? (
-                  filteredLive?.map(
-                    (stream, index) => (
-                      console.log(stream),
-                      (
-                        <tr
-                          key={index}
-                          className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                  filteredLive?.map((stream, index) => (
+                    <tr
+                      key={index}
+                      className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
+                    >
+                      <td className="p-3">{stream?.host?.displayId}</td>
+                      <td className="p-3">{stream?.host?.name}</td>
+                      <td className="p-3">{stream.type}</td>
+                      <td className="p-3">
+                        <span className="p-1 text-xs bg-linear-to-b from-[#FA77BD] to-[#940C44] rounded-lg font-semibold text-white flex items-center gap-2 w-14">
+                          <img src={star} alt="" className="w-4 h-4" /> Lv
+                          {stream?.host?.level}
+                        </span>
+                      </td>
+                      <td className="p-3">
+                        <span className="flex gap-1 items-center">
+                          <UserRound
+                            strokeWidth={1}
+                            size={16}
+                            className="text-[#1F80FF]"
+                          />{" "}
+                          {stream.viewers}
+                        </span>
+                      </td>
+                      <td className="p-3">
+                        {getDurationFromStartDate(stream.startTime)}
+                      </td>
+                      <td className="p-3">
+                        <span
+                          className={`px-4 py-1 text-sm bg-linear-to-r from-[#2FB6FF] to-[#447FFF] rounded-full text-white opacity-70 flex gap-3 items-center w-20`}
                         >
-                          <td className="p-3">{stream?.host?.displayId}</td>
-                          <td className="p-3">{stream?.host?.name}</td>
-                          <td className="p-3">{stream.type}</td>
-                          <td className="p-3">
-                            <span className="p-1 text-xs bg-linear-to-b from-[#FA77BD] to-[#940C44] rounded-lg font-semibold text-white flex items-center gap-2 w-14">
-                              <img src={star} alt="" className="w-4 h-4" /> Lv
-                              {stream?.host?.level}
-                            </span>
-                          </td>
-                          <td className="p-3">
-                            <span className="flex gap-1 items-center">
-                              <UserRound
-                                strokeWidth={1}
-                                size={16}
-                                className="text-[#1F80FF]"
-                              />{" "}
-                              {stream.viewers}
-                            </span>
-                          </td>
-                          <td className="p-3">
-                            {getDurationFromStartDate(stream.startTime)}
-                          </td>
-                          <td className="p-3">
-                            <span
-                              className={`px-4 py-1 text-sm bg-linear-to-r from-[#2FB6FF] to-[#447FFF] rounded-full text-white opacity-70 flex gap-3 items-center w-20`}
-                            >
-                              <Activity size={15} /> {stream.status || "N/A"}
-                            </span>
-                          </td>
-                          <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                            <span className="flex items-center gap-4">
-                              <button>
-                                <Video size={19} className="text-[#181717]" />
-                              </button>
-                              <Mic size={20} className="text-[#181717]" />
-                              <button
-                                title="Stop Live"
-                                onClick={() => liveStop(stream._id)}
-                              >
-                                <Ban size={17} className="text-[#FF0037]" />
-                              </button>
-                              <button title="View">
-                                <Eye size={19} />
-                              </button>
-                            </span>
-                          </td>
-                        </tr>
-                      )
-                    ),
-                  )
+                          <Activity size={15} /> {stream.status || "N/A"}
+                        </span>
+                      </td>
+                      <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                        <span className="flex items-center gap-4">
+                          <button>
+                            <Video size={19} className="text-[#181717]" />
+                          </button>
+                          <Mic size={20} className="text-[#181717]" />
+                          <button
+                            title="Stop Live"
+                            onClick={() => liveStop(stream._id)}
+                          >
+                            <Ban size={17} className="text-[#FF0037]" />
+                          </button>
+                          <button title="View">
+                            <Eye size={19} />
+                          </button>
+                        </span>
+                      </td>
+                    </tr>
+                  ))
                 ) : (
                   <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
                     <td colSpan={9} className="p-3 text-center">

@@ -24,7 +24,7 @@ export default function MasterAgencyTable() {
   const { data, loading, error } = useFetch(
     `${BASE_URL}/admin/agencies/master-agencies?page=${page}&limit=30&search=`,
   );
-  console.log(data);
+
   const pagination = data?.pagination;
   const [hosts, setHosts] = useState(data?.data);
   const { confirm } = useGlobalConfirm();
