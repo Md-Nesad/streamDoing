@@ -3,10 +3,10 @@ export const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
 //zego config
-export const ZEGO_VIDEO_APP_ID = 636301048;
+// export const ZEGO_VIDEO_APP_ID = 636301048;
 
-export const ZEGO_VIDEO_APP_SIGN =
-  "d4c25b0334d0d9eabd590fd2534e6448a203eb5ba51a8c97021101239aef1d2c";
+// export const ZEGO_VIDEO_APP_SIGN =
+//   "d4c25b0334d0d9eabd590fd2534e6448a203eb5ba51a8c97021101239aef1d2c";
 
 // stream duration format
 export default function duration(startTime, endTime) {
