@@ -1,3 +1,4 @@
+import { AlertTriangle } from "lucide-react";
 import { useState } from "react";
 
 export function useConfirm() {
@@ -28,8 +29,9 @@ export function useConfirm() {
   const ConfirmUI = () =>
     state.open ? (
       <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
-        <div className="bg-white w-70 h-30 p-4 rounded-lg shadow">
-          <p className="text-lg mb-6 mt-1">{state.message}</p>
+        <div className="bg-white w-70 h-39 p-4 rounded-lg shadow justify-center">
+          <AlertTriangle className="w-9 h-9 text-red-500 mx-auto" />
+          <p className="text-lg mb-6 mt-2 text-center">{state.message}</p>
 
           <div className="flex justify-end gap-3">
             <button
