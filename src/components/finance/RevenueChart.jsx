@@ -35,16 +35,16 @@ export default function RevenueChart({ apiData }) {
 
       <LineChart
         data={chartData}
-        margin={{ top: 5, right: 10, left: 0, bottom: 0 }}
+        margin={{ top: 5, right: 5, left: 3, bottom: 0 }}
         width="100%"
         height={300}
         responsive
       >
         {/* Extra top space line manually */}
-        <ReferenceLine y={800000} stroke="#e5e7eb" strokeDasharray="0" />
-        <ReferenceLine y={600000} stroke="#e5e7eb" strokeDasharray="0" />
-        <ReferenceLine y={400000} stroke="#e5e7eb" strokeDasharray="0" />
-        <ReferenceLine y={200000} stroke="#e5e7eb" strokeDasharray="0" />
+        <ReferenceLine y={8000000} stroke="#e5e7eb" strokeDasharray="0" />
+        <ReferenceLine y={6000000} stroke="#e5e7eb" strokeDasharray="0" />
+        <ReferenceLine y={4000000} stroke="#e5e7eb" strokeDasharray="0" />
+        <ReferenceLine y={2000000} stroke="#e5e7eb" strokeDasharray="0" />
         <ReferenceLine x="Aug" stroke="#e5e7eb" strokeDasharray="0" />
         <ReferenceLine x="Jan" stroke="#e5e7eb" strokeDasharray="0" />
         <ReferenceLine x="Feb" stroke="#e5e7eb" strokeDasharray="0" />
@@ -71,8 +71,8 @@ export default function RevenueChart({ apiData }) {
         {/* Y Axis */}
         <YAxis
           tick={{ fill: "#6b7280", fontSize: 13 }}
-          domain={[0, 900000]}
-          ticks={[0, 200000, 400000, 600000, 800000]}
+          domain={[0, 9000000]}
+          ticks={[0, 2000000, 4000000, 6000000, 8000000]}
           axisLine={{ stroke: "#000", strokeWidth: 1 }}
           tickLine={false}
         />
