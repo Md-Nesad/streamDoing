@@ -50,7 +50,7 @@ export const badgeSchema = z.object({
   badgeName: z.string().min(2, "Badge name is required"),
   badgeDescription: z.string().optional(),
   badgePrice: z.string().optional(),
-  badgeValidity: z.string().min(1, "Badge validity is required"),
+  // badgeValidity: z.string().min(1, "Badge validity is required"),
   badgeFile: z
     .any()
     .refine((files) => files?.length > 0, "Badge file is required")

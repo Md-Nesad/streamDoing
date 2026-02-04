@@ -11,8 +11,8 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
   if (!open) return null;
   const [loading, setLoading] = useState(false);
   const handleFormData = useFormDataPost(`${BASE_URL}/badges`);
-  const [isSell, setIsSell] = useState(false);
-  const [isExhibit, setIsExhibit] = useState(false);
+  // const [isSell, setIsSell] = useState(false);
+  // const [isExhibit, setIsExhibit] = useState(false);
 
   const {
     register,
@@ -32,9 +32,9 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
     formData.append("description", data.badgeDescription);
     formData.append("price", data.badgePrice);
     formData.append("isActive", "true");
-    formData.append("validity", data.badgeValidity);
-    formData.append("isSell", isSell);
-    formData.append("isExhibit", isExhibit);
+    // formData.append("validity", data.badgeValidity);
+    // formData.append("isSell", isSell);
+    // formData.append("isExhibit", isExhibit);
 
     if (data.badgeFile) {
       formData.append("image", data.badgeFile?.[0]);
@@ -121,7 +121,7 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
           )}
         </div>
 
-        <div className="mb-3">
+        {/* <div className="mb-3">
           <label className="text-gray-700 text-[14px] font-medium">
             Validity(in days)
           </label>
@@ -136,7 +136,7 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
               {errors.badgeValidity.message}
             </p>
           )}
-        </div>
+        </div> */}
 
         {/* Position */}
         {/* <div className="mb-3">
@@ -179,7 +179,7 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
           )}
         </div>
 
-        <div className="mt-5 flex flex-wrap items-center justify-between max-sm:justify-center gap-4 w-full">
+        {/* <div className="mt-5 flex flex-wrap items-center justify-between max-sm:justify-center gap-4 w-full">
           <div className="flex items-center max-sm:justify-between gap-8 border border-gray-300 rounded-md px-3 py-2 w-full sm:w-[48%]">
             <span className="text-gray-700 text-[14px] font-medium">
               For Sale
@@ -219,7 +219,7 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
               ></div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Buttons */}
         <div className="mt-10 flex justify-center sm:justify-end gap-4">
