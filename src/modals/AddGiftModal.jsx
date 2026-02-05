@@ -41,6 +41,10 @@ export default function AddGiftModal({ open, onClose, onSuccess }) {
       formData.append("image", data.giftLogo?.[0]);
     }
 
+    if (data.giftThumbnail) {
+      formData.append("thumbnail", data.giftThumbnail?.[0]);
+    }
+
     if (data.giftSound) {
       formData.append("soundFile", data.giftSound?.[0]);
     }
@@ -58,6 +62,8 @@ export default function AddGiftModal({ open, onClose, onSuccess }) {
     reset();
     onSuccess();
   };
+
+  const giftLogo = watch("giftLogo")?.[0];
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/30 z-50">
@@ -205,6 +211,36 @@ export default function AddGiftModal({ open, onClose, onSuccess }) {
             </p>
           )}
         </div>
+
+        {giftLogo?.type === "video/mp4" && (
+          <div className="mt-3">
+            <label className="text-gray-700 text-[14px] font-medium">
+              Upload Thumbnail (SVG, PNG, JPEG)
+            </label>
+            <div className="relative w-full cursor-pointer mt-1">
+              <input
+                type="file"
+                {...register("giftThumbnail")}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
+
+              <div className="border border-gray-300 rounded-md px-3 text-sm flex items-center gap-3">
+                <span className="text-[#686868A6] font-medium py-2 flex items-center gap-2">
+                  Upload <Upload size={15} />
+                </span>
+                <span className="w-px h-7 bg-gray-300"></span>
+                <span className="text-[#686868A6] font-medium truncate">
+                  {watch("giftThumbnail")?.[0]?.name || "No file choosen"}
+                </span>
+              </div>
+            </div>
+            {errors.giftThumbnail && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.giftThumbnail.message}
+              </p>
+            )}
+          </div>
+        )}
 
         {/* Upload Sound */}
         <div className="mt-3">

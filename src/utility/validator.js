@@ -208,40 +208,61 @@ export const vipSchema = z.object({
     ),
 });
 //add gift schema
-export const addGiftSchema = z.object({
-  giftName: z.string().min(2, "Gift Name is required"),
-  giftPrice: z.string().min(2, "Price is required"),
-  giftCategory: z.string().min(1, "Category is required"),
-  giftSubCategory: z.string().min(1, "Sub category is required"),
-  giftLogo: z
-    .any()
-    .refine((files) => files?.length > 0, "Logo is required")
-    .refine(
-      (files) =>
-        [
-          "image/png",
-          "image/svg+xml",
-          "video/mp4",
-          "image/jpeg",
-          "image/jpg",
-        ].includes(files?.[0]?.type),
-      "Invalid file type",
-    ),
-  giftSound: z
-    .any()
-    .optional()
-    .refine(
-      (files) => {
-        if (!files || files.length === 0) return true; // ❌ কোনো error না
-        return ["audio/mpeg", "audio/wav", "audio/ogg"].includes(
-          files[0]?.type,
-        );
-      },
-      {
-        message: "Only MP3, WAV or OGG audio files are allowed",
-      },
-    ),
-});
+
+export const addGiftSchema = z
+  .object({
+    giftName: z.string().min(2, "Gift Name is required"),
+    giftPrice: z
+      .string()
+      .min(1, "Price is required")
+      .refine(
+        (val) => !isNaN(Number(val)) && Number(val) > 0,
+        "Price must be a positive number",
+      ),
+    giftCategory: z.string().min(1, "Category is required"),
+    giftSubCategory: z.string().min(1, "Sub category is required"),
+    giftLogo: z
+      .any()
+      .refine((files) => files?.length > 0, "Logo is required")
+      .refine(
+        (files) =>
+          [
+            "image/png",
+            "image/svg+xml",
+            "video/mp4",
+            "image/jpeg",
+            "image/jpg",
+          ].includes(files?.[0]?.type),
+        "Invalid file type",
+      ),
+    giftThumbnail: z.any().optional(),
+    giftSound: z
+      .any()
+      .optional()
+      .refine(
+        (files) => {
+          if (!files || files.length === 0) return true; // no file, no error
+          return ["audio/mpeg", "audio/wav", "audio/ogg"].includes(
+            files[0]?.type,
+          );
+        },
+        { message: "Only MP3, WAV or OGG audio files are allowed" },
+      ),
+  })
+  .superRefine((data, ctx) => {
+    // Conditional thumbnail requirement
+    const giftLogoType = data.giftLogo?.[0]?.type;
+    if (
+      giftLogoType === "video/mp4" &&
+      (!data.giftThumbnail || data.giftThumbnail?.length === 0)
+    ) {
+      ctx.addIssue({
+        path: ["giftThumbnail"],
+        message: "Thumbnail is required for video logo",
+        code: "custom",
+      });
+    }
+  });
 
 //suport agency schema
 export const supportAgencySchema = z.object({

@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { timeAgo } from "../../utility/utility";
+import VideoThumbnail from "./VideoThumbnail";
 
 export default function RecentGiftActivity({ data, page }) {
+  const [activeVideo, setActiveVideo] = useState(null);
   const allGifts = data?.gifts;
 
   const recentGifts = (allGifts || []).sort(
@@ -19,13 +22,25 @@ export default function RecentGiftActivity({ data, page }) {
           >
             {/* Left */}
             <div className="flex items-center gap-2 sm:gap-4">
-              <div className="">
-                <img
-                  src={item?.imageUrl}
-                  alt="Gift Image"
-                  className="w-10 h-10 object-cover rounded-full"
-                />
-              </div>
+              {item?.imageUrl.includes("cloudinary") ? (
+                <div className="pl-7.5">
+                  <img
+                    src={item?.imageUrl}
+                    alt="Gift Image"
+                    className="w-15 h-10 object-cover rounded-full"
+                  />
+                </div>
+              ) : (
+                <td className="p-2 mx-auto">
+                  <VideoThumbnail
+                    id={item._id}
+                    src={item?.imageUrl}
+                    poster={item?.thumbnailUrl}
+                    activeVideo={activeVideo}
+                    setActiveVideo={setActiveVideo}
+                  />
+                </td>
+              )}
 
               <div className="space-y-1">
                 <p className="text-sm font-semibold text-gray-900">

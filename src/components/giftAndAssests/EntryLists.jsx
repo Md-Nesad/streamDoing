@@ -30,6 +30,8 @@ export default function EntryLists({ data, setRefresh }) {
     return matchText;
   });
 
+  console.log("categories", filteredUsers);
+
   //handle gift delete
   const handleDelete = async (id) => {
     try {
