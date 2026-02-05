@@ -282,10 +282,13 @@ export default function AddGiftModal({ open, onClose, onSuccess }) {
           </button>
 
           <button
+            type="submit"
             onClick={handleSubmit(handleSave)}
-            className="px-10 py-1 btn_gradient"
+            disabled={loading}
+            className={`px-10 py-1 btn_gradient 
+            ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
           >
-            {loading ? "creating..." : "Create"}
+            {loading ? "Creating..." : "Create"}
           </button>
         </div>
       </form>
