@@ -1,4 +1,3 @@
-import { Funnel } from "lucide-react";
 import {
   BASE_URL,
   formatNumber,
@@ -11,12 +10,15 @@ import useFetch from "../../hooks/useFetch";
 import Loading from "../Loading";
 import Error from "../Error";
 import { useDebounce } from "../../hooks/useDebounce";
+import VideoThumbnail from "../giftAndAssests/VideoThumbnail";
 export default function GiftingTable() {
+  const [activeVideo, setActiveVideo] = useState(null);
   const [text, setText] = useState("");
   const [page, setPage] = useState(1);
   const { data, loading, error } = useFetch(
     `${BASE_URL}/admin/transactions/gift-history?page=${page}&limit=40`,
   );
+  console.log("gift transaction data", data);
   const [giftList, setGiftList] = useState(data?.giftTransactions);
   const pagination = data?.pagination;
   const debouncedText = useDebounce(text, 400);
@@ -28,6 +30,8 @@ export default function GiftingTable() {
 
     return matchText;
   });
+
+  console.log("filteredGifts", filteredGifts?.length);
 
   useEffect(() => {
     if (text === "") {
@@ -87,7 +91,7 @@ export default function GiftingTable() {
                   className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                 >
                   <td className="p-3">GFT-{gift?.gift.giftID} </td>
-                  <td className="p-3">
+                  {/* <td className="p-3">
                     <img
                       src={gift?.gift.image}
                       alt="Sender GIft image"
@@ -96,7 +100,29 @@ export default function GiftingTable() {
                       loading="lazy"
                       className="ml-5"
                     />
-                  </td>
+                  </td> */}
+
+                  {gift?.gift?.image.includes("gift-videos") ? (
+                    <td className="p-2 mx-auto">
+                      <VideoThumbnail
+                        id={gift?.gift?._id}
+                        src={gift?.gift?.image}
+                        activeVideo={activeVideo}
+                        setActiveVideo={setActiveVideo}
+                      />
+                    </td>
+                  ) : (
+                    <td className="p-3">
+                      <img
+                        src={gift?.gift?.image}
+                        alt="Sender GIft image"
+                        width={35}
+                        height={35}
+                        loading="lazy"
+                        className="ml-5"
+                      />
+                    </td>
+                  )}
                   <td className="p-3">{gift?.gift.name}</td>
                   <td className="p-3">{gift?.user.displayId}</td>
                   <td className="p-3">{gift?.sentTo.displayId}</td>

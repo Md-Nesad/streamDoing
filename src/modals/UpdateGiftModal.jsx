@@ -49,7 +49,7 @@ export default function UpdateGiftModal({ open, onClose, gift, onSuccess }) {
     const result = await handleFormData(formData);
 
     if (!result.message) {
-      toast.error("Failed to update entry");
+      toast.error("Failed to update gift");
     } else {
       toast.success(result.message);
     }
