@@ -18,7 +18,7 @@ export default function RecentGiftActivity({ data, page }) {
         {recentGifts?.slice(0, 10).map((item, index) => (
           <div
             key={index}
-            className="flex items-center justify-between border border-[#ABABAB54] rounded-lg px-3 sm:px-4 py-3"
+            className="flex items-center justify-between border border-[#ABABAB54] rounded-lg px-3 sm:px-2 py-3"
           >
             {/* Left */}
             <div className="flex items-center gap-2 sm:gap-4">
