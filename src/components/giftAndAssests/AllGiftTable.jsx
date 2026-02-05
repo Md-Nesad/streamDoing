@@ -1,5 +1,5 @@
-import { Funnel, LoaderCircle } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { LoaderCircle, Pause, Play, Volume2, VolumeX } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
 import AddGiftModal from "../../modals/AddGiftModal";
 import useFetch from "../../hooks/useFetch";
 import { BASE_URL, formatNumber } from "../../utility/utility";
@@ -10,11 +10,13 @@ import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
 import TopPerformanceLoading from "../TopPerformanceLoading";
 import { useDebounce } from "../../hooks/useDebounce";
-import FilterDropdown from "../../modals/FilterModal";
 // import Loading from "../Loading";
 
 function AllGiftTable({ data, loading, error, setRefresh }) {
+  const videoRefs = useRef({});
   const [text, setText] = useState("");
+  const [play, setPlay] = useState(null);
+  const [mute, setMute] = useState(false);
   const [open, setIsOpen] = useState(false);
   const [update, setUpdate] = useState(false);
   const deleteUser = useDelete(`${BASE_URL}/gifts/delete`);
@@ -37,6 +39,8 @@ function AllGiftTable({ data, loading, error, setRefresh }) {
 
     return matchText;
   });
+
+  console.log("Filtered Gifts:", filteredUsers);
 
   //handle gift delete
   const handleDelete = async (id) => {
@@ -76,6 +80,33 @@ function AllGiftTable({ data, loading, error, setRefresh }) {
       setAllGifts(data?.gifts);
     }
   }, [text, data]);
+
+  //video controller
+  const togglePlay = (id) => {
+    const video = videoRefs.current[id];
+    if (!video) return;
+
+    if (play && play !== id) {
+      const prevVideo = videoRefs.current[play];
+      prevVideo?.pause();
+    }
+
+    if (video.paused) {
+      video.play();
+      setPlay(id);
+    } else {
+      video.pause();
+      setPlay(null);
+    }
+  };
+
+  const toggleMute = (id) => {
+    const video = videoRefs.current[id];
+    if (!video) return;
+
+    video.muted = !video.muted;
+    setMute(video.muted ? id : null);
+  };
 
   if (loading || category?.loading || subCategory?.loading)
     return <TopPerformanceLoading length={5} />;
@@ -133,16 +164,64 @@ function AllGiftTable({ data, loading, error, setRefresh }) {
                     key={gift._id}
                     className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                   >
-                    <td className="p-3 pl-7 mx-auto">
-                      <img
-                        src={gift?.imageUrl}
-                        alt="Gift Image"
-                        className="w-9 h-9 ml-4.5 object-cover rounded-full"
-                        loading="lazy"
-                        referrerPolicy="no-referrer"
-                        crossOrigin="anonymous"
-                      />
-                    </td>
+                    {gift?.imageUrl.includes("https://res.cloudinary.com") ? (
+                      <td className="p-3 pl-7 mx-auto">
+                        <img
+                          src={gift?.imageUrl}
+                          alt="Gift Image"
+                          className="w-9 h-9 ml-4.5 object-cover rounded-full"
+                          loading="lazy"
+                          referrerPolicy="no-referrer"
+                          crossOrigin="anonymous"
+                        />
+                      </td>
+                    ) : (
+                      <td className="p-2 pl-7 mx-auto">
+                        {loading ? (
+                          <LoaderCircle className="animate-spin text-center mx-auto" />
+                        ) : (
+                          <div className="relative w-20 aspect-video rounded-md overflow-hidden bg-black group">
+                            <video
+                              ref={(el) => (videoRefs.current[gift._id] = el)}
+                              src={gift.imageUrl}
+                              poster="/placeholder.jpg"
+                              preload="metadata"
+                              onEnded={() => setPlay(null)}
+                              className="w-full h-full object-cover"
+                            />
+
+                            {/* Play button */}
+                            <button
+                              onClick={() => togglePlay(gift._id)}
+                              className="absolute bottom-1 left-1
+                 bg-black/60 text-white text-xs px-2 py-1 rounded
+                 opacity-0 group-hover:opacity-100 transition"
+                            >
+                              {play === gift._id ? (
+                                <Pause className="w-3 h-3" />
+                              ) : (
+                                <Play className="w-3 h-3" />
+                              )}
+                            </button>
+
+                            {/* Mute button */}
+                            <button
+                              onClick={() => toggleMute(gift._id)}
+                              className="absolute bottom-1 right-1
+                 bg-black/60 text-white text-xs px-2 py-1 rounded
+                 opacity-0 group-hover:opacity-100 transition"
+                            >
+                              {mute === gift._id ? (
+                                <VolumeX className="w-3 h-3" />
+                              ) : (
+                                <Volume2 className="w-3 h-3" />
+                              )}
+                            </button>
+                          </div>
+                        )}
+                      </td>
+                    )}
+
                     <td className="p-3 font-medium">{gift.name}</td>
                     <td className="p-3">{categoryName || "N/A"}</td>
                     <td className="p-3">{subCategoryName || "N/A"}</td>
@@ -158,28 +237,30 @@ function AllGiftTable({ data, loading, error, setRefresh }) {
                         {gift.isActive === true ? "active" : "Inactive"}
                       </span>
                     </td>
-                    <td className="p-3 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
-                      <button
-                        title="Edit"
-                        onClick={() => handleUpdateModal(gift)}
-                        className="font-semibold"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        title="Delete"
-                        onClick={() => handleDelete(gift._id)}
-                        className="font-semibold bg-[#FFE9E9] text-[#CF0D13] py-1 px-3 rounded w-20"
-                      >
-                        {dloading === gift._id ? (
-                          <LoaderCircle
-                            className="animate-spin text-center mx-auto"
-                            size={17}
-                          />
-                        ) : (
-                          "Delete"
-                        )}
-                      </button>
+                    <td className="p-3 ">
+                      <div className="text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                        <button
+                          title="Edit"
+                          onClick={() => handleUpdateModal(gift)}
+                          className="font-semibold"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          title="Delete"
+                          onClick={() => handleDelete(gift._id)}
+                          className="font-semibold bg-[#FFE9E9] text-[#CF0D13] py-1 px-3 rounded w-20"
+                        >
+                          {dloading === gift._id ? (
+                            <LoaderCircle
+                              className="animate-spin text-center mx-auto"
+                              size={17}
+                            />
+                          ) : (
+                            "Delete"
+                          )}
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
