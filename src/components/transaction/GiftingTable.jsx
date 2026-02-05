@@ -128,7 +128,7 @@ export default function GiftingTable() {
                   <td className="p-3">{gift?.sentTo.displayId}</td>
                   <td className="p-3">{gift?.streamId || "N/A"}</td>
                   <td className="p-3">{formatNumber(gift?.amount)}</td>
-                  <td className="p-3 text-[#181717] text-sm font-semibold cursor-pointer flex gap-5 items-center">
+                  <td className="p-3 text-[#181717] text-sm font-semibold cursor-pointer">
                     {formatOnlyDate(gift?.date)}, {formatOnlyTime(gift?.date)}
                   </td>
                 </tr>
