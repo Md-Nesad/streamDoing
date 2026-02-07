@@ -62,6 +62,8 @@ export default function AddHostAgencyForm() {
     setLoading(false);
   };
 
+  const documentType = watch("documentType");
+
   return (
     <div className="w-full flex justify-center shadow-[0_2px_10px_rgba(0,0,0,0.06)] mb-10">
       <div className="w-full bg-white rounded-xl py-5 sm:py-8 px-3 sm:px-12 border border-gray-100">
@@ -220,7 +222,7 @@ export default function AddHostAgencyForm() {
 
           {/* NID Front */}
           <div>
-            <label>NID Front</label>
+            <label>{documentType || "NID"} Front</label>
             <div className="relative w-full cursor-pointer">
               <input
                 type="file"
@@ -247,7 +249,7 @@ export default function AddHostAgencyForm() {
 
           {/* NID Back */}
           <div>
-            <label>NID Back</label>
+            <label>{documentType || "NID"} Back</label>
             <div className="relative w-full cursor-pointer">
               <input
                 type="file"
