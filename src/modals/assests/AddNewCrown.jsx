@@ -40,17 +40,17 @@ export default function AddNewCrown({ open, onClose, onSuccess }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
+    console.log(result);
     if (result.success === false) {
       toast.error(result.message);
     } else {
       toast.success(result.message || "Crown created");
+      onSuccess();
     }
 
     setLoading(false);
 
     reset();
-
-    onSuccess();
   };
 
   return (
@@ -151,7 +151,7 @@ export default function AddNewCrown({ open, onClose, onSuccess }) {
         {/* Upload Logo */}
         <div>
           <label className="text-gray-700 text-[14px] font-medium">
-            Upload Banner (SVG, PNG, Mp4)
+            Upload Banner (SVG, PNG, JPEG)
           </label>
           <div className="relative w-full cursor-pointer mt-1">
             <input

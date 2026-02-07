@@ -30,8 +30,6 @@ export default function EntryLists({ data, setRefresh }) {
     return matchText;
   });
 
-  console.log("categories", filteredUsers);
-
   //handle gift delete
   const handleDelete = async (id) => {
     try {
@@ -44,14 +42,13 @@ export default function EntryLists({ data, setRefresh }) {
         toast.error("Failed to delete entry");
       } else {
         toast.success(result.message || "Entry deleted successfully");
+        setRefresh((prev) => !prev);
+        setAllGifts(allGifts?.filter((gift) => gift._id !== id));
       }
-
-      setAllGifts(allGifts?.filter((gift) => gift._id !== id));
     } catch (err) {
       console.log(err);
     } finally {
       setDLoading(null);
-      setRefresh((prev) => !prev);
     }
   };
 

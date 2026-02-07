@@ -40,17 +40,16 @@ export default function AddNewTemplateModal({ open, onClose, onSuccess }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-
-    if (!result.message) {
-      toast.error("Failed to create template");
+    console.log(result);
+    if (result.success === false) {
+      toast.error(result.message || "Failed to create template");
     } else {
       toast.success(result.message);
+      onSuccess();
     }
     setLoading(false);
 
     reset();
-
-    onSuccess();
   };
 
   return (
@@ -149,7 +148,7 @@ export default function AddNewTemplateModal({ open, onClose, onSuccess }) {
         {/* Upload Logo */}
         <div>
           <label className="text-gray-700 text-[14px] font-medium">
-            Upload Banner (SVG, PNG, Mp4)
+            Upload Banner (SVG, PNG, JPEG)
           </label>
           <div className="relative w-full cursor-pointer mt-1">
             <input

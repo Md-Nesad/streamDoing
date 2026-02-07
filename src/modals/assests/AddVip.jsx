@@ -139,7 +139,7 @@ export default function AddVip({ open, onClose, onSuccess }) {
         {/* Upload Logo */}
         <div>
           <label className="text-gray-700 text-[14px] font-medium">
-            Upload Banner (SVG, PNG, Mp4)
+            Upload Banner (SVG, PNG, JPEG)
           </label>
           <div className="relative w-full cursor-pointer mt-1">
             <input

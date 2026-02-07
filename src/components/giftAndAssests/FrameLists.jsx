@@ -38,19 +38,18 @@ export default function FrameLists({ data, setRefresh }) {
       if (!ok) return;
       setDLoading(id);
       const result = await deleteUser(id);
-
-      if (!result) {
+      console.log(result);
+      if (result.error || result.success === false) {
         toast.error("Failed to delete frame");
       } else {
         toast.success(result.message || "Frame deleted successfully");
+        setRefresh((prev) => !prev);
+        setAllGifts(allGifts?.filter((gift) => gift._id !== id));
       }
-
-      setAllGifts(allGifts?.filter((gift) => gift._id !== id));
     } catch (err) {
       console.log(err);
     } finally {
       setDLoading(null);
-      setRefresh((prev) => !prev);
     }
   };
 

@@ -42,17 +42,16 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-
-    if (!result.message) {
-      toast.error("Failed to create badge");
+    console.log(result);
+    if (result.success === false) {
+      toast.error(result.message || "Failed to create badge");
     } else {
-      toast.success(result.message);
+      toast.success(result.message || "Badge created successfully");
+      onSuccess();
     }
     setLoading(false);
 
     reset();
-
-    onSuccess();
   };
 
   return (
@@ -154,7 +153,7 @@ export default function AddNewBadgeModal({ open, onClose, onSuccess }) {
 
         {/* Upload Logo */}
         <div>
-          <label>Upload Badge (SVG, PNG, Mp4)</label>
+          <label>Upload Badge (SVG, PNG, JPEG)</label>
           <div className="relative w-full cursor-pointer">
             <input
               type="file"

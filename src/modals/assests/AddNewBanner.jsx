@@ -39,15 +39,15 @@ function AddNewBannerModal({ open, onClose, onSuccess }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-    console.log(result);
-    if (!result == {}) {
-      toast.error("Failed to create banner");
+
+    if (result.success === false) {
+      toast.error(result.message || "Failed to create banner");
     } else {
       toast.success("Banner created");
+      onSuccess();
     }
     setLoading(false);
     reset();
-    onSuccess();
   };
 
   return (
@@ -164,7 +164,7 @@ function AddNewBannerModal({ open, onClose, onSuccess }) {
 
         {/* Upload Logo */}
         <div>
-          <label>Upload Banner (SVG, PNG, Mp4)</label>
+          <label>Upload Banner (SVG, PNG, JPEG)</label>
           <div className="relative w-full cursor-pointer">
             <input
               type="file"
