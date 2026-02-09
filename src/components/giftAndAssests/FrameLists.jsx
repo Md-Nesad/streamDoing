@@ -6,15 +6,13 @@ import useDelete from "../../hooks/useDelete";
 // import useFetch from "../../hooks/useFetch";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
-// import TopPerformanceLoading from "../TopPerformanceLoading";
-// import AddNewLevel from "../../modals/assests/AddNewLevel";
 import AddNewFrameModal from "../../modals/assests/AddNewFrame";
 import { useDebounce } from "../../hooks/useDebounce";
-// import UpdateGiftModal from "../../modals/UpdateGiftModal";
-// import Loading from "../Loading";
+import VideoThumbnail from "./VideoThumbnail";
 
 export default function FrameLists({ data, setRefresh }) {
   // const [refresh, setRefresh] = useState(false);
+  const [activeVideo, setActiveVideo] = useState(null);
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
   const deleteUser = useDelete(`${BASE_URL}/frames`);
@@ -30,6 +28,8 @@ export default function FrameLists({ data, setRefresh }) {
 
     return matchText;
   });
+
+  console.log("all gifts", allGifts);
 
   //handle gift delete
   const handleDelete = async (id) => {
@@ -121,13 +121,28 @@ export default function FrameLists({ data, setRefresh }) {
                     key={gift._id}
                     className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                   >
-                    <td className="p-3 pl-7 mx-auto">
-                      <img
-                        src={gift?.imageURL}
-                        alt="Gift Image"
-                        className="w-8 h-8 ml-4.5 object-cover rounded-full"
-                      />
-                    </td>
+                    {gift?.imageURL?.includes("cloudinary") ? (
+                      <td className="p-3 pl-7 mx-auto">
+                        <img
+                          src={gift?.imageURL}
+                          alt="Gift Image"
+                          className="w-9 h-9 ml-4.5 object-cover rounded-full"
+                          loading="lazy"
+                          referrerPolicy="no-referrer"
+                          crossOrigin="anonymous"
+                        />
+                      </td>
+                    ) : (
+                      <td className="p-2 pl-7 mx-auto">
+                        <VideoThumbnail
+                          id={gift._id}
+                          src={gift?.imageURL}
+                          poster={gift?.thumbnailUrl}
+                          activeVideo={activeVideo}
+                          setActiveVideo={setActiveVideo}
+                        />
+                      </td>
+                    )}
                     <td className="p-3 font-medium">{gift.name}</td>
 
                     <td className="p-3">{formatNumber(gift.price)}</td>

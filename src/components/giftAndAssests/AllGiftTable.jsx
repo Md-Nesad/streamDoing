@@ -39,8 +39,6 @@ function AllGiftTable({ data, loading, error, setRefresh }) {
     return matchText;
   });
 
-  console.log(filteredUsers);
-
   //handle gift delete
   const handleDelete = async (id) => {
     try {
