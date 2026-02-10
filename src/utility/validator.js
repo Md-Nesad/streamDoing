@@ -96,13 +96,9 @@ export const frameSchema = z.object({
     .refine((files) => files?.length > 0, "Banner is required")
     .refine(
       (files) =>
-        [
-          "image/png",
-          "image/svg+xml",
-          "video/mp4",
-          "image/jpeg",
-          "image/jpg",
-        ].includes(files?.[0]?.type),
+        ["image/png", "image/svg+xml", "image/jpeg", "image/jpg"].includes(
+          files?.[0]?.type,
+        ),
       "Invalid file type",
     ),
 });
