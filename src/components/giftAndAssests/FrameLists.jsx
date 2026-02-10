@@ -1,9 +1,7 @@
 import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
-// import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
-// import useFetch from "../../hooks/useFetch";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
 import AddNewFrameModal from "../../modals/assests/AddNewFrame";
@@ -11,7 +9,6 @@ import { useDebounce } from "../../hooks/useDebounce";
 import VideoThumbnail from "./VideoThumbnail";
 
 export default function FrameLists({ data, setRefresh }) {
-  // const [refresh, setRefresh] = useState(false);
   const [activeVideo, setActiveVideo] = useState(null);
   const [text, setText] = useState("");
   const [open, setIsOpen] = useState(false);
@@ -29,8 +26,6 @@ export default function FrameLists({ data, setRefresh }) {
     return matchText;
   });
 
-  console.log("all gifts", allGifts);
-
   //handle gift delete
   const handleDelete = async (id) => {
     try {
@@ -38,7 +33,7 @@ export default function FrameLists({ data, setRefresh }) {
       if (!ok) return;
       setDLoading(id);
       const result = await deleteUser(id);
-      console.log(result);
+
       if (result.error || result.success === false) {
         toast.error("Failed to delete frame");
       } else {
@@ -53,25 +48,11 @@ export default function FrameLists({ data, setRefresh }) {
     }
   };
 
-  //   const handleUpdateModal = (gift) => {
-  //     setSelectedGift(gift);
-  //     setUpdate(true);
-  //   };
-
-  //   useEffect(() => {
-  //     setAllGifts(
-  //       data?.gifts.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)),
-  //     );
-  //   }, [data]);
-
   useEffect(() => {
     if (text === "") {
       setAllGifts(data?.frames);
     }
   }, [text, data?.frames]);
-
-  // if (loading) return <TopPerformanceLoading length={5} />;
-  // if (error) return <Error error={error} />;
 
   return (
     <>
@@ -85,12 +66,6 @@ export default function FrameLists({ data, setRefresh }) {
           placeholder="Search by gift name"
         />
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          {/* <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button> */}
           <button
             onClick={() => setIsOpen(true)}
             className="sm:px-6 py-1.5 max-sm:py-2 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
@@ -121,7 +96,7 @@ export default function FrameLists({ data, setRefresh }) {
                     key={gift._id}
                     className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md"
                   >
-                    {gift?.imageURL?.includes("cloudinary") ? (
+                    {gift?.type === "image" ? (
                       <td className="p-3 pl-7 mx-auto">
                         <img
                           src={gift?.imageURL}
