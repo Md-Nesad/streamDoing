@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.app.StreamDoing",
+      "sha256_cert_fingerprints": [
+        "30:D7:B3:79:A0:72:48:7B:CF:C0:21:4F:06:67:E1:43:33:1A:25:F3:12:C7:32:AD:6F:72:FA:89:7F:BA:06:EE"
+      ]
+    }
+  }
+]
