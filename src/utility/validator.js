@@ -59,9 +59,9 @@ export const badgeSchema = z.object({
         [
           "image/png",
           "image/svg+xml",
-          "video/mp4",
           "image/jpeg",
           "image/jpg",
+          "image/gif",
         ].includes(files?.[0]?.type),
       "Invalid file type",
     ),
@@ -96,9 +96,13 @@ export const frameSchema = z.object({
     .refine((files) => files?.length > 0, "Banner is required")
     .refine(
       (files) =>
-        ["image/png", "image/svg+xml", "image/jpeg", "image/jpg"].includes(
-          files?.[0]?.type,
-        ),
+        [
+          "image/png",
+          "image/svg+xml",
+          "image/jpeg",
+          "image/jpg",
+          "image/gif",
+        ].includes(files?.[0]?.type),
       "Invalid file type",
     ),
 });
@@ -114,9 +118,9 @@ export const levelSchema = z.object({
         [
           "image/png",
           "image/svg+xml",
-          "video/mp4",
           "image/jpeg",
           "image/jpg",
+          "image/gif",
         ].includes(files?.[0]?.type),
       "Invalid file type",
     ),
@@ -134,9 +138,9 @@ export const crownSchema = z.object({
         [
           "image/png",
           "image/svg+xml",
-          "video/mp4",
           "image/jpeg",
           "image/jpg",
+          "image/gif",
         ].includes(files?.[0]?.type),
       "Invalid file type",
     ),
@@ -155,9 +159,9 @@ export const entrySchema = z.object({
         [
           "image/png",
           "image/svg+xml",
-          "video/mp4",
           "image/jpeg",
           "image/jpg",
+          "image/gif",
         ].includes(files?.[0]?.type),
       "Invalid file type",
     ),
@@ -175,9 +179,9 @@ export const eventSchema = z.object({
         [
           "image/png",
           "image/svg+xml",
-          "video/mp4",
           "image/jpeg",
           "image/jpg",
+          "image/gif",
         ].includes(files?.[0]?.type),
       "Invalid file type",
     ),
@@ -196,15 +200,15 @@ export const vipSchema = z.object({
         [
           "image/png",
           "image/svg+xml",
-          "video/mp4",
           "image/jpeg",
           "image/jpg",
+          "image/gif",
         ].includes(files?.[0]?.type),
       "Invalid file type",
     ),
 });
-//add gift schema
 
+//add gift schema
 export const addGiftSchema = z
   .object({
     giftName: z.string().min(2, "Gift Name is required"),
