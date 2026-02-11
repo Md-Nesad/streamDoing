@@ -168,7 +168,7 @@ export default function TemplateLists({ data, setRefresh }) {
             ) : (
               <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
                 <td colSpan={9} className="p-3 text-center">
-                  No level found
+                  No template found
                 </td>
               </tr>
             )}

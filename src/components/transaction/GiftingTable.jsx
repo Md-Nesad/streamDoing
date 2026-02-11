@@ -31,8 +31,6 @@ export default function GiftingTable() {
     return matchText;
   });
 
-  console.log("filteredGifts", filteredGifts?.length);
-
   useEffect(() => {
     if (text === "") {
       setGiftList(data?.giftTransactions);

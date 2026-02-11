@@ -1,16 +1,11 @@
 import { Funnel, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BASE_URL, formatNumber } from "../../utility/utility";
-// import Error from "../Error";
 import useDelete from "../../hooks/useDelete";
 import AddNewBadgeModal from "../../modals/assests/AddNewBadge";
 import { useGlobalConfirm } from "../../context/ConfirmProvider";
 import { toast } from "react-toastify";
 import { useDebounce } from "../../hooks/useDebounce";
-// import useFetch from "../../hooks/useFetch";
-// import TopPerformanceLoading from "../TopPerformanceLoading";
-// import UpdateGiftModal from "../../modals/UpdateGiftModal";
-// import Loading from "../Loading";
 
 export default function BadgesLists({ data, setRefresh }) {
   const [text, setText] = useState("");
@@ -60,9 +55,6 @@ export default function BadgesLists({ data, setRefresh }) {
     }
   }, [text, data?.badges]);
 
-  // if (loading) return <TopPerformanceLoading length={5} />;
-  // if (error) return <Error error={error} />;
-
   return (
     <>
       {/* search area */}
@@ -75,12 +67,6 @@ export default function BadgesLists({ data, setRefresh }) {
           placeholder="Search by gift name"
         />
         <div className="flex items-center justify-end gap-2 sm:gap-3 w-full sm:w-auto">
-          {/* <button
-            onClick={handleFilter}
-            className="px-3 sm:px-4 py-1.5 rounded-md bg-white border border-[#CCCCCC] font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-          >
-            <Funnel size={18} /> Filter
-          </button> */}
           <button
             onClick={() => setIsOpen(true)}
             className="sm:px-6 py-1.5 max-sm:py-2 text-sm sm:text-base bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium w-full sm:w-auto text-nowrap"
@@ -163,7 +149,7 @@ export default function BadgesLists({ data, setRefresh }) {
             ) : (
               <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
                 <td colSpan={9} className="p-3 text-center">
-                  No banner found
+                  No badge found
                 </td>
               </tr>
             )}

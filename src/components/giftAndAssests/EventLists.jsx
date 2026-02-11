@@ -169,7 +169,7 @@ export default function EventLists({ data, setRefresh }) {
             ) : (
               <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
                 <td colSpan={9} className="p-3 text-center">
-                  No banner found
+                  No event found
                 </td>
               </tr>
             )}
