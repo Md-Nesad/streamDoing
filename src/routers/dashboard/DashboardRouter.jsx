@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import Host from "../../Pages/Host";
@@ -15,7 +16,7 @@ import Transaction from "../../Pages/Transaction";
 import LiveStreams from "../../Pages/LiveStreams";
 import Moderation from "../../Pages/Moderation";
 import Finance from "../../Pages/Finance";
-import PkMaster from "../../Pages/PkMaster";
+const PkMaster = lazy(() => import("../../Pages/PkMaster"));
 import KycCenter from "../../Pages/KycCenter";
 import SalaryTarget from "../../Pages/SalaryTarget";
 import GiftAndAssests from "../../Pages/GiftAndAssests";
@@ -41,8 +42,9 @@ import { ProtectedRoute } from "../ProtectedRoutes";
 // import TopUp from "../../Pages/dataStore/TopUp";
 // import CharmUp from "../../Pages/dataStore/CharmUp";
 import TopRanking from "../../Pages/TopRanking";
-import Analytics from "../../Pages/Analytics";
+const Analytics = lazy(() => import("../../Pages/Analytics"));
 import NotificationCenter from "../../Pages/NotificationCenter";
+import Loading from "../../components/Loading";
 
 export default function DashboardRouter() {
   return (
@@ -90,9 +92,23 @@ export default function DashboardRouter() {
               <Route path="live-streams" element={<LiveStreams />} />
               <Route path="moderation" element={<Moderation />} />
               <Route path="top-ranking" element={<TopRanking />} />
-              <Route path="analytics" element={<Analytics />} />
+              <Route
+                path="analytics"
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Analytics />
+                  </Suspense>
+                }
+              />
               <Route path="finance" element={<Finance />} />
-              <Route path="pk-masters" element={<PkMaster />} />
+              <Route
+                path="pk-masters"
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <PkMaster />
+                  </Suspense>
+                }
+              />
               <Route path="kyc-centre" element={<KycCenter />} />
               <Route path="salary-target" element={<SalaryTarget />} />
               <Route path="gifts-assets" element={<GiftAndAssests />} />

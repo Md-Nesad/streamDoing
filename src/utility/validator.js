@@ -232,6 +232,7 @@ export const addGiftSchema = z
             "video/mp4",
             "image/jpeg",
             "image/jpg",
+            "image/gif",
           ].includes(files?.[0]?.type),
         "Invalid file type",
       ),
