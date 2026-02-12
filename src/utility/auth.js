@@ -4,12 +4,12 @@ export const isAuthenticated = () => {
 
   try {
     // JWT decode kora
-    const payload = JSON.parse(atob(token.split(".")[1])); // token er middle part decode
-    const now = Math.floor(Date.now() / 1000); // current time in seconds
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    const now = Math.floor(Date.now() / 1000);
 
     // check expiration
     if (payload.exp && payload.exp < now) {
-      localStorage.removeItem("admin_token"); // expired token remove kora optional
+      localStorage.removeItem("admin_token");
       return false;
     }
 
