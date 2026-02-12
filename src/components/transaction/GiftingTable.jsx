@@ -18,7 +18,7 @@ export default function GiftingTable() {
   const { data, loading, error } = useFetch(
     `${BASE_URL}/admin/transactions/gift-history?page=${page}&limit=50`,
   );
-  console.log("gift transaction data", data);
+
   const [giftList, setGiftList] = useState(data?.giftTransactions);
   const pagination = data?.pagination;
   const debouncedText = useDebounce(text, 400);

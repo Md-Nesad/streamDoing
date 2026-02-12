@@ -3,7 +3,6 @@ import ChatHeader from "../components/inboxAssests/ChatHeader";
 import ChatMessages from "../components/inboxAssests/ChatMessage";
 import ChatInput from "../components/inboxAssests/ChatInput";
 import UserDetails from "../components/inboxAssests/UserDetails";
-// import { chatUsers } from "../data/data";
 import InBoxSidebar from "../components/inboxAssests/InboxSidebar";
 import useFetch from "../hooks/useFetch";
 import { BASE_URL } from "../utility/utility";
@@ -12,7 +11,7 @@ import Error from "../components/Error";
 
 export default function InboxPage() {
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/support-agency/conversations`
+    `${BASE_URL}/support-agency/conversations`,
   );
   const conversations = data?.conversations;
   const [selectedUser, setSelectedUser] = useState(conversations?.[0]);
