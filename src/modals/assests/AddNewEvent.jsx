@@ -41,7 +41,7 @@ export default function AddNewEventModal({ open, onClose, onSuccess }) {
     const result = await handleFormData(formData);
 
     if (result.success === false) {
-      toast.error(result.message || "Failed to create event");
+      toast.error("Failed to create event");
     } else {
       toast.success(result.message);
       onSuccess();

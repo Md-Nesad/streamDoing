@@ -46,7 +46,7 @@ export default function AddNewEntryModal({ open, onClose, onSuccess }) {
     const result = await handleFormData(formData);
 
     if (result.success === false) {
-      toast.error(result.message || "Failed to create entry");
+      toast.error("Failed to create entry");
     } else {
       toast.success(result.message);
       onSuccess();
