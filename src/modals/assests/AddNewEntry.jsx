@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 export default function AddNewEntryModal({ open, onClose, onSuccess }) {
   if (!open) return null;
   const { data } = useFetch(`${BASE_URL}/entries/categories`);
-  const handleFormData = useFormDataPost(`${BASE_URL}/entries`);
+  const handleFormData = useFormDataPost(`${BASE_URL}/entrie`);
   const categoreis = data?.categories;
   const [loading, setLoading] = useState(false);
   const [isSell, setIsSell] = useState(false);
