@@ -17,7 +17,7 @@ export default function TransactionTabs() {
     error: stateError,
   } = useFetch(`${BASE_URL}/admin/transactions/stats`);
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/admin/transactions/histor?page=${page}&limit=40&status=completed&sortBy=createdAt&sortOrder=desc`,
+    `${BASE_URL}/admin/transactions/history?page=${page}&limit=40&status=completed&sortBy=createdAt&sortOrder=desc`,
   );
 
   if (loading) return <Loading />;

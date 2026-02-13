@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 export default function AddNewEventModal({ open, onClose, onSuccess }) {
   if (!open) return null;
   const { data } = useFetch(`${BASE_URL}/events/categories`);
-  const handleFormData = useFormDataPost(`${BASE_URL}/events`);
+  const handleFormData = useFormDataPost(`${BASE_URL}/event`);
   const categoreis = data?.eventCategories;
   const [loading, setLoading] = useState(false);
 
