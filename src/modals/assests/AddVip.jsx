@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 export default function AddVip({ open, onClose, onSuccess }) {
   if (!open) return null;
-  const handleFormData = useFormDataPost(`${BASE_URL}/vip`);
+  const handleFormData = useFormDataPost(`${BASE_URL}/vips`);
   const [loading, setLoading] = useState(false);
 
   const {
