@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 export default function SellCoins({ setRefresh }) {
   const { data } = useFetch(`${BASE_URL}/coins/rates/latest`);
-  const handleSubmit = useJsonPost(`${BASE_URL}/coins/sales/admin-to-all`);
+  const handleSubmit = useJsonPost(`${BASE_URL}/coins/sales/admin-to-al`);
 
   const [masterId, setMasterId] = useState("");
   const [coins, setCoins] = useState("");

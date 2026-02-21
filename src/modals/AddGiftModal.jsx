@@ -15,7 +15,7 @@ export default function AddGiftModal({ open, onClose, onSuccess }) {
   const subCategories = useFetch(
     `${BASE_URL}/gift-subcategory/by-category/${selectedCategory || null}`,
   );
-  const handleFormData = useFormDataPost(`${BASE_URL}/gifts/create`);
+  const handleFormData = useFormDataPost(`${BASE_URL}/gifts/creat`);
   const [loading, setLoading] = useState(false);
 
   const {
@@ -51,16 +51,16 @@ export default function AddGiftModal({ open, onClose, onSuccess }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
-    console.log("Gift creation result:", result);
-    if (!result.message) {
+
+    if (result.success === false) {
       toast.error("Failed to create entry");
     } else {
       toast.success(result.message);
+      reset();
+      onSuccess();
     }
 
     setLoading(false);
-    reset();
-    onSuccess();
   };
 
   const giftLogo = watch("giftLogo")?.[0];
