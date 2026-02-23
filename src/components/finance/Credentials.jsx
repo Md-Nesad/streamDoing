@@ -2,8 +2,8 @@ import { useState } from "react";
 import { BASE_URL } from "../../utility/utility";
 import useFetch from "../../hooks/useFetch";
 import UpdateCredentials from "../../modals/dataSroreModals/UpdateCredentials";
-import Loading from "../Loading";
 import Error from "../Error";
+import TopPerformanceLoading from "../TopPerformanceLoading";
 
 export default function Credentials() {
   const [open, setIsOpen] = useState(false);
@@ -14,7 +14,7 @@ export default function Credentials() {
   );
   const creadital = data?.credentials;
 
-  if (loading) return <Loading />;
+  if (loading) return <TopPerformanceLoading length={1} />;
 
   if (error) return <Error error={error} />;
 
@@ -22,12 +22,12 @@ export default function Credentials() {
     <>
       <div className="py-4 bg-[#FFFFFF] rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.06)] w-full overflow-x-auto mt-7 mb-10">
         <div className="flex items-center justify-between mb-4 px-3 sm:px-5">
-          <h2 className="text-xl font-semibold">creaditals</h2>
+          <h2 className="text-xl font-semibold">Zego Cloud Credential</h2>
           <button
             onClick={() => setIsOpen(true)}
             className="px-5 py-1.5 text-sm sm:text-[17px] bg-linear-to-r from-[#6DA5FF] to-[#F576D6] text-white rounded-md font-medium"
           >
-            Update Credentials
+            Update Credential
           </button>
         </div>
         <table className="w-full text-left border-collapse text-nowrap">

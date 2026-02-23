@@ -54,7 +54,7 @@ export default function FinanceTabs() {
           className="font-sans cursor-pointer"
           selectedClassName="active-tab"
         >
-          Credentials
+          Credential
         </Tab>
       </TabList>
 

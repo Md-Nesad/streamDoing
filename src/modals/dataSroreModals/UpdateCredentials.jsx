@@ -36,7 +36,7 @@ export default function UpdateCredentials({ open, onClose, onSuccess }) {
       <div className="bg-[#FDFDFD] w-full max-w-2xl rounded-xl shadow-xl sm:p-8 p-4 relative animatefadeIn">
         {/* Title */}
         <h2 className="text-xl font-semibold text-gray-800">
-          Update Credentials
+          Update Credential
         </h2>
 
         {/* Form */}
