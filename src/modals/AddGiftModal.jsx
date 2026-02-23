@@ -15,7 +15,7 @@ export default function AddGiftModal({ open, onClose, onSuccess }) {
   const subCategories = useFetch(
     `${BASE_URL}/gift-subcategory/by-category/${selectedCategory || null}`,
   );
-  const handleFormData = useFormDataPost(`${BASE_URL}/gifts/creat`);
+  const handleFormData = useFormDataPost(`${BASE_URL}/gifts/create`);
   const [loading, setLoading] = useState(false);
 
   const {

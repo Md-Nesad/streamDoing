@@ -1,27 +1,51 @@
 import { date, z } from "zod";
 
-export const agencySchema = z.object({
-  agencyType: z.string().min(1, "Agency type is required"),
-  agencyName: z.string().min(2, "Agency name is required"),
-  email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Minimum 6 characters"),
-  phoneNumber: z.string().optional(),
-  country: z.string().min(1, "Country is required"),
-  documentType: z.string().min(1, "Document type required"),
-  whatsapp: z.string().min(1, "Whatsapp number is required"),
-  profilePic: z
-    .any()
-    .optional()
-    .refine((files) => files?.length > 0, "Profile picture is required"),
-  documentFront: z
-    .any()
-    .optional()
-    .refine((files) => files?.length > 0, "Document front is required"),
-  documentBack: z
-    .any()
-    .optional()
-    .refine((files) => files?.length > 0, "Document back is required"),
-});
+export const agencySchema = z
+  .object({
+    agencyType: z.string().min(1, "Agency type is required"),
+    agencyName: z.string().min(2, "Agency name is required"),
+    email: z.string().email("Invalid email"),
+    password: z.string().min(6, "Minimum 6 characters"),
+    phoneNumber: z.string().optional(),
+    country: z.string().min(1, "Country is required"),
+    documentType: z.string().min(1, "Document type required"),
+    whatsapp: z.string().min(1, "Whatsapp number is required"),
+
+    profilePic: z.any().optional(),
+    documentFront: z.any().optional(),
+    documentBack: z.any().optional(),
+  })
+  .superRefine((data, ctx) => {
+    // Profile Pic Required
+    if (!data.profilePic || data.profilePic.length === 0) {
+      ctx.addIssue({
+        path: ["profilePic"],
+        message: "Profile picture is required",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+
+    // Document Front Required (always)
+    if (!data.documentFront || data.documentFront.length === 0) {
+      ctx.addIssue({
+        path: ["documentFront"],
+        message: "Document front is required",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+
+    // Document Back Required except Passport
+    if (
+      data.documentType !== "Passport" &&
+      (!data.documentBack || data.documentBack.length === 0)
+    ) {
+      ctx.addIssue({
+        path: ["documentBack"],
+        message: "Document back is required",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+  });
 
 export const bannerSchema = z.object({
   bannerName: z.string().min(2, "Banner name is required"),
