@@ -7,6 +7,7 @@ import { BASE_URL } from "../../utility/utility";
 import Error from "../Error";
 import { useState } from "react";
 import TopUp from "../../Pages/dataStore/TopUp";
+import Credentials from "./Credentials";
 
 export default function FinanceTabs() {
   const [page, setPage] = useState(1);
@@ -48,6 +49,13 @@ export default function FinanceTabs() {
         >
           Top Up
         </Tab>
+
+        <Tab
+          className="font-sans cursor-pointer"
+          selectedClassName="active-tab"
+        >
+          Credentials
+        </Tab>
       </TabList>
 
       <TabPanel>
@@ -68,6 +76,10 @@ export default function FinanceTabs() {
 
       <TabPanel>
         <TopUp />
+      </TabPanel>
+
+      <TabPanel>
+        <Credentials />
       </TabPanel>
     </Tabs>
   );
