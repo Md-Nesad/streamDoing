@@ -248,31 +248,33 @@ export default function AddHostAgencyForm() {
           </div>
 
           {/* NID Back */}
-          <div>
-            <label>{documentType || "NID"} Back</label>
-            <div className="relative w-full cursor-pointer">
-              <input
-                type="file"
-                {...register("documentBack")}
-                className="absolute inset-0 opacity-0 cursor-pointer"
-              />
+          {documentType !== "Passport" && (
+            <div>
+              <label>{documentType || "NID"} Back</label>
+              <div className="relative w-full cursor-pointer">
+                <input
+                  type="file"
+                  {...register("documentBack")}
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
 
-              <div className="border border-gray-300 rounded-md px-3 text-sm flex items-center gap-3">
-                <span className="text-[#686868A6] font-medium py-2">
-                  Choose File
-                </span>
-                <span className="w-px h-7 bg-gray-300"></span>
-                <span className="text-[#686868A6] font-medium">
-                  {watch("documentBack")?.[0]?.name || "No file choosen"}
-                </span>
+                <div className="border border-gray-300 rounded-md px-3 text-sm flex items-center gap-3">
+                  <span className="text-[#686868A6] font-medium py-2">
+                    Choose File
+                  </span>
+                  <span className="w-px h-7 bg-gray-300"></span>
+                  <span className="text-[#686868A6] font-medium">
+                    {watch("documentBack")?.[0]?.name || "No file choosen"}
+                  </span>
+                </div>
               </div>
+              {errors.documentBack && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.documentBack.message}
+                </p>
+              )}
             </div>
-            {errors.documentBack && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.documentBack.message}
-              </p>
-            )}
-          </div>
+          )}
 
           {/* Profile Pic */}
           <div>
