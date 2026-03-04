@@ -1,5 +1,5 @@
 export const isAuthenticated = () => {
-  const token = localStorage.getItem("admin_token");
+  const token = localStorage.getItem("admin_toke");
   if (!token) return false;
 
   try {
