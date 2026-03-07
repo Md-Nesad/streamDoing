@@ -16,7 +16,6 @@ export default function CoinDashboard() {
     loading,
     error,
   } = useFetch(`${BASE_URL}/agency/coin/dashboard/stats`);
-  console.log(stats);
 
   const {
     data: transactionHistory,
@@ -29,10 +28,17 @@ export default function CoinDashboard() {
 
   const stat = [
     {
+      title: "Total Balance",
+      value: "$" + formatNumber(stats?.totalBalance),
+      change: "",
+      icon: Wallet,
+      iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
+    },
+    {
       title: "Total Sell",
       value: formatNumber(stats?.totalSales?.totalCoinSales),
       change: formatPercent(stats?.totalSales?.saleGrowth),
-      icon: Users,
+      icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#9662FF] to-[#A1DAF1]",
     },
     {
@@ -46,15 +52,8 @@ export default function CoinDashboard() {
       title: "Total user",
       value: formatNumber(stats?.totalUsers),
       change: "",
-      icon: Wallet,
+      icon: Users,
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
-    },
-    {
-      title: "Total Balance",
-      value: "$" + formatNumber(stats?.totalBalance),
-      change: "",
-      icon: TrendingUp,
-      iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
     },
   ];
 
