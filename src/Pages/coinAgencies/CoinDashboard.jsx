@@ -16,6 +16,7 @@ export default function CoinDashboard() {
     loading,
     error,
   } = useFetch(`${BASE_URL}/agency/coin/dashboard/stats`);
+  console.log(stats);
 
   const {
     data: transactionHistory,
@@ -49,8 +50,8 @@ export default function CoinDashboard() {
       iconBg: "bg-gradient-to-b from-[#30ACFF] to-[#C213E1]",
     },
     {
-      title: "This Month",
-      value: "$" + formatNumber(stats?.thisMonthCoinSalesAmount),
+      title: "Total Balance",
+      value: "$" + formatNumber(stats?.totalBalance),
       change: "",
       icon: TrendingUp,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",
