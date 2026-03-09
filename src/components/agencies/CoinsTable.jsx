@@ -124,7 +124,7 @@ export default function CoinsTable() {
                     <td className="p-3">{coin.name}</td>
                     <td className="p-3">{formatNumber(coin.totalSaleCoins)}</td>
                     <td className="p-3">{formatNumber(coin.totalBuyCoins)}</td>
-                    <td className="p-3">{coin.revenue}</td>
+                    <td className="p-3">{formatNumber(coin.revenue)}</td>
                     <td className="p-3">{coin?.country?.name || "N/A"}</td>
                     <td className="p-3">
                       <span

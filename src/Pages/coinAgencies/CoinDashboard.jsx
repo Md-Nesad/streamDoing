@@ -1,4 +1,4 @@
-import { RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
+import { Coins, RadioTower, TrendingUp, Users, Wallet } from "lucide-react";
 import StatsSection from "../../components/dashboard/StatsCard";
 import QuickSellCoins from "../../components/coinAgencyPortal/coinDashboard/QuickSellCoins";
 import CoinTransactionList from "../../components/coinAgencyPortal/coinDashboard/CoinTransactionList";
@@ -29,7 +29,12 @@ export default function CoinDashboard() {
   const stat = [
     {
       title: "Total Balance",
-      value: "$" + formatNumber(stats?.totalBalance),
+      value: (
+        <div className="flex items-center gap-1">
+          <Coins className="w-5 h-5 text-black" />
+          {formatNumber(stats?.totalBalance)}
+        </div>
+      ),
       change: "",
       icon: Wallet,
       iconBg: "bg-gradient-to-b from-[#E13913] to-[#30ACFF]",

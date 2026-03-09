@@ -6,13 +6,16 @@ import Loading from "../../components/Loading";
 import Error from "../../components/Error";
 // import { useHost } from "../../context/hostContext";
 import useFetch from "../../hooks/useFetch";
+import { useState } from "react";
 
 export default function JoinRequest() {
+  const [refresh, setRefresh] = useState(false);
   const dashboardStats = useFetch(`${BASE_URL}/agency/host/dashboard/stats`);
   const stats = dashboardStats?.data;
 
   const { data, loading, error } = useFetch(
-    `${BASE_URL}/agency/host/host-verification/requests?page=1&limit=10`
+    `${BASE_URL}/agency/host/host-verification/requests?page=1&limit=10`,
+    refresh,
   );
 
   const dashboardStat = [
@@ -52,7 +55,7 @@ export default function JoinRequest() {
   return (
     <>
       <HostStats data={dashboardStat} />
-      <PendingJoinRequest data={data} />
+      <PendingJoinRequest data={data} onRefresh={() => setRefresh(!refresh)} />
     </>
   );
 }

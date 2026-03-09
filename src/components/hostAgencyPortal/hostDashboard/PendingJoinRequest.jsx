@@ -1,15 +1,47 @@
 import { useState } from "react";
-import { formatOnlyTime } from "../../../utility/utility";
+import { BASE_URL, formatOnlyTime } from "../../../utility/utility";
 import PendingJoinRequestModal from "./PendingJoinRequestModal";
+import { toast } from "react-toastify";
 
-export default function PendingJoinRequest({ data }) {
+export default function PendingJoinRequest({ data, onRefresh }) {
   const hostRequest = data?.hostRequests;
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
 
-  const handleView = (host) => {
-    setSelected(host);
-    setOpen(true);
+  // const handleView = (host) => {
+  //   setSelected(host);
+  //   setOpen(true);
+  // };
+  const handleAction = async (requestId, action) => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/agency/host/host-verification/review/${requestId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("admin_token")}`,
+          },
+          body: JSON.stringify({
+            action: action, // approved or rejected
+            rejectionReason:
+              action === "rejected" ? "Not valid information" : "",
+          }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success(`Request ${action} successfully`);
+        onRefresh();
+      } else {
+        console.log(data);
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -23,7 +55,7 @@ export default function PendingJoinRequest({ data }) {
 
           <div>
             <span className="bg-[#EFEDED] rounded-full px-3 py-1">
-              {hostRequest?.length} New
+              {hostRequest?.status === "pending" ? hostRequest?.length : 0} New
             </span>
           </div>
         </div>
@@ -51,21 +83,34 @@ export default function PendingJoinRequest({ data }) {
                     {request?.hostId?.displayId}
                   </td>
                   <td className="p-3">{request.name}</td>
-                  <td className="p-3">Lv{request.level || "N/A"}</td>
+                  <td className="p-3">Lv{request.level || " 0"}</td>
                   <td className="p-3">{formatOnlyTime(request.updatedAt)}</td>
                   <td className="p-3">
                     <span
-                      className={`px-4 py-1 text-xs ${
-                        request.status === "active"
-                          ? "bg-linear-to-r from-[#79D49B] to-[#25C962]"
-                          : "bg-[#FF929296] text-[#D21B20]"
-                      } text-[#005D23] rounded-full font-semibold`}
+                      className={`px-4 py-2 text-xs ${
+                        request.status === "approved"
+                          ? "bg-[#E1F7E4] text-[#077414]"
+                          : "bg-[#6FADFF] text-[#FFFFFF]"
+                      } text-[#005D23] rounded-md font-semibold`}
                     >
-                      {request.status}
+                      {request.status[0].toUpperCase() +
+                        request.status.slice(1)}
                     </span>
                   </td>
-                  <td className="p-3 ">
-                    <button onClick={() => handleView(request)}>View</button>
+                  <td className="p-3 flex gap-2">
+                    <button
+                      onClick={() => handleAction(request?._id, "approved")}
+                      className="px-3 py-1 bg-[#BCFFC4] text-[#039314] rounded font-semibold"
+                    >
+                      Accept
+                    </button>
+
+                    <button
+                      onClick={() => handleAction(request._id, "rejected")}
+                      className="px-3 py-1 bg-[#FFE9E9] text-[#CF0D13] font-semibold rounded"
+                    >
+                      Reject
+                    </button>
                   </td>
                 </tr>
               ))

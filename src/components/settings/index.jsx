@@ -1,12 +1,24 @@
 import { Save } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useJsonPost from "../../hooks/useJsonPost";
 import { BASE_URL } from "../../utility/utility";
 import { toast } from "react-toastify";
+import useFetch from "../../hooks/useFetch";
 
 export default function SettingsPage() {
   const inputRef = useRef();
+  const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
+  const {
+    data,
+    loading: fetchLoading,
+    error,
+  } = useFetch(`${BASE_URL}/admin/platform-settings`, refresh);
+  const setting = data?.data || {};
+
+  console.log("Fetched settings:", setting);
+
+  // states
   const [platformConfig, setPlatformConfig] = useState({
     streamDoingLive: "",
     supportEmail: "",
@@ -18,8 +30,14 @@ export default function SettingsPage() {
   });
 
   const [currencySettings, setCurrencySettings] = useState({
-    diamondToBDT: { diamonds: 0, bdt: 0 },
-    beanToDiamond: { beans: 0, diamonds: 0 },
+    diamondToBDT: {
+      diamonds: 0,
+      bdt: 0,
+    },
+    beanToDiamond: {
+      beans: 0,
+      diamonds: 0,
+    },
   });
 
   const [commissionSettings, setCommissionSettings] = useState({
@@ -31,6 +49,44 @@ export default function SettingsPage() {
   const [monthlySettings, setMonthlySettings] = useState({
     monthlyDiamondReset: false,
   });
+
+  // populate state when API data loads
+  useEffect(() => {
+    if (!setting) return;
+
+    setPlatformConfig({
+      streamDoingLive: setting?.platformConfig?.streamDoingLive || "",
+      supportEmail: setting?.platformConfig?.supportEmail || "",
+    });
+
+    setUserSettings({
+      livestreamUnlockLevel: setting?.userSettings?.livestreamUnlockLevel || 0,
+      newUserRegistration: setting?.userSettings?.newUserRegistration || false,
+    });
+
+    setCurrencySettings({
+      diamondToBDT: {
+        diamonds: setting?.currencySettings?.diamondToBDT?.diamonds || 0,
+        bdt: setting?.currencySettings?.diamondToBDT?.bdt || 0,
+      },
+      beanToDiamond: {
+        beans: setting?.currencySettings?.beanToDiamond?.beans || 0,
+        diamonds: setting?.currencySettings?.beanToDiamond?.diamonds || 0,
+      },
+    });
+
+    setCommissionSettings({
+      hostAgencyCommission:
+        setting?.commissionSettings?.hostAgencyCommission || 0,
+      masterCoinPortal: setting?.commissionSettings?.masterCoinPortal || 0,
+      coinAgency: setting?.commissionSettings?.coinAgency || 0,
+    });
+
+    setMonthlySettings({
+      monthlyDiamondReset:
+        setting?.monthlySettings?.monthlyDiamondReset || false,
+    });
+  }, [setting]);
   const handleSubmit = useJsonPost(`${BASE_URL}/admin/platform-settings`);
 
   const handleSave = async () => {
@@ -59,7 +115,8 @@ export default function SettingsPage() {
     if (result?.success === false) {
       alert(result.message);
     } else {
-      alert(result.message || "Saved successfully");
+      toast.success(result.message || "Saved successfully");
+      setRefresh((prev) => !prev);
     }
 
     platformConfig.streamDoingLive = "";
