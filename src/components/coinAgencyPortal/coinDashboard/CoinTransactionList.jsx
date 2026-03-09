@@ -1,9 +1,10 @@
-import { timeAgo } from "../../../utility/utility";
+import { formatNumber, timeAgo } from "../../../utility/utility";
 import Pagination from "../../Pagination";
 
 export default function CoinTransactionList({ data, setPage }) {
   const transactionHistory = data?.data;
   const pagination = data?.pagination;
+  console.log(transactionHistory);
   return (
     <>
       {/* table area */}
@@ -14,6 +15,7 @@ export default function CoinTransactionList({ data, setPage }) {
               <th className="p-3 pl-10">Transaction ID</th>
               <th className="p-3">User</th>
               <th className="p-3">Type</th>
+              <th className="p-3">Coins</th>
               <th className="p-3">Amount</th>
               <th className="p-3">Time</th>
               <th className="p-3">Status</th>
@@ -46,7 +48,8 @@ export default function CoinTransactionList({ data, setPage }) {
                       {transaction.type}
                     </span>
                   </td>
-                  <td className="p-3">{transaction.amount}</td>
+                  <td className="p-3">{formatNumber(transaction?.coins)}</td>
+                  <td className="p-3">{formatNumber(transaction.amount)}</td>
                   <td className="p-3">{timeAgo(transaction.createdAt)}</td>
 
                   {transaction.status ? (

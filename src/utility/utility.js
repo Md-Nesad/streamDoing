@@ -15,17 +15,25 @@ export default function duration(startTime, endTime) {
 
 //money format
 export function formatNumber(num) {
-  if (!num) return 0;
+  if (num === null || num === undefined) return 0;
+
+  // for decimal less than 1
+  if (num > 0 && num < 1) {
+    return Math.round(Number(num).toFixed(2) * 1000) / 1000;
+  }
 
   if (num >= 1_000_000_000_000) {
     return (num / 1_000_000_000_000).toFixed(1) + "T";
   }
+
   if (num >= 1_000_000_000) {
     return (num / 1_000_000_000).toFixed(1) + "B";
   }
+
   if (num >= 1_000_000) {
     return (num / 1_000_000).toFixed(1) + "M";
   }
+
   if (num >= 1_000) {
     return (num / 1_000).toFixed(1) + "K";
   }
