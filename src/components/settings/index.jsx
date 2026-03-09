@@ -195,7 +195,7 @@ export default function SettingsPage() {
                   livestreamUnlockLevel: Number(e.target.value),
                 })
               }
-              className="px-3 py-1 border border-[#AAAAAA] rounded w-[60px] text-center pl-5"
+              className="px-3 py-1 border border-[#AAAAAA] rounded w-[60px] text-center pl-3"
             />
           </div>
 
