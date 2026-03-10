@@ -59,7 +59,7 @@ export default function SupportDeleteBanTable() {
               <th className="p-3">Email</th>
               <th className="p-3">Ban Reason</th>
               <th className="p-3">Ban Status</th>
-              <th className="p-3">Action</th>
+              {/* <th className="p-3">Action</th>  */}
             </tr>
           </thead>
 
@@ -92,14 +92,14 @@ export default function SupportDeleteBanTable() {
                       {user.status}
                     </span>
                   </td>
-                  <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
+                  {/* <td className="p-3 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer flex gap-5 items-center">
                     <span className="flex items-center gap-3">
                       <button title="Edit">
                         <Pen size={19} />
                       </button>
                       <Trash2 size={18} className="text-[#FF0037]" />
                     </span>
-                  </td>
+                  </td> */}
                 </tr>
               ))
             ) : (
