@@ -313,28 +313,83 @@ export const supportAgencySchema = z.object({
 });
 
 //adminHostAgencySchema
-export const adminHostAgencySchema = z.object({
-  agencyName: z.string().min(2, "Agency name is required"),
-  email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Minimum 6 characters"),
-  rePassword: z.string().min(6, "Minimum 6 characters"),
-  phoneNumber: z.string().min(4, "Phone number required"),
-  country: z.string().min(1, "Country is required"),
-  documentType: z.string().min(1, "Document type required"),
-  whatsapp: z.string().min(1, "Whatsapp number is required"),
-  profilePic: z
-    .any()
-    .optional()
-    .refine((files) => files?.length > 0, "Profile picture is required"),
-  documentFront: z
-    .any()
-    .optional()
-    .refine((files) => files?.length > 0, "Document front is required"),
-  documentBack: z
-    .any()
-    .optional()
-    .refine((files) => files?.length > 0, "Document back is required"),
-});
+// export const adminHostAgencySchema = z.object({
+//   agencyName: z.string().min(2, "Agency name is required"),
+//   email: z.string().email("Invalid email"),
+//   password: z.string().min(6, "Minimum 6 characters"),
+//   rePassword: z.string().min(6, "Minimum 6 characters"),
+//   phoneNumber: z.string().min(4, "Phone number required"),
+//   country: z.string().min(1, "Country is required"),
+//   documentType: z.string().min(1, "Document type required"),
+//   whatsapp: z.string().min(1, "Whatsapp number is required"),
+//   profilePic: z
+//     .any()
+//     .optional()
+//     .refine((files) => files?.length > 0, "Profile picture is required"),
+//   documentFront: z
+//     .any()
+//     .optional()
+//     .refine((files) => files?.length > 0, "Document front is required"),
+//   documentBack: z
+//     .any()
+//     .optional()
+//     .refine((files) => files?.length > 0, "Document back is required"),
+// });
+export const adminHostAgencySchema = z
+  .object({
+    agencyName: z.string().min(2, "Agency name is required"),
+    email: z.string().email("Invalid email"),
+    password: z.string().min(6, "Minimum 6 characters"),
+    rePassword: z.string().min(6, "Minimum 6 characters"),
+    phoneNumber: z.string().min(4, "Phone number required"),
+    country: z.string().min(1, "Country is required"),
+    documentType: z.string().min(1, "Document type required"),
+    whatsapp: z.string().min(1, "Whatsapp number is required"),
+
+    profilePic: z.any().optional(),
+    documentFront: z.any().optional(),
+    documentBack: z.any().optional(),
+  })
+  .superRefine((data, ctx) => {
+    // Password match check
+    if (data.password !== data.rePassword) {
+      ctx.addIssue({
+        path: ["rePassword"],
+        message: "Passwords do not match",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+
+    // Profile Pic Required
+    if (!data.profilePic || data.profilePic.length === 0) {
+      ctx.addIssue({
+        path: ["profilePic"],
+        message: "Profile picture is required",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+
+    // Document Front Required
+    if (!data.documentFront || data.documentFront.length === 0) {
+      ctx.addIssue({
+        path: ["documentFront"],
+        message: "Document front is required",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+
+    // Document Back Required except Passport
+    if (
+      data.documentType !== "Passport" &&
+      (!data.documentBack || data.documentBack.length === 0)
+    ) {
+      ctx.addIssue({
+        path: ["documentBack"],
+        message: "Document back is required",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+  });
 
 //host add
 export const hostAdd = z.object({

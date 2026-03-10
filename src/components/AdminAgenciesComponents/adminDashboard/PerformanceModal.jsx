@@ -1,6 +1,7 @@
 export default function PerformanceModal({ open, onClose, performance }) {
   if (!open) return null;
   const { agency, data, countryName } = performance;
+  console.log(agency);
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
       <div className="bg-[#FDFDFD] w-full max-w-md rounded-xl shadow-lg sm:p-6 p-4 relative animatefadeIn">
@@ -45,8 +46,13 @@ export default function PerformanceModal({ open, onClose, performance }) {
 
           {/* Coin Spend */}
           <div className="flex justify-between">
-            <p className="font-medium text-gray-700">Earning Balance :</p>
-            <p className="text-gray-800">{data?.balance}</p>
+            <p className="font-medium text-gray-700">Total Diamonds :</p>
+            <p className="text-gray-800">{agency?.totalDiamonds}</p>
+          </div>
+
+          <div className="flex justify-between">
+            <p className="font-medium text-gray-700">Average Diamonds :</p>
+            <p className="text-gray-800">{agency?.averageDiamonds}</p>
           </div>
 
           {/* Country */}
