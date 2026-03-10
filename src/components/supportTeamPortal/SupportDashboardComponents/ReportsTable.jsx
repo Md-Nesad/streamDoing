@@ -1,4 +1,4 @@
-import { Ellipsis, Funnel } from "lucide-react";
+import { Ellipsis, Eye, Funnel } from "lucide-react";
 import useFetch from "../../../hooks/useFetch";
 import { BASE_URL, formatOnlyDate } from "../../../utility/utility";
 import Error from "../../Error";
@@ -6,15 +6,21 @@ import Loading from "../../Loading";
 import { useEffect, useState } from "react";
 import { useDebounce } from "../../../hooks/useDebounce";
 import ModerationFilter from "../../../modals/ModerationFilter";
+import ReportModal from "./ReportModal";
 
 export default function ReportsTable() {
   const [filterOpen, setFilterOpen] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
   const { data, loading, error } = useFetch(
     `${BASE_URL}/support-agency/reports?status=&page=1&limit=10`,
+    refresh,
   );
   const [text, setText] = useState("");
   const [reports, setReports] = useState(data?.reports);
+  const [open, setOpen] = useState(false);
+  const [selectedReportId, setSelectedReportId] = useState(null);
+  console.log(selectedReportId);
   const debouncedText = useDebounce(text, 400);
 
   const filteredReports = reports?.filter((report) => {
@@ -31,6 +37,11 @@ export default function ReportsTable() {
 
     return matchText && matchStatus;
   });
+
+  const handleReportClick = (report) => {
+    setSelectedReportId(report);
+    setOpen(true);
+  };
 
   useEffect(() => {
     if (text === "") {
@@ -102,7 +113,7 @@ export default function ReportsTable() {
                   <td className="p-3 ">{report?.reporterId?.name || "N/A"}</td>
                   <td className="p-3">
                     <span className="px-3 py-1.5 text-sm bg-[#FF7A7A] text-[#ffffff] rounded-full font-medium">
-                      {report?.category || "N/A"}
+                      {report?.targetType || "N/A"}
                     </span>
                   </td>
                   <td className="p-3">
@@ -130,8 +141,11 @@ export default function ReportsTable() {
                     {formatOnlyDate(report?.createdAt) || "N/A"}
                   </td>
                   <td className="p-3 pl-5 mt-1.5 text-[#181717] text-sm font-medium cursor-pointer">
-                    <button>
-                      <Ellipsis size={17} />
+                    <button title="View">
+                      <Eye
+                        size={19}
+                        onClick={() => handleReportClick(report)}
+                      />
                     </button>
                   </td>
                 </tr>
@@ -145,6 +159,14 @@ export default function ReportsTable() {
             )}
           </tbody>
         </table>
+        {open && (
+          <ReportModal
+            isOpen={open}
+            onClose={() => setOpen(false)}
+            report={selectedReportId}
+            onRefresh={() => setRefresh((prev) => !prev)}
+          />
+        )}
       </div>
     </>
   );
