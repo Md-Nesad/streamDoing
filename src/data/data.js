@@ -30,6 +30,7 @@ import {
   Wallet2,
   HandFist,
   AlignEndHorizontal,
+  Settings2,
 } from "lucide-react";
 import mayaPatel from "/mayaPatel.png";
 import { Coin } from "../../public/icons/Coin";
@@ -118,6 +119,11 @@ export const menuItems = [
 
   // { title: "Top Up Packages", icon: Wallet2, link: "/dashboard/top-up" },
   { title: "Settings", icon: Settings, link: "/dashboard/settings" },
+  {
+    title: "Admin Settings",
+    icon: Settings2,
+    link: "/dashboard/admin-settings",
+  },
 ];
 export const stats = [
   {

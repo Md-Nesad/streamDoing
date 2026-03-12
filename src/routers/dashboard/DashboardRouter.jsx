@@ -45,6 +45,7 @@ import TopRanking from "../../Pages/TopRanking";
 const Analytics = lazy(() => import("../../Pages/Analytics"));
 import NotificationCenter from "../../Pages/NotificationCenter";
 import Loading from "../../components/Loading";
+import AdminSettings from "../../Pages/AdminSettings";
 
 export default function DashboardRouter() {
   return (
@@ -135,8 +136,8 @@ export default function DashboardRouter() {
                 element={<UpdateSupportAgency />}
               />
               <Route path="delete-ban" element={<DeleteBan />} />
-              {/* <Route path="level-up" element={<LevelUp />} />
-              <Route path="top-up" element={<TopUp />} />
+              <Route path="admin-settings" element={<AdminSettings />} />
+              {/* <Route path="top-up" element={<TopUp />} />
               <Route path="charm-up" element={<CharmUp />} /> */}
             </Route>
           </Route>
