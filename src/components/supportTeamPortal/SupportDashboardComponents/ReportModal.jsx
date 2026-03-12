@@ -7,7 +7,6 @@ export default function ReportModal({ report, isOpen, onClose, onRefresh }) {
   if (!isOpen) return null;
 
   const [notes, setNotes] = useState(report?.moderatorNotes?.[0]?.note || "");
-  //   const [refresh, setRefresh] = useState(false);
   const id = report?._id;
 
   const handleAction = async (actionType) => {
@@ -33,6 +32,7 @@ export default function ReportModal({ report, isOpen, onClose, onRefresh }) {
 
       const result = await res.json();
       console.log(result);
+
       if (result.message) {
         toast.success(result.message);
         onClose();
@@ -46,14 +46,12 @@ export default function ReportModal({ report, isOpen, onClose, onRefresh }) {
     }
   };
 
-  //   if (loading) return <Loading />;
-  //   if (error) return <Error error={error} />;
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
       {/* Modal Box */}
-      <div className="bg-white w-full max-w-2xl rounded-lg shadow-lg relative max-h-[90vh] overflow-y-auto">
+      <div className="bg-white w-full max-w-2xl rounded-lg shadow-lg relative max-h-[90vh] overflow-y-auto hide_scrollbar">
         <h2 className="text-xl font-semibold pl-6 pt-4">Report Details</h2>
+
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -66,14 +64,17 @@ export default function ReportModal({ report, isOpen, onClose, onRefresh }) {
           {/* Information Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-3 sm:gap-y-5">
             <Info label="Report Status" value={report?.status || "N/A"} />
+
             <Info
               label="Reporter Name"
               value={report?.reporterId?.name || "Super Admin"}
             />
+
             <Info
               label="Reporter Id"
               value={report?.reporterId?.displayId || "N/A"}
             />
+
             <Info
               label="Report Time"
               value={formatOnlyTime(report?.createdAt)}
@@ -87,12 +88,29 @@ export default function ReportModal({ report, isOpen, onClose, onRefresh }) {
                 report?.reporterId?.name + " - " + report?.reporterId?.displayId
               }
             />
+
             <Info label="Reason" value={report?.reason} />
+
+            {/* NEW FEATURE: Description */}
+            <Info label="Details" value={report?.description || "N/A"} />
+
+            {/* NEW FEATURE: Evidence Image */}
+            {report?.evidence && (
+              <div className="space-y-1">
+                <p className="text-gray-500 text-sm">Evidence</p>
+                <img
+                  src={report?.evidence}
+                  alt="Evidence"
+                  className="w-40 h-40 object-cover rounded-md border"
+                />
+              </div>
+            )}
           </div>
 
           {/* Moderator Notes */}
           <div className="mr-5">
             <p className="font-medium mb-1 text-[#636363]">Moderator Notes</p>
+
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}

@@ -2,12 +2,17 @@ import { Funnel, Pen, Trash2 } from "lucide-react";
 import { usersTable } from "../../data/data";
 // import useFetch from "../../hooks/useFetch";
 // import { BASE_URL } from "../../utility/utility";
+// import { useState } from "react";
 
 export default function DeleteBanTable() {
-  // const { data, error, loading } = useFetch(
-  //   `${BASE_URL}/support-agency/ban/banned-users?page=1&limit=10`
+  // const [refresh, setRefresh] = useState(false);
+  // const [page, setPage] = useState(1);
+  // const { data, loading, error } = useFetch(
+  //   `${BASE_URL}/admin/users?page=${page}&limit=20`,
+  //   refresh,
   // );
-  // const bannedUsers = data?.bannedUsers || [];
+  // // const bannedUsers = data?.bannedUsers || [];
+  // console.log(data);
 
   return (
     <>

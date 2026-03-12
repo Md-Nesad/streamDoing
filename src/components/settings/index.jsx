@@ -16,8 +16,6 @@ export default function SettingsPage() {
   } = useFetch(`${BASE_URL}/admin/platform-settings`, refresh);
   const setting = data?.data || {};
 
-  console.log("Fetched settings:", setting);
-
   // states
   const [platformConfig, setPlatformConfig] = useState({
     streamDoingLive: "",

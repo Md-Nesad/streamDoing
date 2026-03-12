@@ -16,6 +16,7 @@ export default function ReportsTable() {
     `${BASE_URL}/support-agency/reports?status=&page=1&limit=10`,
     refresh,
   );
+
   const [text, setText] = useState("");
   const [reports, setReports] = useState(data?.reports);
   const [open, setOpen] = useState(false);
