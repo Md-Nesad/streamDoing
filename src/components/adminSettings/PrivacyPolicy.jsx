@@ -14,30 +14,30 @@ export default function PrivacyPolicy() {
     refresh,
   );
 
-  const deleteAboutInfo = async () => {
-    try {
-      const token = localStorage.getItem("token"); // token যেখানে store করছো
+  // const deleteAboutInfo = async () => {
+  //   try {
+  //     const token = localStorage.getItem("token"); // token যেখানে store করছো
 
-      const res = await fetch(`${BASE_URL}/admin/settings/about`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  //     const res = await fetch(`${BASE_URL}/admin/settings/about`, {
+  //       method: "DELETE",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
 
-      const data = await res.json();
+  //     const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.message || "Delete failed");
-      }
+  //     if (!res.ok) {
+  //       throw new Error(data.message || "Delete failed");
+  //     }
 
-      console.log(data);
-      setRefresh((prev) => !prev);
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
+  //     console.log(data);
+  //     setRefresh((prev) => !prev);
+  //   } catch (error) {
+  //     console.error(error.message);
+  //   }
+  // };
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
@@ -58,7 +58,7 @@ export default function PrivacyPolicy() {
         <thead>
           <tr className="text-[#535353] text-md font-medium">
             <th className="p-3 pl-10">Privacy Policy</th>
-            <th className="p-3 text-right pr-16">Action</th>
+            {/* <th className="p-3 text-right pr-16">Action</th> */}
           </tr>
         </thead>
 
@@ -66,14 +66,14 @@ export default function PrivacyPolicy() {
           <tr className="border-t border-[#DFDFDF] hover:bg-gray-50 text-md">
             <td className="p-3 pl-10">{data?.privacyPolicyInfo?.content}</td>
 
-            <td className="p-3 pr-10 text-right">
+            {/* <td className="p-3 pr-10 text-right">
               <button
                 className="font-semibold bg-[#FFE9E9] text-[#CF0D13] py-1 px-3 rounded w-20"
                 onClick={deleteAboutInfo}
               >
                 Delete
               </button>
-            </td>
+            </td> */}
           </tr>
         </tbody>
       </table>
