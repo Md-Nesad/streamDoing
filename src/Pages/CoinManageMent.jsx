@@ -12,7 +12,7 @@ export default function CoinManageMent() {
   const { data, loading, error } = useFetch(`${BASE_URL}/coins/stats`);
   const coinsAgencies = [
     {
-      title: "Total Agencies coins kajdf",
+      title: "Total Agencies",
       value: data?.agencies?.total,
       change: `+${data?.agencies?.thisMonth} this month`,
       icon: Users,
