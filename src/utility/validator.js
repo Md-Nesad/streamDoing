@@ -55,18 +55,18 @@ export const bannerSchema = z.object({
   price: z.string().optional(),
   bannerFile: z
     .any()
-    .refine((files) => files?.length > 0, "Banner file is required")
-    .refine(
-      (files) =>
-        [
-          "image/png",
-          "image/svg+xml",
-          "video/mp4",
-          "image/jpeg",
-          "image/jpg",
-        ].includes(files?.[0]?.type),
-      "Invalid file type",
-    ),
+    .refine((files) => files?.length > 0, "Banner file is required"),
+  // .refine(
+  //   (files) =>
+  //     [
+  //       "image/png",
+  //       "image/svg+xml",
+  //       "video/mp4",
+  //       "image/jpeg",
+  //       "image/jpg",
+  //     ].includes(files?.[0]?.type),
+  //   "Invalid file type",
+  // ),
 });
 
 // badge schema
@@ -77,97 +77,89 @@ export const badgeSchema = z.object({
   // badgeValidity: z.string().min(1, "Badge validity is required"),
   badgeFile: z
     .any()
-    .refine((files) => files?.length > 0, "Badge file is required")
-    .refine(
-      (files) =>
-        [
-          "image/png",
-          "image/svg+xml",
-          "image/jpeg",
-          "image/jpg",
-          "image/gif",
-        ].includes(files?.[0]?.type),
-      "Invalid file type",
-    ),
+    .refine((files) => files?.length > 0, "Badge file is required"),
+  // .refine(
+  //   (files) =>
+  //     [
+  //       "image/png",
+  //       "image/svg+xml",
+  //       "image/jpeg",
+  //       "image/jpg",
+  //       "image/gif",
+  //     ].includes(files?.[0]?.type),
+  //   "Invalid file type",
+  // ),
 });
 
 export const tempSchema = z.object({
   tempName: z.string().min(2, "Name is required"),
   tempPrice: z.string().optional(),
   tempValidity: z.string().min(1, "Validity is required"),
-  tempFile: z
-    .any()
-    .refine((files) => files?.length > 0, "Banner is required")
-    .refine(
-      (files) =>
-        [
-          "image/png",
-          "image/svg+xml",
-          "video/mp4",
-          "image/jpeg",
-          "image/jpg",
-        ].includes(files?.[0]?.type),
-      "Invalid file type",
-    ),
+  tempFile: z.any().refine((files) => files?.length > 0, "Banner is required"),
+  // .refine(
+  //   (files) =>
+  //     [
+  //       "image/png",
+  //       "image/svg+xml",
+  //       "video/mp4",
+  //       "image/jpeg",
+  //       "image/jpg",
+  //     ].includes(files?.[0]?.type),
+  //   "Invalid file type",
+  // ),
 });
 
 export const frameSchema = z.object({
   levelName: z.string().min(2, "Level name is required"),
   levelPrice: z.string().optional(),
   validity: z.string().min(1, "Validity is required"),
-  levelFile: z
-    .any()
-    .refine((files) => files?.length > 0, "Banner is required")
-    .refine(
-      (files) =>
-        [
-          "image/png",
-          "image/svg+xml",
-          "image/jpeg",
-          "image/jpg",
-          "image/gif",
-        ].includes(files?.[0]?.type),
-      "Invalid file type",
-    ),
+  levelFile: z.any().refine((files) => files?.length > 0, "Banner is required"),
+  // .refine(
+  //   (files) =>
+  //     [
+  //       "image/png",
+  //       "image/svg+xml",
+  //       "image/jpeg",
+  //       "image/jpg",
+  //       "image/gif",
+  //     ].includes(files?.[0]?.type),
+  //   "Invalid file type",
+  // ),
 });
 
 export const levelSchema = z.object({
   levelName: z.string().min(2, "Level name is required"),
   levelPrice: z.string().optional(),
-  levelFile: z
-    .any()
-    .refine((files) => files?.length > 0, "Banner is required")
-    .refine(
-      (files) =>
-        [
-          "image/png",
-          "image/svg+xml",
-          "image/jpeg",
-          "image/jpg",
-          "image/gif",
-        ].includes(files?.[0]?.type),
-      "Invalid file type",
-    ),
+  levelFile: z.any().refine((files) => files?.length > 0, "Banner is required"),
+  // .refine(
+  //   (files) =>
+  //     [
+  //       "image/png",
+  //       "image/svg+xml",
+  //       "image/jpeg",
+  //       "image/jpg",
+  //       "image/gif",
+  //     ].includes(files?.[0]?.type),
+  //   "Invalid file type",
+  // ),
 });
 
 export const crownSchema = z.object({
   crownName: z.string().min(2, "Crown level is required"),
   crownPrice: z.string().optional(),
   crownValidity: z.string().min(1, "Validity is required"),
-  crownFile: z
-    .any()
-    .refine((files) => files?.length > 0, "Banner is required")
-    .refine(
-      (files) =>
-        [
-          "image/png",
-          "image/svg+xml",
-          "image/jpeg",
-          "image/jpg",
-          "image/gif",
-        ].includes(files?.[0]?.type),
-      "Invalid file type",
-    ),
+  crownFile: z.any().refine((files) => files?.length > 0, "Banner is required"),
+  // .refine(
+  //   (files) =>
+  //     [
+  //       "image/png",
+  //       "image/svg+xml",
+  //       "image/jpeg",
+  //       "image/jpg",
+  //       "image/gif",
+  //     ].includes(files?.[0]?.type),
+  //   "Invalid file type",
+  // ),
 });
 
 export const entrySchema = z.object({
@@ -175,40 +167,36 @@ export const entrySchema = z.object({
   entryPrice: z.string().optional(),
   entryCategory: z.string().min(1, "Category is required"),
   entryValidity: z.string().min(1, "Validity is required"),
-  entryFile: z
-    .any()
-    .refine((files) => files?.length > 0, "Banner is required")
-    .refine(
-      (files) =>
-        [
-          "image/png",
-          "image/svg+xml",
-          "image/jpeg",
-          "image/jpg",
-          "image/gif",
-        ].includes(files?.[0]?.type),
-      "Invalid file type",
-    ),
+  entryFile: z.any().refine((files) => files?.length > 0, "Banner is required"),
+  // .refine(
+  //   (files) =>
+  //     [
+  //       "image/png",
+  //       "image/svg+xml",
+  //       "image/jpeg",
+  //       "image/jpg",
+  //       "image/gif",
+  //     ].includes(files?.[0]?.type),
+  //   "Invalid file type",
+  // ),
 });
 
 export const eventSchema = z.object({
   eventName: z.string().min(2, "Event name is required"),
   eventPrice: z.string().optional(),
   eventCategory: z.string().min(1, "Category is required"),
-  eventFile: z
-    .any()
-    .refine((files) => files?.length > 0, "Banner is required")
-    .refine(
-      (files) =>
-        [
-          "image/png",
-          "image/svg+xml",
-          "image/jpeg",
-          "image/jpg",
-          "image/gif",
-        ].includes(files?.[0]?.type),
-      "Invalid file type",
-    ),
+  eventFile: z.any().refine((files) => files?.length > 0, "Banner is required"),
+  // .refine(
+  //   (files) =>
+  //     [
+  //       "image/png",
+  //       "image/svg+xml",
+  //       "image/jpeg",
+  //       "image/jpg",
+  //       "image/gif",
+  //     ].includes(files?.[0]?.type),
+  //   "Invalid file type",
+  // ),
 });
 
 export const vipSchema = z.object({
@@ -216,20 +204,18 @@ export const vipSchema = z.object({
   vipPrice: z.string().min(2, "Price is required"),
   vipCategory: z.string().min(1, "Category is required"),
   vipValidity: z.string().min(1, "Validity is required"),
-  vipFile: z
-    .any()
-    .refine((files) => files?.length > 0, "Banner is required")
-    .refine(
-      (files) =>
-        [
-          "image/png",
-          "image/svg+xml",
-          "image/jpeg",
-          "image/jpg",
-          "image/gif",
-        ].includes(files?.[0]?.type),
-      "Invalid file type",
-    ),
+  vipFile: z.any().refine((files) => files?.length > 0, "Banner is required"),
+  // .refine(
+  //   (files) =>
+  //     [
+  //       "image/png",
+  //       "image/svg+xml",
+  //       "image/jpeg",
+  //       "image/jpg",
+  //       "image/gif",
+  //     ].includes(files?.[0]?.type),
+  //   "Invalid file type",
+  // ),
 });
 
 //add gift schema
@@ -245,21 +231,21 @@ export const addGiftSchema = z
       ),
     giftCategory: z.string().min(1, "Category is required"),
     giftSubCategory: z.string().min(1, "Sub category is required"),
-    giftLogo: z
-      .any()
-      .refine((files) => files?.length > 0, "Logo is required")
-      .refine(
-        (files) =>
-          [
-            "image/png",
-            "image/svg+xml",
-            "video/mp4",
-            "image/jpeg",
-            "image/jpg",
-            "image/gif",
-          ].includes(files?.[0]?.type),
-        "Invalid file type",
-      ),
+    giftLogo: z.any().refine((files) => files?.length > 0, "Logo is required"),
+    // .refine(
+    //   (files) =>
+    //     [
+    //       "image/png",
+    //       "image/svg+xml",
+    //       "video/mp4",
+    //       "image/jpeg",
+    //       "image/jpg",
+    //       "image/gif",
+    //       "application/octet-stream",
+    //       "image/x-svga",
+    //     ].includes(files?.[0]?.type),
+    //   "Invalid file typw",
+    // ),
     giftThumbnail: z.any().optional(),
     giftSound: z
       .any()

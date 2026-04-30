@@ -51,6 +51,7 @@ export default function AddGiftModal({ open, onClose, onSuccess }) {
 
     setLoading(true);
     const result = await handleFormData(formData);
+    console.log(result);
 
     if (result.success === false) {
       toast.error("Failed to create entry");
